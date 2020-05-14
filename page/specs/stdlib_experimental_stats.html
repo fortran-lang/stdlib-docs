@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A community driven standard library for (modern) Fortran">
+    
+    <meta name="author" content="fortran-lang/stdlib contributors" >
+    <link rel="icon" href="../../favicon.png">
+
+    <title>experimental_stats &ndash; Fortran-lang/stdlib</title>
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/pygments.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/local.css" rel="stylesheet">
+    
+    <link  href="../../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../../js/jquery-2.1.3.min.js"></script>
+    <script src="../../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">Fortran-lang/stdlib </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../../page/index.html'>Specs, examples & user documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../../lists/procedures.html">Procedures</a></li>
+        
+               
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/procedures.html">Procedures</a></li>
+
+                             
+
+          </ul>
+        
+        <form action="../../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  <div class="row">
+    <h1>experimental_stats</h1>
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="well well-sm" style="min-height: 40px;">
+      <ul class="list-inline" style="margin-bottom:0px; display:inline">
+         
+         
+<!--
+        
+-->
+      </ul>
+        <ol class="breadcrumb in-well">
+      
+         <li><a href='../../page/index.html'>Specs, examples & user documentation</a></li>
+      
+         <li><a href='../../page/specs/index.html'>specs</a></li>
+      
+         <li class="active">experimental_stats</li>
+      </ol>
+    </div>
+    </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-9 col-md-push-3" id='text'>
+      <h1 id="descriptive-statistics">Descriptive statistics</h1>
+<div class="toc">
+<ul>
+<li><a href="#descriptive-statistics">Descriptive statistics</a><ul>
+<li><a href="#cov-covariance-of-array-elements">cov - covariance of array elements</a><ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#syntax">Syntax</a></li>
+<li><a href="#arguments">Arguments</a></li>
+<li><a href="#return-value">Return value</a></li>
+<li><a href="#example">Example</a></li>
+</ul>
+</li>
+<li><a href="#mean-mean-of-array-elements">mean - mean of array elements</a><ul>
+<li><a href="#description_1">Description</a></li>
+<li><a href="#syntax_1">Syntax</a></li>
+<li><a href="#arguments_1">Arguments</a></li>
+<li><a href="#return-value_1">Return value</a></li>
+<li><a href="#example_1">Example</a></li>
+</ul>
+</li>
+<li><a href="#moment-central-moments-of-array-elements">moment - central moments of array elements</a><ul>
+<li><a href="#description_2">Description</a></li>
+<li><a href="#syntax_2">Syntax</a></li>
+<li><a href="#arguments_2">Arguments</a></li>
+<li><a href="#return-value_2">Return value</a></li>
+<li><a href="#example_2">Example</a></li>
+</ul>
+</li>
+<li><a href="#var-variance-of-array-elements">var - variance of array elements</a><ul>
+<li><a href="#description_3">Description</a></li>
+<li><a href="#syntax_3">Syntax</a></li>
+<li><a href="#arguments_3">Arguments</a></li>
+<li><a href="#return-value_3">Return value</a></li>
+<li><a href="#example_3">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="cov-covariance-of-array-elements"><code>cov</code> - covariance of array elements</h2>
+<h3 id="description">Description</h3>
+<p>Returns the covariance of the elements of <code>array</code> along dimension <code>dim</code> if the corresponding element in <code>mask</code> is <code>true</code>.</p>
+<p>Per default, the covariance is defined as:</p>
+<div class="codehilite"><pre><span></span><code><span class="err"> cov(array) = 1/(n-1) sum_i (array(i) - mean(array) * (array(i) - mean(array)))</span>
+</code></pre></div>
+
+
+<p>where <code>n</code> is the number of elements.</p>
+<p>The scaling can be changed with the logical argument <code>corrected</code>. If <code>corrected</code> is <code>.false.</code>, then the sum is scaled with <code>n</code>, otherwise with <code>n-1</code>.</p>
+<h3 id="syntax">Syntax</h3>
+<p><code>result = cov(array, dim [, mask [, corrected]])</code></p>
+<h3 id="arguments">Arguments</h3>
+<p><code>array</code>: Shall be a rank-1 or a rank-2 array of type <code>integer</code>, <code>real</code>, or <code>complex</code>.</p>
+<p><code>dim</code>: Shall be a scalar of type <code>integer</code> with a value in the range from 1 to <code>n</code>, where <code>n</code> is the rank of <code>array</code>.</p>
+<p><code>mask</code> (optional): Shall be of type <code>logical</code> and either a scalar or an array of the same shape as <code>array</code>.</p>
+<p><code>corrected</code> (optional): Shall be a scalar of type <code>logical</code>. If <code>corrected</code> is <code>.true.</code> (default value), the sum is scaled with <code>n-1</code>. If <code>corrected</code> is <code>.false.</code>, then the sum is scaled with <code>n</code>.</p>
+<h3 id="return-value">Return value</h3>
+<p>If <code>array</code> is of rank 1 and of type <code>real</code> or <code>complex</code>, the result is of type <code>real</code> corresponding to the type of <code>array</code>.
+If <code>array</code> is of rank 2 and of type <code>real</code> or <code>complex</code>, the result is of the same type as <code>array</code>.
+If <code>array</code> is of type <code>integer</code>, the result is of type <code>real(dp)</code>.</p>
+<p>If <code>array</code> is of rank 1, a scalar with the covariance (that is the variance) of all elements in <code>array</code> is returned.
+If <code>array</code> is of rank 2, a rank-2 array is returned.</p>
+<p>If <code>mask</code> is specified, the result is the covariance of all elements of <code>array</code> corresponding to <code>true</code> elements of <code>mask</code>. If every element of <code>mask</code> is <code>false</code>, the result is IEEE <code>NaN</code>.</p>
+<h3 id="example">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_cov</span>
+    <span class="k">use </span><span class="n">stdlib_experimental_stats</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">cov</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span> <span class="p">]</span>
+    <span class="kt">real</span> <span class="kd">::</span> <span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="nb">reshape</span><span class="p">([</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">cov</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                          <span class="c">!returns 3.5</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">cov</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">corrected</span> <span class="o">=</span> <span class="p">.</span><span class="n">false</span><span class="p">.)</span>     <span class="c">!returns 2.9167</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">cov</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                          <span class="c">!returns a square matrix of size 3 with all elements equal to 0.5</span>
+<span class="k">end program </span><span class="n">demo_cov</span>
+</code></pre></div>
+
+
+<h2 id="mean-mean-of-array-elements"><code>mean</code> - mean of array elements</h2>
+<h3 id="description_1">Description</h3>
+<p>Returns the mean of all the elements of <code>array</code>, or of the elements of <code>array</code> along dimension <code>dim</code> if provided, and if the corresponding element in <code>mask</code> is <code>true</code>.</p>
+<h3 id="syntax_1">Syntax</h3>
+<p><code>result = mean(array [, mask])</code></p>
+<p><code>result = mean(array, dim [, mask])</code></p>
+<h3 id="arguments_1">Arguments</h3>
+<p><code>array</code>: Shall be an array of type <code>integer</code>, <code>real</code>, or <code>complex</code>.</p>
+<p><code>dim</code>: Shall be a scalar of type <code>integer</code> with a value in the range from 1 to <code>n</code>, where <code>n</code> is the rank of <code>array</code>.</p>
+<p><code>mask</code> (optional): Shall be of type <code>logical</code> and either a scalar or an array of the same shape as <code>array</code>.</p>
+<h3 id="return-value_1">Return value</h3>
+<p>If <code>array</code> is of type <code>real</code> or <code>complex</code>, the result is of the same type as <code>array</code>.
+If <code>array</code> is of type <code>integer</code>, the result is of type <code>real(dp)</code>.</p>
+<p>If <code>dim</code> is absent, a scalar with the mean of all elements in <code>array</code> is returned. Otherwise, an array of rank <code>n-1</code>, where <code>n</code> equals the rank of <code>array</code>, and a shape similar to that of <code>array</code> with dimension <code>dim</code> dropped is returned.</p>
+<p>If <code>mask</code> is specified, the result is the mean of all elements of <code>array</code> corresponding to <code>true</code> elements of <code>mask</code>. If every element of <code>mask</code> is <code>false</code>, the result is IEEE <code>NaN</code>.</p>
+<h3 id="example_1">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_mean</span>
+    <span class="k">use </span><span class="n">stdlib_experimental_stats</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">mean</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span> <span class="p">]</span>
+    <span class="kt">real</span> <span class="kd">::</span> <span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="nb">reshape</span><span class="p">([</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                                  <span class="c">!returns 3.5</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>                                  <span class="c">!returns 3.5</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                               <span class="c">!returns [ 1.5, 3.5, 5.5 ]</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="n">y</span> <span class="o">&gt;</span> <span class="mf">3.</span><span class="p">)</span>                        <span class="c">!returns [ NaN, 4.0, 5.5 ]</span>
+<span class="k">end program </span><span class="n">demo_mean</span>
+</code></pre></div>
+
+
+<h2 id="moment-central-moments-of-array-elements"><code>moment</code> - central moments of array elements</h2>
+<h3 id="description_2">Description</h3>
+<p>Returns the <em>k</em>-th order central moment of all the elements of <code>array</code>, or of the elements of <code>array</code> along dimension <code>dim</code> if provided, and if the corresponding element in <code>mask</code> is <code>true</code>.</p>
+<p>If a scalar or an array <code>center</code> is provided, the function returns the <em>k</em>-th order moment about 'center', of all the elements of <code>array</code>, or of the elements of <code>array</code> along dimension <code>dim</code> if provided, and if the corresponding element in <code>mask</code> is <code>true</code>.</p>
+<p>The <em>k</em>-th order central moment is defined as :</p>
+<div class="codehilite"><pre><span></span><code><span class="err"> moment(array) = 1/n sum_i (array(i) - mean(array))^k</span>
+</code></pre></div>
+
+
+<p>where <code>n</code> is the number of elements.</p>
+<p>The <em>k</em>-th order moment about <code>center</code> is defined as :</p>
+<div class="codehilite"><pre><span></span><code><span class="err"> moment(array) = 1/n sum_i (array(i) - center)^k</span>
+</code></pre></div>
+
+
+<h3 id="syntax_2">Syntax</h3>
+<p><code>result = moment(array, order [, center [, mask]])</code></p>
+<p><code>result = moment(array, order, dim [, center [, mask]])</code></p>
+<h3 id="arguments_2">Arguments</h3>
+<p><code>array</code>: Shall be an array of type <code>integer</code>, <code>real</code>, or <code>complex</code>.</p>
+<p><code>order</code>: Shall be an scalar of type <code>integer</code>.</p>
+<p><code>dim</code>: Shall be a scalar of type <code>integer</code> with a value in the range from 1 to <code>n</code>, where <code>n</code> is the rank of <code>array</code>.</p>
+<p><code>center</code> (optional): Shall be a scalar of the same type of <code>result</code> if <code>dim</code> is not provided. If <code>dim</code> is provided, <code>center</code> shall be a scalar or an array (with a shape similar to that of <code>array</code> with dimension <code>dim</code> dropped) of the same type of <code>result</code>.</p>
+<p><code>mask</code> (optional): Shall be of type <code>logical</code> and either a scalar or an array of the same shape as <code>array</code>.</p>
+<h3 id="return-value_2">Return value</h3>
+<p>If <code>array</code> is of type <code>real</code> or <code>complex</code>, the result is of the same type as <code>array</code>.
+If <code>array</code> is of type <code>integer</code>, the result is of type <code>real(dp)</code>.</p>
+<p>If <code>dim</code> is absent, a scalar with the <em>k</em>-th (central) moment of all elements in <code>array</code> is returned. Otherwise, an array of rank <code>n-1</code>, where <code>n</code> equals the rank of <code>array</code>, and a shape similar to that of <code>array</code> with dimension <code>dim</code> dropped is returned.</p>
+<p>If <code>mask</code> is specified, the result is the <em>k</em>-th  (central) moment of all elements of <code>array</code> corresponding to <code>true</code> elements of <code>mask</code>. If every element of <code>mask</code> is <code>false</code>, the result is IEEE <code>NaN</code>.</p>
+<h3 id="example_2">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_moment</span>
+    <span class="k">use </span><span class="n">stdlib_experimental_stats</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">moment</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span> <span class="p">]</span>
+    <span class="kt">real</span> <span class="kd">::</span> <span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="nb">reshape</span><span class="p">([</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">moment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>                            <span class="c">!returns 2.9167</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">moment</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>                            <span class="c">!returns 2.9167</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">moment</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                         <span class="c">!returns [0.25, 0.25, 0.25]</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">moment</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">&gt;</span> <span class="mf">3.</span><span class="p">))</span>        <span class="c">!returns [NaN, 0., 0.25]</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">moment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">center</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">)</span>               <span class="c">!returns 15.1667</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">moment</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">center</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">)</span>            <span class="c">!returns [1.5, 3.5, 5.5]</span>
+<span class="k">end program </span><span class="n">demo_moment</span>
+</code></pre></div>
+
+
+<h2 id="var-variance-of-array-elements"><code>var</code> - variance of array elements</h2>
+<h3 id="description_3">Description</h3>
+<p>Returns the variance of all the elements of <code>array</code>, or of the elements of <code>array</code> along dimension <code>dim</code> if provided, and if the corresponding element in <code>mask</code> is <code>true</code>.</p>
+<p>Per default, the variance is defined as the best unbiased estimator and is computed as:</p>
+<div class="codehilite"><pre><span></span><code><span class="err"> var(array) = 1/(n-1) sum_i (array(i) - mean(array))^2</span>
+</code></pre></div>
+
+
+<p>where <code>n</code> is the number of elements.</p>
+<p>The use of the term <code>n-1</code> for scaling is called Bessel 's correction. The scaling can be changed with the logical argument <code>corrected</code>. If <code>corrected</code> is <code>.false.</code>, then the sum is scaled with <code>n</code>, otherwise with <code>n-1</code>.</p>
+<h3 id="syntax_3">Syntax</h3>
+<p><code>result = var(array [, mask [, corrected]])</code></p>
+<p><code>result = var(array, dim [, mask [, corrected]])</code></p>
+<h3 id="arguments_3">Arguments</h3>
+<p><code>array</code>: Shall be an array of type <code>integer</code>, <code>real</code>, or <code>complex</code>.</p>
+<p><code>dim</code>: Shall be a scalar of type <code>integer</code> with a value in the range from 1 to <code>n</code>, where <code>n</code> is the rank of <code>array</code>.</p>
+<p><code>mask</code> (optional): Shall be of type <code>logical</code> and either a scalar or an array of the same shape as <code>array</code>.</p>
+<p><code>corrected</code> (optional): Shall be a scalar of type <code>logical</code>. If <code>corrected</code> is <code>.true.</code> (default value), the sum is scaled with <code>n-1</code>. If <code>corrected</code> is <code>.false.</code>, then the sum is scaled with <code>n</code>.</p>
+<h3 id="return-value_3">Return value</h3>
+<p>If <code>array</code> is of type <code>real</code> or <code>complex</code>, the result is of type <code>real</code> corresponding to the type of <code>array</code>.
+If <code>array</code> is of type <code>integer</code>, the result is of type <code>real(dp)</code>.</p>
+<p>If <code>dim</code> is absent, a scalar with the variance of all elements in <code>array</code> is returned. Otherwise, an array of rank <code>n-1</code>, where <code>n</code> equals the rank of <code>array</code>, and a shape similar to that of <code>array</code> with dimension <code>dim</code> dropped is returned.</p>
+<p>If <code>mask</code> is specified, the result is the variance of all elements of <code>array</code> corresponding to <code>true</code> elements of <code>mask</code>. If every element of <code>mask</code> is <code>false</code>, the result is IEEE <code>NaN</code>.</p>
+<p>If the variance is computed with only one single element, then the result is IEEE <code>NaN</code> if <code>corrected</code> is <code>.true.</code> and is <code>0.</code> if <code>corrected</code> is <code>.false.</code>.</p>
+<h3 id="example_3">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_var</span>
+    <span class="k">use </span><span class="n">stdlib_experimental_stats</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">var</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span> <span class="p">]</span>
+    <span class="kt">real</span> <span class="kd">::</span> <span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="nb">reshape</span><span class="p">([</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">var</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                                  <span class="c">!returns 3.5</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">var</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">corrected</span> <span class="o">=</span> <span class="p">.</span><span class="n">false</span><span class="p">.)</span>             <span class="c">!returns 2.9167</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">var</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>                                  <span class="c">!returns 3.5</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">var</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                               <span class="c">!returns [0.5, 0.5, 0.5]</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">var</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mf">3.</span><span class="p">)</span>                       <span class="c">!returns [NaN, NaN, 0.5]</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">var</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mf">3.</span><span class="p">,</span> <span class="n">corrected</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span>    <span class="c">!returns [NaN, 0., 0.25]</span>
+<span class="k">end program </span><span class="n">demo_var</span>
+</code></pre></div>
+    </div>
+    
+    <div class="col-md-3 col-md-pull-9">
+      <hr class="visible-xs visible-sm">
+        <div class="well toc">
+          <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../../page/index.html'>Specs, examples & user documentation</a></li>
+          </ul>
+          <hr>
+          <ul class="nav nav-stacked nav-pills">
+            
+            <li role="presentation">
+            <a href='../../page/./API.html'>Fortran stdlib API</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/index.html'>specs</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_experimental_error.html'>experimental_error</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_experimental_io.html'>experimental_IO</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_experimental_linalg.html'>experimental_linalg</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_experimental_optval.html'>experimental_optval</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_experimental_quadrature.html'>experimental_quadrature</a>
+            
+            </li>
+            
+            <li role="presentation" class="disabled">
+            <a href='../../page/specs/stdlib_experimental_stats.html'>experimental_stats</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+          </ul>
+        </div>
+    </div>
+    
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+                                          <br /><small>65af39d</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-05-14 22:07  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>
