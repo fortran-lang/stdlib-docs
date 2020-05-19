@@ -10,7 +10,7 @@
     <meta name="author" content="fortran-lang/stdlib contributors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>Specs, examples & user docs &ndash; Fortran-lang/stdlib</title>
+    <title>Style Guide &ndash; Fortran-lang/stdlib</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -105,7 +105,7 @@
     <div class="container">
     
   <div class="row">
-    <h1>Specs, examples & user docs</h1>
+    <h1>Style Guide</h1>
     <div class="row">
     <div class="col-lg-12">
     <div class="well well-sm" style="min-height: 40px;">
@@ -114,24 +114,13 @@
          
 <!--
         
-        <li><i class="fa fa-sitemap"></i> Subsections:</li>
-        
-        <li><a href='../page/./CodeOfConduct.html'>Contributor Code of Conduct</a></li>
-        
-        <li><a href='../page/./License.html'>Fortran stdlib License (MIT)</a></li>
-        
-        <li><a href='../page/./StyleGuide.html'>Style Guide</a></li>
-        
-        <li><a href='../page/./Workflow.html'>Workflow for Contributors</a></li>
-        
-        <li><a href='../page/specs/index.html'>Specifications (specs)</a></li>
-        
-        
 -->
       </ul>
         <ol class="breadcrumb in-well">
       
-         <li class="active">Specs, examples & user docs</li>
+         <li><a href='../page/index.html'>Specs, examples & user docs</a></li>
+      
+         <li class="active">Style Guide</li>
       </ol>
     </div>
     </div>
@@ -140,17 +129,105 @@
   
   <div class="row">
     <div class="col-md-9 col-md-push-3" id='text'>
-      <p></p><div class="alert alert-warning" role="alert"><h4>Warning</h4><p>This page is currently under construction!</p></div>
-<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Improve the title of this FORD "pages" section, and
-improve the organization of pages
-to separate end-user, high-level documentation and examples from developer documentation and specs.</p></div>
+      <p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>This is a living document.
+You are welcome to propose changes to this workflow by opening an
+<a href="https://github.com/fortran-lang/stdlib/issues">issue</a>.</p></div>
+<div class="toc">
+<ul>
+<li><a href="#fortran-stdlib-style-guide">Fortran stdlib Style Guide</a><ul>
+<li><a href="#use-modern-standard-fortran">Use (modern) standard Fortran</a></li>
+<li><a href="#file-naming-conventions">File naming conventions</a></li>
+<li><a href="#indentation-whitespace">Indentation &amp; whitespace</a></li>
+<li><a href="#variable-and-procedure-naming">Variable and procedure naming</a></li>
+<li><a href="#attributes">Attributes</a></li>
+<li><a href="#end-block-closing-statements">End  block closing statements</a></li>
+<li><a href="#document-public-api-code-with-ford">Document public API code with FORD</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h1 id="fortran-stdlib-style-guide">Fortran stdlib Style Guide</h1>
+<p>Adopting a consistent style can improve code legibility through the choice of good naming conventions.
+In addition, style checks will be run during CI to flag any severe non-conformance.
+This allows code review discussions to focus on semantics and substance rather than pedantry.
+Consistent whitespace usage, and not polluting line endings with trailing white space makes <code>git diff</code>s considerably more legible.
+This style guide is a living document and proposed changes may be adopted after discussing them and coming to a consensus.</p>
+<h2 id="use-modern-standard-fortran">Use (modern) standard Fortran</h2>
+<ul>
+<li>Do not use obsolescent or deleted language features
+  E.g., <code>common</code>, <code>pause</code>, <code>entry</code>, arithmetic <code>if</code> and computed <code>goto</code></li>
+<li>Do not use vendor extensions in the form of non-standard syntax and vendor supplied intrinsic procedures
+  E.g., <code>real*8</code> or <code>etime()</code></li>
+</ul>
+<h2 id="file-naming-conventions">File naming conventions</h2>
+<ul>
+<li>Source files should contain at most one <code>program</code>, <code>module</code>, or <code>submodule</code></li>
+<li>The filename should match the program or module name and have the file extension <code>.f90</code> or <code>.F90</code> if preprocessing is required</li>
+<li>If the interface and implementation is split using submodules the implementation submodule file should have the same name as the
+  interface (parent) module but end in <code>_implementation</code>
+  E.g., <code>string_class.f90</code> and <code>string_class_implementation.f90</code></li>
+<li>Tests should be added in the <code>tests</code> subdirectory and have the same name as the module they are testing with the <code>test_</code> prefix
+  added
+  E.g., <code>string_class.f90</code> and <code>tests/test_string_class.f90</code></li>
+</ul>
+<h2 id="indentation-whitespace">Indentation &amp; whitespace</h2>
+<p>By setting and following a convention for indentation and whitespace, code reviews and git-diffs can
+focus on the semantics of the proposed changes rather than style and formatting.</p>
+<ul>
+<li>The body of every Fortran construct should be indented by <strong>four (4) spaces</strong></li>
+<li>Line length <em>should be limited to 80 characters</em> and <strong>must not exceed 132</strong></li>
+<li>Please do not use <kbd>Tab</kbd> characters for indentation</li>
+<li>Please remove trailing white space before committing code</li>
+</ul>
+<h2 id="variable-and-procedure-naming">Variable and procedure naming</h2>
+<ul>
+<li>Variable and procedure names, as well as Fortran keywords, should be written in lowercase</li>
+<li>Variable and procedure names should be made up of one or more full words separated by an underscore,
+  for example <code>has_failed</code> is preferred over <code>hasfailed</code></li>
+<li>Where conventional and appropriate shortening of a word is used then the underscore may be omitted,
+  for example <code>linspace</code> is preferred over <code>lin_space</code></li>
+</ul>
+<h2 id="attributes">Attributes</h2>
+<!-- ATTENTION! This section includes intentional trailing whitespace to get decent formatting with GFM and Python Markdown. -->
+
+<ul>
+<li>Always specify <code>intent</code> for dummy arguments.</li>
+<li>Don't use <code>dimension</code> attribute to declare arrays because it is less verbose.
+  Use this:<br>
+<code>real, allocatable :: a(:), b(:,:)</code><br>
+  instead of:<br>
+<code>real, dimension(:), allocatable :: a</code><br>
+<code>real, dimension(:,:), allocatable :: b</code><br>
+  When defining many arrays of the same dimension, <code>dimension</code> can be used as an exception if it makes the code less verbose.</li>
+<li>If the <code>optional</code> attribute is used to declare a dummy argument, it should follow the <code>intent</code> attribute.</li>
+</ul>
+<h2 id="end-block-closing-statements">End <scope> block closing statements</h2>
+<p>Fortran allows certain block constructs or scopes to include the name of the program unit in the end statement.
+The convention adopted herein is to include procedure names, <code>module</code> names and <code>program</code> names in the <code>end</code> statement,
+unless the closing statement can reasonably be expected to be on the same screen or page, within about 25 lines.</p>
+<h2 id="document-public-api-code-with-ford">Document public API code with FORD</h2>
+<p>Documentation strings should be provided for all public and protected entities and their arguments or parameters.
+This is currently accomplished using the <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD tool</a>.
+For help writing FORD style documentation please see the <a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki">FORD wiki</a>.
+The following two sections are most relevant for contributing new code:</p>
+<ul>
+<li><a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki/Writing-Documentation">Writing Documentation</a></li>
+<li><a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki/Documentation-Meta-Data">Documentation Meta Data</a></li>
+<li><a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki/Limitations">Limitations</a></li>
+</ul>
+<p>To write the "spec" (specification) for a new proposal, please place it in the
+<a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki/Writing-Pages">FORD "pages"</a> directory at
+<a href="https://github.com/fortran-lang/stdlib/tree/master/doc/specs"><code>doc/specs/</code></a>.
+To get help please see the <a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki/Writing-Pages">"Writing Pages"</a>
+and <a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki/Writing-Documentation">"Writing Documentation"</a> pages
+on the <a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki">FORD wiki</a>.</p>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
       <hr class="visible-xs visible-sm">
         <div class="well toc">
           <ul class="nav nav-stacked nav-pills">
-            <li role="presentation" class="title disabled"><a href='../page/index.html'>Specs, examples & user docs</a></li>
+            <li role="presentation" class="title"><a href='../page/index.html'>Specs, examples & user docs</a></li>
           </ul>
           <hr>
           <ul class="nav nav-stacked nav-pills">
@@ -165,7 +242,7 @@ to separate end-user, high-level documentation and examples from developer docum
             
             </li>
             
-            <li role="presentation">
+            <li role="presentation" class="disabled">
             <a href='../page/./StyleGuide.html'>Style Guide</a>
             
             </li>
