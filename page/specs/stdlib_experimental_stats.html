@@ -135,7 +135,7 @@
 <div class="toc">
 <ul>
 <li><a href="#descriptive-statistics">Descriptive statistics</a><ul>
-<li><a href="#cov-covariance-of-array-elements">cov - covariance of array elements</a><ul>
+<li><a href="#corr-pearson-correlation-of-array-elements">corr - Pearson correlation of array elements</a><ul>
 <li><a href="#description">Description</a></li>
 <li><a href="#syntax">Syntax</a></li>
 <li><a href="#arguments">Arguments</a></li>
@@ -143,7 +143,7 @@
 <li><a href="#example">Example</a></li>
 </ul>
 </li>
-<li><a href="#mean-mean-of-array-elements">mean - mean of array elements</a><ul>
+<li><a href="#cov-covariance-of-array-elements">cov - covariance of array elements</a><ul>
 <li><a href="#description_1">Description</a></li>
 <li><a href="#syntax_1">Syntax</a></li>
 <li><a href="#arguments_1">Arguments</a></li>
@@ -151,7 +151,7 @@
 <li><a href="#example_1">Example</a></li>
 </ul>
 </li>
-<li><a href="#moment-central-moments-of-array-elements">moment - central moments of array elements</a><ul>
+<li><a href="#mean-mean-of-array-elements">mean - mean of array elements</a><ul>
 <li><a href="#description_2">Description</a></li>
 <li><a href="#syntax_2">Syntax</a></li>
 <li><a href="#arguments_2">Arguments</a></li>
@@ -159,7 +159,7 @@
 <li><a href="#example_2">Example</a></li>
 </ul>
 </li>
-<li><a href="#var-variance-of-array-elements">var - variance of array elements</a><ul>
+<li><a href="#moment-central-moments-of-array-elements">moment - central moments of array elements</a><ul>
 <li><a href="#description_3">Description</a></li>
 <li><a href="#syntax_3">Syntax</a></li>
 <li><a href="#arguments_3">Arguments</a></li>
@@ -167,12 +167,53 @@
 <li><a href="#example_3">Example</a></li>
 </ul>
 </li>
+<li><a href="#var-variance-of-array-elements">var - variance of array elements</a><ul>
+<li><a href="#description_4">Description</a></li>
+<li><a href="#syntax_4">Syntax</a></li>
+<li><a href="#arguments_4">Arguments</a></li>
+<li><a href="#return-value_4">Return value</a></li>
+<li><a href="#example_4">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
-<h2 id="cov-covariance-of-array-elements"><code>cov</code> - covariance of array elements</h2>
+<h2 id="corr-pearson-correlation-of-array-elements"><code>corr</code> - Pearson correlation of array elements</h2>
 <h3 id="description">Description</h3>
+<p>Returns the Pearson correlation of the elements of <code>array</code> along dimension <code>dim</code> if the corresponding element in <code>mask</code> is <code>true</code>.</p>
+<p>The Pearson correlation between two rows (or columns), say <code>x</code> and <code>y</code>, of <code>array</code> is defined as:</p>
+<div class="codehilite"><pre><span></span><code><span class="err"> corr(x, y) = cov(x, y) / sqrt( var(x) * var(y))</span>
+</code></pre></div>
+
+
+<h3 id="syntax">Syntax</h3>
+<p><code>result = <a href="../../module/stdlib_experimental_stats.html#interface-corr">corr</a>(array, dim [, mask])</code></p>
+<h3 id="arguments">Arguments</h3>
+<p><code>array</code>: Shall be a rank-1 or a rank-2 array of type <code>integer</code>, <code>real</code>, or <code>complex</code>.</p>
+<p><code>dim</code>: Shall be a scalar of type <code>integer</code> with a value in the range from 1 to <code>n</code>, where <code>n</code> is the rank of <code>array</code>.</p>
+<p><code>mask</code> (optional): Shall be of type <code>logical</code> and either a scalar or an array of the same shape as <code>array</code>.</p>
+<h3 id="return-value">Return value</h3>
+<p>If <code>array</code> is of rank 1 and of type <code>real</code> or <code>complex</code>, the result is of type <code>real</code> and has the same kind as <code>array</code>.
+If <code>array</code> is of rank 2 and of type <code>real</code> or <code>complex</code>, the result is of the same type and kind as <code>array</code>.
+If <code>array</code> is of type <code>integer</code>, the result is of type <code>real(dp)</code>.</p>
+<p>If <code>array</code> is of rank 1 and of size larger than 1, a scalar equal to 1 is returned. Otherwise, IEEE <code>NaN</code> is returned.
+If <code>array</code> is of rank 2, a rank-2 array  with the corresponding correlations is returned.</p>
+<p>If <code>mask</code> is specified, the result is the Pearson correlation of all elements of <code>array</code> corresponding to <code>true</code> elements of <code>mask</code>. If every element of <code>mask</code> is <code>false</code>, the result is IEEE <code>NaN</code>.</p>
+<h3 id="example">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_corr</span>
+    <span class="k">use </span><span class="n">stdlib_experimental_stats</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">corr</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span> <span class="p">]</span>
+    <span class="kt">real</span> <span class="kd">::</span> <span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="nb">reshape</span><span class="p">([</span> <span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mi">4</span><span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mi">1</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">6.</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>           <span class="c">!returns 1.</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">corr</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>           <span class="c">!returns reshape([ 1., -.32480, -.32480, 1. ], [ 2, 3])</span>
+<span class="k">end program </span><span class="n">demo_corr</span>
+</code></pre></div>
+
+
+<h2 id="cov-covariance-of-array-elements"><code>cov</code> - covariance of array elements</h2>
+<h3 id="description_1">Description</h3>
 <p>Returns the covariance of the elements of <code>array</code> along dimension <code>dim</code> if the corresponding element in <code>mask</code> is <code>true</code>.</p>
 <p>Per default, the covariance is defined as:</p>
 <div class="codehilite"><pre><span></span><code><span class="err"> cov(array) = 1/(n-1) sum_i (array(i) - mean(array) * (array(i) - mean(array)))</span>
@@ -181,21 +222,21 @@
 
 <p>where <code>n</code> is the number of elements.</p>
 <p>The scaling can be changed with the logical argument <code>corrected</code>. If <code>corrected</code> is <code>.false.</code>, then the sum is scaled with <code>n</code>, otherwise with <code>n-1</code>.</p>
-<h3 id="syntax">Syntax</h3>
+<h3 id="syntax_1">Syntax</h3>
 <p><code>result = <a href="../../module/stdlib_experimental_stats.html#interface-cov">cov</a>(array, dim [, mask [, corrected]])</code></p>
-<h3 id="arguments">Arguments</h3>
+<h3 id="arguments_1">Arguments</h3>
 <p><code>array</code>: Shall be a rank-1 or a rank-2 array of type <code>integer</code>, <code>real</code>, or <code>complex</code>.</p>
 <p><code>dim</code>: Shall be a scalar of type <code>integer</code> with a value in the range from 1 to <code>n</code>, where <code>n</code> is the rank of <code>array</code>.</p>
 <p><code>mask</code> (optional): Shall be of type <code>logical</code> and either a scalar or an array of the same shape as <code>array</code>.</p>
 <p><code>corrected</code> (optional): Shall be a scalar of type <code>logical</code>. If <code>corrected</code> is <code>.true.</code> (default value), the sum is scaled with <code>n-1</code>. If <code>corrected</code> is <code>.false.</code>, then the sum is scaled with <code>n</code>.</p>
-<h3 id="return-value">Return value</h3>
+<h3 id="return-value_1">Return value</h3>
 <p>If <code>array</code> is of rank 1 and of type <code>real</code> or <code>complex</code>, the result is of type <code>real</code> corresponding to the type of <code>array</code>.
 If <code>array</code> is of rank 2 and of type <code>real</code> or <code>complex</code>, the result is of the same type as <code>array</code>.
 If <code>array</code> is of type <code>integer</code>, the result is of type <code>real(dp)</code>.</p>
 <p>If <code>array</code> is of rank 1, a scalar with the covariance (that is the variance) of all elements in <code>array</code> is returned.
 If <code>array</code> is of rank 2, a rank-2 array is returned.</p>
 <p>If <code>mask</code> is specified, the result is the covariance of all elements of <code>array</code> corresponding to <code>true</code> elements of <code>mask</code>. If every element of <code>mask</code> is <code>false</code>, the result is IEEE <code>NaN</code>.</p>
-<h3 id="example">Example</h3>
+<h3 id="example_1">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_cov</span>
     <span class="k">use </span><span class="n">stdlib_experimental_stats</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">cov</span>
     <span class="k">implicit none</span>
@@ -209,21 +250,21 @@ If <code>array</code> is of rank 2, a rank-2 array is returned.</p>
 
 
 <h2 id="mean-mean-of-array-elements"><code>mean</code> - mean of array elements</h2>
-<h3 id="description_1">Description</h3>
+<h3 id="description_2">Description</h3>
 <p>Returns the mean of all the elements of <code>array</code>, or of the elements of <code>array</code> along dimension <code>dim</code> if provided, and if the corresponding element in <code>mask</code> is <code>true</code>.</p>
-<h3 id="syntax_1">Syntax</h3>
+<h3 id="syntax_2">Syntax</h3>
 <p><code>result = <a href="../../module/stdlib_experimental_stats.html#interface-mean">mean</a>(array [, mask])</code></p>
 <p><code>result = <a href="../../module/stdlib_experimental_stats.html#interface-mean">mean</a>(array, dim [, mask])</code></p>
-<h3 id="arguments_1">Arguments</h3>
+<h3 id="arguments_2">Arguments</h3>
 <p><code>array</code>: Shall be an array of type <code>integer</code>, <code>real</code>, or <code>complex</code>.</p>
 <p><code>dim</code>: Shall be a scalar of type <code>integer</code> with a value in the range from 1 to <code>n</code>, where <code>n</code> is the rank of <code>array</code>.</p>
 <p><code>mask</code> (optional): Shall be of type <code>logical</code> and either a scalar or an array of the same shape as <code>array</code>.</p>
-<h3 id="return-value_1">Return value</h3>
+<h3 id="return-value_2">Return value</h3>
 <p>If <code>array</code> is of type <code>real</code> or <code>complex</code>, the result is of the same type as <code>array</code>.
 If <code>array</code> is of type <code>integer</code>, the result is of type <code>real(dp)</code>.</p>
 <p>If <code>dim</code> is absent, a scalar with the mean of all elements in <code>array</code> is returned. Otherwise, an array of rank <code>n-1</code>, where <code>n</code> equals the rank of <code>array</code>, and a shape similar to that of <code>array</code> with dimension <code>dim</code> dropped is returned.</p>
 <p>If <code>mask</code> is specified, the result is the mean of all elements of <code>array</code> corresponding to <code>true</code> elements of <code>mask</code>. If every element of <code>mask</code> is <code>false</code>, the result is IEEE <code>NaN</code>.</p>
-<h3 id="example_1">Example</h3>
+<h3 id="example_2">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_mean</span>
     <span class="k">use </span><span class="n">stdlib_experimental_stats</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">mean</span>
     <span class="k">implicit none</span>
@@ -238,7 +279,7 @@ If <code>array</code> is of type <code>integer</code>, the result is of type <co
 
 
 <h2 id="moment-central-moments-of-array-elements"><code>moment</code> - central moments of array elements</h2>
-<h3 id="description_2">Description</h3>
+<h3 id="description_3">Description</h3>
 <p>Returns the <em>k</em>-th order central moment of all the elements of <code>array</code>, or of the elements of <code>array</code> along dimension <code>dim</code> if provided, and if the corresponding element in <code>mask</code> is <code>true</code>.</p>
 <p>If a scalar or an array <code>center</code> is provided, the function returns the <em>k</em>-th order moment about 'center', of all the elements of <code>array</code>, or of the elements of <code>array</code> along dimension <code>dim</code> if provided, and if the corresponding element in <code>mask</code> is <code>true</code>.</p>
 <p>The <em>k</em>-th order central moment is defined as :</p>
@@ -252,21 +293,21 @@ If <code>array</code> is of type <code>integer</code>, the result is of type <co
 </code></pre></div>
 
 
-<h3 id="syntax_2">Syntax</h3>
+<h3 id="syntax_3">Syntax</h3>
 <p><code>result = <a href="../../module/stdlib_experimental_stats.html#interface-moment">moment</a>(array, order [, center [, mask]])</code></p>
 <p><code>result = <a href="../../module/stdlib_experimental_stats.html#interface-moment">moment</a>(array, order, dim [, center [, mask]])</code></p>
-<h3 id="arguments_2">Arguments</h3>
+<h3 id="arguments_3">Arguments</h3>
 <p><code>array</code>: Shall be an array of type <code>integer</code>, <code>real</code>, or <code>complex</code>.</p>
 <p><code>order</code>: Shall be an scalar of type <code>integer</code>.</p>
 <p><code>dim</code>: Shall be a scalar of type <code>integer</code> with a value in the range from 1 to <code>n</code>, where <code>n</code> is the rank of <code>array</code>.</p>
 <p><code>center</code> (optional): Shall be a scalar of the same type of <code>result</code> if <code>dim</code> is not provided. If <code>dim</code> is provided, <code>center</code> shall be a scalar or an array (with a shape similar to that of <code>array</code> with dimension <code>dim</code> dropped) of the same type of <code>result</code>.</p>
 <p><code>mask</code> (optional): Shall be of type <code>logical</code> and either a scalar or an array of the same shape as <code>array</code>.</p>
-<h3 id="return-value_2">Return value</h3>
+<h3 id="return-value_3">Return value</h3>
 <p>If <code>array</code> is of type <code>real</code> or <code>complex</code>, the result is of the same type as <code>array</code>.
 If <code>array</code> is of type <code>integer</code>, the result is of type <code>real(dp)</code>.</p>
 <p>If <code>dim</code> is absent, a scalar with the <em>k</em>-th (central) moment of all elements in <code>array</code> is returned. Otherwise, an array of rank <code>n-1</code>, where <code>n</code> equals the rank of <code>array</code>, and a shape similar to that of <code>array</code> with dimension <code>dim</code> dropped is returned.</p>
 <p>If <code>mask</code> is specified, the result is the <em>k</em>-th  (central) moment of all elements of <code>array</code> corresponding to <code>true</code> elements of <code>mask</code>. If every element of <code>mask</code> is <code>false</code>, the result is IEEE <code>NaN</code>.</p>
-<h3 id="example_2">Example</h3>
+<h3 id="example_3">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_moment</span>
     <span class="k">use </span><span class="n">stdlib_experimental_stats</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">moment</span>
     <span class="k">implicit none</span>
@@ -283,7 +324,7 @@ If <code>array</code> is of type <code>integer</code>, the result is of type <co
 
 
 <h2 id="var-variance-of-array-elements"><code>var</code> - variance of array elements</h2>
-<h3 id="description_3">Description</h3>
+<h3 id="description_4">Description</h3>
 <p>Returns the variance of all the elements of <code>array</code>, or of the elements of <code>array</code> along dimension <code>dim</code> if provided, and if the corresponding element in <code>mask</code> is <code>true</code>.</p>
 <p>Per default, the variance is defined as the best unbiased estimator and is computed as:</p>
 <div class="codehilite"><pre><span></span><code><span class="err"> var(array) = 1/(n-1) sum_i (array(i) - mean(array))^2</span>
@@ -292,21 +333,21 @@ If <code>array</code> is of type <code>integer</code>, the result is of type <co
 
 <p>where <code>n</code> is the number of elements.</p>
 <p>The use of the term <code>n-1</code> for scaling is called Bessel 's correction. The scaling can be changed with the logical argument <code>corrected</code>. If <code>corrected</code> is <code>.false.</code>, then the sum is scaled with <code>n</code>, otherwise with <code>n-1</code>.</p>
-<h3 id="syntax_3">Syntax</h3>
+<h3 id="syntax_4">Syntax</h3>
 <p><code>result = <a href="../../module/stdlib_experimental_stats.html#interface-var">var</a>(array [, mask [, corrected]])</code></p>
 <p><code>result = <a href="../../module/stdlib_experimental_stats.html#interface-var">var</a>(array, dim [, mask [, corrected]])</code></p>
-<h3 id="arguments_3">Arguments</h3>
+<h3 id="arguments_4">Arguments</h3>
 <p><code>array</code>: Shall be an array of type <code>integer</code>, <code>real</code>, or <code>complex</code>.</p>
 <p><code>dim</code>: Shall be a scalar of type <code>integer</code> with a value in the range from 1 to <code>n</code>, where <code>n</code> is the rank of <code>array</code>.</p>
 <p><code>mask</code> (optional): Shall be of type <code>logical</code> and either a scalar or an array of the same shape as <code>array</code>.</p>
 <p><code>corrected</code> (optional): Shall be a scalar of type <code>logical</code>. If <code>corrected</code> is <code>.true.</code> (default value), the sum is scaled with <code>n-1</code>. If <code>corrected</code> is <code>.false.</code>, then the sum is scaled with <code>n</code>.</p>
-<h3 id="return-value_3">Return value</h3>
+<h3 id="return-value_4">Return value</h3>
 <p>If <code>array</code> is of type <code>real</code> or <code>complex</code>, the result is of type <code>real</code> corresponding to the type of <code>array</code>.
 If <code>array</code> is of type <code>integer</code>, the result is of type <code>real(dp)</code>.</p>
 <p>If <code>dim</code> is absent, a scalar with the variance of all elements in <code>array</code> is returned. Otherwise, an array of rank <code>n-1</code>, where <code>n</code> equals the rank of <code>array</code>, and a shape similar to that of <code>array</code> with dimension <code>dim</code> dropped is returned.</p>
 <p>If <code>mask</code> is specified, the result is the variance of all elements of <code>array</code> corresponding to <code>true</code> elements of <code>mask</code>. If every element of <code>mask</code> is <code>false</code>, the result is IEEE <code>NaN</code>.</p>
 <p>If the variance is computed with only one single element, then the result is IEEE <code>NaN</code> if <code>corrected</code> is <code>.true.</code> and is <code>0.</code> if <code>corrected</code> is <code>.false.</code>.</p>
-<h3 id="example_3">Example</h3>
+<h3 id="example_4">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_var</span>
     <span class="k">use </span><span class="n">stdlib_experimental_stats</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">var</span>
     <span class="k">implicit none</span>
@@ -411,12 +452,12 @@ If <code>array</code> is of type <code>integer</code>, the result is of type <co
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>a1b9a91</small></p></div>
+                                          <br /><small>4fbb208</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2020-06-05 15:48  
+             on 2020-06-08 19:23  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
