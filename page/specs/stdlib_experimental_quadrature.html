@@ -151,7 +151,7 @@
 <li><a href="#example_1">Example</a></li>
 </ul>
 </li>
-<li><a href="#simps-integrate-sampled-values-using-simpsons-rule-to-be-implemented">simps - integrate sampled values using Simpson's rule (to be implemented)</a><ul>
+<li><a href="#simps-integrate-sampled-values-using-simpsons-rule">simps - integrate sampled values using Simpson's rule</a><ul>
 <li><a href="#description_2">Description</a></li>
 <li><a href="#syntax_2">Syntax</a></li>
 <li><a href="#arguments_2">Arguments</a></li>
@@ -159,7 +159,7 @@
 <li><a href="#example_2">Example</a></li>
 </ul>
 </li>
-<li><a href="#simps_weights-simpsons-rule-weights-for-given-abscissas-to-be-implemented">simps_weights - Simpson's rule weights for given abscissas (to be implemented)</a><ul>
+<li><a href="#simps_weights-simpsons-rule-weights-for-given-abscissas">simps_weights - Simpson's rule weights for given abscissas</a><ul>
 <li><a href="#description_3">Description</a></li>
 <li><a href="#syntax_3">Syntax</a></li>
 <li><a href="#arguments_3">Arguments</a></li>
@@ -215,46 +215,68 @@
 <span class="k">    </span><span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">]</span>
     <span class="kt">real</span> <span class="kd">::</span> <span class="n">y</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
     <span class="kt">real</span> <span class="kd">::</span> <span class="n">w</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> 
-    <span class="n">w</span> <span class="o">=</span> <span class="n">trapz_weight</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="nb">dot_product</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">trapz_weights</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span><span class="o">*</span><span class="n">y</span><span class="p">)</span>
 <span class="c">! 22.0</span>
 <span class="k">end program </span><span class="n">demo_trapz_weights</span>
 </code></pre></div>
 
 
-<h2 id="simps-integrate-sampled-values-using-simpsons-rule-to-be-implemented"><code>simps</code> - integrate sampled values using Simpson's rule (to be implemented)</h2>
+<h2 id="simps-integrate-sampled-values-using-simpsons-rule"><code>simps</code> - integrate sampled values using Simpson's rule</h2>
 <h3 id="description_2">Description</h3>
 <p>Returns the Simpson's rule integral of an array <code>y</code> representing discrete samples of a function. The integral is computed assuming either equidistant abscissas with spacing <code>dx</code> or arbitary abscissas <code>x</code>. </p>
-<p>Simpson's rule is defined for odd-length arrays only. For even-length arrays, an optional argument <code>even</code> may be used to specify at which index to replace Simpson's rule with Simpson's 3/8 rule. The 3/8 rule will be used for the array section <code>y(even:even+4)</code> and the ordinary Simpon's rule will be used elsewhere.</p>
+<p>Simpson's ordinary ("1/3") rule is used for odd-length arrays. For even-length arrays, Simpson's 3/8 rule is also utilized in a way that depends on the value of <code>even</code>. If <code>even</code> is negative (positive), the 3/8 rule is used at the beginning (end) of the array. If <code>even</code> is zero or not present, the result is as if the 3/8 rule were first used at the beginning of the array, then at the end of the array, and these two results were averaged.</p>
 <h3 id="syntax_2">Syntax</h3>
-<p><code>result = simps(y, x [, even])</code></p>
-<p><code>result = simps(y, dx [, even])</code></p>
+<p><code>result = <a href="../../module/stdlib_experimental_quadrature.html#interface-simps">simps</a>(y, x [, even])</code></p>
+<p><code>result = <a href="../../module/stdlib_experimental_quadrature.html#interface-simps">simps</a>(y, dx [, even])</code></p>
 <h3 id="arguments_2">Arguments</h3>
 <p><code>y</code>: Shall be a rank-one array of type <code>real</code>.</p>
 <p><code>x</code>: Shall be a rank-one array of type <code>real</code> having the same kind and size as <code>y</code>. </p>
 <p><code>dx</code>: Shall be a scalar of type <code>real</code> having the same kind as <code>y</code>.</p>
-<p><code>even</code>: (Optional) Shall be a scalar integer of default kind. Its default value is <code>1</code>.</p>
+<p><code>even</code>: (Optional) Shall be a default-kind <code>integer</code>.</p>
 <h3 id="return-value_2">Return value</h3>
 <p>The result is a scalar of type <code>real</code> having the same kind as <code>y</code>.</p>
 <p>If the size of <code>y</code> is zero or one, the result is zero.</p>
-<p>If the size of <code>y</code> is two, the result is the same as if <code>trapz</code> had been called instead, regardless of the value of <code>even</code>.</p>
+<p>If the size of <code>y</code> is two, the result is the same as if <code>trapz</code> had been called instead.</p>
 <h3 id="example_2">Example</h3>
-<p>TBD</p>
-<h2 id="simps_weights-simpsons-rule-weights-for-given-abscissas-to-be-implemented"><code>simps_weights</code> - Simpson's rule weights for given abscissas (to be implemented)</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_simps</span>
+    <span class="k">use </span><span class="n">stdlib_experimental_quadrature</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">simps</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">]</span>
+    <span class="kt">real</span> <span class="kd">::</span> <span class="n">y</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="mf">3.</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">simps</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> 
+<span class="c">! 64.0</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">simps</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span> 
+<span class="c">! 32.0</span>
+<span class="k">end program </span><span class="n">demo_simps</span>
+</code></pre></div>
+
+
+<h2 id="simps_weights-simpsons-rule-weights-for-given-abscissas"><code>simps_weights</code> - Simpson's rule weights for given abscissas</h2>
 <h3 id="description_3">Description</h3>
 <p>Given an array of abscissas <code>x</code>, computes the array of weights <code>w</code> such that if <code>y</code> represented function values tabulated at <code>x</code>, then <code>sum(w*y)</code> produces a Simpson's rule approximation to the integral.</p>
-<p>Simpson's rule is defined for odd-length arrays only. For even-length arrays, an optional argument <code>even</code> may be used to specify at which index to replace Simpson's rule with Simpson's 3/8 rule. The 3/8 rule will be used for the array section <code>x(even:even+4)</code> and the ordinary Simpon's rule will be used elsewhere.</p>
+<p>Simpson's ordinary ("1/3") rule is used for odd-length arrays. For even-length arrays, Simpson's 3/8 rule is also utilized in a way that depends on the value of <code>even</code>. If <code>even</code> is negative (positive), the 3/8 rule is used at the beginning (end) of the array and the 1/3 rule used elsewhere. If <code>even</code> is zero or not present, the result is as if the 3/8 rule were first used at the beginning of the array, then at the end of the array, and then these two results were averaged.</p>
 <h3 id="syntax_3">Syntax</h3>
-<p><code>result = simps_weights(x [, even])</code></p>
+<p><code>result = <a href="../../module/stdlib_experimental_quadrature.html#interface-simps_weights">simps_weights</a>(x [, even])</code></p>
 <h3 id="arguments_3">Arguments</h3>
 <p><code>x</code>: Shall be a rank-one array of type <code>real</code>.</p>
-<p><code>even</code>: (Optional) Shall be a scalar integer of default kind. Its default value is <code>1</code>.</p>
+<p><code>even</code>: (Optional) Shall be a default-kind <code>integer</code>.</p>
 <h3 id="return-value_3">Return value</h3>
 <p>The result is a <code>real</code> array with the same size and kind as <code>x</code>.</p>
 <p>If the size of <code>x</code> is one, then the sole element of the result is zero.</p>
 <p>If the size of <code>x</code> is two, then the result is the same as if <code>trapz_weights</code> had been called instead.</p>
 <h3 id="example_3">Example</h3>
-<p>TBD</p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_simps_weights</span>
+    <span class="k">use </span><span class="n">stdlib_experimental_quadrature</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">simps_weights</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">]</span>
+    <span class="kt">real</span> <span class="kd">::</span> <span class="n">y</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="mf">3.</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+    <span class="kt">real</span> <span class="kd">::</span> <span class="n">w</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> 
+    <span class="n">w</span> <span class="o">=</span> <span class="n">simps_weights</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span><span class="o">*</span><span class="n">y</span><span class="p">)</span>
+<span class="c">! 64.0</span>
+<span class="k">end program </span><span class="n">demo_simps_weights</span>
+</code></pre></div>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
@@ -346,12 +368,12 @@
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>4fbb208</small></p></div>
+                                          <br /><small>0cd354a</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2020-06-08 19:23  
+             on 2020-06-15 21:22  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
