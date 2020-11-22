@@ -1,0 +1,2312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A community driven standard library for (modern) Fortran">
+    
+    <meta name="author" content="fortran-lang/stdlib contributors" >
+    <link rel="icon" href="../../favicon.png">
+
+    <title>Bitsets &ndash; Fortran-lang/stdlib</title>
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/pygments.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/local.css" rel="stylesheet">
+    
+    <link  href="../../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../../js/jquery-2.1.3.min.js"></script>
+    <script src="../../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">Fortran-lang/stdlib </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../../page/index.html'>Contributing and specs</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../../lists/procedures.html">Procedures</a></li>
+        
+               
+            <li><a href="../../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/procedures.html">Procedures</a></li>
+
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  <div class="row">
+    <h1>Bitsets</h1>
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="well well-sm" style="min-height: 40px;">
+      <ul class="list-inline" style="margin-bottom:0px; display:inline">
+         
+         
+<!--
+        
+-->
+      </ul>
+        <ol class="breadcrumb in-well">
+      
+         <li><a href='../../page/index.html'>Contributing and specs</a></li>
+      
+         <li><a href='../../page/specs/index.html'>Specifications (specs)</a></li>
+      
+         <li class="active">Bitsets</li>
+      </ol>
+    </div>
+    </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-9 col-md-push-3" id='text'>
+      <h1 id="the-stdlib_bitsets-module">The <code>stdlib_bitsets</code> module</h1>
+<div class="toc">
+<ul>
+<li><a href="#the-stdlib_bitsets-module">The stdlib_bitsets module</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#the-modules-constants">The module's constants</a></li>
+<li><a href="#the-stdlib_bitsets-derived-types">The stdlib_bitsets derived types</a></li>
+<li><a href="#the-bitset-literal">The bitset-literal</a></li>
+<li><a href="#the-binary-literal">The binary-literal</a></li>
+<li><a href="#summary-of-the-modules-operations">Summary of the module's operations</a><ul>
+<li><a href="#table-of-the-bitset_type-methods">Table of the bitset_type methods</a></li>
+<li><a href="#table-of-the-non-member-procedure-overloads">Table of the non-member procedure overloads</a></li>
+<li><a href="#assignments">Assignments</a><ul>
+<li><a href="#example">Example</a></li>
+</ul>
+</li>
+<li><a href="#table-of-the-non-member-comparison-operations">Table of the non-member comparison operations</a></li>
+</ul>
+</li>
+<li><a href="#specification-of-the-stdlib_bitsets-methods-and-procedures">Specification of the stdlib_bitsets methods and procedures</a><ul>
+<li><a href="#all-determine-whether-all-bits-are-set-in-self">all - determine whether all bits are set in self.</a><ul>
+<li><a href="#status">Status</a></li>
+<li><a href="#description">Description</a></li>
+<li><a href="#syntax">Syntax</a></li>
+<li><a href="#class">Class</a></li>
+<li><a href="#argument">Argument</a></li>
+<li><a href="#result-value">Result value</a></li>
+<li><a href="#example_1">Example</a></li>
+<li><a href="#and-bitwise-and-of-the-bits-of-two-bitsets">and - bitwise and of the bits of two bitsets.</a></li>
+<li><a href="#status_1">Status</a></li>
+<li><a href="#description_1">Description</a></li>
+<li><a href="#syntax_1">Syntax</a></li>
+<li><a href="#class_1">Class</a></li>
+<li><a href="#arguments">Arguments</a></li>
+<li><a href="#example_2">Example</a></li>
+</ul>
+</li>
+<li><a href="#and_not-bitwise-and-of-one-bitset-with-the-negation-of-another">and_not - Bitwise and of one bitset with the negation of another</a><ul>
+<li><a href="#status_2">Status</a></li>
+<li><a href="#description_2">Description</a></li>
+<li><a href="#syntax_2">Syntax</a></li>
+<li><a href="#class_2">Class</a></li>
+<li><a href="#arguments_1">Arguments</a></li>
+<li><a href="#example_3">Example</a></li>
+</ul>
+</li>
+<li><a href="#any-determine-whether-any-bits-are-set">any - determine whether any bits are set</a><ul>
+<li><a href="#status_3">Status</a></li>
+<li><a href="#description_3">Description</a></li>
+<li><a href="#syntax_3">Syntax</a></li>
+<li><a href="#class_3">Class</a></li>
+<li><a href="#argument_1">Argument</a></li>
+<li><a href="#result-value_1">Result value</a></li>
+<li><a href="#example_4">Example</a></li>
+</ul>
+</li>
+<li><a href="#bit_count-return-the-number-of-bits-that-are-set">bit_count - return the number of bits that are set</a><ul>
+<li><a href="#status_4">Status</a></li>
+<li><a href="#description_4">Description</a></li>
+<li><a href="#syntax_4">Syntax</a></li>
+<li><a href="#class_4">Class</a></li>
+<li><a href="#argument_2">Argument</a></li>
+<li><a href="#result-value_2">Result value</a></li>
+<li><a href="#example_5">Example</a></li>
+<li><a href="#bits-returns-the-number-of-bits">bits - returns the number of bits</a></li>
+<li><a href="#status_5">Status</a></li>
+<li><a href="#description_5">Description</a></li>
+<li><a href="#syntax_5">Syntax</a></li>
+<li><a href="#class_5">Class</a></li>
+<li><a href="#argument_3">Argument</a></li>
+<li><a href="#result-value_3">Result value</a></li>
+<li><a href="#example_6">Example</a></li>
+</ul>
+</li>
+<li><a href="#clear-clears-a-sequence-of-one-or-more-bits">clear - clears a sequence of one or more bits.</a><ul>
+<li><a href="#status_6">Status</a></li>
+<li><a href="#description_6">Description</a></li>
+<li><a href="#syntax_6">Syntax</a></li>
+<li><a href="#class_6">Class</a></li>
+<li><a href="#arguments_2">Arguments</a></li>
+<li><a href="#example_7">Example</a></li>
+</ul>
+</li>
+<li><a href="#extract-create-a-new-bitset-from-a-range-in-an-old-bitset">extract - create a new bitset from a range in an old bitset</a><ul>
+<li><a href="#status_7">Status</a></li>
+<li><a href="#description_7">Description</a></li>
+<li><a href="#syntax_7">Syntax</a></li>
+<li><a href="#class_7">Class</a></li>
+<li><a href="#arguments_3">Arguments</a></li>
+<li><a href="#example_8">Example</a></li>
+</ul>
+</li>
+<li><a href="#flip-flip-the-values-of-a-sequence-of-one-or-more-bits">flip - flip the values of a sequence of one or more bits</a><ul>
+<li><a href="#status_8">Status</a></li>
+<li><a href="#description_8">Description</a></li>
+<li><a href="#syntax_8">Syntax</a></li>
+<li><a href="#class_8">Class</a></li>
+<li><a href="#arguments_4">Arguments</a></li>
+<li><a href="#example_9">Example</a></li>
+</ul>
+</li>
+<li><a href="#from_string-initializes-a-bitset-from-a-binary-literal">from_string - initializes a bitset from a binary literal</a><ul>
+<li><a href="#status_9">Status</a></li>
+<li><a href="#description_9">Description</a></li>
+<li><a href="#syntax_9">Syntax</a></li>
+<li><a href="#class_9">Class</a></li>
+<li><a href="#arguments_5">Arguments</a></li>
+<li><a href="#example_10">Example</a></li>
+</ul>
+</li>
+<li><a href="#init-bitset_type-initialization-routines">init - bitset_type initialization routines.</a><ul>
+<li><a href="#status_10">Status</a></li>
+<li><a href="#description_10">Description</a></li>
+<li><a href="#syntax_10">Syntax</a></li>
+<li><a href="#class_10">Class</a></li>
+<li><a href="#arguments_6">Arguments</a></li>
+<li><a href="#example_11">Example</a></li>
+</ul>
+</li>
+<li><a href="#input-reads-a-bitset-from-an-unformatted-file">input - reads a bitset from an unformatted file</a><ul>
+<li><a href="#status_11">Status</a></li>
+<li><a href="#description_11">Description</a></li>
+<li><a href="#syntax_11">Syntax</a></li>
+<li><a href="#class_11">Class</a></li>
+<li><a href="#arguments_7">Arguments</a></li>
+<li><a href="#example_12">Example</a></li>
+</ul>
+</li>
+<li><a href="#none-determines-whether-no-bits-are-set">none - determines whether no bits are set</a><ul>
+<li><a href="#status_12">Status</a></li>
+<li><a href="#description_12">Description</a></li>
+<li><a href="#syntax_12">Syntax</a></li>
+<li><a href="#class_12">Class</a></li>
+<li><a href="#argument_4">Argument</a></li>
+<li><a href="#result-value_4">Result value</a></li>
+<li><a href="#example_13">Example</a></li>
+</ul>
+</li>
+<li><a href="#not-performs-the-logical-complement-on-a-bitset">not - Performs the logical complement on a bitset</a><ul>
+<li><a href="#status_13">Status</a></li>
+<li><a href="#description_13">Description</a></li>
+<li><a href="#syntax_13">Syntax</a></li>
+<li><a href="#class_13">Class</a></li>
+<li><a href="#argument_5">Argument</a></li>
+<li><a href="#example_14">Example</a></li>
+</ul>
+</li>
+<li><a href="#or-bitwise-or-of-the-bits-of-two-bitsets">or - Bitwise OR of the bits of two bitsets.</a><ul>
+<li><a href="#status_14">Status</a></li>
+<li><a href="#description_14">Description</a></li>
+<li><a href="#syntax_14">Syntax</a></li>
+<li><a href="#class_14">Class</a></li>
+<li><a href="#arguments_8">Arguments</a></li>
+<li><a href="#example_15">Example</a></li>
+</ul>
+</li>
+<li><a href="#output-writes-a-binary-representation-of-a-bitset-to-a-file">output - Writes a binary representation of a bitset to a file</a><ul>
+<li><a href="#status_15">Status</a></li>
+<li><a href="#description_15">Description</a></li>
+<li><a href="#syntax_15">Syntax</a></li>
+<li><a href="#class_15">Class</a></li>
+<li><a href="#arguments_9">Arguments</a></li>
+<li><a href="#example_16">Example</a></li>
+</ul>
+</li>
+<li><a href="#read_bitset-initializes-self-with-the-value-of-a-bitset_literal">read_bitset - initializes self with the value of a bitset_literal</a><ul>
+<li><a href="#status_16">Status</a></li>
+<li><a href="#description_16">Description</a></li>
+<li><a href="#syntax_16">Syntax</a></li>
+<li><a href="#class_16">Class</a></li>
+<li><a href="#arguments_10">Arguments</a></li>
+<li><a href="#example_17">Example</a></li>
+</ul>
+</li>
+<li><a href="#set-sets-a-sequence-of-one-or-more-bits-to-1">set - sets a sequence of one or more bits to 1.</a><ul>
+<li><a href="#status_17">Status</a></li>
+<li><a href="#description_17">Description</a></li>
+<li><a href="#syntax_17">Syntax</a></li>
+<li><a href="#class_17">Class</a></li>
+<li><a href="#arguments_11">Arguments</a></li>
+<li><a href="#example_18">Example</a></li>
+</ul>
+</li>
+<li><a href="#test-determine-whether-a-bit-is-set">test - determine whether a bit is set</a><ul>
+<li><a href="#status_18">Status</a></li>
+<li><a href="#descriptions">Descriptions</a></li>
+<li><a href="#syntax_18">Syntax</a></li>
+<li><a href="#class_18">Class</a></li>
+<li><a href="#arguments_12">Arguments</a></li>
+<li><a href="#result-value_5">Result value</a></li>
+<li><a href="#example_19">Example</a></li>
+</ul>
+</li>
+<li><a href="#to_string-represent-a-bitset-as-a-binary-literal">to_string - represent a bitset as a binary literal</a></li>
+<li><a href="#status_19">Status</a><ul>
+<li><a href="#description_18">Description</a></li>
+<li><a href="#syntax_19">Syntax</a></li>
+<li><a href="#class_19">Class</a></li>
+<li><a href="#arguments_13">Arguments</a></li>
+<li><a href="#example_20">Example</a></li>
+</ul>
+</li>
+<li><a href="#value-determine-the-value-of-a-bit">value - determine the value of a bit</a><ul>
+<li><a href="#status_20">Status</a></li>
+<li><a href="#description_19">Description</a></li>
+<li><a href="#syntax_20">Syntax</a></li>
+<li><a href="#class_20">Class</a></li>
+<li><a href="#arguments_14">Arguments</a></li>
+<li><a href="#result-value_6">Result value</a></li>
+<li><a href="#example_21">Example</a></li>
+</ul>
+</li>
+<li><a href="#write_bitset-writes-a-bitset-literal">write_bitset - writes a bitset-literal</a><ul>
+<li><a href="#status_21">Status</a></li>
+<li><a href="#description_20">Description</a></li>
+<li><a href="#syntax_21">Syntax</a></li>
+<li><a href="#class_21">Class</a></li>
+<li><a href="#arguments_15">Arguments</a></li>
+<li><a href="#example_22">Example</a></li>
+</ul>
+</li>
+<li><a href="#xor-bitwise-exclusive-or">xor - bitwise exclusive or</a><ul>
+<li><a href="#status_22">Status</a></li>
+<li><a href="#description_21">Description</a></li>
+<li><a href="#syntax_22">Syntax</a></li>
+<li><a href="#class_22">Class</a></li>
+<li><a href="#arguments_16">Arguments</a></li>
+<li><a href="#example_23">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#specification-of-the-stdlib_bitsets-operators">Specification of the stdlib_bitsets operators</a><ul>
+<li><a href="#-compare-two-bitsets-to-determine-whether-the-bits-have-the-same-value">== - compare two bitsets to determine whether the bits have the same value</a><ul>
+<li><a href="#status_23">Status</a></li>
+<li><a href="#description_22">Description</a></li>
+<li><a href="#syntax_23">Syntax</a></li>
+<li><a href="#class_23">Class</a></li>
+<li><a href="#arguments_17">Arguments</a></li>
+<li><a href="#result-value_7">Result value</a></li>
+<li><a href="#example_24">Example</a></li>
+</ul>
+</li>
+<li><a href="#-compare-two-bitsets-to-determine-whether-any-bits-differ-in-value">/= - compare two bitsets to determine whether any bits differ in value</a><ul>
+<li><a href="#status_24">Status</a></li>
+<li><a href="#description_23">Description</a></li>
+<li><a href="#syntax_24">Syntax</a></li>
+<li><a href="#class_24">Class</a></li>
+<li><a href="#arguments_18">Arguments</a></li>
+<li><a href="#result-value_8">Result value</a></li>
+<li><a href="#example_25">Example</a></li>
+</ul>
+</li>
+<li><a href="#gt-compare-two-bitsets-to-determine-whether-the-first-is-greater-than-or-equal-to-the-second">&amp;gt;= - compare two bitsets to determine whether the first is greater than or equal to the second</a><ul>
+<li><a href="#status_25">Status</a></li>
+<li><a href="#description_24">Description</a></li>
+<li><a href="#syntax_25">Syntax</a></li>
+<li><a href="#class_25">Class</a></li>
+<li><a href="#arguments_19">Arguments</a></li>
+<li><a href="#result-value_9">Result value</a></li>
+<li><a href="#example_26">Example</a></li>
+</ul>
+</li>
+<li><a href="#gt-compare-two-bitsets-to-determine-whether-the-first-is-greater-than-the-other">&amp;gt; - compare two bitsets to determine whether the first is greater than the other</a><ul>
+<li><a href="#status_26">Status</a></li>
+<li><a href="#description_25">Description</a></li>
+<li><a href="#syntax_26">Syntax</a></li>
+<li><a href="#class_26">Class</a></li>
+<li><a href="#arguments_20">Arguments</a></li>
+<li><a href="#result-value_10">Result value</a></li>
+<li><a href="#example_27">Example</a></li>
+</ul>
+</li>
+<li><a href="#lt-compare-two-bitsets-to-determine-whether-the-first-is-less-than-or-equal-to-the-other">&amp;lt;= - compare two bitsets to determine whether the first is less than or equal to the other</a><ul>
+<li><a href="#status_27">Status</a></li>
+<li><a href="#description_26">Description</a></li>
+<li><a href="#syntax_27">Syntax</a></li>
+<li><a href="#class_27">Class</a></li>
+<li><a href="#arguments_21">Arguments</a></li>
+<li><a href="#result-value_11">Result value</a></li>
+<li><a href="#example_28">Example</a></li>
+</ul>
+</li>
+<li><a href="#lt-compare-two-bitsets-to-determine-whether-the-first-is-less-than-the-other">&amp;lt; - compare two bitsets to determine whether the first is less than the other</a><ul>
+<li><a href="#status_28">Status</a></li>
+<li><a href="#description_27">Description</a></li>
+<li><a href="#syntax_28">Syntax</a></li>
+<li><a href="#class_28">Class</a></li>
+<li><a href="#arguments_22">Arguments</a></li>
+<li><a href="#result-value_12">Result value</a></li>
+<li><a href="#example_29">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="introduction">Introduction</h2>
+<p>The <code>stdlib_bitsets</code> module implements bitset types. A bitset is a
+compact representation of a sequence of <code>bits</code> binary values. It can
+equivalently be considered as a sequence of logical values or as a
+subset of the integers 0 ... <code>bits-1</code>. For example, the value <code>1110</code>
+can be considered as defining the subset of integers [1, 2, 3].
+The bits are indexed from 0 to <code>bits(bitset)-1</code>.
+A bitset is used when space savings are critical in applications
+that require a large number of closely related logical values.
+It may also improve performance by reducing memory traffic. To
+implement bitsets the module
+defines three bitset types, multiple constants, a character string
+literal that can be read to and from strings and formatted files, a
+simple character string literal that can be read to and from strings,
+assignments, procedures, methods, and operators. Note that the module
+assumes two's complement integers, but all current Fortran 95 and later
+processors use such integers.</p>
+<p>Note that the module defines a number of "binary" procedures,
+procedures with two bitset arguments. These arguments must be of the
+same type and should have the same number of <code>bits</code>. For reasons of
+performance the module does not enforce the <code>bits</code> constraint, but
+failure to obey that constraint results in undefined behavior. This
+undefined behavior includes undefined values for those bits that
+exceed the defined number of <code>bits</code> in the smaller bitset. The
+undefined behavior may also include a "segmentation fault" for
+attempting to address bits in the smaller bitset, beyond the defined
+number of <code>bits</code>. Other problems are also possible.</p>
+<h2 id="the-modules-constants">The module's constants</h2>
+<p>The module defines several public integer constants, almost all
+intended to serve as error codes in reporting problems through an
+optional <code>stat</code> argument. One constant, <code>bits_kind</code> is
+the integer kind value for indexing bits and reporting counts of
+bits. The other constants that are error codes are summarized below:</p>
+<table>
+<thead>
+<tr>
+<th>Error Code</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>success</code></td>
+<td>No problems found</td>
+</tr>
+<tr>
+<td><code>alloc_fault</code></td>
+<td>Failure with a memory allocation</td>
+</tr>
+<tr>
+<td><code>array_size_invalid_error</code></td>
+<td>Attempt to define either negative bits or more than 64 bits in a <code>bitset_64</code></td>
+</tr>
+<tr>
+<td><code>char_string_invalid_error</code></td>
+<td>Invalid character found in a character string</td>
+</tr>
+<tr>
+<td><code>char_string_too_large_error</code></td>
+<td>Character string was too large to be encoded in the bitset</td>
+</tr>
+<tr>
+<td><code>char_string_too_small_error</code></td>
+<td>Character string was too small to hold the expected number of bits</td>
+</tr>
+<tr>
+<td><code>index_invalid_error</code></td>
+<td>Index to a bitstring was less than zero or greater than the number of bits</td>
+</tr>
+<tr>
+<td><code>integer_overflow_error</code></td>
+<td>Attempt to define an integer value bigger than <code>huge(0_bits_kind</code>)</td>
+</tr>
+<tr>
+<td><code>read_failure</code></td>
+<td>Failure on a <code>read</code> statement</td>
+</tr>
+<tr>
+<td><code>eof_failure</code></td>
+<td>An unexpected "End-of-File" on a <code>read</code> statement</td>
+</tr>
+<tr>
+<td><code>write_failure</code></td>
+<td>Failure on a <code>write</code> statement</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-stdlib_bitsets-derived-types">The <code>stdlib_bitsets</code> derived types</h2>
+<p>The <code>stdlib_bitsets</code> module defines three derived types,
+<code>bitset_type</code>, <code>bitset_64</code>, and <code>bitset_large</code>. <code>bitset_type</code> is an abstract
+type that serves as the ancestor of <code>bitset_64</code> and
+<code>bitset_large</code>. <code>bitset_type</code> defines one method, <code>bits</code>, and all of its
+other methods are deferred to its extensions. <code>bitset_64</code> is a bitset
+that can handle up to 64 bits. <code>bitset_large</code> is a bitset that can handle
+up <code>huge(0_bits_kind)</code> bits. All attributes of the bitset types are
+private. The various types each define a sequence of binary values: 0
+or 1. In some cases it is useful to associate a logical value, <code>test</code>,
+for each element of the sequence, where <code>test</code> is <code>.true.</code> if the value
+is 1 and <code>.false.</code> otherwise. The number of such values in an entity
+of that type is to be termed, <code>bits</code>. The bits are ordered in terms of
+position, that, in turn, is indexed from 0 to <code>bits-1</code>. <code>bitset_type</code> is
+used only as a <code>class</code> to define entities that can be either a <code>bitset_64</code> or
+a <code>bitset_large</code>. The syntax for using the types are:</p>
+<p><code>class(<a>stdlib_bitset</a>) :: variable</code></p>
+<p><code>type(<a>stdlib_bitset</a>) :: variable</code></p>
+<p>and</p>
+<p><code>type(<a>stdlib_bitset</a>) :: variable</code></p>
+<h2 id="the-bitset-literal">The <em>bitset-literal</em></h2>
+<p>A bitset value may be represented as a <em>bitset-literal-constant</em>
+character string in source code or as a <em>bitset-literal</em> in
+formatted files and non-constant strings.</p>
+<p><em>bitset-literal-constant</em> is ' <em>bitset-literal</em> '
+                          or " <em>bitset-literal</em> "</p>
+<p><em>bitset-literal</em> is <em>bitsize-literal</em> <em>binary-literal</em></p>
+<p><em>bitsize-literal</em> is S <em>digit</em> [ <em>digit</em> ] ...</p>
+<p><em>binary-literal</em> is B <em>binary-digit</em> [ <em>binary-digit</em> ] ...</p>
+<p><em>digit</em> is 0
+        or 1
+        or 2
+        or 3
+        or 4
+        or 5
+        or 6
+        or 7
+        or 8
+        or 9</p>
+<p><em>binary-digit</em> is 0
+               or 1</p>
+<p>The <em>bitset-literal</em> consists of two parts: a <em>bitsize-literal</em> and a
+<em>binary-literal</em>. The sequence of decimal digits that is part of the
+<em>bitsize-literal</em> is interpreted as the decimal value of <code>bits</code>.
+The <em>binary-literal</em> value is interpreted as a sequence of bit
+values and there must be as many binary digits in the literal as there
+are <code>bits</code>. The sequence of binary digits are treated as if they were
+an unsigned integer with the i-th digit corresponding to the <code>bits-i</code>
+bit position.</p>
+<h2 id="the-binary-literal">The <em>binary-literal</em></h2>
+<p>In defining the <em>bitset-literal</em> we also defined a
+<em>binary-literal</em>. While not suitable for file I/0, the
+<em>binary-literal</em> is suitable for transfer to and from character
+strings. In that case the length of the string is the number of bits
+and all characters in the string must be either "0" or "1".</p>
+<h2 id="summary-of-the-modules-operations">Summary of the module's operations</h2>
+<p>The <code>stdlib_bitsets</code> module defines a number of operations:
+* "unary" methods of class <code>bitset_type</code>,
+* "binary" procedure overloads of type <code>bitset_64</code> or <code>bitset_large</code>,
+* assignments, and
+* "binary" comparison operators of type <code>bitset_64</code> or <code>bitset_large</code>.</p>
+<p>Each category will be discussed separately.</p>
+<h3 id="table-of-the-bitset_type-methods">Table of the <code>bitset_type</code> methods</h3>
+<p>The <code>bitset_type</code> class has a number of methods. All except one, <code>bits</code>,
+are deferred. The methods consist of all procedures with one argument
+of class <code>bitset_type</code>. The procedures with two arguments of type
+<code>bitset_64</code> or <code>bitset_large</code> are not methods and are
+summarized in a separate table of procedures. The methods are
+summarized below:</p>
+<table>
+<thead>
+<tr>
+<th>Method name</th>
+<th>Class</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>all</code></td>
+<td>function</td>
+<td><code>.true.</code> if all bits are 1, <code>.false.</code> otherwise</td>
+</tr>
+<tr>
+<td><code>any</code></td>
+<td>function</td>
+<td><code>.true.</code> if any bits are 1, <code>.false.</code> otherwise</td>
+</tr>
+<tr>
+<td><code>bit_count</code></td>
+<td>function</td>
+<td>returns the number of bits that are 1</td>
+</tr>
+<tr>
+<td><code>bits</code></td>
+<td>function</td>
+<td>returns the number of bits in the bitset</td>
+</tr>
+<tr>
+<td><code>clear</code></td>
+<td>subroutine</td>
+<td>sets a sequence of one or more bits to 0</td>
+</tr>
+<tr>
+<td><code>flip</code></td>
+<td>subroutine</td>
+<td>flips the value of a sequence of one or more bits</td>
+</tr>
+<tr>
+<td><code>from_string</code></td>
+<td>subroutine</td>
+<td>reads the bitset from a string treating it as a binary literal</td>
+</tr>
+<tr>
+<td><code>init</code></td>
+<td>subroutine</td>
+<td>creates a new bitset of size <code>bits</code> with no bits set</td>
+</tr>
+<tr>
+<td><code>input</code></td>
+<td>subroutine</td>
+<td>reads a bitset from an unformatted I/O unit</td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>function</td>
+<td><code>.true.</code> if no bits are 1, <code>.false.</code> otherwise</td>
+</tr>
+<tr>
+<td><code>not</code></td>
+<td>subroutine</td>
+<td>performs a logical <code>not</code> operation on all the bits</td>
+</tr>
+<tr>
+<td><code>output</code></td>
+<td>subroutine</td>
+<td>writes a bitset to an unformatted I/O unit</td>
+</tr>
+<tr>
+<td><code>read_bitset</code></td>
+<td>subroutine</td>
+<td>reads a bitset from a bitset literal in a character string or formatted I/O unit</td>
+</tr>
+<tr>
+<td><code>set</code></td>
+<td>subroutine</td>
+<td>sets a sequence of one or more bits to 1</td>
+</tr>
+<tr>
+<td><code>test</code></td>
+<td>function</td>
+<td><code>.true.</code> if the bit at <code>pos</code> is 1, <code>.false.</code> otherwise</td>
+</tr>
+<tr>
+<td><code>to_string</code></td>
+<td>subroutine</td>
+<td>represents the bitset as a binary literal</td>
+</tr>
+<tr>
+<td><code>value</code></td>
+<td>function</td>
+<td>1 if the bit at <code>pos</code> is 1, 0 otherwise</td>
+</tr>
+<tr>
+<td><code>write_bitset</code></td>
+<td>subroutine</td>
+<td>writes a bitset as a bitset literal to a  character string or formatted I/O unit</td>
+</tr>
+</tbody>
+</table>
+<h3 id="table-of-the-non-member-procedure-overloads">Table of the non-member procedure overloads</h3>
+<p>The procedures with two arguments of type <code>bitset_large</code> or
+<code>bitset_64</code> must have both arguments of the same known type which
+prevents them from being methods. The bitwise "logical" procedures,
+<code>and</code>, <code>and_not</code>, <code>or</code>, and <code>xor</code>  also require that the two bitset
+arguments have the same number of bits, otherwise the results are
+undefined. These procedures are summarized in the following table:</p>
+<table>
+<thead>
+<tr>
+<th>Procedure name</th>
+<th>Class</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>and</code></td>
+<td>elemental subroutine</td>
+<td>Sets <code>self</code> to the bitwise <code>and</code> of the original bits in <code>self</code> and <code>set2</code></td>
+</tr>
+<tr>
+<td><code>and_not</code></td>
+<td>elemental subroutine</td>
+<td>Sets <code>self</code> to the bitwise <code>and</code> of the original bits in <code>self</code> and the negation of <code>set2</code></td>
+</tr>
+<tr>
+<td><code>extract</code></td>
+<td>subroutine</td>
+<td>creates a new bitset, <code>new</code>, from a range in <code>old</code></td>
+</tr>
+<tr>
+<td><code>or</code></td>
+<td>elemental subroutine</td>
+<td>Sets <code>self</code> to the bitwise <code>or</code> of the original bits in <code>self</code> and <code>set2</code></td>
+</tr>
+<tr>
+<td><code>xor</code></td>
+<td>elemental subroutine</td>
+<td>Sets <code>self</code> to the bitwise exclusive <code>or</code> of the original bits in <code>self</code> and <code>set2</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="assignments">Assignments</h3>
+<p>The module defines an assignment operation, <code>=</code>, that creates a
+duplicate of an original bitset. It also defines assignments to and
+from rank one arrays of logical type of kinds <code>int8</code>, <code>int16</code>,
+<code>int32</code>, and <code>int64</code>. In the assignment to and from logical arrays
+array index, <code>i</code>, is mapped to bit position, <code>pos=i-1</code>, and <code>.true.</code>
+is mapped to a set bit, and <code>.false.</code> is mapped to an unset bit.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_assignment</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="kt">logical</span><span class="p">(</span><span class="n">int8</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">logical1</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span>
+        <span class="kt">logical</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">logical2</span><span class="p">(:)</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span>
+        <span class="n">set0</span> <span class="o">=</span> <span class="n">logical1</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="n">bits</span><span class="p">()</span> <span class="o">/=</span> <span class="mi">64</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">error</span> <span class="k">stop procedure</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s1">&#39; initialization with logical(int8) failed to set&#39;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s1">&#39; the right size.&#39;</span>
+        <span class="k">else if</span> <span class="p">(</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">all</span><span class="p">()</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">error</span> <span class="k">stop procedure</span> <span class="o">//</span> <span class="s1">&#39; initialization with&#39;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s1">&#39; logical(int8) failed to set the right values.&#39;</span>
+        <span class="k">else</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Initialization with logical(int8) succeeded.&#39;</span>
+        <span class="k">end if</span>
+<span class="k">        </span><span class="n">set1</span> <span class="o">=</span> <span class="n">set0</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set1</span> <span class="o">==</span> <span class="n">set0</span> <span class="p">)</span> <span class="p">&amp;</span>
+            <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Initialization by assignment succeeded&#39;</span>
+        <span class="n">logical2</span> <span class="o">=</span> <span class="n">set1</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">all</span><span class="p">(</span> <span class="n">logical2</span> <span class="p">)</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Initialization of logical(int32) succeeded.&#39;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_assignment</span>
+</code></pre></div>
+
+
+<h3 id="table-of-the-non-member-comparison-operations">Table of the non-member comparison operations</h3>
+<p>The comparison operators with two arguments of type <code>bitset_large</code> or
+<code>bitset_64</code> must have both arguments of the same known type which
+prevents them from being methods. The operands must also have the same
+number of bits otherwise the results are undefined. These operators
+are summarized in the following table:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>==</code>, <code>.eq.</code></td>
+<td><code>.true.</code> if all bits in <code>set1</code> and <code>set2</code> have the same value, <code>.false.</code> otherwise</td>
+</tr>
+<tr>
+<td><code>/=</code>, <code>.ne.</code></td>
+<td><code>.true.</code> if any bits in <code>set1</code> and <code>set2</code> differ in value, <code>.false.</code> otherwise</td>
+</tr>
+<tr>
+<td><code>&gt;</code>, <code>.gt.</code></td>
+<td><code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> differ in value and the highest order differing bit is 1 in <code>set1</code> and 0 in <code>set2</code>, <code>.false.</code> otherwise</td>
+</tr>
+<tr>
+<td><code>&gt;=</code>, <code>.ge.</code></td>
+<td><code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> are the same or the highest order differing bit is 1 in <code>set1</code> and 0 in <code>set2</code>, <code>.false.</code> otherwise</td>
+</tr>
+<tr>
+<td><code>&lt;</code>, <code>.lt.</code></td>
+<td><code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> differ in value and the highest order differing bit is 0 in <code>set1</code> and 1 in <code>set2</code>, <code>.false.</code> otherwise</td>
+</tr>
+<tr>
+<td><code>&lt;=</code>, <code>.le.</code></td>
+<td><code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> are the same or the highest order differing bit is 0 in <code>set1</code> and 1 in <code>set2</code>, <code>.false.</code> otherwise</td>
+</tr>
+</tbody>
+</table>
+<h2 id="specification-of-the-stdlib_bitsets-methods-and-procedures">Specification of the <code>stdlib_bitsets</code> methods and procedures</h2>
+<h3 id="all-determine-whether-all-bits-are-set-in-self"><code>all</code> - determine whether all bits are set in <code>self</code>.</h3>
+<h4 id="status">Status</h4>
+<p>Experimental</p>
+<h4 id="description">Description</h4>
+<p>Determines whether all bits are set to 1 in <code>self</code>.</p>
+<h4 id="syntax">Syntax</h4>
+<p><code>result = self % [[bitset_type(class):all(bound)]]()</code></p>
+<h4 id="class">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument">Argument</h4>
+<p><code>self</code>: shall be a scalar expression of class <code>bitset_type</code>. It is an
+<code>intent(in)</code> argument.</p>
+<h4 id="result-value">Result value</h4>
+<p>The result is a default logical scalar.
+The result is <code>.true.</code> if all bits in <code>self</code> are set,
+otherwise it is <code>.false.</code>.</p>
+<h4 id="example_1">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_all</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="p">&amp;</span>
+            <span class="n">bits_all</span> <span class="o">=</span> <span class="s1">&#39;111111111111111111111111111111111&#39;</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">from_string</span><span class="p">(</span> <span class="n">bits_all</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">all</span><span class="p">()</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">error</span> <span class="k">stop</span> <span class="s2">&quot;FROM_STRING failed to interpret&quot;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s2">&quot;BITS_ALL&#39;s value properly.&quot;</span>
+        <span class="k">else</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;FROM_STRING transferred BITS_ALL properly&quot;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s2">&quot; into set0.&quot;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_all</span>
+</code></pre></div>
+
+
+<h4 id="and-bitwise-and-of-the-bits-of-two-bitsets"><code>and</code> - bitwise <code>and</code> of the bits of two bitsets.</h4>
+<h4 id="status_1">Status</h4>
+<p>Experimental</p>
+<h4 id="description_1">Description</h4>
+<p>Sets the bits in <code>set1</code> to the bitwise <code>and</code> of the original bits in
+<code>set1</code> and <code>set2</code>. Note that <code>set1</code> and <code>set2</code> must have the same
+number of bits, otherwise the result is undefined.</p>
+<h4 id="syntax_1">Syntax</h4>
+<p><code>call [[stdlib_bitsets(module):and(interface]] (set1, set2)</code></p>
+<h4 id="class_1">Class</h4>
+<p>Elemental subroutine.</p>
+<h4 id="arguments">Arguments</h4>
+<p><code>set1</code>: shall be a <code>bitset_64</code> or <code>bitset_large</code> scalar variable. It
+is an <code>intent(inout)</code> argument. On return the values of the bits in
+<code>set1</code> are the bitwise <code>and</code> of the original bits in <code>set1</code> with the
+corresponding bits in <code>set2</code>.</p>
+<p><code>set2</code>: shall be a scalar expression of the same type as <code>set1</code>. It is
+an <code>intent(in)</code> argument. Note that <code>set2</code> must also have the same
+number of bits as <code>set1</code>.</p>
+<h4 id="example_2">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_and</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">call </span><span class="nb">and</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! none none</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">none</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;First test of AND worked.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="nb">and</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! all none</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">none</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Second test of AND worked.&#39;</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="nb">and</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! none all</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">none</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Third test of AND worked.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="nb">and</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! all all</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">all</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Fourth test of AND worked.&#39;</span>
+    <span class="k">end program </span><span class="n">demo_and</span>
+</code></pre></div>
+
+
+<h3 id="and_not-bitwise-and-of-one-bitset-with-the-negation-of-another"><code>and_not</code> - Bitwise <code>and</code> of one bitset with the negation of another</h3>
+<h4 id="status_2">Status</h4>
+<p>Experimental</p>
+<h4 id="description_2">Description</h4>
+<p>Sets the bits of <code>set1</code> to bitwise <code>and</code> of the bits of <code>set1</code> with
+the bitwise negation of the corresponding bits of <code>set2</code>. Note that
+<code>set1</code> and <code>set2</code> must have the same number of bits, otherwise the
+result is undefined.</p>
+<h4 id="syntax_2">Syntax</h4>
+<p><code>call <a href="../../module/stdlib_bitsets.html#interface-and_not">and_not</a>(set1, set2)</code></p>
+<h4 id="class_2">Class</h4>
+<p>Elemental subroutine.</p>
+<h4 id="arguments_1">Arguments</h4>
+<p><code>set1</code>: shall be a scalar <code>bitset_64</code> or <code>bitset_large</code> variable. It
+is an <code>intent(inout)</code> argument. On return the values of the bits in
+<code>set1</code> are the bitwise <code>and</code> of the original bits in <code>set1</code> with the
+corresponding negation of the bits in <code>set2</code>.</p>
+<p><code>set2</code>: shall be a scalar expression of the same type as <code>set1</code>. It is
+an <code>intent(in)</code> argument. Note that it should also have the same
+number of bits as <code>set1</code>, otherwise the result is undefined.</p>
+<h4 id="example_3">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_and_not</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">and_not</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! none none</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">none</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;First test of AND_NOT worked.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="n">and_not</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! all none</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">all</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Second test of AND_NOT worked.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="n">and_not</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! none all</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">none</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Third test of AND_NOT worked.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="n">and_not</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! all all</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">none</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Fourth test of AND_NOT worked.&#39;</span>
+    <span class="k">end program </span><span class="n">demo_and_not</span>
+</code></pre></div>
+
+
+<h3 id="any-determine-whether-any-bits-are-set"><code>any</code> - determine whether any bits are set</h3>
+<h4 id="status_3">Status</h4>
+<p>Experimental</p>
+<h4 id="description_3">Description</h4>
+<p>Determines whether any bits are set in <code>self</code>.</p>
+<h4 id="syntax_3">Syntax</h4>
+<p><code>result = self % [[bitset_type(class):any(bound)]]()</code></p>
+<h4 id="class_3">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_1">Argument</h4>
+<p><code>self</code>: shall be a scalar expression of class <code>bitset_type</code>. It is an
+<code>intent(in)</code> argument.</p>
+<h4 id="result-value_1">Result value</h4>
+<p>The result is a default logical scalar. The result is <code>.true.</code> if any bits in <code>self</code> are set, otherwise it
+is <code>.false.</code>.</p>
+<h4 id="example_4">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_any</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="p">&amp;</span>
+            <span class="n">bits_0</span> <span class="o">=</span> <span class="s1">&#39;0000000000000000000&#39;</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">from_string</span><span class="p">(</span> <span class="n">bits_0</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="p">%</span> <span class="nb">any</span><span class="p">()</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;FROM_STRING interpreted &quot;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s2">&quot;BITS_0&#39;s value properly.&quot;</span>
+        <span class="k">end if</span>
+<span class="k">        call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="nb">any</span><span class="p">()</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;ANY interpreted SET0&#39;s value properly.&quot;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_any</span>
+</code></pre></div>
+
+
+<h3 id="bit_count-return-the-number-of-bits-that-are-set"><code>bit_count</code> - return the number of bits that are set</h3>
+<h4 id="status_4">Status</h4>
+<p>Experimental</p>
+<h4 id="description_4">Description</h4>
+<p>Returns the number of bits that are set to one in <code>self</code>.</p>
+<h4 id="syntax_4">Syntax</h4>
+<p><code>result = self % [[bitset_type(class):bit_count(bound)]] ()</code></p>
+<h4 id="class_4">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_2">Argument</h4>
+<p><code>self</code>: shall be a scalar expression of class <code>bitset_type</code>. It is an
+<code>intent(in)</code> argument.</p>
+<h4 id="result-value_2">Result value</h4>
+<p>The result is an integer scalar of kind <code>bits_kind</code>,
+equal to the number of bits that are set in <code>self</code>.</p>
+<h4 id="example_5">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_bit_count</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="p">&amp;</span>
+            <span class="n">bits_0</span> <span class="o">=</span> <span class="s1">&#39;0000000000000000000&#39;</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">from_string</span><span class="p">(</span> <span class="n">bits_0</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="n">bit_count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;FROM_STRING interpreted &quot;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s2">&quot;BITS_0&#39;s value properly.&quot;</span>
+        <span class="k">end if</span>
+<span class="k">        call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="n">bit_count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;BIT_COUNT interpreted SET0&#39;s value properly.&quot;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_bit_count</span>
+</code></pre></div>
+
+
+<h4 id="bits-returns-the-number-of-bits"><code>bits</code> - returns the number of bits</h4>
+<h4 id="status_5">Status</h4>
+<p>Experimental</p>
+<h4 id="description_5">Description</h4>
+<p>Reports the number of bits in <code>self</code>.</p>
+<h4 id="syntax_5">Syntax</h4>
+<p><code>result = self % [[bitset_type(class):bits(bound)]] ()</code></p>
+<h4 id="class_5">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_3">Argument</h4>
+<p><code>self</code>: shall be a scalar expression of class <code>bitset_type</code>. It is an
+<code>intent(in)</code> argument.</p>
+<h4 id="result-value_3">Result value</h4>
+<p>The result is an integer scalar of kind <code>bits_kind</code>, equal to
+the number of defined bits in <code>self</code>.</p>
+<h4 id="example_6">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_bits</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="p">&amp;</span>
+            <span class="n">bits_0</span> <span class="o">=</span> <span class="s1">&#39;0000000000000000000&#39;</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">from_string</span><span class="p">(</span> <span class="n">bits_0</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="n">bits</span><span class="p">()</span> <span class="o">==</span> <span class="mi">19</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;FROM_STRING interpreted &quot;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s2">&quot;BITS_0&#39;s size properly.&quot;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_bits</span>
+</code></pre></div>
+
+
+<h3 id="clear-clears-a-sequence-of-one-or-more-bits"><code>clear</code> - clears a sequence of one or more bits.</h3>
+<h4 id="status_6">Status</h4>
+<p>Experimental</p>
+<h4 id="description_6">Description</h4>
+<ul>
+<li>
+<p>If only <code>pos</code> is present, clears the bit with position <code>pos</code> in
+<code>self</code>.</p>
+</li>
+<li>
+<p>If <code>start_pos</code> and <code>end_pos</code> are present with <code>end_pos &gt;= start_pos</code>
+clears the bits with positions from <code>start_pos</code> to <code>end_pos</code> in <code>self</code>.</p>
+</li>
+<li>
+<p>if <code>start_pos</code> and <code>end_pos</code> are present with <code>end_pos &lt; start_pos</code>
+<code>self</code> is unmodified.</p>
+</li>
+</ul>
+<p>Note: Positions outside the range 0 to <code>bits(set) -1</code> are ignored.</p>
+<h4 id="syntax_6">Syntax</h4>
+<p>`call self % <a href="pos">[bitset_type(class):clear(bound)]</a>'</p>
+<p>or</p>
+<p><code>call self % [[bitset_type(class):clear(bound)]](start_pos, end_pos)</code></p>
+<h4 id="class_6">Class</h4>
+<p>Elemental subroutine</p>
+<h4 id="arguments_2">Arguments</h4>
+<p><code>self</code>: shall be a scalar variable of class <code>bitset_type</code>. It is an
+  <code>intent(inout)</code> argument.</p>
+<p><code>pos</code>: shall be a scalar integer expression of kind <code>bits_kind</code>. It is
+an <code>intent(in)</code> argument.</p>
+<p><code>start_pos</code>: shall be a scalar integer expression of kind
+<code>bits_kind</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>end_pos</code>: shall be a scalar integer expression of kind
+<code>bits_kind</code>. It is an <code>intent(in)</code> argument.</p>
+<h4 id="example_7">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_clear</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">all</span><span class="p">()</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;SET0 is properly initialized.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">clear</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="p">%</span> <span class="n">test</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Bit 165 is cleared.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">clear</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">164</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">none</span><span class="p">()</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;All bits are cleared.&#39;</span>
+    <span class="k">end program </span><span class="n">demo_clear</span>
+</code></pre></div>
+
+
+<h3 id="extract-create-a-new-bitset-from-a-range-in-an-old-bitset"><code>extract</code> - create a new bitset from a range in an old bitset</h3>
+<h4 id="status_7">Status</h4>
+<p>Experimental</p>
+<h4 id="description_7">Description</h4>
+<p>Creates a new bitset, <code>new</code>, from a range, <code>start_pos</code> to <code>stop_pos</code>,
+in bitset <code>old</code>. If <code>start_pos</code> is greater than <code>stop_pos</code> the new
+bitset is empty. If <code>start_pos</code> is less than zero or <code>stop_pos</code> is
+greater than <code>bits(old)-1</code> then if <code>status</code> is present it has the
+value <code>index_invalid_error</code>, otherwise processing stops with an
+informative message.</p>
+<h4 id="syntax_7">Syntax</h4>
+<p><code>call <a href="../../module/stdlib_bitsets.html#interface-extract">extract</a>(new, old, start_pos, stop_pos, status )</code></p>
+<h4 id="class_7">Class</h4>
+<p>Subroutine</p>
+<h4 id="arguments_3">Arguments</h4>
+<p><code>new</code>: shall be a scalar <code>bitset_64</code> or  <code>bitset_large</code> variable. It
+is an <code>intent(out)</code> argument. It will be the new bitset.</p>
+<p><code>old</code>: shall be a scalar expression of the same type as <code>new</code>. It is
+an <code>intent(in)</code> argument. It will be the source bitset.</p>
+<p><code>start_pos</code>: shall be a scalar integer expression of the kind
+<code>bits_kind</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>stop_pos</code>: shall be a scalar integer expression of the kind
+<code>bits_kind</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>status</code> (optional): shall be a scalar default integer variable. It is
+an <code>intent(out)</code> argument. If present it shall have one of the values:</p>
+<ul>
+<li>
+<p><code>success</code> - no problems found</p>
+</li>
+<li>
+<p><code>index_invalid_error</code> - <code>start_pos</code> was less than zero or <code>stop_pos</code>
+  was greater than <code>bits(old)-1</code>.</p>
+</li>
+</ul>
+<h4 id="example_8">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_extract</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">150</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">extract</span><span class="p">(</span> <span class="n">set1</span><span class="p">,</span> <span class="n">set0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set1</span> <span class="p">%</span> <span class="n">bits</span><span class="p">()</span> <span class="o">==</span> <span class="mi">51</span> <span class="p">)</span> <span class="p">&amp;</span>
+            <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;SET1 has the proper size.&#39;</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set1</span> <span class="p">%</span> <span class="k">all</span><span class="p">()</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;SET1 has the proper values.&#39;</span>
+    <span class="k">end program </span><span class="n">demo_extract</span>
+</code></pre></div>
+
+
+<h3 id="flip-flip-the-values-of-a-sequence-of-one-or-more-bits"><code>flip</code> - flip the values of a sequence of one or more bits</h3>
+<h4 id="status_8">Status</h4>
+<p>Experimental</p>
+<h4 id="description_8">Description</h4>
+<p>Flip the values of  a sequence of one or more bits.
+* If only <code>pos</code> is present flip the bit value with position <code>pos</code> in
+  <code>self</code>.
+* If <code>start_pos</code> and <code>end_pos</code> are present with <code>end_pos &gt;= start_pos</code>
+flip the bit values with positions from <code>start_pos</code> to <code>end_pos</code> in
+<code>self</code>.
+* If <code>end_pos &lt; start_pos</code> then <code>self</code> is unmodified.</p>
+<h4 id="syntax_8">Syntax</h4>
+<p><code>call self % [[bitset_type(class):flip(bound)]] (pos)</code></p>
+<p>or</p>
+<p><code>call self % [[bitset_type(class):flip(bound)]] (start_pos, end_pos)</code></p>
+<h4 id="class_8">Class</h4>
+<p>Elemental subroutine.</p>
+<h4 id="arguments_4">Arguments</h4>
+<p><code>self</code>: shall be a scalar class <code>bitset_type</code> variable It is an
+<code>intent(inout)</code> argument.</p>
+<p><code>pos</code>: shall be a scalar integer expression of kind <code>bits_kind</code>. It is
+an <code>intent(in)</code> argument.</p>
+<p><code>start_pos</code>: shall be a scalar integer expression of kind
+<code>bits_kind</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>end_pos</code>: shall be a scalar integer expression of kind
+<code>bits_kind</code>. It is an <code>intent(in)</code> argument.</p>
+<h4 id="example_9">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_flip</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">none</span><span class="p">()</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;SET0 is properly initialized.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">flip</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="n">test</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Bit 165 is flipped.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">flip</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">164</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">all</span><span class="p">()</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;All bits are flipped.&#39;</span>
+    <span class="k">end program </span><span class="n">demo_flip</span>
+</code></pre></div>
+
+
+<h3 id="from_string-initializes-a-bitset-from-a-binary-literal"><code>from_string</code> - initializes a bitset from a binary literal</h3>
+<h4 id="status_9">Status</h4>
+<p>Experimental</p>
+<h4 id="description_9">Description</h4>
+<p>Initializes the bitset <code>self</code> from <code>string</code>, treating <code>string</code> as a
+binary literal.</p>
+<h4 id="syntax_9">Syntax</h4>
+<p><code>call self % [[bitset_type(class):from_string(bound)]](string[, status])</code></p>
+<h4 id="class_9">Class</h4>
+<p>Subroutine</p>
+<h4 id="arguments_5">Arguments</h4>
+<p><code>self</code>: shall be a scalar class <code>bitset_type</code> variable. It is an
+<code>intent(out)</code> argument.</p>
+<p><code>string</code>: shall be a scalar default character expression. It is an
+<code>intent(in)</code> argument. It shall consist only of the characters "0",
+and "1".</p>
+<p><code>status</code> (optional): shall be a scalar default integer variable. It is
+an <code>intent(out)</code> argument. If present, on return its value shall be
+one of the error codes defined in this module. If absent, and its
+value would not have been <code>success</code>, then processing will stop with an
+informative text as its stop code. It shall have one of the error
+codes:</p>
+<ul>
+<li>
+<p><code>success</code> - if no problems were found,</p>
+</li>
+<li>
+<p><code>alloc_fault</code> - if allocation of the bitset failed</p>
+</li>
+<li>
+<p><code>char_string_too_large_error</code> - if <code>string</code> was too large, or </p>
+</li>
+<li>
+<p><code>char_string_invalid_error</code> - if string had an invalid character.</p>
+</li>
+</ul>
+<h4 id="example_10">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_from_string</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="p">&amp;</span>
+            <span class="n">bits_all</span> <span class="o">=</span> <span class="s1">&#39;111111111111111111111111111111111&#39;</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">from_string</span><span class="p">(</span> <span class="n">bits_all</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">bits</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">33</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">error</span> <span class="k">stop</span> <span class="s2">&quot;FROM_STRING failed to interpret &quot;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s1">&#39;BITS_ALL&#39;</span><span class="n">s</span> <span class="n">size</span> <span class="n">properly</span><span class="p">.</span><span class="s2">&quot;</span>
+<span class="s2">        else if ( .not. set0 % all() ) then</span>
+<span class="s2">            error stop &quot;</span><span class="n">FROM_STRING</span> <span class="n">failed</span> <span class="n">to</span> <span class="n">interpret</span><span class="s2">&quot; // &amp;</span>
+<span class="s2">                &quot;</span><span class="n">BITS_ALL</span><span class="err">&#39;</span><span class="n">s</span> <span class="k">value </span><span class="n">properly</span><span class="p">.</span><span class="s2">&quot;</span>
+<span class="s2">        else</span>
+<span class="s2">            write(*,*) &quot;</span><span class="n">FROM_STRING</span> <span class="n">transferred</span> <span class="n">BITS_ALL</span> <span class="n">properly</span><span class="s2">&quot; // &amp;</span>
+<span class="s2">                &quot;</span> <span class="n">into</span> <span class="n">set0</span><span class="p">.</span><span class="err">&quot;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_from_string</span>
+</code></pre></div>
+
+
+<h3 id="init-bitset_type-initialization-routines"><code>init</code> - <code>bitset_type</code> initialization routines.</h3>
+<h4 id="status_10">Status</h4>
+<p>Experimental</p>
+<h4 id="description_10">Description</h4>
+<p><code>bitset_type</code> initialization routine.</p>
+<h4 id="syntax_10">Syntax</h4>
+<p><code>call <a href="../../module/stdlib_bitsets.html">stdlib_bitsets</a> (self, bits [, status])</code></p>
+<h4 id="class_10">Class</h4>
+<p>Subroutine.</p>
+<h4 id="arguments_6">Arguments</h4>
+<p><code>self</code>: shall be a scalar <code>bitset_64</code> or <code>bitset_large</code> variable. It
+is an <code>intent(out)</code> argument.</p>
+<p><code>bits</code> (optional): shall be a scalar integer expression of kind
+<code>bits_kind</code>. It is an <code>intent(in)</code> argument that if present
+specifies the number of bits in <code>set</code>. A negative value, or a value
+greater than 64 if <code>self</code> is of type <code>bitset_64</code>, is an error.</p>
+<p><code>status</code> (optional): shall be a scalar default integer variable. It is
+an <code>intent(out)</code> argument that, if present, returns an error code
+indicating any problem found in processing <code>init</code>, and if absent and
+an error was found result in stopping processing with an informative
+stop code. It can have any of the following error codes:</p>
+<ul>
+<li>
+<p><code>success</code> - no problem found</p>
+</li>
+<li>
+<p><code>alloc_fault</code> - <code>self</code> was of type <code>bitset_large</code> and memory
+  allocation failed</p>
+</li>
+<li>
+<p><code>array_size_invalid_error</code> - bits was present with either a negative
+  value, or a value greater than 64 when <code>self</code> was of type
+  <code>bitset_64</code>.</p>
+</li>
+</ul>
+<h4 id="example_11">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_init</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="n">bits</span><span class="p">()</span> <span class="o">==</span> <span class="mi">166</span> <span class="p">)</span> <span class="p">&amp;</span>
+            <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="err">`</span><span class="n">SET0</span> <span class="n">has</span> <span class="n">the</span> <span class="n">proper</span> <span class="n">size</span><span class="p">.</span><span class="s1">&#39;</span>
+<span class="s1">        if ( set0 % none() ) write(*,*) &#39;</span><span class="n">SET0</span> <span class="k">is </span><span class="n">properly</span> <span class="n">initialized</span><span class="p">.</span><span class="err">&#39;</span>
+    <span class="k">end program </span><span class="n">demo_init</span>
+</code></pre></div>
+
+
+<h3 id="input-reads-a-bitset-from-an-unformatted-file"><code>input</code> - reads a bitset from an unformatted file</h3>
+<h4 id="status_11">Status</h4>
+<p>Experimental</p>
+<h4 id="description_11">Description</h4>
+<p>Reads a bitset from its binary representation in an unformatted
+file.</p>
+<h4 id="syntax_11">Syntax</h4>
+<p><code>call self % [[bitset_type(class):input(bound)]] (unit [, status])</code></p>
+<h4 id="class_11">Class</h4>
+<p>Subroutine</p>
+<h4 id="arguments_7">Arguments</h4>
+<p><code>self</code>: shall be a scalar variable of class <code>bitset_64</code> or
+<code>bitset_large</code>. It is an <code>intent(out)</code> argument.</p>
+<p><code>unit</code>: shall be a scalar default integer expression. It is an
+<code>intent(in)</code> argument. Its value must be that of a logical unit
+number for an open unformatted file with <code>read</code> or <code>readwrite</code>
+access positioned at the start of a bitset value written by a
+<code>bitset_type</code> <code>output</code> subroutine by the same processor.</p>
+<p><code>status</code> (optional): shall be a scalar default integer variable. If
+present its value shall be of one of the error codes defined in this
+module. If absent and it would have had a value other than <code>success</code>
+processing will stop with an informative stop code. Allowed error code
+values for this <code>status</code> are:</p>
+<ul>
+<li>
+<p><code>success</code> - no problem found</p>
+</li>
+<li>
+<p><code>alloc_fault</code> - <code>self</code> was of type <code>bitset_large</code> and allocation of
+  memory failed.</p>
+</li>
+<li>
+<p><code>array_size_invalid_error</code> - if the number of bits read from <code>unit</code>
+  is either negative or greater than 64, if class of <code>self</code> is
+  <code>bitset_64</code>.</p>
+</li>
+<li>
+<p><code>read_failure</code> - failure during a read statement</p>
+</li>
+</ul>
+<h4 id="example_12">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_input</span>
+        <span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="p">&amp;</span>
+            <span class="n">bits_0</span>   <span class="o">=</span> <span class="s1">&#39;000000000000000000000000000000000&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">bits_1</span>   <span class="o">=</span> <span class="s1">&#39;000000000000000000000000000000001&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">bits_33</span>  <span class="o">=</span> <span class="s1">&#39;100000000000000000000000000000000&#39;</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">unit</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span><span class="p">,</span> <span class="n">set2</span><span class="p">,</span> <span class="n">set3</span><span class="p">,</span> <span class="n">set4</span><span class="p">,</span> <span class="n">set5</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">from_string</span><span class="p">(</span> <span class="n">bits_0</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">from_string</span><span class="p">(</span> <span class="n">bits_1</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">from_string</span><span class="p">(</span> <span class="n">bits_33</span> <span class="p">)</span>
+        <span class="k">open</span><span class="p">(</span> <span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.bin&#39;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">form</span><span class="o">=</span><span class="s1">&#39;unformatted&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;write&#39;</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">output</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">output</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">output</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">close</span><span class="p">(</span> <span class="n">unit</span> <span class="p">)</span>
+        <span class="k">open</span><span class="p">(</span> <span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.bin&#39;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">form</span><span class="o">=</span><span class="s1">&#39;unformatted&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;read&#39;</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set5</span> <span class="p">%</span> <span class="n">input</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set4</span> <span class="p">%</span> <span class="n">input</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set3</span> <span class="p">%</span> <span class="n">input</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">close</span><span class="p">(</span> <span class="n">unit</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set3</span> <span class="o">/=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">set4</span> <span class="o">/=</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">set5</span> <span class="o">/=</span> <span class="n">set2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;Transfer to and from units using &#39;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s1">&#39; output and input failed.&#39;</span>
+        <span class="k">else</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Transfer to and from units using &#39;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s1">&#39;output and input succeeded.&#39;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_input</span>
+</code></pre></div>
+
+
+<h3 id="none-determines-whether-no-bits-are-set"><code>none</code> - determines whether no bits are set</h3>
+<h4 id="status_12">Status</h4>
+<p>Experimental</p>
+<h4 id="description_12">Description</h4>
+<p>Determines whether no bits are set in <code>self</code>.</p>
+<h4 id="syntax_12">Syntax</h4>
+<p><code>result = self % [[bitset_type(class):none(bound)]] ()</code></p>
+<h4 id="class_12">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_4">Argument</h4>
+<p><code>self</code>: shall be a scalar expression of class <code>bitset_type</code>. It is an
+  <code>intent(in)</code> argument.</p>
+<h4 id="result-value_4">Result value</h4>
+<p>The result is a default logical scalar.
+The result is <code>.true.</code> if no bits in <code>self</code> are set, otherwise it is
+<code>.false.</code>.</p>
+<h4 id="example_13">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_none</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="p">&amp;</span>
+            <span class="n">bits_0</span> <span class="o">=</span> <span class="s1">&#39;0000000000000000000&#39;</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">from_string</span><span class="p">(</span> <span class="n">bits_0</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">none</span><span class="p">()</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;FROM_STRING interpreted &quot;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s2">&quot;BITS_0&#39;s value properly.&quot;</span>
+        <span class="k">end if</span>
+<span class="k">        call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">none</span><span class="p">()</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;NONE interpreted SET0&#39;s value properly.&quot;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_none</span>
+</code></pre></div>
+
+
+<h3 id="not-performs-the-logical-complement-on-a-bitset"><code>not</code> - Performs the logical complement on a bitset</h3>
+<h4 id="status_13">Status</h4>
+<p>Experimental</p>
+<h4 id="description_13">Description</h4>
+<p>Performs the logical complement on the bits of <code>self</code>.</p>
+<h4 id="syntax_13">Syntax</h4>
+<p><code>call self % [[bitset_type(class):not(bound)]] ()</code></p>
+<h4 id="class_13">Class</h4>
+<p>Elemental subroutine.</p>
+<h4 id="argument_5">Argument</h4>
+<p><code>self</code> shall be a scalar variable of class <code>bitset_type</code>. It is an
+<code>intent(inout)</code> argument. On return its bits shall be the logical
+complement of their values on input.</p>
+<h4 id="example_14">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_not</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">155</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">none</span><span class="p">()</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;FROM_STRING interpreted &quot;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s2">&quot;BITS_0&#39;s value properly.&quot;</span>
+        <span class="k">end if</span>
+<span class="k">        call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">all</span><span class="p">()</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;ALL interpreted SET0&#39;s value properly.&quot;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_not</span>
+</code></pre></div>
+
+
+<h3 id="or-bitwise-or-of-the-bits-of-two-bitsets"><code>or</code> - Bitwise OR of the bits of two bitsets.</h3>
+<h4 id="status_14">Status</h4>
+<p>Experimental</p>
+<h4 id="description_14">Description</h4>
+<p>Replaces the original bits of <code>set1</code> with the bitwise <code>or</code> of those
+bits with the bits of <code>set2</code>. Note <code>set1</code> and <code>set2</code> must have the
+same number of bits, otherwise the result is undefined.</p>
+<h4 id="syntax_14">Syntax</h4>
+<p><code>call <a href="../../module/stdlib_bitsets.html#interface-or">or</a>(set1, set2)</code></p>
+<h4 id="class_14">Class</h4>
+<p>Elemental subroutine.</p>
+<h4 id="arguments_8">Arguments</h4>
+<p><code>set1</code>: shall be a scalar <code>bitset_64</code> or <code>bitset_large</code> variable. It
+is an <code>intent(inout)</code> argument. On return the values of the bits in
+<code>setf</code> are the bitwise <code>or</code> of the original bits in <code>set1</code> with the
+corresponding bits in <code>set2</code>.</p>
+<p><code>set2</code>: shall be a scalar expression of the same type as <code>set1</code>. It is
+an <code>intent(in)</code> argument. Note <code>bits(set2)</code> must equal <code>bits(set1)</code>
+otherwise the results are undefined.</p>
+<h4 id="example_15">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_or</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">call </span><span class="nb">or</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! none none</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">none</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;First test of OR worked.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="nb">or</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! all none</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">all</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Second test of OR worked.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="nb">or</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! none all</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">all</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Third test of OR worked.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="nb">or</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! all all</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">all</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Fourth test of OR worked.&#39;</span>
+    <span class="k">end program </span><span class="n">demo_or</span>
+</code></pre></div>
+
+
+<h3 id="output-writes-a-binary-representation-of-a-bitset-to-a-file"><code>output</code> - Writes a binary representation of a bitset to a file</h3>
+<h4 id="status_15">Status</h4>
+<p>Experimental</p>
+<h4 id="description_15">Description</h4>
+<p>Writes a binary representation of a bitset to an unformatted file.</p>
+<h4 id="syntax_15">Syntax</h4>
+<p><code>call self % [[bitset_type(class):output(bound)]] (unit[, status])</code></p>
+<h4 id="class_15">Class</h4>
+<p>Subroutine.</p>
+<h4 id="arguments_9">Arguments</h4>
+<p><code>self</code>: shall be a scalar expression of class <code>bitset_64</code> or
+<code>bitset_large</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>unit</code>: shall be a scalar default integer expression. It is an
+<code>intent(in)</code> argument. Its value must be that of an I/O unit number
+for an open unformatted file with <code>write</code> or <code>readwrite</code> access.</p>
+<p><code>status</code> (optional): shall be a scalar default integer variable. It is
+an <code>intent(out)</code> argument. If present on return it will have the value
+of <code>success</code> or <code>write_failure</code>. If absent and it would not have the
+value of <code>success</code> then processing will stop with an informative stop
+code. The two code values have the meaning:</p>
+<ul>
+<li>
+<p><code>success</code> - no problem found</p>
+</li>
+<li>
+<p><code>write_failure</code> - a failure occurred in a write statement.</p>
+</li>
+</ul>
+<h4 id="example_16">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_output</span>
+        <span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="p">&amp;</span>
+            <span class="n">bits_0</span>   <span class="o">=</span> <span class="s1">&#39;000000000000000000000000000000000&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">bits_1</span>   <span class="o">=</span> <span class="s1">&#39;000000000000000000000000000000001&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">bits_33</span>  <span class="o">=</span> <span class="s1">&#39;100000000000000000000000000000000&#39;</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">unit</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span><span class="p">,</span> <span class="n">set2</span><span class="p">,</span> <span class="n">set3</span><span class="p">,</span> <span class="n">set4</span><span class="p">,</span> <span class="n">set5</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">from_string</span><span class="p">(</span> <span class="n">bits_0</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">from_string</span><span class="p">(</span> <span class="n">bits_1</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">from_string</span><span class="p">(</span> <span class="n">bits_33</span> <span class="p">)</span>
+        <span class="k">open</span><span class="p">(</span> <span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.bin&#39;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">form</span><span class="o">=</span><span class="s1">&#39;unformatted&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;write&#39;</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">output</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">output</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">output</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">close</span><span class="p">(</span> <span class="n">unit</span> <span class="p">)</span>
+        <span class="k">open</span><span class="p">(</span> <span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.bin&#39;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">form</span><span class="o">=</span><span class="s1">&#39;unformatted&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;read&#39;</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set5</span> <span class="p">%</span> <span class="n">input</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set4</span> <span class="p">%</span> <span class="n">input</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set3</span> <span class="p">%</span> <span class="n">input</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">close</span><span class="p">(</span> <span class="n">unit</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set3</span> <span class="o">/=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">set4</span> <span class="o">/=</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">or</span><span class="p">.</span> <span class="n">set5</span> <span class="o">/=</span> <span class="n">set2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;Transfer to and from units using &#39;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s1">&#39; output and input failed.&#39;</span>
+        <span class="k">else</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Transfer to and from units using &#39;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s1">&#39;output and input succeeded.&#39;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_output</span>
+</code></pre></div>
+
+
+<h3 id="read_bitset-initializes-self-with-the-value-of-a-bitset_literal"><code>read_bitset</code> - initializes <code>self</code> with the value of a <em>bitset_literal</em></h3>
+<h4 id="status_16">Status</h4>
+<p>Experimental</p>
+<h4 id="description_16">Description</h4>
+<p>Reads a <em>bitset-literal</em> and initializes <code>self</code> with the corresponding
+value.</p>
+<h4 id="syntax_16">Syntax</h4>
+<p><code>call self % [[bitset_type(class):read_bitset(bound)]](string[, status])</code></p>
+<p>or</p>
+<p><code>call self % [[bitset_type(class):read_bitset(bound)]](unit[, advance, status])</code></p>
+<h4 id="class_16">Class</h4>
+<p>Subroutine</p>
+<h4 id="arguments_10">Arguments</h4>
+<p><code>self</code>: shall be a scalar variable of class <code>bitset_type</code>. It is an
+<code>intent(out)</code> argument. Upon a successful return it is initialized with
+the value of a <em>bitset-literal</em>.</p>
+<p><code>string</code> (optional): shall be a scalar default character
+expression. It is an <code>intent(in)</code> argument. It will consist of a left 
+justified <em>bitset-literal</em>, terminated by either the end of the string
+or a blank.</p>
+<p><code>unit</code> (optional): shall be a scalar default integer expression. It is
+an <code>intent(in)</code> argument. Its value must be that of an I/O unit number
+for an open formatted file with <code>read</code> or <code>readwrite</code> access
+positioned at the start of a <em>bitset-literal</em>.</p>
+<p><code>advance</code> (optional): shall be a scalar default character
+expression. It is an <code>intent(in)</code> argument. It is the <code>advance</code>
+specifier for the final read of <code>unit</code>. If present it should have
+the value <code>'yes'</code> or <code>'no'</code>. If absent it has the default value of
+<code>'yes'</code>.</p>
+<p><code>status</code> (optional): shall be a scalar default integer variable. It is
+an <code>intent(out)</code> argument. If present on return it shall have the
+value of one of the error codes of this module. If absent and it would
+not have had the value <code>success</code> processing will stop with a message
+as its error code. The possible error codes are:</p>
+<ul>
+<li>
+<p><code>success</code> - no problems found;</p>
+</li>
+<li>
+<p><code>alloc_fault</code> - if <code>self</code> is of class <code>bitset_large</code> and allocation
+  of the bits failed;</p>
+</li>
+<li>
+<p><code>array_size_invalid_error</code> - if the <em>bitset-literal</em> has a bits
+  value greater than 64 and <code>self</code> is of class <code>bitset_64</code>;</p>
+</li>
+<li>
+<p><code>char_string_invalid_error</code> - if the <code>bitset-literal</code> has an invalid
+  character;</p>
+</li>
+<li>
+<p><code>char_string_too_small_error</code> - if <code>string</code> ends before all the bits
+  are read;</p>
+</li>
+<li>
+<p><code>eof_failure</code> -  if a <code>read</code> statement reached an end-of-file before
+   completing the read of the bitset literal,</p>
+</li>
+<li>
+<p><code>integer_overflow_error</code> - if the <em>bitset-literal</em> has a <code>bits</code>
+  value larger than <code>huge(0_bits_kind)</code>; or</p>
+</li>
+<li>
+<p><code>read_failure</code> - if a read statement failed.</p>
+</li>
+</ul>
+<h4 id="example_17">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_read_bitset</span>
+        <span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="p">&amp;</span>
+            <span class="n">bits_0</span>   <span class="o">=</span> <span class="s1">&#39;S33B000000000000000000000000000000000&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">bits_1</span>   <span class="o">=</span> <span class="s1">&#39;S33B000000000000000000000000000000001&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">bits_33</span>  <span class="o">=</span> <span class="s1">&#39;S33B100000000000000000000000000000000&#39;</span>
+        <span class="kt">character</span><span class="p">(:),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">test_0</span><span class="p">,</span> <span class="n">test_1</span><span class="p">,</span> <span class="n">test_2</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">unit</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span><span class="p">,</span> <span class="n">set2</span><span class="p">,</span> <span class="n">set3</span><span class="p">,</span> <span class="n">set4</span><span class="p">,</span> <span class="n">set5</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">read_bitset</span><span class="p">(</span> <span class="n">bits_0</span><span class="p">,</span> <span class="n">status</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">read_bitset</span><span class="p">(</span> <span class="n">bits_1</span><span class="p">,</span> <span class="n">status</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">read_bitset</span><span class="p">(</span> <span class="n">bits_2</span><span class="p">,</span> <span class="n">status</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">write_bitset</span><span class="p">(</span> <span class="n">test_0</span><span class="p">,</span> <span class="n">status</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">write_bitset</span><span class="p">(</span> <span class="n">test_1</span><span class="p">,</span> <span class="n">status</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">write_bitset</span><span class="p">(</span> <span class="n">test_2</span><span class="p">,</span> <span class="n">status</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">bits_0</span> <span class="o">==</span> <span class="n">test_0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">bits_1</span> <span class="o">==</span> <span class="n">test_1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+            <span class="n">bits_2</span> <span class="o">==</span> <span class="n">test_2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;READ_BITSET to WRITE_BITSET strings worked.&#39;</span>
+        <span class="k">end if</span>
+<span class="k">        open</span><span class="p">(</span> <span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;write&#39;</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">write_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">write_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">write_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">close</span><span class="p">(</span> <span class="n">unit</span> <span class="p">)</span>
+        <span class="k">open</span><span class="p">(</span> <span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;read&#39;</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set3</span> <span class="p">%</span> <span class="n">read_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set4</span> <span class="p">%</span> <span class="n">read_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set5</span> <span class="p">%</span> <span class="n">read_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set3</span> <span class="o">==</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set4</span> <span class="o">==</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set5</span> <span class="o">==</span> <span class="n">set2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">WRITE_BITSET</span> <span class="n">to</span> <span class="n">READ_BITSET</span> <span class="n">through</span> <span class="n">unit</span> <span class="n">worked</span><span class="p">.</span><span class="err">&#39;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_read_bitset</span>
+</code></pre></div>
+
+
+<h3 id="set-sets-a-sequence-of-one-or-more-bits-to-1"><code>set</code> - sets a sequence of one or more bits to 1.</h3>
+<h4 id="status_17">Status</h4>
+<p>Experimental</p>
+<h4 id="description_17">Description</h4>
+<p>Sets a sequence of one or more bits in <code>self</code> to 1.</p>
+<ul>
+<li>
+<p>If <code>start_pos</code> and <code>end_pos</code> are absent sets the bit at position
+<code>pos</code> in <code>self</code> to 1.</p>
+</li>
+<li>
+<p>If <code>start_pos</code> and <code>end_pos</code> are present with <code>end_pos &gt;= start_pos</code>
+set the bits at positions from <code>start_pos</code> to <code>end_pos</code> in <code>self</code> to 1.</p>
+</li>
+<li>
+<p>If <code>start_pos</code> and <code>end_pos</code> are present with <code>end_pos &lt; start_pos</code>
+<code>self</code> is unchanged.</p>
+</li>
+<li>
+<p>Positions outside the range 0 to <code>bits(self)</code> are ignored.</p>
+</li>
+</ul>
+<h4 id="syntax_17">Syntax</h4>
+<p><code>call self % [[bitset_type(class):set(bound)]] (POS)</code></p>
+<p>or</p>
+<p><code>call self % [[bitset_type(class):set(bound)]] (START_POS, END_POS)</code></p>
+<h4 id="class_17">Class</h4>
+<p>Elemental subroutine</p>
+<h4 id="arguments_11">Arguments</h4>
+<p><code>self</code>: shall be a scalar variable of class <code>bitset_type</code>. It is an
+  <code>intent(inout)</code> argument.</p>
+<p><code>pos</code> (optional): shall be a scalar integer expression of kind
+<code>bits_kind</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>start_pos</code> (optional): shall be a scalar integer expression of kind
+<code>bits_kind</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>end_pos</code> (optional): shall be a scalar integer expression of kind
+<code>bits_kind</code>. It is an <code>intent(in)</code> argument.</p>
+<h4 id="example_18">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_set</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">none</span><span class="p">()</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;SET0 is properly initialized.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="n">test</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Bit 165 is set.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">164</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">all</span><span class="p">()</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;All bits are set.&#39;</span>
+    <span class="k">end program </span><span class="n">demo_set</span>
+</code></pre></div>
+
+
+<h3 id="test-determine-whether-a-bit-is-set"><code>test</code> - determine whether a bit is set</h3>
+<h4 id="status_18">Status</h4>
+<p>Experimental</p>
+<h4 id="descriptions">Descriptions</h4>
+<p>Determine whether the bit at position <code>pos</code> is set to 1 in <code>self</code>.</p>
+<h4 id="syntax_18">Syntax</h4>
+<p><code>result = self % [[bitset_type(class):test(bound)]](pos)</code></p>
+<h4 id="class_18">Class</h4>
+<p>Elemental function.</p>
+<h4 id="arguments_12">Arguments</h4>
+<p><code>self</code>: shall be a scalar expression of class <code>bitset_type</code>. It is an
+<code>intent(in)</code> argument.</p>
+<p><code>pos</code>: shall be a scalar integer expression of kind <code>bits_kind</code>. It is
+an <code>intent(in)</code> argument.</p>
+<h4 id="result-value_5">Result value</h4>
+<p>The result is a default logical scalar.
+The result is <code>.true.</code> if the bit at <code>pos</code> in <code>self</code> is set,
+otherwise it is <code>.false.</code>. If <code>pos</code> is outside the range
+<code>0... bits(self)-1</code> the result is <code>.false.</code>.</p>
+<h4 id="example_19">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_test</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">all</span><span class="p">()</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;SET0 is properly initialized.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">clear</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="p">%</span> <span class="n">test</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Bit 165 is cleared.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="n">test</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Bit 165 is set.&#39;</span>
+    <span class="k">end program </span><span class="n">demo_test</span>
+</code></pre></div>
+
+
+<h3 id="to_string-represent-a-bitset-as-a-binary-literal"><code>to_string</code> - represent a bitset as a binary literal</h3>
+<h3 id="status_19">Status</h3>
+<p>Experimental</p>
+<h4 id="description_18">Description</h4>
+<p>Represents the value of <code>self</code> as a binary literal in <code>string</code>.</p>
+<h4 id="syntax_19">Syntax</h4>
+<p><code>call self % [[bitset_type(class):to_string(bound)]](string[, status])</code></p>
+<h4 id="class_19">Class</h4>
+<p>Subroutine</p>
+<h4 id="arguments_13">Arguments</h4>
+<p><code>self</code>: shall be a scalar expression of class <code>bitset_type</code>. It is an
+<code>intent(in)</code> argument.</p>
+<p><code>string</code>: shall be a scalar default character variable of allocatable
+length. It is an <code>intent(out)</code> argument. On return it shall have a
+<em>binary-literal</em> representation of the bitset <code>self</code>.</p>
+<p><code>status</code> (optional): shall be a scalar default integer variable. It is
+an <code>intent(out)</code> argument. If present it shall have either the value
+<code>success</code> or <code>alloc_fault</code>. If absent and it would have had the value
+<code>alloc_fault</code> then processing will stop with an informative test as
+the stop code. The values have the following meanings:</p>
+<p><code>success</code> - no problem found.</p>
+<p><code>alloc_fault</code> - allocation of <code>string</code> failed.</p>
+<h4 id="example_20">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_to_string</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="p">&amp;</span>
+            <span class="n">bits_all</span> <span class="o">=</span> <span class="s1">&#39;111111111111111111111111111111111&#39;</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span>
+        <span class="kt">character</span><span class="p">(:),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">new_string</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">33</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">to_string</span><span class="p">(</span> <span class="n">new_string</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">new_string</span> <span class="o">==</span> <span class="n">bits_all</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;TO_STRING transferred BITS0 properly&quot;</span> <span class="o">//</span> <span class="p">&amp;</span>
+                <span class="s2">&quot; into NEW_STRING.&quot;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_to_string</span>
+</code></pre></div>
+
+
+<h3 id="value-determine-the-value-of-a-bit"><code>value</code> - determine the value of a bit</h3>
+<h4 id="status_20">Status</h4>
+<p>Experimental</p>
+<h4 id="description_19">Description</h4>
+<p>Determines the value of the bit at position, <code>pos</code>, in <code>self</code>.</p>
+<h4 id="syntax_20">Syntax</h4>
+<p><code>result = self % [[bitset_type(class):value(bound)]](pos)</code></p>
+<h4 id="class_20">Class</h4>
+<p>Elemental function.</p>
+<h4 id="arguments_14">Arguments</h4>
+<p><code>self</code>: shall be a scalar expression of class <code>bitset_type</code>. It is an
+<code>intent(in)</code> argument.</p>
+<p><code>pos</code>: shall be a scalar integer expression of kind <code>bits_kind</code>. It is
+an <code>intent(in)</code> argument.</p>
+<h4 id="result-value_6">Result value</h4>
+<p>The result is a default integer scalar.
+The result is one if the bit at <code>pos</code> in <code>self</code> is set, otherwise it
+is zero. If <code>pos</code> is outside the range <code>0... bits(set)-1</code> the result
+is zero.</p>
+<h4 id="example_21">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_value</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">all</span><span class="p">()</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;SET0 is properly initialized.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">clear</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">value</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Bit 165 is cleared.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="p">%</span> <span class="k">value</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Bit 165 is set.&#39;</span>
+    <span class="k">end program </span><span class="n">demo_value</span>
+</code></pre></div>
+
+
+<h3 id="write_bitset-writes-a-bitset-literal"><code>write_bitset</code> - writes a <em>bitset-literal</em></h3>
+<h4 id="status_21">Status</h4>
+<p>Experimental</p>
+<h4 id="description_20">Description</h4>
+<p>Writes a <em>bitset-literal</em> representing <code>self</code>'s current value to a
+character string or formatted file.</p>
+<h4 id="syntax_21">Syntax</h4>
+<p><code>call self % [[bitset_type(class):write_bitset(bound)]](string[, status])</code></p>
+<p>or</p>
+<p><code>call self % [[bitset_type(class):write_bitset(bound)]] (unit[, advance, status])</code></p>
+<h4 id="class_21">Class</h4>
+<p>Subroutine</p>
+<h4 id="arguments_15">Arguments</h4>
+<p><code>self</code>: shall be a scalar expression of class <code>bitset_type</code>. It is an
+<code>intent(in)</code> argument.</p>
+<p><code>string</code> (optional): shall be a scalar default character variable of
+allocatable length. It is an <code>intent(out)</code> argument.</p>
+<p><code>unit</code> (optional): shall be a scalar default logical expression. It is
+an <code>intent(in)</code> argument. Its value must be that of a I/O unit number
+for an open formatted file with <code>write</code> or <code>readwrite</code> access.</p>
+<p><code>advance</code> (optional): shall be a scalar default character
+expression. It is an <code>intent(in)</code> argument. It is the <code>advance</code> 
+specifier for the write to <code>unit</code>. If present it must have the value
+<code>'yes'</code> or <code>'no'</code>. It has the default value of <code>'yes'</code>.</p>
+<ul>
+<li>
+<p>if <code>advance</code> is not present or is present with a value of <code>'no'</code>
+  then the bitset's <em>bitset-literal</em> is written to <code>unit</code>
+  followed by a blank, and the current record is not advanced.</p>
+</li>
+<li>
+<p>If <code>advance</code> is present with a value of <code>'yes'</code> then the
+  bitset's <em>bitset-literal</em> is written to <code>unit</code> and the
+  record is immediately advanced.</p>
+</li>
+</ul>
+<p><code>status</code> (optional): shall be a scalar default integer variable. It is
+an <code>intent(out)</code> argument. If present on return it shall have the
+value of one of the module's error codes. If absent and a problem was
+found processing will stop with an informative stop code. It may have
+the following error code values:</p>
+<ul>
+<li>
+<p><code>success</code> - no problem was found</p>
+</li>
+<li>
+<p><code>alloc_fault</code> - allocation of the string failed</p>
+</li>
+<li>
+<p><code>write_failure</code> - the <code>write</code> to the <code>unit</code> failed</p>
+</li>
+</ul>
+<h4 id="example_22">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_write_bitset</span>
+        <span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="p">&amp;</span>
+            <span class="n">bits_0</span>   <span class="o">=</span> <span class="s1">&#39;S33B000000000000000000000000000000000&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">bits_1</span>   <span class="o">=</span> <span class="s1">&#39;S33B000000000000000000000000000000001&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">bits_33</span>  <span class="o">=</span> <span class="s1">&#39;S33B100000000000000000000000000000000&#39;</span>
+        <span class="kt">character</span><span class="p">(:),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">test_0</span><span class="p">,</span> <span class="n">test_1</span><span class="p">,</span> <span class="n">test_2</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">unit</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span><span class="p">,</span> <span class="n">set2</span><span class="p">,</span> <span class="n">set3</span><span class="p">,</span> <span class="n">set4</span><span class="p">,</span> <span class="n">set5</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">read_bitset</span><span class="p">(</span> <span class="n">bits_0</span><span class="p">,</span> <span class="n">status</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">read_bitset</span><span class="p">(</span> <span class="n">bits_1</span><span class="p">,</span> <span class="n">status</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">read_bitset</span><span class="p">(</span> <span class="n">bits_2</span><span class="p">,</span> <span class="n">status</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">write_bitset</span><span class="p">(</span> <span class="n">test_0</span><span class="p">,</span> <span class="n">status</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">write_bitset</span><span class="p">(</span> <span class="n">test_1</span><span class="p">,</span> <span class="n">status</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">write_bitset</span><span class="p">(</span> <span class="n">test_2</span><span class="p">,</span> <span class="n">status</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">bits_0</span> <span class="o">==</span> <span class="n">test_0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">bits_1</span> <span class="o">==</span> <span class="n">test_1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+            <span class="n">bits_2</span> <span class="o">==</span> <span class="n">test_2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;READ_BITSET to WRITE_BITSET strings worked.&#39;</span>
+        <span class="k">end if</span>
+<span class="k">        open</span><span class="p">(</span> <span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;write&#39;</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">write_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">write_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">write_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">close</span><span class="p">(</span> <span class="n">unit</span> <span class="p">)</span>
+        <span class="k">open</span><span class="p">(</span> <span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;read&#39;</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set3</span> <span class="p">%</span> <span class="n">read_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set4</span> <span class="p">%</span> <span class="n">read_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set5</span> <span class="p">%</span> <span class="n">read_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set3</span> <span class="o">==</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set4</span> <span class="o">==</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set5</span> <span class="o">==</span> <span class="n">set2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">WRITE_BITSET</span> <span class="n">to</span> <span class="n">READ_BITSET</span> <span class="n">through</span> <span class="n">unit</span> <span class="n">worked</span><span class="p">.</span><span class="err">&#39;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_write_bitset</span>
+</code></pre></div>
+
+
+<h3 id="xor-bitwise-exclusive-or"><code>xor</code> - bitwise exclusive <code>or</code></h3>
+<h4 id="status_22">Status</h4>
+<p>Experimental</p>
+<h4 id="description_21">Description</h4>
+<p>Replaces <code>set1</code>'s bitset with the bitwise exclusive <code>or</code> of the
+original bits of <code>set1</code> and <code>set2</code>. Note <code>set1</code> and <code>set2</code> must have
+the samee number of bits, otherwise the result is undefined.</p>
+<h4 id="syntax_22">Syntax</h4>
+<p><code>result = <a href="../../module/stdlib_bitsets.html#interface-xor">xor</a> (set1, set2)</code></p>
+<h4 id="class_22">Class</h4>
+<p>Elemental subroutine</p>
+<h4 id="arguments_16">Arguments</h4>
+<p><code>set1</code>: shall be a scalar <code>bitset_64</code> or <code>bitset_large</code> variable. It
+is an <code>intent(inout)</code> argument. On return the values of the bits in
+<code>set1</code> are the bitwise exclusive <code>or</code> of the original bits in <code>set1</code>
+with the corresponding bits in <code>set2</code>.</p>
+<p><code>set2</code> shall be a scalar expression of the same type as <code>set1</code>. It is
+  an <code>intent(in)</code> argument. Note <code>set1</code> and <code>set2</code> must have the
+samee number of bits, otherwise the result is undefined.</p>
+<h4 id="example_23">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_xor</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+        <span class="k">call </span><span class="nb">xor</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! none none</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">none</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;First test of XOR worked.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="nb">xor</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! all none</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">all</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Second test of XOR worked.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="nb">xor</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! none all</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">all</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Third test of XOR worked.&#39;</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="nb">not</span><span class="p">()</span>
+        <span class="k">call </span><span class="nb">xor</span><span class="p">(</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span> <span class="p">)</span> <span class="c">! all all</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="k">none</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span> <span class="p">)</span> <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Fourth test of XOR worked.&#39;</span>
+    <span class="k">end program </span><span class="n">demo_xor</span>
+</code></pre></div>
+
+
+<h2 id="specification-of-the-stdlib_bitsets-operators">Specification of the <code>stdlib_bitsets</code> operators</h2>
+<h3 id="-compare-two-bitsets-to-determine-whether-the-bits-have-the-same-value"><code>==</code> - compare two bitsets to determine whether the bits have the same value</h3>
+<h4 id="status_23">Status</h4>
+<p>Experimental</p>
+<h4 id="description_22">Description</h4>
+<p>Returns <code>.true.</code> if all bits in <code>set1</code> and <code>set2</code> have the same value,
+<code>.false.</code>  otherwise.</p>
+<h4 id="syntax_23">Syntax</h4>
+<p><code>result = set1 [[stdlib_bitsets(module):==(interface)]] set2</code></p>
+<p>or</p>
+<p><code>result = set1 [[stdlib_bitsets(module):.EQ.(interface)]] set2</code></p>
+<h4 id="class_23">Class</h4>
+<p>Elemental operator</p>
+<h4 id="arguments_17">Arguments</h4>
+<p><code>set1</code>: shall be a scalar <code>bitset_64</code> or <code>bitset_large</code> expression. It
+is an <code>intent(in)</code> argument.</p>
+<p><code>set2</code>: shall be a scalar expression of the same type as <code>self</code>. It
+will have the same number of bits as <code>set1</code>. It is an <code>intent(in)</code>
+argument.</p>
+<h4 id="result-value_7">Result value</h4>
+<p>The result is a default logical scalar.
+The result is <code>.true.</code> if the bits in both bitsets are set
+to the same value, otherwise the result is <code>.false.</code>.</p>
+<h4 id="example_24">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_equality</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span><span class="p">,</span> <span class="n">set2</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">0</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">32</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="o">==</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set1</span> <span class="o">==</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set2</span> <span class="o">==</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+            <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="o">==</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="o">==</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span>   <span class="p">&amp;</span>
+            <span class="n">set1</span> <span class="o">==</span> <span class="n">set2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Passed 64 bit equality tests.&#39;</span>
+        <span class="k">else</span>
+<span class="k">            </span><span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;Failed 64 bit equality tests.&#39;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_equality</span>
+</code></pre></div>
+
+
+<h3 id="-compare-two-bitsets-to-determine-whether-any-bits-differ-in-value"><code>/=</code> - compare two bitsets to determine whether any bits differ in value</h3>
+<h4 id="status_24">Status</h4>
+<p>Experimental</p>
+<h4 id="description_23">Description</h4>
+<p>Returns <code>.true.</code> if any bits in <code>self</code> and <code>set2</code> differ in value,
+<code>.false.</code>  otherwise.</p>
+<h4 id="syntax_24">Syntax</h4>
+<p><code>result = set1 [[stdlib_bitsets(module):/=(interface)]] set2</code></p>
+<p>or</p>
+<p><code>result = set1 [[stdlib_bitsets(module):.NE.(interface)]] set2</code></p>
+<h4 id="class_24">Class</h4>
+<p>Elemental function</p>
+<h4 id="arguments_18">Arguments</h4>
+<p><code>set1</code>: shall be a scalar <code>bitset_64</code> or <code>bitset_large</code> expression. It
+is an <code>intent(in)</code> argument.</p>
+<p><code>set2</code>: shall be a scalar expression of the same type as <code>self</code>. It
+will have the same number of bits as <code>set1</code>. It is an <code>intent(in)</code>
+argument.</p>
+<h4 id="result-value_8">Result value</h4>
+<p>The result is a default logical scalar.
+The result is <code>.true.</code> if any bits in both bitsets differ, otherwise
+the result is <code>.false.</code>.</p>
+<h4 id="example_25">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_inequality</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span><span class="p">,</span> <span class="n">set2</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">0</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">32</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="o">/=</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set0</span> <span class="o">/=</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set1</span> <span class="o">/=</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+            <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="o">/=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set1</span> <span class="o">/=</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span>   <span class="p">&amp;</span>
+            <span class="n">set2</span> <span class="o">/=</span> <span class="n">set2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Passed 64 bit inequality tests.&#39;</span>
+        <span class="k">else</span>
+<span class="k">            </span><span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;Failed 64 bit inequality tests.&#39;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_inequality</span>
+</code></pre></div>
+
+
+<h3 id="gt-compare-two-bitsets-to-determine-whether-the-first-is-greater-than-or-equal-to-the-second"><code>&gt;=</code> - compare two bitsets to determine whether the first is greater than or equal to the second</h3>
+<h4 id="status_25">Status</h4>
+<p>Experimental</p>
+<h4 id="description_24">Description</h4>
+<p>Returns <code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> are the same or the
+highest order different bit is set to 1 in <code>set1</code> and to 0 in <code>set2</code>,
+<code>.false.</code>.  otherwise. The sets must be the same size otherwise the
+results are undefined.</p>
+<h4 id="syntax_25">Syntax</h4>
+<p><code>result = set1 [[stdlib_bitsets(module):&gt;=(interface)]] set2</code></p>
+<p>or</p>
+<p><code>result = set1 [[stdlib_bitsets(module):.GE.(interface)]] set2</code></p>
+<h4 id="class_25">Class</h4>
+<p>Elemental operator</p>
+<h4 id="arguments_19">Arguments</h4>
+<p><code>set1</code>: shall be a scalar <code>bitset_64</code> or <code>bitset_large</code> expression. It
+is an <code>intent(in)</code> argument.</p>
+<p><code>set2</code>: shall be a scalar expression of the same type as <code>self</code>. It
+will have the same number of bits as <code>set1</code>. It is an <code>intent(in)</code>
+argument.</p>
+<h4 id="result-value_9">Result value</h4>
+<p>The result is a default logical scalar.
+The result is <code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> are the same
+or the highest order different bit is set to 1 in <code>set1</code> and to 0 in
+<code>set2</code>, <code>.false.</code>  otherwise.</p>
+<h4 id="example_26">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_ge</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span><span class="p">,</span> <span class="n">set2</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">0</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">32</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set1</span> <span class="o">&gt;=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set2</span> <span class="o">&gt;=</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set2</span> <span class="o">&gt;=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+            <span class="n">set0</span> <span class="o">&gt;=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set1</span> <span class="o">&gt;=</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set2</span> <span class="o">&gt;=</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+            <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="o">&gt;=</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="o">&gt;=</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span>   <span class="p">&amp;</span>
+            <span class="n">set1</span> <span class="o">&gt;=</span> <span class="n">set2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Passed 64 bit greater than or equals tests.&#39;</span>
+        <span class="k">else</span>
+<span class="k">            </span><span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;Failed 64 bit greater than or equals tests.&#39;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_ge</span>
+</code></pre></div>
+
+
+<h3 id="gt-compare-two-bitsets-to-determine-whether-the-first-is-greater-than-the-other"><code>&gt;</code> - compare two bitsets to determine whether the first is greater than the other</h3>
+<h4 id="status_26">Status</h4>
+<p>Experimental</p>
+<h4 id="description_25">Description</h4>
+<p>Returns <code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> differ and the
+highest order different bit is set to 1 in <code>set1</code> and to 0 in <code>set2</code>,
+<code>.false.</code> otherwise. The sets must be the same size otherwise the
+results are undefined.</p>
+<h4 id="syntax_26">Syntax</h4>
+<p><code>result = set1 [[stdlib_bitsets(module):&gt;(interface)]] set2</code></p>
+<p>or</p>
+<p><code>result = set1 [[stdlib_bitsets(module):.GT.(interface)]] set2</code></p>
+<h4 id="class_26">Class</h4>
+<p>Elemental operator</p>
+<h4 id="arguments_20">Arguments</h4>
+<p><code>set1</code>: shall be a scalar <code>bitset_64</code> or <code>bitset_large</code> expression. It
+is an <code>intent(in)</code> argument.</p>
+<p><code>set2</code>: shall be a scalar expression of the same type as <code>self</code>. It
+will have the same number of bits as <code>set1</code>. It is an <code>intent(in)</code>
+argument.</p>
+<h4 id="result-value_10">Result value</h4>
+<p>The result is a default logical scalar.
+The result is <code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> differ and the
+highest order different bit is set to 1 in <code>set1</code> and to 0 in <code>set2</code>,
+<code>.false.</code> otherwise.</p>
+<h4 id="example_27">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_gt</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span><span class="p">,</span> <span class="n">set2</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">0</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">32</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set1</span> <span class="o">&gt;</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set2</span> <span class="o">&gt;</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set2</span> <span class="o">&gt;</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+            <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="o">&gt;</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="o">&gt;</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span>   <span class="p">&amp;</span>
+            <span class="n">set1</span> <span class="o">&gt;</span> <span class="n">set2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Passed 64 bit greater than tests.&#39;</span>
+        <span class="k">else</span>
+<span class="k">            </span><span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;Failed 64 bit greater than tests.&#39;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_gt</span>
+</code></pre></div>
+
+
+<h3 id="lt-compare-two-bitsets-to-determine-whether-the-first-is-less-than-or-equal-to-the-other"><code>&lt;=</code> - compare two bitsets to determine whether the first is less than or equal to the other</h3>
+<h4 id="status_27">Status</h4>
+<p>Experimental</p>
+<h4 id="description_26">Description</h4>
+<p>Returns <code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> are the same or the
+highest order different bit is set to 0 in <code>set1</code> and to 1 in <code>set2</code>,
+<code>.false.</code> otherwise. The sets must be the same size otherwise the
+results are undefined.</p>
+<h4 id="syntax_27">Syntax</h4>
+<p><code>result = set1 [[stdlib_bitsets(module):&lt;=(interface)]] set2</code></p>
+<p>or</p>
+<p><code>result = set1 [[stdlib_bitsets(module):.LE.(interface)]] set2</code></p>
+<h4 id="class_27">Class</h4>
+<p>Elemental operator</p>
+<h4 id="arguments_21">Arguments</h4>
+<p><code>set1</code>: shall be a scalar <code>bitset_64</code> or <code>bitset_large</code> expression. It
+is an <code>intent(in)</code> argument.</p>
+<p><code>set2</code>: shall be a scalar expression of the same type as <code>self</code>. It
+will have the same number of bits as <code>set1</code>. It is an <code>intent(in)</code>
+argument.</p>
+<h4 id="result-value_11">Result value</h4>
+<p>The result is a default logical scalar.
+The result is <code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> are the same
+or the highest order different bit is set to 0 in <code>set1</code> and to 1 in
+<code>set2</code>, <code>.false.</code> otherwise.</p>
+<h4 id="example_28">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_le</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span><span class="p">,</span> <span class="n">set2</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">0</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">32</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="o">&lt;=</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set1</span> <span class="o">&lt;=</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set0</span> <span class="o">&lt;=</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+            <span class="n">set0</span> <span class="o">&lt;=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set1</span> <span class="o">&lt;=</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set2</span> <span class="o">&lt;=</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+            <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set1</span> <span class="o">&lt;=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set2</span> <span class="o">&lt;=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span>   <span class="p">&amp;</span>
+            <span class="n">set2</span> <span class="o">&lt;=</span> <span class="n">set1</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Passed 64 bit less than or equal tests.&#39;</span>
+        <span class="k">else</span>
+<span class="k">            </span><span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;Failed 64 bit less than or equal tests.&#39;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_le</span>
+</code></pre></div>
+
+
+<h3 id="lt-compare-two-bitsets-to-determine-whether-the-first-is-less-than-the-other"><code>&lt;</code> - compare two bitsets to determine whether the first is less than the other</h3>
+<h4 id="status_28">Status</h4>
+<p>Experimental</p>
+<h4 id="description_27">Description</h4>
+<p>Returns <code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> differ and the
+highest order different bit is set to 0 in <code>set1</code> and to 1 in <code>set2</code>,
+<code>.false.</code>  otherwise. The sets must be the same size otherwise the
+results are undefined.</p>
+<h4 id="syntax_28">Syntax</h4>
+<p><code>result = set1 [[stdlib_bitsets(module):&lt;(interface)]] set2</code></p>
+<p>or</p>
+<p>`result = set1 [[stdlib_bitsets(module):.LT.(interface)]] set2</p>
+<h4 id="class_28">Class</h4>
+<p>Elemental operator</p>
+<h4 id="arguments_22">Arguments</h4>
+<p><code>set1</code>: shall be a scalar <code>bitset_64</code> or <code>bitset_large</code> expression. It
+is an <code>intent(in)</code> argument.</p>
+<p><code>set2</code>: shall be a scalar expression of the same type as <code>self</code>. It
+will have the same number of bits as <code>set1</code>. It is an <code>intent(in)</code>
+argument.</p>
+<h4 id="result-value_12">Result value</h4>
+<p>The result is a default logical scalar.
+The result is <code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> differ and the
+highest order different bit is set to 0 in <code>set1</code> and to 1 in <code>set2</code>,
+<code>.false.</code> otherwise.</p>
+<h4 id="example_29">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_lt</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span><span class="p">,</span> <span class="n">set2</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">0</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">32</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="o">&lt;</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set1</span> <span class="o">&lt;</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set0</span> <span class="o">&lt;</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+            <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="o">&lt;</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set2</span> <span class="o">&lt;</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span>   <span class="p">&amp;</span>
+            <span class="n">set2</span> <span class="o">&lt;</span> <span class="n">set1</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Passed 64 bit less than tests.&#39;</span>
+        <span class="k">else</span>
+<span class="k">            </span><span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;Failed 64 bit less than tests.&#39;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_lt</span>
+</code></pre></div>
+    </div>
+    
+    <div class="col-md-3 col-md-pull-9">
+      <hr class="visible-xs visible-sm">
+        <div class="well toc">
+          <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../../page/index.html'>Contributing and specs</a></li>
+          </ul>
+          <hr>
+          <ul class="nav nav-stacked nav-pills">
+            
+            <li role="presentation">
+            <a href='../../page/./License.html'>Fortran stdlib License (MIT)</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/index.html'>Contributing</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../page/contributing/CodeOfConduct.html'>Contributor Code of Conduct</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/StyleGuide.html'>Style Guide</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/Workflow.html'>Workflow for Contributors</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/index.html'>Specifications (specs)</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation" class="disabled">
+            <a href='../../page/specs/stdlib_bitsets.html'>Bitsets</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_error.html'>error</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_io.html'>IO</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_linalg.html'>linalg</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_logger.html'>logger</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_optval.html'>optval</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_quadrature.html'>quadrature</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stats.html'>stats</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+          </ul>
+        </div>
+    </div>
+    
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+                                          <br /><small>37a1ed1</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-11-22 15:40  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>
