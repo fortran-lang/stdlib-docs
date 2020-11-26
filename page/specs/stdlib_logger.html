@@ -302,6 +302,11 @@ error flags returned by the optional integer <code>stat</code> argument.</p>
 <li>indent subsequent lines of the messages; and</li>
 <li>format the text to fit within a maximum column width.</li>
 </ul>
+<p>While every effort has been made to make the code process and
+asynchronous I/O safe, it is always best to have each process write to
+its own dedicated logger file.
+For thread parallelism (e.g., with OpenMP), it is advised to put the
+logger call in a guarding region (e.g., in an OpenMP critical region).</p>
 <p>Note: Loggers of type <code>logger_type</code> normally report their messages to I/O
 units in the internal list termed <code>log_units</code>. However if <code>log_units</code>
 is empty then the messages go to the <code>output_unit</code> of the intrinsic
@@ -382,16 +387,28 @@ significant events encountered during the execution of a program.</p>
 <td><code>.false.</code></td>
 </tr>
 <tr>
+<td><code>buffer</code></td>
+<td>Character(:)</td>
+<td>Buffer to build output string</td>
+<td>Unallocated</td>
+</tr>
+<tr>
 <td><code>indent_lines</code></td>
 <td>Logical</td>
 <td>Flag to indent subsequent lines by four columns</td>
 <td><code>.true.</code></td>
 </tr>
 <tr>
+<td><code>len_buffer</code></td>
+<td>Integer</td>
+<td>Number of valid characters in buffer</td>
+<td>0</td>
+</tr>
+<tr>
 <td><code>log_units</code></td>
 <td>Integer array</td>
 <td>List of I/O units used for output</td>
-<td>empty</td>
+<td>Unallocated</td>
 </tr>
 <tr>
 <td><code>max_width</code></td>
@@ -622,7 +639,7 @@ to <code>unit</code>.</p>
 <h4 id="class_2">Class</h4>
 <p>Pure subroutine</p>
 <h4 id="arguments_2">Arguments</h4>
-<p><code>self</code>: shall be a scalar variable of type <code>logger_type</code>. It is an
+<p><code>self</code>: shall be a scalar expression of type <code>logger_type</code>. It is an
 <code>intent(in)</code> argument. It shall be the logger whose configuration is reported.</p>
 <p><code>add_blank_line</code> (optional): shall be a scalar default logical
   variable. It is an <code>intent(out)</code> argument. A value of <code>.true.</code>
@@ -718,10 +735,13 @@ if <code>stat</code> or <code>errmsg</code> are present they are written.</p>
 <h4 id="class_4">Class</h4>
 <p>Subroutine</p>
 <h4 id="arguments_4">Arguments</h4>
-<p><code>self</code>: shall be a scalar expression of type <code>logger_type</code>. It is an
-<code>intent(in)</code> argument. It is the logger used to send the message.</p>
+<p><code>self</code>: shall be a scalar variable of type <code>logger_type</code>. It is an
+<code>intent(inout)</code> argument. It is the logger used to send the message.</p>
 <p><code>message</code>: shall be a scalar default character expression. It is an
-  <code>intent(in)</code> argument.</p>
+<code>intent(in)</code> argument.</p>
+<ul>
+<li>Note <code>message</code> may have embedded new_line calls. </li>
+</ul>
 <p><code>module</code> (optional): shall be a scalar default character
   expression. It is an <code>intent(in)</code> argument. It should be the name of
   the module containing the <code>log_error</code> call.</p>
@@ -780,10 +800,13 @@ by <code>module</code> and <code>procedure</code> if present, and then
 <h4 id="class_5">Class</h4>
 <p>Subroutine</p>
 <h4 id="arguments_5">Arguments</h4>
-<p><code>self</code>: shall be a scalar expression of type <code>logger_type</code>. It is an
-<code>intent(in)</code> argument. It is the logger used to send the message.</p>
+<p><code>self</code>: shall be a scalar variable of type <code>logger_type</code>. It is an
+<code>intent(inout)</code> argument. It is the logger used to send the message.</p>
 <p><code>message</code>: shall be a scalar default character expression. It is an
   <code>intent(in)</code> argument.</p>
+<ul>
+<li>Note <code>message</code> may have embedded new_line calls. </li>
+</ul>
 <p><code>module</code> (optional): shall be a scalar default character
   expression. It is an <code>intent(in)</code> argument. It should be the name of
   the module containing the <code>log_information</code> call.</p>
@@ -833,10 +856,13 @@ written.</p>
 <h4 id="class_6">Class</h4>
 <p>Subroutine</p>
 <h4 id="arguments_6">Arguments</h4>
-<p><code>self</code>: shall be a scalar expression of type <code>logger_type</code>. It is an
-<code>intent(in)</code> argument. It is the logger used to send the message.</p>
+<p><code>self</code>: shall be a scalar variable of type <code>logger_type</code>. It is an
+<code>intent(inout)</code> argument. It is the logger used to send the message.</p>
 <p><code>message</code>: shall be a scalar default character expression. It is an
   <code>intent(in)</code> argument.</p>
+<ul>
+<li>Note <code>message</code> may have embedded new_line calls. </li>
+</ul>
 <p><code>module</code> (optional): shall be a scalar default character
   expression. It is an <code>intent(in)</code> argument. It should be the name of
   the module containing the <code>log_io_error</code> call.</p>
@@ -890,10 +916,13 @@ followed by <code>prefix \\ ': '</code>, if present, and finally <code>message</
 <h4 id="class_7">Class</h4>
 <p>Subroutine</p>
 <h4 id="arguments_7">Arguments</h4>
-<p><code>self</code>: shall be a scalar expression of type <code>logger_type</code>. It is an
-<code>intent(in)</code> argument. It is the logger used to send the message.</p>
+<p><code>self</code>: shall be a scalar variable of type <code>logger_type</code>. It is an
+<code>intent(inout)</code> argument. It is the logger used to send the message.</p>
 <p><code>message</code>: shall be a scalar default character expression. It is an
   <code>intent(in)</code> argument.</p>
+<ul>
+<li>Note <code>message</code> may have embedded new_line calls. </li>
+</ul>
 <p><code>module</code> (optional): shall be a scalar default character
   expression. It is an <code>intent(in)</code> argument. It should be the name of
   the module containing the <code>log_message</code> call.</p>
@@ -946,8 +975,8 @@ written below <code>line</code> at the column indicated by <code>column</code>. 
 <h4 id="class_8">Class</h4>
 <p>Subroutine</p>
 <h4 id="arguments_8">Arguments</h4>
-<p><code>self</code>: shall be a scalar expression of type <code>logger_type</code>. It is an
-<code>intent(in)</code> argument. It is the logger used to send the message.</p>
+<p><code>self</code>: shall be a scalar variable of type <code>logger_type</code>. It is an
+<code>intent(inout)</code> argument. It is the logger used to send the message.</p>
 <p><code>line</code>: shall be a scalar default character expression. It is an
   <code>intent(in)</code> argument. It should be the line of text in which the
   error was found.</p>
@@ -1056,10 +1085,13 @@ then <code>module</code> and <code>procedure</code> if present, then
 <h4 id="class_10">Class</h4>
 <p>Subroutine</p>
 <h4 id="arguments_9">Arguments</h4>
-<p><code>self</code>: shall be a scalar expression of type <code>logger_type</code>. It is an
-<code>intent(in)</code> argument. It is the logger used to send the message.</p>
+<p><code>self</code>: shall be a scalar variable of type <code>logger_type</code>. It is an
+<code>intent(inout)</code> argument. It is the logger used to send the message.</p>
 <p><code>message</code>: shall be a scalar default character expression. It is an
   <code>intent(in)</code> argument.</p>
+<ul>
+<li>Note <code>message</code> may have embedded new_line calls. </li>
+</ul>
 <p><code>module</code>: (optional) shall be a scalar default character
   expression. It is an <code>intent(in)</code> argument. It should be the name of
   the module containing the <code>log_warning</code> call.</p>
@@ -1104,7 +1136,7 @@ closed. If <code>unit</code> is not in <code>self % log_units</code> then nothin
 <h4 id="class_11">Class</h4>
 <p>Subroutine</p>
 <h4 id="arguments_10">Arguments</h4>
-<p><code>self</code>: shall be a scalar expression of type <code>logger_type</code>. It is an
+<p><code>self</code>: shall be a scalar variable of type <code>logger_type</code>. It is an
 <code>intent(inout)</code> argument. It is the logger whose <code>log_units</code> is to be
 modified.</p>
 <p><code>unit</code>: shall be a scalar default integer expression. It is an
@@ -1237,12 +1269,12 @@ modified.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>917adb9</small></p></div>
+                                          <br /><small>479f582</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2020-11-25 14:46  
+             on 2020-11-26 17:02  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>

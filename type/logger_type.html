@@ -130,7 +130,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p>21.4% of total for derived types.</p>Including implementation: 440 statements, 80.6% of total for derived types.">24 statements</a>
+    title="<p>22.8% of total for derived types.</p>Including implementation: 457 statements, 81.2% of total for derived types.">26 statements</a>
      </li> 
      
      
@@ -448,8 +448,8 @@ private subroutine add_log_file(self, filename, unit, action, position, status, 
  array. <code>action</code>, if present, is the <code>action</code> specifier of the <code>open</code>
  statement, and has the default value of <code>"write"</code>. <code>position</code>, if present,
  is the <code>position</code> specifier, and has the default value of <code>"REWIND"</code>.
- <code>status</code>, if present, is the <code>status</code> specifier of the <code>open</code> statement, and
- has the default value of <code>"REPLACE"</code>. <code>stat</code>, if present, has the value
+ <code>status</code>, if present, is the <code>status</code> specifier of the <code>open</code> statement,
+ and has the default value of <code>"REPLACE"</code>. <code>stat</code>, if present, has the value
  <code>success</code> if <code>filename</code> could be opened, <code>read_only_error</code> if <code>action</code> is
  <code>"read"</code>, and <code>open_failure</code> otherwise.
 (<a href="../page/specs/stdlib_logger.html#add_log_file-open-a-file-and-add-its-unit-to-self-log_units">Specification</a>)</p>
@@ -570,7 +570,8 @@ private subroutine add_log_file(self, filename, unit, action, position, status, 
   <td></td><td>::</td>
   <td><strong>stat</strong></td><td><p>The error status on exit with the possible values
  * <code>success</code> - no errors found
- * <code>Rrea_only_error</code> - file unopened as <code>action1 was</code>"read"<code>for an output file
+ * <code>read_only_error</code> - file unopened as <code>action1 was</code>"read"<code>for an output
+   file
  *</code>open_failure<code>- the</code>open` statement failed</p>
 <h5 id="example">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="err"> program main</span>
@@ -628,8 +629,8 @@ private subroutine add_log_unit(self, unit, stat)
 
 
 <p>Adds <code>unit</code> to the log file units in <code>log_units</code>. <code>unit</code> must be an <code>open</code>
- file, of <code>form</code> <code>"formatted"</code>, with <code>"sequential"</code> <code>access</code>, and an <code>action</code> of
- <code>"write"</code> or <code>"readwrite"</code>, otherwise either <code>stat</code>, if preseent, has a
+ file, of <code>form</code> <code>"formatted"</code>, with <code>"sequential"</code> <code>access</code>, and an <code>action</code>
+ of <code>"write"</code> or <code>"readwrite"</code>, otherwise either <code>stat</code>, if present, has a
  value other than <code>success</code> and <code>unit</code> is not entered into <code>log_units</code>,
  or, if <code>stat</code> is not presecn, processing stops.
 (<a href="../page/specs/stdlib_logger.html#add_log_unit-add-a-unit-to-the-array-self-log_units">Specification</a>)</p>
@@ -702,7 +703,7 @@ private subroutine add_log_unit(self, unit, stat)
 <span class="err">     integer :: iostat, unit, stat</span>
 <span class="err">     ...</span>
 <span class="err">     open( newunit=unit, &#39;error_log.txt&#39;, form=&#39;formatted&#39;, &amp;</span>
-<span class="err">           status=&#39;replace&#39;, position=&#39;rewind&#39;, err=999,  &amp;</span>
+<span class="err">           status=&#39;replace&#39;, position=&#39;rewind&#39;, err=999,    &amp;</span>
 <span class="err">           action=&#39;read&#39;, iostat=iostat, iomsg=iomsg )</span>
 <span class="err">     ...</span>
 <span class="err">     call global_logger % add_log_unit( unit, stat )</span>
@@ -1100,7 +1101,7 @@ private subroutine log_error(self, message, module, procedure, stat, errmsg)
 <tr>
   
   <td><span class="anchor" ></span>class(<a href='../type/logger_type.html'>logger_type</a>),</td>
-  <td>intent(in)</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1245,7 +1246,7 @@ private subroutine log_information(self, message, module, procedure)
 <tr>
   
   <td><span class="anchor" ></span>class(<a href='../type/logger_type.html'>logger_type</a>),</td>
-  <td>intent(in)</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1294,7 +1295,8 @@ private subroutine log_information(self, message, module, procedure)
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>procedure</strong></td><td><p>The name of the procedure contining the current invocation of <code>log_information</code></p></td>
+  <td><strong>procedure</strong></td><td><p>The name of the procedure contining the current invocation of
+ <code>log_information</code></p></td>
   
 </tr>
 
@@ -1360,7 +1362,7 @@ private subroutine log_io_error(self, message, module, procedure, iostat, iomsg)
 <tr>
   
   <td><span class="anchor" ></span>class(<a href='../type/logger_type.html'>logger_type</a>),</td>
-  <td>intent(in)</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1505,7 +1507,7 @@ private subroutine log_message(self, message, module, procedure, prefix)
 <tr>
   
   <td><span class="anchor" ></span>class(<a href='../type/logger_type.html'>logger_type</a>),</td>
-  <td>intent(in)</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1635,7 +1637,7 @@ private subroutine log_text_error(self, line, column, summary, filename, line_nu
 <tr>
   
   <td><span class="anchor" ></span>class(<a href='../type/logger_type.html'>logger_type</a>),</td>
-  <td>intent(in)</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1746,8 +1748,8 @@ private subroutine log_text_error(self, line, column, summary, filename, line_nu
   <td></td><td>::</td>
   <td><strong>stat</strong></td><td><p>Integer flag that an error has occurred. Has the value <code>success</code> if no
  error hass occurred, <code>index_invalid_error</code> if <code>column</code> is less than zero or
- greater than <code>len(line)</code>, and <code>write_failure</code> if any of the <code>write</code> statements
- has failed.</p></td>
+ greater than <code>len(line)</code>, and <code>write_failure</code> if any of the <code>write</code>
+ statements has failed.</p></td>
   
 </tr>
 
@@ -1867,7 +1869,8 @@ private subroutine log_warning(self, message, module, procedure)
 
 
 
-<p>Writes the string <code>message</code> to <code>self % log_units</code> with optional additional text.
+<p>Writes the string <code>message</code> to <code>self % log_units</code> with optional additional
+ text.
 (<a href="../page/specs/stdlib_logger.html#log_warning-write-the-string-message-to-log_units">Specification</a>)</p><a href="../proc/log_warning.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
@@ -1890,7 +1893,7 @@ private subroutine log_warning(self, message, module, procedure)
 <tr>
   
   <td><span class="anchor" ></span>class(<a href='../type/logger_type.html'>logger_type</a>),</td>
-  <td>intent(in)</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -1983,10 +1986,10 @@ private subroutine remove_log_unit(self, unit, close_unit, stat)
 
 <p>Remove the I/O unit from the self % log_units list. If <code>close_unit</code> is
  present and <code>.true.</code> then the corresponding file is closed. If <code>unit</code> is
- not in <code>log_units</code> then nothing is done. If <code>stat</code> is present it, by default,
- has the value <code>success</code>. If closing the <code>unit</code> fails, then if <code>stat</code> is
- present it has the value <code>close_failure</code>, otherwise processing stops
- with an informative message.
+ not in <code>log_units</code> then nothing is done. If <code>stat</code> is present it, by
+ default, has the value <code>success</code>. If closing the <code>unit</code> fails, then if
+ <code>stat</code> is present it has the value <code>close_failure</code>, otherwise processing
+ stops with an informative message.
 (<a href="../page/specs/stdlib_logger.html#remove_log_unit-remove-unit-from-self-log_units">Specification</a>)</p>
     
     <h4>Arguments</h4>
@@ -2107,12 +2110,14 @@ private subroutine remove_log_unit(self, unit, close_unit, stat)
         <span class="c">!! Public derived type ([Specification](../page/specs/stdlib_logger.html#the-derived-type-logger_type))</span>
         <span class="k">private</span>
 
-<span class="k">        </span><span class="kt">logical</span>              <span class="kd">::</span> <span class="n">add_blank_line</span> <span class="o">=</span> <span class="p">.</span><span class="n">false</span><span class="p">.</span>
-        <span class="kt">logical</span>              <span class="kd">::</span> <span class="n">indent_lines</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span>
-        <span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">log_units</span><span class="p">(:)</span>
-        <span class="kt">integer</span>              <span class="kd">::</span> <span class="n">max_width</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="kt">logical</span>              <span class="kd">::</span> <span class="n">time_stamp</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span>
-        <span class="kt">integer</span>              <span class="kd">::</span> <span class="n">units</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">        </span><span class="kt">logical</span>                   <span class="kd">::</span> <span class="n">add_blank_line</span> <span class="o">=</span> <span class="p">.</span><span class="n">false</span><span class="p">.</span>
+        <span class="kt">character</span><span class="p">(:),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">buffer</span>
+        <span class="kt">logical</span>                   <span class="kd">::</span> <span class="n">indent_lines</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span>
+        <span class="kt">integer</span>                   <span class="kd">::</span> <span class="n">len_buffer</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span>      <span class="kd">::</span> <span class="n">log_units</span><span class="p">(:)</span>
+        <span class="kt">integer</span>                   <span class="kd">::</span> <span class="n">max_width</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="kt">logical</span>                   <span class="kd">::</span> <span class="n">time_stamp</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span>
+        <span class="kt">integer</span>                   <span class="kd">::</span> <span class="n">units</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">contains</span>
 
@@ -2149,12 +2154,12 @@ private subroutine remove_log_unit(self, unit, close_unit, stat)
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>917adb9</small></p></div>
+                                          <br /><small>479f582</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2020-11-25 14:46  
+             on 2020-11-26 17:02  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
