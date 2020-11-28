@@ -123,6 +123,8 @@
      
      
      
+    <li><i class="fa fa-barcode"></i> experimental</li>
+    
     
     
      <li><i class="fa fa-list-ol"></i>
@@ -207,10 +209,33 @@
     
     <div class="col-md-9" id='text'>
       <h2>public interface operator(>=)</h2>
-   
+   <p>Returns <code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> are the same or the
+ highest order different bit is set to 1 in <code>set1</code> and to 0 in <code>set2</code>,
+ <code>.false.</code>  otherwise. The sets must have the same number of bits
+ otherwise the result is undefined.
+ (<a href="../page/specs/stdlib_bitsets.html#gt-compare-two-bitsets-to-determine-whether-the-first-is-greater-than-or-equal-to-the-second">Specification</a>)</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_ge</span>
+        <span class="k">use </span><span class="n">stdlib_bitsets</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span><span class="p">,</span> <span class="n">set2</span>
+        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">0</span> <span class="p">)</span>
+        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">32</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">set1</span> <span class="o">&gt;=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set2</span> <span class="o">&gt;=</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set2</span> <span class="o">&gt;=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+            <span class="n">set0</span> <span class="o">&gt;=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set1</span> <span class="o">&gt;=</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set2</span> <span class="o">&gt;=</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
+            <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="o">&gt;=</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set0</span> <span class="o">&gt;=</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span>   <span class="p">&amp;</span>
+            <span class="n">set1</span> <span class="o">&gt;=</span> <span class="n">set2</span> <span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Passed 64 bit greater than or equals tests.&#39;</span>
+        <span class="k">else</span>
+<span class="k">            </span><span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;Failed 64 bit greater than or equals tests.&#39;</span>
+        <span class="k">end if</span>
+<span class="k">    end program </span><span class="n">demo_ge</span>
+</code></pre></div>
      
      
-    
+    <br>
 
      <section class="visible-xs visible-sm hidden-md">
        
@@ -269,13 +294,6 @@ public elemental function ge_64(set1, set2) result(ge)
   <div class="panel-body">
        
     
-
-
-
-<p>Returns <code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> are the same or the
- highest order different bit is set to 1 in <code>set1</code> and to 0 in <code>set2</code>,
- <code>.false.</code>  otherwise. The sets must have the same number of bits
- otherwise the result is undefined.</p>
     
     <h4>Arguments</h4>
     
@@ -351,13 +369,6 @@ public elemental function ge_large(set1, set2) result(ge)
   <div class="panel-body">
        
     
-
-
-
-<p>Returns <code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> are the same or the
- highest order different bit is set to 1 in <code>set1</code> and to 0 in <code>set2</code>,
- <code>.false.</code>  otherwise. The sets must have the same number of bits
- otherwise the result is undefined.</p><a href="None" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -438,12 +449,12 @@ public elemental function ge_large(set1, set2) result(ge)
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>479f582</small></p></div>
+                                          <br /><small>e54f92a</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2020-11-26 17:02  
+             on 2020-11-28 12:34  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
