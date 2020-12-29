@@ -287,18 +287,19 @@
 </div>
 <h2 id="introduction">Introduction</h2>
 <p>This module defines a derived type, its methods, a variable, and
-constants to be used for the reporting of errors and other
-information. The derived type, <code>logger_type</code>, is to be used to define
-both global and local logger variables. The <code>logger_type</code> methods serve
-to configure the loggers and use the logger variables to report
-messages to a variable specific list of I/O units termed
-<code>log_units</code>. The variable, <code>global_logger</code>, of type <code>logger_type</code>, is
-intended to serve as the default global logger. The constants serve as
-error flags returned by the optional integer <code>stat</code> argument.</p>
+constants to be used for the reporting of errors, displaying messages,
+and other information. The derived type, <code>logger_type</code>, is to be used
+to define both global and local logger variables. The <code>logger_type</code>
+methods serve to configure the loggers and use the logger variables to
+report messages to a variable specific list of I/O units termed
+<code>log_units</code>. The variable, <code>global_logger</code>, of type <code>logger_type</code>,
+is intended to serve as the default global logger. The constants serve
+as error flags returned by the optional integer <code>stat</code> argument.</p>
 <p>The logger variables have the option to:</p>
 <ul>
 <li>change which units receive the log messages;</li>
 <li>report which units receive the log messages;</li>
+<li>select which types of messages are logged;</li>
 <li>precede messages by a blank line;</li>
 <li>precede messages by a time stamp of the form
   <code>yyyy-mm-dd hh:mm:ss.sss</code>;</li>
@@ -371,6 +372,16 @@ procedures. The constants, termed error codes, are as follows:</p>
 </tr>
 </tbody>
 </table>
+<p>The module also defines eight distinct public integer constants for
+selecting the messages that are logged. These constants, termed
+severity levels, are (sorted following their increasing order of
+severity): <code>all_level</code>, <code>debug_level</code>, <code>information_level</code>,
+<code>warning_level</code>, <code>error_level</code>, <code>io_error_level</code>, <code>text_error_level</code>,
+and <code>none_level</code>.
+All log messages with a level (e.g., <code>debug_level</code>) lower than a
+specified severity level (e.g., <code>information_level</code>) will be ignored.
+The levels <code>error_level</code> and <code>io_error_level</code> have the same severity.
+The default severity level is <code>information_level</code>.</p>
 <h2 id="the-derived-type-logger_type">The derived type: logger_type</h2>
 <h3 id="status">Status</h3>
 <p>Experimental</p>
@@ -401,6 +412,12 @@ significant events encountered during the execution of a program.</p>
 <td>Logical</td>
 <td>Flag to indent subsequent lines by four columns</td>
 <td><code>.true.</code></td>
+</tr>
+<tr>
+<td><code>level</code></td>
+<td>Integer</td>
+<td>Severity level</td>
+<td><code>information_level</code></td>
 </tr>
 <tr>
 <td><code>log_units</code></td>
@@ -638,7 +655,7 @@ to <code>unit</code>.</p>
 <h4 id="description_3">Description</h4>
 <p>Reports the configuration of a logger.</p>
 <h4 id="syntax_3">Syntax</h4>
-<p><code>call self % <a href="../../type/logger_type.html#boundprocedure-configuration">configuration</a>( [ add_blankline, indent, max_width, time_stamp, log_units ] )</code></p>
+<p><code>call self % <a href="../../type/logger_type.html#boundprocedure-configuration">configuration</a>( [ add_blankline, indent, level, max_width, time_stamp, log_units ] )</code></p>
 <h4 id="class_2">Class</h4>
 <p>Pure subroutine</p>
 <h4 id="arguments_2">Arguments</h4>
@@ -650,6 +667,9 @@ to <code>unit</code>.</p>
 <p><code>indent</code> (optional): shall be a scalar default logical variable. It
   is an <code>intent(out)</code> argument. A value of <code>.true.</code> indents subsequent
   lines by four spaces, and <code>.false.</code> otherwise.</p>
+<p><code>level</code> (optional): shall be a scalar default integer variable. It is an
+  <code>intent(out)</code> argument. The value corresponds to the severity level for
+  ignoring a message.</p>
 <p><code>max_width</code> (optional): shall be a scalar default integer
   variable. It is an <code>intent(out)</code> argument. A positive value bigger
   than four defines the maximum width of the output, otherwise there
@@ -692,7 +712,7 @@ to <code>unit</code>.</p>
 <h4 id="description_4">Description</h4>
 <p>Configures the logging process for self.</p>
 <h4 id="syntax_4">Syntax</h4>
-<p><code>call self % <a href="../../type/logger_type.html#boundprocedure-configure">configure</a>( [ add_blank_line, indent, max_width, time_stamp ] )</code></p>
+<p><code>call self % <a href="../../type/logger_type.html#boundprocedure-configure">configure</a>( [ add_blank_line, indent, level, max_width, time_stamp ] )</code></p>
 <h4 id="class_3">Class</h4>
 <p>Pure subroutine</p>
 <h4 id="arguments_3">Arguments</h4>
@@ -705,6 +725,9 @@ to <code>unit</code>.</p>
   expression. It is an <code>intent(in)</code> argument. Set to <code>.true.</code> to
   indent subsequent lines by four spaces, and to <code>.false.</code> to
   not indent.</p>
+<p><code>level</code> (optional): shall be a scalar default integer expression. It is
+  an <code>intent(in)</code> argument. Set the severity level for ignoring a log
+  message.</p>
 <p><code>max_width</code> (optional): shall be a scalar default integer
   expression. It is an <code>intent(in)</code> argument. Set to a positive value
   bigger than four to define the maximum width of the output,
@@ -734,6 +757,7 @@ to <code>unit</code>.</p>
 <p>If time stamps are active, a time stamp is written, followed
 by <code>module</code> and <code>procedure</code> if present, and then
 <code>message</code> is written with the prefix <code>'DEBUG: '</code>.</p>
+<p>It is ignored if the <code>level</code> of <code>self</code> is higher than <code>debug_level</code>.</p>
 <h4 id="class_4">Class</h4>
 <p>Subroutine</p>
 <h4 id="arguments_4">Arguments</h4>
@@ -788,6 +812,7 @@ by <code>module</code> and <code>procedure</code> if present, and then
 followed by <code>module</code> and <code>procedure</code> if present, then
 <code>message</code> is written with the prefix <code>'ERROR: '</code>, and then
 if <code>stat</code> or <code>errmsg</code> are present they are written.</p>
+<p>It is ignored if the <code>level</code> of <code>self</code> is higher than <code>error_level</code>.</p>
 <h4 id="class_5">Class</h4>
 <p>Subroutine</p>
 <h4 id="arguments_5">Arguments</h4>
@@ -853,6 +878,7 @@ if <code>stat</code> or <code>errmsg</code> are present they are written.</p>
 <p>If time stamps are active, a time stamp is written, followed
 by <code>module</code> and <code>procedure</code> if present, and then
 <code>message</code> is written with the prefix <code>'INFO: '</code>.</p>
+<p>It is ignored if the <code>level</code> of <code>self</code> is higher than <code>information_level</code>.</p>
 <h4 id="class_6">Class</h4>
 <p>Subroutine</p>
 <h4 id="arguments_6">Arguments</h4>
@@ -907,6 +933,7 @@ first. Then if <code>module</code> or <code>procedure</code> are present, they a
 written. Then <code>message</code> is written with the prefix
 <code>'I/O ERROR: '</code>. Then if <code>iostat</code> or <code>iomsg</code> are present they are
 written.</p>
+<p>It is ignored if the <code>level</code> of <code>self</code> is higher than <code>io_error_level</code>.</p>
 <h4 id="syntax_8">Syntax</h4>
 <p><code>call self % <a href="../../type/logger_type.html#boundprocedure-log_io_error">log_io_error</a>( message [, module, procedure, iostat, iomsg ] )</code></p>
 <h4 id="class_7">Class</h4>
@@ -967,6 +994,7 @@ written.</p>
 <p>If time stamps are active, a time stamp is written,
 then <code>module</code> and <code>procedure</code> are written if present,
 followed by <code>prefix \\ ': '</code>, if present, and finally <code>message</code>.</p>
+<p>No severity level is applied to <code>log_message</code>.</p>
 <h4 id="syntax_9">Syntax</h4>
 <p><code>call self % <a href="../../type/logger_type.html#boundprocedure-log_message">log_message</a>( message [, module, procedure, prefix ] )</code></p>
 <h4 id="class_8">Class</h4>
@@ -1026,6 +1054,7 @@ written. Then if <code>filename</code> or <code>line_number</code> are present t
 written with <code>column</code>. Then <code>line</code> is written. Then a caret, '^', is
 written below <code>line</code> at the column indicated by <code>column</code>. Then
 <code>summary</code> is written below the caret.</p>
+<p>It is ignored if the <code>level</code> of <code>self</code> is higher than <code>text_error_level</code>.</p>
 <h4 id="syntax_10">Syntax</h4>
 <p><code>call self % <a href="../../type/logger_type.html#boundprocedure-log_text_error">log_text_error</a>( line, column, summary [, filename, line_number, caret, stat ] )</code></p>
 <h4 id="class_9">Class</h4>
@@ -1325,12 +1354,12 @@ modified.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>3f4578f</small></p></div>
+                                          <br /><small>f84f059</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2020-12-29 07:33  
+             on 2020-12-29 07:37  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>

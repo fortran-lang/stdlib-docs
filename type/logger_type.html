@@ -130,7 +130,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p>22.1% of total for derived types.</p>Including implementation: 464 statements, 81.4% of total for derived types.">25 statements</a>
+    title="<p>22.8% of total for derived types.</p>Including implementation: 475 statements, 81.8% of total for derived types.">26 statements</a>
      </li> 
      
      
@@ -754,7 +754,7 @@ private subroutine add_log_unit(self, unit, stat)
           
     
     <h3>
-private pure subroutine configuration(self, add_blank_line, indent, max_width, time_stamp, log_units)
+private pure subroutine configuration(self, add_blank_line, indent, level, max_width, time_stamp, log_units)
     
     
    
@@ -769,12 +769,13 @@ private pure subroutine configuration(self, add_blank_line, indent, max_width, t
     starts with a blank line, and <code>.false.</code> implying no blank line.
  2. <code>indent</code> is a logical flag with <code>.true.</code> implying that subsequent columns
     will be indented 4 spaces and <code>.false.</code> implying no indentation.
- 3. <code>max_width</code> is the maximum number of columns of output text with
+ 3. <code>level</code> is the lowest level for printing a message
+ 4. <code>max_width</code> is the maximum number of columns of output text with
     <code>max_width</code> == 0 =&gt; no bounds on output width.
- 4. <code>time_stamp</code> is a logical flag with <code>.true.</code> implying that the output
+ 5. <code>time_stamp</code> is a logical flag with <code>.true.</code> implying that the output
     will have a time stamp, and <code>.false.</code> implying that there will be no
     time stamp.
- 5. <code>log_units</code> is an array of the I/O unit numbers to which log output
+ 6. <code>log_units</code> is an array of the I/O unit numbers to which log output
     will be written.
 (<a href="../page/specs/stdlib_logger.html#configuration-report-a-loggers-configuration">Specification</a>)</p>
     
@@ -833,6 +834,21 @@ private pure subroutine configuration(self, add_blank_line, indent, max_width, t
   
   <td></td><td>::</td>
   <td><strong>indent</strong></td><td><p>A logical flag to indent subsequent lines</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>level</strong></td><td><p>The minimum level for printing a message</p></td>
   
 </tr>
 
@@ -930,7 +946,7 @@ private pure subroutine configuration(self, add_blank_line, indent, max_width, t
           
     
     <h3>
-private pure subroutine configure(self, add_blank_line, indent, max_width, time_stamp)
+private pure subroutine configure(self, add_blank_line, indent, level, max_width, time_stamp)
     
     
    
@@ -947,10 +963,11 @@ private pure subroutine configure(self, add_blank_line, indent, max_width, time_
  2. <code>indent</code> is a logical flag with <code>.true.</code> implying that subsequent lines
     will be indented 4 spaces and <code>.false.</code> implying no indentation. <code>indent</code>
     has a startup value of <code>.true.</code>.
- 3. <code>max_width</code> is the maximum number of columns of output text with
+ 3. <code>level</code> is the lowest level for printing a message
+ 4. <code>max_width</code> is the maximum number of columns of output text with
     <code>max_width == 0</code> =&gt; no bounds on output width. <code>max_width</code> has a startup
     value of 0.
- 4. <code>time_stamp</code> is a logical flag with <code>.true.</code> implying that the output
+ 5. <code>time_stamp</code> is a logical flag with <code>.true.</code> implying that the output
     will have a time stamp, and <code>.false.</code> implying that there will be no
     time stamp. <code>time_stamp</code> has a startup value of <code>.true.</code>.
 (<a href="../page/specs/stdlib_logger.html#configure-configure-the-logging-process">Specification</a>)</p><a href="../proc/configure.html" class="pull-right"><emph>Read more&hellip;</emph></a>
@@ -1010,6 +1027,21 @@ private pure subroutine configure(self, add_blank_line, indent, max_width, time_
   
   <td></td><td>::</td>
   <td><strong>indent</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>level</strong></td><td></td>
   
 </tr>
 
@@ -1139,7 +1171,7 @@ private subroutine log_debug(self, message, module, procedure)
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>module</strong></td><td><p>The name of the module contining the current invocation of <code>log_information</code></p></td>
+  <td><strong>module</strong></td><td><p>The name of the module containing the current invocation of <code>log_information</code></p></td>
   
 </tr>
 
@@ -1154,7 +1186,7 @@ private subroutine log_debug(self, message, module, procedure)
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>procedure</strong></td><td><p>The name of the procedure contining the current invocation of
+  <td><strong>procedure</strong></td><td><p>The name of the procedure containing the current invocation of
  <code>log_information</code></p></td>
   
 </tr>
@@ -1255,7 +1287,7 @@ private subroutine log_error(self, message, module, procedure, stat, errmsg)
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>module</strong></td><td><p>The name of the module contining the current invocation of <code>log_error</code></p></td>
+  <td><strong>module</strong></td><td><p>The name of the module containing the current invocation of <code>log_error</code></p></td>
   
 </tr>
 
@@ -1270,7 +1302,7 @@ private subroutine log_error(self, message, module, procedure, stat, errmsg)
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>procedure</strong></td><td><p>The name of the procedure contining the current invocation of <code>log_error</code></p></td>
+  <td><strong>procedure</strong></td><td><p>The name of the procedure containing the current invocation of <code>log_error</code></p></td>
   
 </tr>
 
@@ -1400,7 +1432,7 @@ private subroutine log_information(self, message, module, procedure)
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>module</strong></td><td><p>The name of the module contining the current invocation of <code>log_information</code></p></td>
+  <td><strong>module</strong></td><td><p>The name of the module containing the current invocation of <code>log_information</code></p></td>
   
 </tr>
 
@@ -1415,7 +1447,7 @@ private subroutine log_information(self, message, module, procedure)
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>procedure</strong></td><td><p>The name of the procedure contining the current invocation of
+  <td><strong>procedure</strong></td><td><p>The name of the procedure containing the current invocation of
  <code>log_information</code></p></td>
   
 </tr>
@@ -1516,7 +1548,7 @@ private subroutine log_io_error(self, message, module, procedure, iostat, iomsg)
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>module</strong></td><td><p>The name of the module contining the current invocation of REPORT_ERROR</p></td>
+  <td><strong>module</strong></td><td><p>The name of the module containing the current invocation of REPORT_ERROR</p></td>
   
 </tr>
 
@@ -1531,7 +1563,7 @@ private subroutine log_io_error(self, message, module, procedure, iostat, iomsg)
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>procedure</strong></td><td><p>The name of the procedure contining the current invocation of REPORT_ERROR</p></td>
+  <td><strong>procedure</strong></td><td><p>The name of the procedure containing the current invocation of REPORT_ERROR</p></td>
   
 </tr>
 
@@ -1661,7 +1693,7 @@ private subroutine log_message(self, message, module, procedure, prefix)
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>module</strong></td><td><p>The name of the module contining the current invocation of <code>log_message</code></p></td>
+  <td><strong>module</strong></td><td><p>The name of the module containing the current invocation of <code>log_message</code></p></td>
   
 </tr>
 
@@ -1676,7 +1708,7 @@ private subroutine log_message(self, message, module, procedure, prefix)
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>procedure</strong></td><td><p>The name of the procedure contining the current invocation of <code>log_message</code></p></td>
+  <td><strong>procedure</strong></td><td><p>The name of the procedure containing the current invocation of <code>log_message</code></p></td>
   
 </tr>
 
@@ -2047,7 +2079,7 @@ private subroutine log_warning(self, message, module, procedure)
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>module</strong></td><td><p>The name of the module contining the current invocation of <code>log_warning</code></p></td>
+  <td><strong>module</strong></td><td><p>The name of the module containing the current invocation of <code>log_warning</code></p></td>
   
 </tr>
 
@@ -2062,7 +2094,7 @@ private subroutine log_warning(self, message, module, procedure)
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>procedure</strong></td><td><p>The name of the procedure contining the current invocation of <code>log_warning</code></p></td>
+  <td><strong>procedure</strong></td><td><p>The name of the procedure containing the current invocation of <code>log_warning</code></p></td>
   
 </tr>
 
@@ -2232,6 +2264,7 @@ private subroutine remove_log_unit(self, unit, close_unit, stat)
 
 <span class="k">        </span><span class="kt">logical</span>                   <span class="kd">::</span> <span class="n">add_blank_line</span> <span class="o">=</span> <span class="p">.</span><span class="n">false</span><span class="p">.</span>
         <span class="kt">logical</span>                   <span class="kd">::</span> <span class="n">indent_lines</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span>
+        <span class="kt">integer</span>                   <span class="kd">::</span> <span class="n">level</span> <span class="o">=</span> <span class="n">information_level</span>
         <span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span>      <span class="kd">::</span> <span class="n">log_units</span><span class="p">(:)</span>
         <span class="kt">integer</span>                   <span class="kd">::</span> <span class="n">max_width</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="kt">logical</span>                   <span class="kd">::</span> <span class="n">time_stamp</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span>
@@ -2273,12 +2306,12 @@ private subroutine remove_log_unit(self, unit, close_unit, stat)
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>3f4578f</small></p></div>
+                                          <br /><small>f84f059</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2020-12-29 07:33  
+             on 2020-12-29 07:37  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
