@@ -10,7 +10,7 @@
     <meta name="author" content="fortran-lang/stdlib contributors" >
     <link rel="icon" href="../../favicon.png">
 
-    <title>IO &ndash; Fortran-lang/stdlib</title>
+    <title>stats_distribution &ndash; Fortran-lang/stdlib</title>
 
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <link href="../../css/pygments.css" rel="stylesheet">
@@ -109,7 +109,7 @@
     <div class="container">
     
   <div class="row">
-    <h1>IO</h1>
+    <h1>stats_distribution</h1>
     <div class="row">
     <div class="col-lg-12">
     <div class="well well-sm" style="min-height: 40px;">
@@ -126,7 +126,7 @@
       
          <li><a href='../../page/specs/index.html'>Specifications (specs)</a></li>
       
-         <li class="active">IO</li>
+         <li class="active">stats_distribution</li>
       </ol>
     </div>
     </div>
@@ -135,11 +135,11 @@
   
   <div class="row">
     <div class="col-md-9 col-md-push-3" id='text'>
-      <h1 id="io">IO</h1>
+      <h1 id="statistical-distributions-pseudorandom-number-generator-module">Statistical Distributions -- Pseudorandom Number Generator Module</h1>
 <div class="toc">
 <ul>
-<li><a href="#io">IO</a><ul>
-<li><a href="#loadtxt-load-a-2d-array-from-a-text-file">loadtxt - load a 2D array from a text file</a><ul>
+<li><a href="#statistical-distributions-pseudorandom-number-generator-module">Statistical Distributions -- Pseudorandom Number Generator Module</a><ul>
+<li><a href="#random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudorandom-number-generator">random_seed - set or get a value of seed to the probability distribution pseudorandom number generator</a><ul>
 <li><a href="#status">Status</a></li>
 <li><a href="#description">Description</a></li>
 <li><a href="#syntax">Syntax</a></li>
@@ -148,7 +148,7 @@
 <li><a href="#example">Example</a></li>
 </ul>
 </li>
-<li><a href="#open-open-a-file">open - open a file</a><ul>
+<li><a href="#dist_rand-get-a-random-integer-with-specified-kind">dist_rand - Get a random integer with specified kind</a><ul>
 <li><a href="#status_1">Status</a></li>
 <li><a href="#description_1">Description</a></li>
 <li><a href="#syntax_1">Syntax</a></li>
@@ -157,125 +157,62 @@
 <li><a href="#example_1">Example</a></li>
 </ul>
 </li>
-<li><a href="#savetxt-save-a-2d-array-into-a-text-file">savetxt - save a 2D array into a text file</a><ul>
-<li><a href="#status_2">Status</a></li>
-<li><a href="#description_2">Description</a></li>
-<li><a href="#syntax_2">Syntax</a></li>
-<li><a href="#arguments_2">Arguments</a></li>
-<li><a href="#output">Output</a></li>
-<li><a href="#example_2">Example</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
 </div>
-<h2 id="loadtxt-load-a-2d-array-from-a-text-file"><code>loadtxt</code> - load a 2D array from a text file</h2>
+<h2 id="random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudorandom-number-generator"><code>random_seed</code> - set or get a value of seed to the probability distribution pseudorandom number generator</h2>
 <h3 id="status">Status</h3>
 <p>Experimental</p>
 <h3 id="description">Description</h3>
-<p>Loads a rank-2 <code>array</code> from a text file.</p>
+<p>Set or get the seed value before calling the probability distribution pseudorandom number generator for variates.</p>
 <h3 id="syntax">Syntax</h3>
-<p><code>call <a href="../../module/stdlib_io.html#interface-loadtxt">loadtxt</a>(filename, array)</code></p>
+<p><code>call <a href="../../module/stdlib_stats_distribution_prng.html#interface-random_seed">random_seed</a>(put, get)</code></p>
 <h3 id="arguments">Arguments</h3>
-<p><code>filename</code>: Shall be  a character expression containing the file name from which to load the rank-2 <code>array</code>.</p>
-<p><code>array</code>: Shall be an allocatable rank-2 array of type <code>real</code>, <code>complex</code> or <code>integer</code>.</p>
+<p><code>put</code>: argument has <code>intent(in)</code> and may be a scalar of type <code>integer</code>.</p>
+<p><code>get</code>: argument has <code>intent(out)</code> and is a scalar of type <code>integer</code>.</p>
 <h3 id="return-value">Return value</h3>
-<p>Returns an allocated rank-2 <code>array</code> with the content of <code>filename</code>.</p>
+<p>Return a scalar of type <code>integer</code>.</p>
 <h3 id="example">Example</h3>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_loadtxt</span>
-    <span class="k">use </span><span class="n">stdlib_io</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">loadtxt</span>
-    <span class="k">implicit none</span>
-<span class="k">    </span><span class="kt">real</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(:,:)</span>
-    <span class="k">call </span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;example.dat&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> 
-<span class="k">end program </span><span class="n">demo_loadtxt</span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_random_seed</span>
+    <span class="k">use </span><span class="n">stdlib_stats_distribution_PRNG</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="nb">random_seed</span>
+<span class="nb">    </span><span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">seed_put</span><span class="p">,</span> <span class="n">seed_get</span>
+
+    <span class="n">seed_put</span> <span class="o">=</span> <span class="mi">1234567</span>
+    <span class="k">call </span><span class="nb">random_seed</span><span class="p">(</span><span class="n">seed_put</span><span class="p">,</span> <span class="n">seed_get</span><span class="p">)</span>     <span class="c">! set and get current value of seed</span>
+<span class="k">end program </span><span class="n">demo_random_seed</span>
 </code></pre></div>
 
 
-<h2 id="open-open-a-file"><code>open</code> - open a file</h2>
+<h2 id="dist_rand-get-a-random-integer-with-specified-kind"><code>dist_rand</code> - Get a random integer with specified kind</h2>
 <h3 id="status_1">Status</h3>
 <p>Experimental</p>
 <h3 id="description_1">Description</h3>
-<p>Returns the unit number of a file opened to read, to write, or to read and write. The file might be a text file or a binary file. All files are opened using a streamed access.</p>
+<p>Generate an integer pseudorandom number in a specific range [-2^k, 2^k - 1] according to the input integer kind n. This pseudorandom number will be operated by bit opeartors instead of normal arithmetic operators.</p>
 <h3 id="syntax_1">Syntax</h3>
-<p><code>u = <a href="../../module/stdlib_io.html#proc-open">open</a>(filename [, mode] [, iostat])</code></p>
+<p><code>result = <a href="../../module/stdlib_stats_distribution_prng.html#interface-dist_rand">dist_rand</a>(n)</code></p>
 <h3 id="arguments_1">Arguments</h3>
-<p><code>filename</code>: Shall be a character expression containing the name of the file to open.</p>
-<p><code>mode</code> (optional): Shall be a character expression containing characters describing the way in which the file will be used. The available modes are:</p>
-<table>
-<thead>
-<tr>
-<th>Character</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>'r'</code></td>
-<td>open for reading (default)</td>
-</tr>
-<tr>
-<td><code>'w'</code></td>
-<td>open for writing, truncating the file first</td>
-</tr>
-<tr>
-<td><code>'x'</code></td>
-<td>open for exclusive creation, failing if the file already exists</td>
-</tr>
-<tr>
-<td><code>'a'</code></td>
-<td>open for writing, appending to the end of the file if it exists</td>
-</tr>
-<tr>
-<td><code>'+'</code></td>
-<td>open for updating (reading and writing)</td>
-</tr>
-<tr>
-<td><code>'b'</code></td>
-<td>binary mode</td>
-</tr>
-<tr>
-<td><code>'t'</code></td>
-<td>text mode (default)</td>
-</tr>
-</tbody>
-</table>
-<p>The default <code>mode</code> is <code>'rt'</code> (i.e. open for reading a text file). The <code>mode</code> may include one of the four different methods for opening a file (i.e., <code>'r'</code>, <code>'w'</code>, <code>'x'</code>, and <code>'a'</code>). These four methods can be associated with the character <code>'+'</code> to open the file for updating. In addition, it can be specified if the file should be handled as a binary file (<code>'b'</code>) or a text file (<code>'t'</code>).</p>
-<p><code>iostat</code> (optional): Shall be a scalar of type <code>integer</code> that receives the error status of <code>open</code>, if provided. If no error exists, <code>iostat</code> is zero.</p>
-<p><code>u</code>: Shall be a scalar of type <code>integer</code> that specifies the unit number associated with the file <code>filename</code>.</p>
+<p><code>n</code>: argument has <code>intent(in)</code> is a scalar of type <code>integer</code>.</p>
 <h3 id="return-value_1">Return value</h3>
-<p>The result is a scalar of type <code>integer</code>.</p>
+<p>Return a scalar of type <code>integer</code>.</p>
 <h3 id="example_1">Example</h3>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_open</span>
-    <span class="k">use </span><span class="n">stdlib_io</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="k">open</span>
-<span class="k">    implicit none</span>
-<span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">u</span>
-    <span class="n">u</span> <span class="o">=</span> <span class="k">open</span><span class="p">(</span><span class="s1">&#39;example.dat&#39;</span><span class="p">,</span> <span class="s1">&#39;wt&#39;</span><span class="p">)</span>
-    <span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="s1">&#39;This is an example for open&#39;</span>
-    <span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-<span class="k">end program </span><span class="n">demo_open</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_dist_rand</span>
+    <span class="k">use </span><span class="n">stdlib_stats_distribution_PRNG</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">dist_rand</span><span class="p">,</span> <span class="nb">random_seed</span>
+<span class="nb">    </span><span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">put</span><span class="p">,</span> <span class="n">get</span>
 
-
-<h2 id="savetxt-save-a-2d-array-into-a-text-file"><code>savetxt</code> - save a 2D array into a text file</h2>
-<h3 id="status_2">Status</h3>
-<p>Experimental</p>
-<h3 id="description_2">Description</h3>
-<p>Saves a rank-2 <code>array</code> into a text file.</p>
-<h3 id="syntax_2">Syntax</h3>
-<p><code>call <a href="../../module/stdlib_io.html#interface-savetxt">savetxt</a>(filename, array)</code></p>
-<h3 id="arguments_2">Arguments</h3>
-<p><code>filename</code>: Shall be  a character expression containing the name of the file that will contain the 2D <code>array</code>.</p>
-<p><code>array</code>: Shall be a rank-2 array of type <code>real</code>, <code>complex</code> or <code>integer</code>.</p>
-<h3 id="output">Output</h3>
-<p>Provides a text file called <code>filename</code> that contains the rank-2 <code>array</code>.</p>
-<h3 id="example_2">Example</h3>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_savetxt</span>
-    <span class="k">use </span><span class="n">stdlib_io</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">savetxt</span>
-    <span class="k">implicit none</span>
-<span class="k">    </span><span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">call </span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;example.dat&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> 
-<span class="k">end program </span><span class="n">demo_savetxt</span>
+    <span class="n">put</span> <span class="o">=</span> <span class="mi">135792468</span>
+    <span class="k">call </span><span class="nb">random_seed</span><span class="p">(</span><span class="n">put</span><span class="p">,</span> <span class="n">get</span><span class="p">)</span>     <span class="c">! set and get current value of seed</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">dist_rand</span><span class="p">(</span><span class="mi">1_int8</span><span class="p">)</span>     <span class="c">! random integer in [-2^7, 2^7 - 1]</span>
+<span class="c">! -90</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">dist_rand</span><span class="p">(</span><span class="mi">1_int16</span><span class="p">)</span>    <span class="c">! random integer in [-2^15, 2^15 - 1]</span>
+<span class="c">! -32725</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">dist_rand</span><span class="p">(</span><span class="mi">1_int32</span><span class="p">)</span>    <span class="c">! random integer in [-2^31, 2^31 - 1]</span>
+<span class="c">! -1601563881</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">dist_rand</span><span class="p">(</span><span class="mi">1_int64</span><span class="p">)</span>    <span class="c">! random integer in [-2^63, 2^63 - 1]</span>
+<span class="c">! 180977695517992208</span>
+<span class="k">end program </span><span class="n">demo_dist_rand</span>
 </code></pre></div>
     </div>
     
@@ -332,7 +269,7 @@
             
             </li>
             
-            <li role="presentation" class="disabled">
+            <li role="presentation">
             <a href='../../page/specs/stdlib_io.html'>IO</a>
             
             </li>
@@ -362,7 +299,7 @@
             
             </li>
             
-            <li role="presentation">
+            <li role="presentation" class="disabled">
             <a href='../../page/specs/stdlib_stats_distribution_PRNG.html'>stats_distribution</a>
             
             </li>
