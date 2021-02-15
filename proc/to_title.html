@@ -10,7 +10,7 @@
     <meta name="author" content="fortran-lang/stdlib contributors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>check &ndash; Fortran-lang/stdlib</title>
+    <title>to_title &ndash; Fortran-lang/stdlib</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -110,8 +110,8 @@
     
   
   <div class="row">
-    <h1>check
-      <small>Subroutine</small>
+    <h1>to_title
+      <small>Function</small>
     
     </h1>
     
@@ -123,31 +123,29 @@
      
      
      
-    <li><i class="fa fa-barcode"></i> experimental</li>
-    
     
     
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.4% of total for procedures.">14 statements</a>
+    title=" 0.5% of total for procedures.">18 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/stdlib_error.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/stdlib_ascii.f90"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/stdlib_error.f90.html'>stdlib_error.f90</a></li>
+     <li><a href='../sourcefile/stdlib_ascii.f90.html'>stdlib_ascii.f90</a></li>
     
-     <li><a href='../module/stdlib_error.html'>stdlib_error</a></li>
+     <li><a href='../module/stdlib_ascii.html'>stdlib_ascii</a></li>
     
   
-     <li class="active">check</li>
+     <li class="active">to_title</li>
   </ol>
 </div>
 </div>
@@ -175,7 +173,9 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../proc/check.html#variable-msg_default">msg_default</a>
+      <a class="list-group-item" href="../proc/to_title.html#variable-i~5">i</a>
+      
+      <a class="list-group-item" href="../proc/to_title.html#variable-n~3">n</a>
       
     </div>
   </div>
@@ -203,7 +203,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../proc/check.html#src">check</a>
+    <a class="list-group-item" href="../proc/to_title.html#src">to_title</a>
   </div>
 </div>
 
@@ -215,7 +215,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine check(condition, msg, code, warn)
+public pure function to_title(string) result(title_string)
     
     
    
@@ -225,46 +225,9 @@ public subroutine check(condition, msg, code, warn)
 
 
     
-    <p>Checks the value of a logical condition
- (<a href="../page/specs/stdlib_error.html#description">Specification</a>)</p>
-<h5 id="behavior">Behavior</h5>
-<p>If <code>condition == .false.</code> and:</p>
-<ul>
-<li>No other arguments are provided, it stops the program with the default
-     message and exit code <code>1</code>;</li>
-<li><code>msg</code> is provided, it prints the value of <code>msg</code>;</li>
-<li><code>code</code> is provided, it stops the program with the given exit code;</li>
-<li><code>warn</code> is provided and <code>.true.</code>, it doesn't stop the program and prints
-     the message.</li>
-</ul>
-<h5 id="examples">Examples</h5>
-<ul>
-<li>If <code>a /= 5</code>, stops the program with exit code <code>1</code>
-  and prints <code>Check failed.</code></li>
-</ul>
-<div class="codehilite"><pre><span></span><code>  <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)</span>
-</code></pre></div>
-
-
-<ul>
-<li>As above, but prints <code>a == 5 failed</code>.</li>
-</ul>
-<div class="codehilite"><pre><span></span><code>  <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">5</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="s1">&#39;a == 5 failed.&#39;</span><span class="p">)</span>
-</code></pre></div>
-
-
-<ul>
-<li>As above, but doesn't stop the program.</li>
-</ul>
-<div class="codehilite"><pre><span></span><code>  <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">5</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="s1">&#39;a == 5 failed.&#39;</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
-</code></pre></div>
-
-
-<ul>
-<li>As example #2, but stops the program with exit code <code>77</code></li>
-</ul>
-<div class="codehilite"><pre><span></span><code>  <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">5</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="s1">&#39;a == 5 failed.&#39;</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="mi">77</span><span class="p">)</span>
-</code></pre></div>
+    <p>Convert character variable to title case
+ (<a href="../page/specs/stdlib_ascii.html#to_title">Specification</a>)</p>
+<p>Version: experimental</p>
     
 
     <h3>Arguments</h3>
@@ -285,63 +248,27 @@ public subroutine check(condition, msg, code, warn)
   
 <tr>
   
-  <td><span class="anchor" id="variable-condition"></span>logical,</td>
+  <td><span class="anchor" id="variable-string~3"></span>character(len=*),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>condition</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-msg"></span>character(len=*),</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>msg</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-code"></span>integer,</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>code</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-warn"></span>logical,</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>warn</strong></td><td></td>
+  <td><strong>string</strong></td><td></td>
   
 </tr>
 
 </tbody>
 </table>
 
+    
+    
+    
+    
+    
+    
+    
+   <h3>Return Value <small><span class="anchor" id="variable-title_string"></span>character(len=len(string))
+  </small></h3>
     
     
     
@@ -358,32 +285,32 @@ public subroutine check(condition, msg, code, warn)
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.46.0 (20210118.1747)
  -->
-<!-- Title: proc~~check~~CallsGraph Pages: 1 -->
-<svg id="proccheckCallsGraph" width="152pt" height="32pt"
- viewBox="0.00 0.00 152.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~check~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>proc~~check~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 148,-28 148,4 -4,4"/>
-<!-- proc~check -->
-<g id="proc~~check~~CallsGraph_node1" class="node">
-<title>proc~check</title>
+<!-- Title: proc~~to_title~~CallsGraph Pages: 1 -->
+<svg id="procto_titleCallsGraph" width="171pt" height="32pt"
+ viewBox="0.00 0.00 171.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~to_title~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~to_title~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 167,-28 167,4 -4,4"/>
+<!-- proc~to_title -->
+<g id="proc~~to_title~~CallsGraph_node1" class="node">
+<title>proc~to_title</title>
 <polygon fill="none" stroke="black" points="54,-24 0,-24 0,0 54,0 54,-24"/>
-<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">check</text>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">to_title</text>
 </g>
-<!-- interface~optval -->
-<g id="proc~~check~~CallsGraph_node2" class="node">
-<title>interface~optval</title>
-<g id="a_proc~~check~~CallsGraph_node2"><a xlink:href=".././interface/optval.html" xlink:title="optval">
-<polygon fill="#a7506f" stroke="#a7506f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">optval</text>
+<!-- proc~is_alphanum -->
+<g id="proc~~to_title~~CallsGraph_node2" class="node">
+<title>proc~is_alphanum</title>
+<g id="a_proc~~to_title~~CallsGraph_node2"><a xlink:href=".././proc/is_alphanum.html" xlink:title="is_alphanum">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="163,-24 90,-24 90,0 163,0 163,-24"/>
+<text text-anchor="middle" x="126.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">is_alphanum</text>
 </a>
 </g>
 </g>
-<!-- proc~check&#45;&gt;interface~optval -->
-<g id="proc~~check~~CallsGraph_edge1" class="edge">
-<title>proc~check&#45;&gt;interface~optval</title>
-<path fill="none" stroke="#ff0000" d="M54.4,-12C62.39,-12 71.31,-12 79.82,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="79.92,-15.5 89.92,-12 79.92,-8.5 79.92,-15.5"/>
+<!-- proc~to_title&#45;&gt;proc~is_alphanum -->
+<g id="proc~~to_title~~CallsGraph_edge1" class="edge">
+<title>proc~to_title&#45;&gt;proc~is_alphanum</title>
+<path fill="none" stroke="#ff0000" d="M54.13,-12C61.99,-12 70.87,-12 79.62,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="79.77,-15.5 89.77,-12 79.77,-8.5 79.77,-15.5"/>
 </g>
 </g>
 </svg>
@@ -464,7 +391,9 @@ public subroutine check(condition, msg, code, warn)
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../proc/check.html#variable-msg_default">msg_default</a>
+      <a class="list-group-item" href="../proc/to_title.html#variable-i~5">i</a>
+      
+      <a class="list-group-item" href="../proc/to_title.html#variable-n~3">n</a>
       
     </div>
   </div>
@@ -492,7 +421,7 @@ public subroutine check(condition, msg, code, warn)
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../proc/check.html#src">check</a>
+    <a class="list-group-item" href="../proc/to_title.html#src">to_title</a>
   </div>
 </div>
 
@@ -522,11 +451,25 @@ public subroutine check(condition, msg, code, warn)
   
 <tr>
   
-  <td><span class="anchor" id="variable-msg_default"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-i~5"></span>integer,</td>
   
-  <td>public,</td>
-  <td>parameter</td><td>::</td>
-  <td><strong>msg_default</strong></td><td> =</td><td>'Check failed.'</td><td></td>
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>i</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-n~3"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td></td><td></td><td></td>
   
 </tr>
 
@@ -553,65 +496,27 @@ public subroutine check(condition, msg, code, warn)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">check</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">warn</span><span class="p">)</span>
-    <span class="c">!! version: experimental</span>
-    <span class="c">!!</span>
-    <span class="c">!! Checks the value of a logical condition</span>
-    <span class="c">!! ([Specification](../page/specs/stdlib_error.html#description))</span>
-    <span class="c">!!</span>
-    <span class="c">!!##### Behavior</span>
-    <span class="c">!!</span>
-    <span class="c">!! If `condition == .false.` and:</span>
-    <span class="c">!!</span>
-    <span class="c">!!   * No other arguments are provided, it stops the program with the default</span>
-    <span class="c">!!     message and exit code `1`;</span>
-    <span class="c">!!   * `msg` is provided, it prints the value of `msg`;</span>
-    <span class="c">!!   * `code` is provided, it stops the program with the given exit code;</span>
-    <span class="c">!!   * `warn` is provided and `.true.`, it doesn&#39;t stop the program and prints</span>
-    <span class="c">!!     the message.</span>
-    <span class="c">!!</span>
-    <span class="c">!!##### Examples</span>
-    <span class="c">!!</span>
-    <span class="c">!!* If `a /= 5`, stops the program with exit code `1`</span>
-    <span class="c">!!  and prints `Check failed.`</span>
-    <span class="c">!!``` fortran</span>
-    <span class="c">!!  call check(a == 5)</span>
-    <span class="c">!!```</span>
-    <span class="c">!!</span>
-    <span class="c">!!* As above, but prints `a == 5 failed`.</span>
-    <span class="c">!!``` fortran</span>
-    <span class="c">!!  call check(a == 5, msg=&#39;a == 5 failed.&#39;)</span>
-    <span class="c">!!```</span>
-    <span class="c">!!</span>
-    <span class="c">!!* As above, but doesn&#39;t stop the program.</span>
-    <span class="c">!!``` fortran</span>
-    <span class="c">!!  call check(a == 5, msg=&#39;a == 5 failed.&#39;, warn=.true.)</span>
-    <span class="c">!!```</span>
-    <span class="c">!!</span>
-    <span class="c">!!* As example #2, but stops the program with exit code `77`</span>
-    <span class="c">!!``` fortran</span>
-    <span class="c">!!  call check(a == 5, msg=&#39;a == 5 failed.&#39;, code=77)</span>
-    <span class="c">!!```</span>
+    <div class="highlight"><pre><span></span>    <span class="k">pure function </span><span class="n">to_title</span><span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">title_string</span><span class="p">)</span>
+        <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+        <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">))</span> <span class="kd">::</span> <span class="n">title_string</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span>
 
-    <span class="c">!</span>
-    <span class="c">! Arguments</span>
-    <span class="c">! ---------</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">is_alphanum</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)))</span> <span class="k">then</span>
+<span class="k">                </span><span class="n">title_string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">char_to_upper</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">))</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="k">exit</span>
+<span class="k">            else</span>
+<span class="k">                </span><span class="n">title_string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">end if</span>
+<span class="k">        end do</span>
 
-    <span class="kt">logical</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">condition</span>
-    <span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">optional</span> <span class="kd">::</span> <span class="n">msg</span>
-    <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">optional</span> <span class="kd">::</span> <span class="n">code</span>
-    <span class="kt">logical</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">optional</span> <span class="kd">::</span> <span class="n">warn</span>
-    <span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">msg_default</span> <span class="o">=</span> <span class="s1">&#39;Check failed.&#39;</span>
+<span class="k">        do </span><span class="n">i</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+            <span class="n">title_string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">char_to_lower</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">))</span>
+        <span class="k">end do</span>
 
-    <span class="k">if</span> <span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="n">condition</span><span class="p">)</span> <span class="k">then</span>
-<span class="k">        if</span> <span class="p">(</span><span class="n">optval</span><span class="p">(</span><span class="n">warn</span><span class="p">,</span> <span class="p">.</span><span class="n">false</span><span class="p">.))</span> <span class="k">then</span>
-<span class="k">            write</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">optval</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">msg_default</span><span class="p">)</span>
-        <span class="k">else</span>
-<span class="k">            call </span><span class="n">error_stop</span><span class="p">(</span><span class="n">optval</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">msg_default</span><span class="p">),</span> <span class="n">optval</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="k">end if</span>
-<span class="k">    end if</span>
-
-<span class="k">end subroutine </span><span class="n">check</span>
+<span class="k">    end function </span><span class="n">to_title</span>
 </pre></div>
 
     </section>
