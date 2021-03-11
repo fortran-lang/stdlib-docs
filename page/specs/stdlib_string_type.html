@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A community driven standard library for (modern) Fortran">
+    
+    <meta name="author" content="fortran-lang/stdlib contributors" >
+    <link rel="icon" href="../../favicon.png">
+
+    <title>string type &ndash; Fortran-lang/stdlib</title>
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/pygments.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/local.css" rel="stylesheet">
+    
+    <link  href="../../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../../js/jquery-2.1.3.min.js"></script>
+    <script src="../../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">Fortran-lang/stdlib </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../../page/index.html'>Contributing and specs</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../../lists/procedures.html">Procedures</a></li>
+        
+               
+            <li><a href="../../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/procedures.html">Procedures</a></li>
+
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  <div class="row">
+    <h1>string type</h1>
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="well well-sm" style="min-height: 40px;">
+      <ul class="list-inline" style="margin-bottom:0px; display:inline">
+         
+         
+<!--
+        
+-->
+      </ul>
+        <ol class="breadcrumb in-well">
+      
+         <li><a href='../../page/index.html'>Contributing and specs</a></li>
+      
+         <li><a href='../../page/specs/index.html'>Specifications (specs)</a></li>
+      
+         <li class="active">string type</li>
+      </ol>
+    </div>
+    </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-9 col-md-push-3" id='text'>
+      <h1 id="the-stdlib_string_type-module">The <code>stdlib_string_type</code> module</h1>
+<div class="toc">
+<ul>
+<li><a href="#the-stdlib_string_type-module">The stdlib_string_type module</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#derived-types-provided">Derived types provided</a><ul>
+<li><a href="#the-string_type-derived-type">The string_type derived type</a><ul>
+<li><a href="#status">Status</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#procedures-and-methods-provided">Procedures and methods provided</a><ul>
+<li><a href="#constructor-for-empty-string">Constructor for empty string</a><ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#syntax">Syntax</a></li>
+<li><a href="#status_1">Status</a></li>
+<li><a href="#class">Class</a></li>
+<li><a href="#argument">Argument</a></li>
+<li><a href="#result-value">Result value</a></li>
+<li><a href="#example">Example</a></li>
+</ul>
+</li>
+<li><a href="#constructor-from-character-scalar">Constructor from character scalar</a><ul>
+<li><a href="#description_1">Description</a></li>
+<li><a href="#syntax_1">Syntax</a></li>
+<li><a href="#status_2">Status</a></li>
+<li><a href="#class_1">Class</a></li>
+<li><a href="#argument_1">Argument</a></li>
+<li><a href="#result-value_1">Result value</a></li>
+<li><a href="#example_1">Example</a></li>
+</ul>
+</li>
+<li><a href="#assignment-of-character-scalar">Assignment of character scalar</a><ul>
+<li><a href="#description_2">Description</a></li>
+<li><a href="#syntax_2">Syntax</a></li>
+<li><a href="#status_3">Status</a></li>
+<li><a href="#class_2">Class</a></li>
+<li><a href="#example_2">Example</a></li>
+</ul>
+</li>
+<li><a href="#len-function">Len function</a><ul>
+<li><a href="#description_3">Description</a></li>
+<li><a href="#syntax_3">Syntax</a></li>
+<li><a href="#status_4">Status</a></li>
+<li><a href="#class_3">Class</a></li>
+<li><a href="#argument_2">Argument</a></li>
+<li><a href="#result-value_2">Result value</a></li>
+<li><a href="#example_3">Example</a></li>
+</ul>
+</li>
+<li><a href="#len_trim-function">Len_trim function</a><ul>
+<li><a href="#description_4">Description</a></li>
+<li><a href="#syntax_4">Syntax</a></li>
+<li><a href="#status_5">Status</a></li>
+<li><a href="#class_4">Class</a></li>
+<li><a href="#argument_3">Argument</a></li>
+<li><a href="#result-value_3">Result value</a></li>
+<li><a href="#example_4">Example</a></li>
+</ul>
+</li>
+<li><a href="#trim-function">Trim function</a><ul>
+<li><a href="#description_5">Description</a></li>
+<li><a href="#syntax_5">Syntax</a></li>
+<li><a href="#status_6">Status</a></li>
+<li><a href="#class_5">Class</a></li>
+<li><a href="#argument_4">Argument</a></li>
+<li><a href="#result-value_4">Result value</a></li>
+<li><a href="#example_5">Example</a></li>
+</ul>
+</li>
+<li><a href="#adjustl-function">Adjustl function</a><ul>
+<li><a href="#description_6">Description</a></li>
+<li><a href="#syntax_6">Syntax</a></li>
+<li><a href="#status_7">Status</a></li>
+<li><a href="#class_6">Class</a></li>
+<li><a href="#argument_5">Argument</a></li>
+<li><a href="#result-value_5">Result value</a></li>
+<li><a href="#example_6">Example</a></li>
+</ul>
+</li>
+<li><a href="#adjustr-function">Adjustr function</a><ul>
+<li><a href="#description_7">Description</a></li>
+<li><a href="#syntax_7">Syntax</a></li>
+<li><a href="#status_8">Status</a></li>
+<li><a href="#class_7">Class</a></li>
+<li><a href="#argument_6">Argument</a></li>
+<li><a href="#result-value_6">Result value</a></li>
+<li><a href="#example_7">Example</a></li>
+</ul>
+</li>
+<li><a href="#repeat-function">Repeat function</a><ul>
+<li><a href="#description_8">Description</a></li>
+<li><a href="#syntax_8">Syntax</a></li>
+<li><a href="#status_9">Status</a></li>
+<li><a href="#class_8">Class</a></li>
+<li><a href="#argument_7">Argument</a></li>
+<li><a href="#result-value_7">Result value</a></li>
+<li><a href="#example_8">Example</a></li>
+</ul>
+</li>
+<li><a href="#char-function">Char function</a><ul>
+<li><a href="#description_9">Description</a></li>
+<li><a href="#syntax_9">Syntax</a></li>
+<li><a href="#status_10">Status</a></li>
+<li><a href="#class_9">Class</a></li>
+<li><a href="#argument_8">Argument</a></li>
+<li><a href="#result-value_8">Result value</a></li>
+<li><a href="#example_9">Example</a></li>
+</ul>
+</li>
+<li><a href="#char-function-position-variant">Char function (position variant)</a><ul>
+<li><a href="#description_10">Description</a></li>
+<li><a href="#syntax_10">Syntax</a></li>
+<li><a href="#status_11">Status</a></li>
+<li><a href="#class_10">Class</a></li>
+<li><a href="#argument_9">Argument</a></li>
+<li><a href="#result-value_9">Result value</a></li>
+<li><a href="#example_10">Example</a></li>
+</ul>
+</li>
+<li><a href="#char-function-range-variant">Char function (range variant)</a><ul>
+<li><a href="#description_11">Description</a></li>
+<li><a href="#syntax_11">Syntax</a></li>
+<li><a href="#status_12">Status</a></li>
+<li><a href="#class_11">Class</a></li>
+<li><a href="#argument_10">Argument</a></li>
+<li><a href="#result-value_10">Result value</a></li>
+<li><a href="#example_11">Example</a></li>
+</ul>
+</li>
+<li><a href="#ichar-function">Ichar function</a><ul>
+<li><a href="#description_12">Description</a></li>
+<li><a href="#syntax_12">Syntax</a></li>
+<li><a href="#status_13">Status</a></li>
+<li><a href="#class_12">Class</a></li>
+<li><a href="#argument_11">Argument</a></li>
+<li><a href="#result-value_11">Result value</a></li>
+<li><a href="#example_12">Example</a></li>
+</ul>
+</li>
+<li><a href="#iachar-function">Iachar function</a><ul>
+<li><a href="#description_13">Description</a></li>
+<li><a href="#syntax_13">Syntax</a></li>
+<li><a href="#status_14">Status</a></li>
+<li><a href="#class_13">Class</a></li>
+<li><a href="#argument_12">Argument</a></li>
+<li><a href="#result-value_12">Result value</a></li>
+<li><a href="#example_13">Example</a></li>
+</ul>
+</li>
+<li><a href="#index-function">Index function</a><ul>
+<li><a href="#description_14">Description</a></li>
+<li><a href="#syntax_14">Syntax</a></li>
+<li><a href="#status_15">Status</a></li>
+<li><a href="#class_14">Class</a></li>
+<li><a href="#argument_13">Argument</a></li>
+<li><a href="#result-value_13">Result value</a></li>
+<li><a href="#example_14">Example</a></li>
+</ul>
+</li>
+<li><a href="#scan-function">Scan function</a><ul>
+<li><a href="#description_15">Description</a></li>
+<li><a href="#syntax_15">Syntax</a></li>
+<li><a href="#status_16">Status</a></li>
+<li><a href="#class_15">Class</a></li>
+<li><a href="#argument_14">Argument</a></li>
+<li><a href="#result-value_14">Result value</a></li>
+<li><a href="#example_15">Example</a></li>
+</ul>
+</li>
+<li><a href="#verify-function">Verify function</a><ul>
+<li><a href="#description_16">Description</a></li>
+<li><a href="#syntax_16">Syntax</a></li>
+<li><a href="#status_17">Status</a></li>
+<li><a href="#class_16">Class</a></li>
+<li><a href="#argument_15">Argument</a></li>
+<li><a href="#result-value_15">Result value</a></li>
+<li><a href="#example_16">Example</a></li>
+</ul>
+</li>
+<li><a href="#lgt-function-lexical-greater-than">Lgt function (lexical greater than)</a><ul>
+<li><a href="#description_17">Description</a></li>
+<li><a href="#syntax_17">Syntax</a></li>
+<li><a href="#status_18">Status</a></li>
+<li><a href="#class_17">Class</a></li>
+<li><a href="#argument_16">Argument</a></li>
+<li><a href="#result-value_16">Result value</a></li>
+<li><a href="#example_17">Example</a></li>
+</ul>
+</li>
+<li><a href="#llt-function-lexical-less-than">Llt function (lexical less than)</a><ul>
+<li><a href="#description_18">Description</a></li>
+<li><a href="#syntax_18">Syntax</a></li>
+<li><a href="#status_19">Status</a></li>
+<li><a href="#class_18">Class</a></li>
+<li><a href="#argument_17">Argument</a></li>
+<li><a href="#result-value_17">Result value</a></li>
+<li><a href="#example_18">Example</a></li>
+</ul>
+</li>
+<li><a href="#lge-function-lexical-greater-than-or-equal">Lge function (lexical greater than or equal)</a><ul>
+<li><a href="#description_19">Description</a></li>
+<li><a href="#syntax_19">Syntax</a></li>
+<li><a href="#status_20">Status</a></li>
+<li><a href="#class_19">Class</a></li>
+<li><a href="#argument_18">Argument</a></li>
+<li><a href="#result-value_18">Result value</a></li>
+<li><a href="#example_19">Example</a></li>
+</ul>
+</li>
+<li><a href="#lle-function-lexical-less-than-or-equal">Lle function (lexical less than or equal)</a><ul>
+<li><a href="#description_20">Description</a></li>
+<li><a href="#syntax_20">Syntax</a></li>
+<li><a href="#status_21">Status</a></li>
+<li><a href="#class_20">Class</a></li>
+<li><a href="#argument_19">Argument</a></li>
+<li><a href="#result-value_19">Result value</a></li>
+<li><a href="#example_20">Example</a></li>
+</ul>
+</li>
+<li><a href="#comparison-operator-greater">Comparison operator greater</a><ul>
+<li><a href="#description_21">Description</a></li>
+<li><a href="#syntax_21">Syntax</a></li>
+<li><a href="#status_22">Status</a></li>
+<li><a href="#class_21">Class</a></li>
+<li><a href="#argument_20">Argument</a></li>
+<li><a href="#result-value_20">Result value</a></li>
+<li><a href="#example_21">Example</a></li>
+</ul>
+</li>
+<li><a href="#comparison-operator-less">Comparison operator less</a><ul>
+<li><a href="#description_22">Description</a></li>
+<li><a href="#syntax_22">Syntax</a></li>
+<li><a href="#status_23">Status</a></li>
+<li><a href="#class_22">Class</a></li>
+<li><a href="#argument_21">Argument</a></li>
+<li><a href="#result-value_21">Result value</a></li>
+<li><a href="#example_22">Example</a></li>
+</ul>
+</li>
+<li><a href="#comparison-operator-greater-or-equal">Comparison operator greater or equal</a><ul>
+<li><a href="#description_23">Description</a></li>
+<li><a href="#syntax_23">Syntax</a></li>
+<li><a href="#status_24">Status</a></li>
+<li><a href="#class_23">Class</a></li>
+<li><a href="#argument_22">Argument</a></li>
+<li><a href="#result-value_22">Result value</a></li>
+<li><a href="#example_23">Example</a></li>
+</ul>
+</li>
+<li><a href="#comparison-operator-less-or-equal">Comparison operator less or equal</a><ul>
+<li><a href="#description_24">Description</a></li>
+<li><a href="#syntax_24">Syntax</a></li>
+<li><a href="#status_25">Status</a></li>
+<li><a href="#class_24">Class</a></li>
+<li><a href="#argument_23">Argument</a></li>
+<li><a href="#result-value_23">Result value</a></li>
+<li><a href="#example_24">Example</a></li>
+</ul>
+</li>
+<li><a href="#comparison-operator-equal">Comparison operator equal</a><ul>
+<li><a href="#description_25">Description</a></li>
+<li><a href="#syntax_25">Syntax</a></li>
+<li><a href="#status_26">Status</a></li>
+<li><a href="#class_25">Class</a></li>
+<li><a href="#argument_24">Argument</a></li>
+<li><a href="#result-value_24">Result value</a></li>
+<li><a href="#example_25">Example</a></li>
+</ul>
+</li>
+<li><a href="#comparison-operator-not-equal">Comparison operator not equal</a><ul>
+<li><a href="#description_26">Description</a></li>
+<li><a href="#syntax_26">Syntax</a></li>
+<li><a href="#status_27">Status</a></li>
+<li><a href="#class_26">Class</a></li>
+<li><a href="#argument_25">Argument</a></li>
+<li><a href="#result-value_25">Result value</a></li>
+<li><a href="#example_26">Example</a></li>
+</ul>
+</li>
+<li><a href="#concatenation-operator">Concatenation operator</a><ul>
+<li><a href="#description_27">Description</a></li>
+<li><a href="#syntax_27">Syntax</a></li>
+<li><a href="#status_28">Status</a></li>
+<li><a href="#class_27">Class</a></li>
+<li><a href="#argument_26">Argument</a></li>
+<li><a href="#result-value_26">Result value</a></li>
+<li><a href="#example_27">Example</a></li>
+</ul>
+</li>
+<li><a href="#unformatted-write">Unformatted write</a><ul>
+<li><a href="#description_28">Description</a></li>
+<li><a href="#syntax_28">Syntax</a></li>
+<li><a href="#status_29">Status</a></li>
+<li><a href="#class_28">Class</a></li>
+<li><a href="#argument_27">Argument</a></li>
+<li><a href="#example_28">Example</a></li>
+</ul>
+</li>
+<li><a href="#formatted-write">Formatted write</a><ul>
+<li><a href="#description_29">Description</a></li>
+<li><a href="#syntax_29">Syntax</a></li>
+<li><a href="#status_30">Status</a></li>
+<li><a href="#class_29">Class</a></li>
+<li><a href="#argument_28">Argument</a></li>
+<li><a href="#example_29">Example</a></li>
+</ul>
+</li>
+<li><a href="#unformatted-read">Unformatted read</a><ul>
+<li><a href="#description_30">Description</a></li>
+<li><a href="#syntax_30">Syntax</a></li>
+<li><a href="#status_31">Status</a></li>
+<li><a href="#class_30">Class</a></li>
+<li><a href="#argument_29">Argument</a></li>
+<li><a href="#example_30">Example</a></li>
+</ul>
+</li>
+<li><a href="#formatted-read">Formatted read</a><ul>
+<li><a href="#description_31">Description</a></li>
+<li><a href="#syntax_31">Syntax</a></li>
+<li><a href="#status_32">Status</a></li>
+<li><a href="#class_31">Class</a></li>
+<li><a href="#argument_30">Argument</a></li>
+<li><a href="#example_31">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="introduction">Introduction</h2>
+<p>The <code>stdlib_string_type</code> provides a derived type holding an arbitrary sequence
+of characters compatible with most Fortran intrinsic character procedures as
+well as operators for working with character variables and constants.</p>
+<h2 id="derived-types-provided">Derived types provided</h2>
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="the-string_type-derived-type">The <code>string_type</code> derived type</h3>
+<p>The <code>string_type</code> is defined as a non-extendible derived type representing a
+sequence of characters. The internal representation of the character sequence
+is implementation dependent and not visible for the user of the module.</p>
+<h4 id="status">Status</h4>
+<p>Experimental</p>
+<h2 id="procedures-and-methods-provided">Procedures and methods provided</h2>
+<p>Procedures returning <code>string_type</code> instances can usually be used in elemental
+context, while procedures returning scalar character values can only be
+used in a pure way.</p>
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="constructor-for-empty-string">Constructor for empty string</h3>
+<h4 id="description">Description</h4>
+<p>The module defines a constructor to create an empty string type.</p>
+<p>Creates a string instance representing an empty string.</p>
+<h4 id="syntax">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-string_type">string_type</a> ()</code></p>
+<h4 id="status_1">Status</h4>
+<p>Experimental</p>
+<h4 id="class">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument">Argument</h4>
+<p>None.</p>
+<h4 id="result-value">Result value</h4>
+<p>The result is an instance of <code>string_type</code> with zero length.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="n">string</span> <span class="o">=</span> <span class="n">string_type</span><span class="p">()</span>
+  <span class="c">! len(string) == 0</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="constructor-from-character-scalar">Constructor from character scalar</h3>
+<h4 id="description_1">Description</h4>
+<p>The module defines a constructor to create a string type from a character scalar.</p>
+<p>Creates a string instance representing the input character scalar value.
+The constructor shall create an empty string if an unallocated deferred-length
+character variable is passed.</p>
+<h4 id="syntax_1">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-string_type">string_type</a> (string)</code></p>
+<h4 id="status_2">Status</h4>
+<p>Experimental</p>
+<h4 id="class_1">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_1">Argument</h4>
+<p><code>string</code>: shall be a scalar character value. It is an <code>intent(in)</code> argument.</p>
+<h4 id="result-value_1">Result value</h4>
+<p>The result is an instance of <code>string_type</code>.</p>
+<h4 id="example_1">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="n">string</span> <span class="o">=</span> <span class="n">string_type</span><span class="p">(</span><span class="s2">&quot;Sequence&quot;</span><span class="p">)</span>
+  <span class="c">! len(string) == 8</span>
+  <span class="n">string</span> <span class="o">=</span> <span class="n">string_type</span><span class="p">(</span><span class="s2">&quot; S p a c e d &quot;</span><span class="p">)</span>
+  <span class="c">! len(string) == 13</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="assignment-of-character-scalar">Assignment of character scalar</h3>
+<h4 id="description_2">Description</h4>
+<p>The module defines an assignment operations, <code>=</code>, to create a string type
+from a character scalar.</p>
+<p>Creates a string instance representing the right-hand-side character scalar value.</p>
+<h4 id="syntax_2">Syntax</h4>
+<p><code>lhs = rhs</code></p>
+<h4 id="status_3">Status</h4>
+<p>Experimental</p>
+<h4 id="class_2">Class</h4>
+<p>Elemntal subroutine, <code>assignment(=)</code>.</p>
+<h4 id="example_2">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="c">! len(string) == 0</span>
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Sequence&quot;</span>
+  <span class="c">! len(string) == 8</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="len-function">Len function</h3>
+<h4 id="description_3">Description</h4>
+<p>Returns the length of the string.</p>
+<h4 id="syntax_3">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-len">len</a> (string)</code></p>
+<h4 id="status_4">Status</h4>
+<p>Experimental</p>
+<h4 id="class_3">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_2">Argument</h4>
+<p><code>string</code>: Instance of a <code>string_type</code>. This argument is <code>intent(in)</code>.</p>
+<h4 id="result-value_2">Result value</h4>
+<p>The result is a default integer scalar value.</p>
+<h4 id="example_3">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">length</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Some longer sentence for this example.&quot;</span>
+  <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+  <span class="c">! length == 38</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Whitespace                            &quot;</span>
+  <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+  <span class="c">! length == 38</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="len_trim-function">Len_trim function</h3>
+<h4 id="description_4">Description</h4>
+<p>Returns the length of the character sequence without trailing spaces
+represented by the string.</p>
+<h4 id="syntax_4">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-len_trim">len_trim</a> (string)</code></p>
+<h4 id="status_5">Status</h4>
+<p>Experimental</p>
+<h4 id="class_4">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_3">Argument</h4>
+<p><code>string</code>: Instance of a <code>string_type</code>. This argument is <code>intent(in)</code>.</p>
+<h4 id="result-value_3">Result value</h4>
+<p>The result is a default integer scalar value.</p>
+<h4 id="example_4">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">length</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Some longer sentence for this example.&quot;</span>
+  <span class="n">length</span> <span class="o">=</span> <span class="nb">len_trim</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+  <span class="c">! length == 38</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Whitespace                            &quot;</span>
+  <span class="n">length</span> <span class="o">=</span> <span class="nb">len_trim</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+  <span class="c">! length == 10</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="trim-function">Trim function</h3>
+<h4 id="description_5">Description</h4>
+<p>Returns the character sequence hold by the string without trailing spaces
+represented by a <code>string_type</code>.</p>
+<h4 id="syntax_5">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-trim">trim</a> (string)</code></p>
+<h4 id="status_6">Status</h4>
+<p>Experimental</p>
+<h4 id="class_5">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_4">Argument</h4>
+<ul>
+<li><code>string</code>: Instance of a <code>string_type</code>. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_4">Result value</h4>
+<p>The result is a scalar <code>string_type</code> value.</p>
+<h4 id="example_5">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Whitespace                            &quot;</span>
+  <span class="n">string</span> <span class="o">=</span> <span class="nb">trim</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+  <span class="c">! len(string) == 10</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="adjustl-function">Adjustl function</h3>
+<h4 id="description_6">Description</h4>
+<p>Left-adjust the character sequence represented by the string.
+The length of the character sequence remains unchanged.</p>
+<h4 id="syntax_6">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-adjustl">adjustl</a> (string)</code></p>
+<h4 id="status_7">Status</h4>
+<p>Experimental</p>
+<h4 id="class_6">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_5">Argument</h4>
+<ul>
+<li><code>string</code>: Instance of a <code>string_type</code>. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_5">Result value</h4>
+<p>The result is a scalar <code>string_type</code> value.</p>
+<h4 id="example_6">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;                            Whitespace&quot;</span>
+  <span class="n">string</span> <span class="o">=</span> <span class="nb">adjustl</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+  <span class="c">! char(string) == &quot;Whitespace                            &quot;</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="adjustr-function">Adjustr function</h3>
+<h4 id="description_7">Description</h4>
+<p>Right-adjust the character sequence represented by the string.
+The length of the character sequence remains unchanged.</p>
+<h4 id="syntax_7">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-adjustr">adjustr</a> (string)</code></p>
+<h4 id="status_8">Status</h4>
+<p>Experimental</p>
+<h4 id="class_7">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_6">Argument</h4>
+<ul>
+<li><code>string</code>: Instance of a <code>string_type</code>. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_6">Result value</h4>
+<p>The result is a scalar <code>string_type</code> value.</p>
+<h4 id="example_7">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Whitespace                            &quot;</span>
+  <span class="n">string</span> <span class="o">=</span> <span class="nb">adjustr</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+  <span class="c">! char(string) == &quot;                            Whitespace&quot;</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="repeat-function">Repeat function</h3>
+<h4 id="description_8">Description</h4>
+<p>Repeats the character sequence hold by the string by the number of
+specified copies.</p>
+<h4 id="syntax_8">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-repeat">repeat</a> (string, ncopies)</code></p>
+<h4 id="status_9">Status</h4>
+<p>Experimental</p>
+<h4 id="class_8">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_7">Argument</h4>
+<ul>
+<li><code>string</code>: Instance of a <code>string_type</code>. This argument is <code>intent(in)</code>.</li>
+<li><code>ncopies</code>: Integer of default type. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_7">Result value</h4>
+<p>The result is a scalar <code>string_type</code> value.</p>
+<h4 id="example_8">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;What? &quot;</span>
+  <span class="n">string</span> <span class="o">=</span> <span class="nb">repeat</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+  <span class="c">! string == &quot;What? What? What? &quot;</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="char-function">Char function</h3>
+<h4 id="description_9">Description</h4>
+<p>Return the character sequence represented by the string.</p>
+<h4 id="syntax_9">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-char">char</a> (string)</code></p>
+<h4 id="status_10">Status</h4>
+<p>Experimental</p>
+<h4 id="class_9">Class</h4>
+<p>Pure function.</p>
+<h4 id="argument_8">Argument</h4>
+<ul>
+<li><code>string</code>: Instance of a <code>string_type</code>. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_8">Result value</h4>
+<p>The result is a scalar character value.</p>
+<h4 id="example_9">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">dlc</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Character sequence&quot;</span>
+  <span class="n">dlc</span> <span class="o">=</span> <span class="nb">char</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+  <span class="c">! dlc == &quot;Character sequence&quot;</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="char-function-position-variant">Char function (position variant)</h3>
+<h4 id="description_10">Description</h4>
+<p>Return the character at a certain position in the string.</p>
+<h4 id="syntax_10">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-char">char</a> (string, pos)</code></p>
+<h4 id="status_11">Status</h4>
+<p>Experimental</p>
+<h4 id="class_10">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_9">Argument</h4>
+<ul>
+<li><code>string</code>: Instance of a <code>string_type</code>. This argument is <code>intent(in)</code>.</li>
+<li><code>pos</code>: Integer of default type. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_9">Result value</h4>
+<p>The result is a scalar character value.</p>
+<h4 id="example_10">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">dlc</span>
+  <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">chars</span><span class="p">(:)</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Character sequence&quot;</span>
+  <span class="n">dlc</span> <span class="o">=</span> <span class="nb">char</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+  <span class="c">! dlc == &quot;a&quot;</span>
+  <span class="n">chars</span> <span class="o">=</span> <span class="nb">char</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">18</span><span class="p">])</span>
+  <span class="c">! chars == [&quot;a&quot;, &quot;a&quot;, &quot;e&quot;, &quot;e&quot;, &quot;u&quot;, &quot;e&quot;, &quot;e&quot;]</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="char-function-range-variant">Char function (range variant)</h3>
+<h4 id="description_11">Description</h4>
+<p>Return a substring from the character sequence of the string.</p>
+<h4 id="syntax_11">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-char">char</a> (string, start, last)</code></p>
+<h4 id="status_12">Status</h4>
+<p>Experimental</p>
+<h4 id="class_11">Class</h4>
+<p>Pure function.</p>
+<h4 id="argument_10">Argument</h4>
+<ul>
+<li><code>string</code>: Instance of a <code>string_type</code>. This argument is <code>intent(in)</code>.</li>
+<li><code>start</code>: Integer of default type. This argument is <code>intent(in)</code>.</li>
+<li><code>last</code>: Integer of default type. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_10">Result value</h4>
+<p>The result is a scalar character value.</p>
+<h4 id="example_11">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">dlc</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Fortran&quot;</span>
+  <span class="n">dlc</span> <span class="o">=</span> <span class="nb">char</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+  <span class="c">! dlc == &quot;Fort&quot;</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="ichar-function">Ichar function</h3>
+<h4 id="description_12">Description</h4>
+<p>Character-to-integer conversion function.</p>
+<p>Returns the code for the character in the first character position of the
+character sequence in the system's native character set.</p>
+<h4 id="syntax_12">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-ichar">ichar</a> (string)</code></p>
+<h4 id="status_13">Status</h4>
+<p>Experimental</p>
+<h4 id="class_12">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_11">Argument</h4>
+<ul>
+<li><code>string</code>: Instance of a <code>string_type</code>. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_11">Result value</h4>
+<p>The result is a default integer scalar value.</p>
+<h4 id="example_12">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">code</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Fortran&quot;</span>
+  <span class="n">code</span> <span class="o">=</span> <span class="nb">ichar</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="iachar-function">Iachar function</h3>
+<h4 id="description_13">Description</h4>
+<p>Code in ASCII collating sequence.</p>
+<p>Returns the code for the ASCII character in the first character position of
+the character sequences represent by the string.</p>
+<h4 id="syntax_13">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-iachar">iachar</a> (string)</code></p>
+<h4 id="status_14">Status</h4>
+<p>Experimental</p>
+<h4 id="class_13">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_12">Argument</h4>
+<ul>
+<li><code>string</code>: Instance of a <code>string_type</code>. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_12">Result value</h4>
+<p>The result is a default integer scalar value.</p>
+<h4 id="example_13">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">code</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Fortran&quot;</span>
+  <span class="n">code</span> <span class="o">=</span> <span class="nb">iachar</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="index-function">Index function</h3>
+<h4 id="description_14">Description</h4>
+<p>Position of a <em>substring</em> within a <em>string</em>.</p>
+<p>Returns the position of the start of the leftmost or rightmost occurrence
+of string <em>substring</em> in <em>string</em>, counting from one. If <em>substring</em> is not
+present in <em>string</em>, zero is returned.</p>
+<h4 id="syntax_14">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-index">index</a> (string, substring[, back])</code></p>
+<h4 id="status_15">Status</h4>
+<p>Experimental</p>
+<h4 id="class_14">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_13">Argument</h4>
+<ul>
+<li><code>string</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>substring</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>back</code>: Either absent or a scalar logical value. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_13">Result value</h4>
+<p>The result is a default integer scalar value.</p>
+<h4 id="example_14">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">pos</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Search this string for this expression&quot;</span>
+  <span class="n">pos</span> <span class="o">=</span> <span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;this&quot;</span><span class="p">)</span>
+  <span class="c">! pos == 8</span>
+
+  <span class="n">pos</span> <span class="o">=</span> <span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;this&quot;</span><span class="p">,</span> <span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+  <span class="c">! pos == 24</span>
+
+  <span class="n">pos</span> <span class="o">=</span> <span class="nb">index</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;This&quot;</span><span class="p">)</span>
+  <span class="c">! pos == 0</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="scan-function">Scan function</h3>
+<h4 id="description_15">Description</h4>
+<p>Scans a <em>string</em> for the  presence any of the characters in a <em>set</em> of characters.
+If <em>back</em> is either absent or <em>false</em>, this function returns the position
+of the leftmost character of <em>string</em> that is in <em>set</em>. If <em>back</em> is <em>true</em>,
+the rightmost position is returned. If no character of <em>set</em> is found in
+<em>string</em>, the result is zero.</p>
+<h4 id="syntax_15">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-scan">scan</a> (string, set[, back])</code></p>
+<h4 id="status_16">Status</h4>
+<p>Experimental</p>
+<h4 id="class_15">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_14">Argument</h4>
+<ul>
+<li><code>string</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>set</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>back</code>: Either absent or a scalar logical value. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_14">Result value</h4>
+<p>The result is a default integer scalar value.</p>
+<h4 id="example_15">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">pos</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;fortran&quot;</span>
+  <span class="n">pos</span> <span class="o">=</span> <span class="nb">scan</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;ao&quot;</span><span class="p">)</span>
+  <span class="c">! pos == 2</span>
+
+  <span class="n">pos</span> <span class="o">=</span> <span class="nb">scan</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;ao&quot;</span><span class="p">,</span> <span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+  <span class="c">! pos == 6</span>
+
+  <span class="n">pos</span> <span class="o">=</span> <span class="nb">scan</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;c++&quot;</span><span class="p">)</span>
+  <span class="c">! pos == 0</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="verify-function">Verify function</h3>
+<h4 id="description_16">Description</h4>
+<p>Verifies that all the characters in <em>string</em> belong to the set of characters in <em>set</em>.
+If <em>back</em> is either absent or <em>false</em>, this function returns the position
+of the leftmost character of <em>string</em> that is not in <em>set</em>. If <em>back</em> is <em>true</em>,
+the rightmost position is returned. If all characters of <em>string</em> are found
+in <em>set</em>, the result is zero.</p>
+<h4 id="syntax_16">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-verify">verify</a> (string, set[, back])</code></p>
+<h4 id="status_17">Status</h4>
+<p>Experimental</p>
+<h4 id="class_16">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_15">Argument</h4>
+<ul>
+<li><code>string</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>set</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>back</code>: Either absent or a scalar logical value. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_15">Result value</h4>
+<p>The result is a default integer scalar value.</p>
+<h4 id="example_16">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">pos</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;fortran&quot;</span>
+  <span class="n">pos</span> <span class="o">=</span> <span class="nb">verify</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;ao&quot;</span><span class="p">)</span>
+  <span class="c">! pos == 1</span>
+
+  <span class="n">pos</span> <span class="o">=</span> <span class="nb">verify</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;fo&quot;</span><span class="p">)</span>
+  <span class="c">! pos == 3</span>
+
+  <span class="n">pos</span> <span class="o">=</span> <span class="nb">verify</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;c++&quot;</span><span class="p">)</span>
+  <span class="c">! pos == 1</span>
+
+  <span class="n">pos</span> <span class="o">=</span> <span class="nb">verify</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;c++&quot;</span><span class="p">,</span> <span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+  <span class="c">! pos == 7</span>
+
+  <span class="n">pos</span> <span class="o">=</span> <span class="nb">verify</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+  <span class="c">! pos == 0</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="lgt-function-lexical-greater-than">Lgt function (lexical greater than)</h3>
+<h4 id="description_17">Description</h4>
+<p>Lexically compare the order of two character sequences being greater than.</p>
+<p>The left-hand side, the right-hand side or both character sequences can
+be represented by a string type.
+This defines three procedures overloading the intrinsic <code>lgt</code> procedure.</p>
+<h4 id="syntax_17">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-lgt">lgt</a> (lhs, rhs)</code></p>
+<h4 id="status_18">Status</h4>
+<p>Experimental</p>
+<h4 id="class_17">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_16">Argument</h4>
+<ul>
+<li><code>lhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>rhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_16">Result value</h4>
+<p>The result is a default logical scalar value.</p>
+<h4 id="example_17">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">logical</span> <span class="kd">::</span> <span class="n">res</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="nb">lgt</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;abc&quot;</span><span class="p">)</span>
+  <span class="c">! res .eqv. .true.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="nb">lgt</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;bcd&quot;</span><span class="p">)</span>
+  <span class="c">! res .eqv. .false.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="nb">lgt</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;cde&quot;</span><span class="p">)</span>
+  <span class="c">! res .eqv. .false.</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="llt-function-lexical-less-than">Llt function (lexical less than)</h3>
+<h4 id="description_18">Description</h4>
+<p>Lexically compare the order of two character sequences being less than.</p>
+<p>The left-hand side, the right-hand side or both character sequences can
+be represented by a string type.
+This defines three procedures overloading the intrinsic <code>llt</code> procedure.</p>
+<h4 id="syntax_18">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-llt">llt</a> (lhs, rhs)</code></p>
+<h4 id="status_19">Status</h4>
+<p>Experimental</p>
+<h4 id="class_18">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_17">Argument</h4>
+<ul>
+<li><code>lhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>rhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_17">Result value</h4>
+<p>The result is a default logical scalar value.</p>
+<h4 id="example_18">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">logical</span> <span class="kd">::</span> <span class="n">res</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="nb">llt</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;abc&quot;</span><span class="p">)</span>
+  <span class="c">! res .eqv. .false.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="nb">llt</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;bcd&quot;</span><span class="p">)</span>
+  <span class="c">! res .eqv. .false.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="nb">llt</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;cde&quot;</span><span class="p">)</span>
+  <span class="c">! res .eqv. .true.</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="lge-function-lexical-greater-than-or-equal">Lge function (lexical greater than or equal)</h3>
+<h4 id="description_19">Description</h4>
+<p>Lexically compare the order of two character sequences being greater than
+or equal.</p>
+<p>The left-hand side, the right-hand side or both character sequences can
+be represented by a string type.
+This defines three procedures overloading the intrinsic <code>lge</code> procedure.</p>
+<h4 id="syntax_19">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-lge">lge</a> (lhs, rhs)</code></p>
+<h4 id="status_20">Status</h4>
+<p>Experimental</p>
+<h4 id="class_19">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_18">Argument</h4>
+<ul>
+<li><code>lhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>rhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_18">Result value</h4>
+<p>The result is a default logical scalar value.</p>
+<h4 id="example_19">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">logical</span> <span class="kd">::</span> <span class="n">res</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="nb">lge</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;abc&quot;</span><span class="p">)</span>
+  <span class="c">! res .eqv. .true.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="nb">lge</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;bcd&quot;</span><span class="p">)</span>
+  <span class="c">! res .eqv. .true.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="nb">lge</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;cde&quot;</span><span class="p">)</span>
+  <span class="c">! res .eqv. .false.</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="lle-function-lexical-less-than-or-equal">Lle function (lexical less than or equal)</h3>
+<h4 id="description_20">Description</h4>
+<p>Lexically compare the order of two character sequences being less than
+or equal.</p>
+<p>The left-hand side, the right-hand side or both character sequences can
+be represented by a string type.
+This defines three procedures overloading the intrinsic <code>lle</code> procedure.</p>
+<h4 id="syntax_20">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_string_type.html#interface-lle">lle</a> (lhs, rhs)</code></p>
+<h4 id="status_21">Status</h4>
+<p>Experimental</p>
+<h4 id="class_20">Class</h4>
+<p>Elemental function.</p>
+<h4 id="argument_19">Argument</h4>
+<ul>
+<li><code>lhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>rhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_19">Result value</h4>
+<p>The result is a default logical scalar value.</p>
+<h4 id="example_20">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">logical</span> <span class="kd">::</span> <span class="n">res</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="nb">lle</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;abc&quot;</span><span class="p">)</span>
+  <span class="c">! res .eqv. .false.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="nb">lle</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;bcd&quot;</span><span class="p">)</span>
+  <span class="c">! res .eqv. .true.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="nb">lle</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;cde&quot;</span><span class="p">)</span>
+  <span class="c">! res .eqv. .true.</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="comparison-operator-greater">Comparison operator greater</h3>
+<h4 id="description_21">Description</h4>
+<p>Compare the order of two character sequences being greater.</p>
+<p>The left-hand side, the right-hand side or both character sequences can
+be represented by a string type.
+This defines three procedures overloading the intrinsic <code>operator(&gt;)</code>
+and <code>operator(.gt.)</code>.</p>
+<h4 id="syntax_21">Syntax</h4>
+<p><code>res = lhs &gt; rhs</code></p>
+<p><code>res = lhs .gt. rhs</code></p>
+<h4 id="status_22">Status</h4>
+<p>Experimental</p>
+<h4 id="class_21">Class</h4>
+<p>Elemental function, <code>operator(&gt;)</code> and <code>operator(.gt.)</code>.</p>
+<h4 id="argument_20">Argument</h4>
+<ul>
+<li><code>lhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>rhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_20">Result value</h4>
+<p>The result is a default logical scalar value.</p>
+<h4 id="example_21">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">logical</span> <span class="kd">::</span> <span class="n">res</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">&gt;</span> <span class="s2">&quot;abc&quot;</span>
+  <span class="c">! res .eqv. .true.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">&gt;</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="c">! res .eqv. .false.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">&gt;</span> <span class="s2">&quot;cde&quot;</span>
+  <span class="c">! res .eqv. .false.</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="comparison-operator-less">Comparison operator less</h3>
+<h4 id="description_22">Description</h4>
+<p>Compare the order of two character sequences being less.</p>
+<p>The left-hand side, the right-hand side or both character sequences can
+be represented by a string type.
+This defines three procedures overloading the intrinsic <code>operator(&lt;)</code>
+and <code>operator(.lt.)</code>.</p>
+<h4 id="syntax_22">Syntax</h4>
+<p><code>res = lhs &lt; rhs</code></p>
+<p><code>res = lhs .lt. rhs</code></p>
+<h4 id="status_23">Status</h4>
+<p>Experimental</p>
+<h4 id="class_22">Class</h4>
+<p>Elemental function, <code>operator(&lt;)</code> and <code>operator(.lt.)</code>.</p>
+<h4 id="argument_21">Argument</h4>
+<ul>
+<li><code>lhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>rhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_21">Result value</h4>
+<p>The result is a default logical scalar value.</p>
+<h4 id="example_22">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">logical</span> <span class="kd">::</span> <span class="n">res</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">&lt;</span> <span class="s2">&quot;abc&quot;</span>
+  <span class="c">! res .eqv. .false.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">&lt;</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="c">! res .eqv. .false.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">&lt;</span> <span class="s2">&quot;cde&quot;</span>
+  <span class="c">! res .eqv. .true.</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="comparison-operator-greater-or-equal">Comparison operator greater or equal</h3>
+<h4 id="description_23">Description</h4>
+<p>Compare the order of two character sequences being greater or equal.</p>
+<p>The left-hand side, the right-hand side or both character sequences can
+be represented by a string type.
+This defines three procedures overloading the intrinsic <code>operator(&gt;=)</code>
+and <code>operator(.ge.)</code>.</p>
+<h4 id="syntax_23">Syntax</h4>
+<p><code>res = lhs &gt;= rhs</code></p>
+<p><code>res = lhs .ge. rhs</code></p>
+<h4 id="status_24">Status</h4>
+<p>Experimental</p>
+<h4 id="class_23">Class</h4>
+<p>Elemental function, <code>operator(&gt;=)</code> and <code>operator(.ge.)</code>.</p>
+<h4 id="argument_22">Argument</h4>
+<ul>
+<li><code>lhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>rhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_22">Result value</h4>
+<p>The result is a default logical scalar value.</p>
+<h4 id="example_23">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">logical</span> <span class="kd">::</span> <span class="n">res</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">&gt;=</span> <span class="s2">&quot;abc&quot;</span>
+  <span class="c">! res .eqv. .true.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">&gt;=</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="c">! res .eqv. .true.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">&gt;=</span> <span class="s2">&quot;cde&quot;</span>
+  <span class="c">! res .eqv. .false.</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="comparison-operator-less-or-equal">Comparison operator less or equal</h3>
+<h4 id="description_24">Description</h4>
+<p>Compare the order of two character sequences being less or equal.</p>
+<p>The left-hand side, the right-hand side or both character sequences can
+be represented by a string type.
+This defines three procedures overloading the intrinsic <code>operator(&lt;=)</code>
+and <code>operator(.le.)</code>.</p>
+<h4 id="syntax_24">Syntax</h4>
+<p><code>res = lhs &lt;= rhs</code></p>
+<p><code>res = lhs .le. rhs</code></p>
+<h4 id="status_25">Status</h4>
+<p>Experimental</p>
+<h4 id="class_24">Class</h4>
+<p>Elemental function, <code>operator(&lt;=)</code> and <code>operator(.le.)</code>.</p>
+<h4 id="argument_23">Argument</h4>
+<ul>
+<li><code>lhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>rhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_23">Result value</h4>
+<p>The result is a default logical scalar value.</p>
+<h4 id="example_24">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">logical</span> <span class="kd">::</span> <span class="n">res</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">&lt;=</span> <span class="s2">&quot;abc&quot;</span>
+  <span class="c">! res .eqv. .false.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">&lt;=</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="c">! res .eqv. .true.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">&lt;=</span> <span class="s2">&quot;cde&quot;</span>
+  <span class="c">! res .eqv. .true.</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="comparison-operator-equal">Comparison operator equal</h3>
+<h4 id="description_25">Description</h4>
+<p>Compare two character sequences for equality.</p>
+<p>The left-hand side, the right-hand side or both character sequences can
+be represented by a string type.
+This defines three procedures overloading the intrinsic <code>operator(==)</code>
+and <code>operator(.eq.)</code>.</p>
+<h4 id="syntax_25">Syntax</h4>
+<p><code>res = lhs == rhs</code></p>
+<p><code>res = lhs .eq. rhs</code></p>
+<h4 id="status_26">Status</h4>
+<p>Experimental</p>
+<h4 id="class_25">Class</h4>
+<p>Elemental function, <code>operator(==)</code> and <code>operator(.eq.)</code>.</p>
+<h4 id="argument_24">Argument</h4>
+<ul>
+<li><code>lhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>rhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_24">Result value</h4>
+<p>The result is a default logical scalar value.</p>
+<h4 id="example_25">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">logical</span> <span class="kd">::</span> <span class="n">res</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">==</span> <span class="s2">&quot;abc&quot;</span>
+  <span class="c">! res .eqv. .false.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">==</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="c">! res .eqv. .true.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">==</span> <span class="s2">&quot;cde&quot;</span>
+  <span class="c">! res .eqv. .false.</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="comparison-operator-not-equal">Comparison operator not equal</h3>
+<h4 id="description_26">Description</h4>
+<p>Compare two character sequences for inequality.</p>
+<p>The left-hand side, the right-hand side or both character sequences can
+be represented by a string type.
+This defines three procedures overloading the intrinsic <code>operator(/=)</code>
+and <code>operator(.ne.)</code>.</p>
+<h4 id="syntax_26">Syntax</h4>
+<p><code>res = lhs /= rhs</code></p>
+<p><code>res = lhs .ne. rhs</code></p>
+<h4 id="status_27">Status</h4>
+<p>Experimental</p>
+<h4 id="class_26">Class</h4>
+<p>Elemental function, <code>operator(/=)</code> and <code>operator(.ne.)</code>.</p>
+<h4 id="argument_25">Argument</h4>
+<ul>
+<li><code>lhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>rhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_25">Result value</h4>
+<p>The result is a default logical scalar value.</p>
+<h4 id="example_26">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">logical</span> <span class="kd">::</span> <span class="n">res</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">/=</span> <span class="s2">&quot;abc&quot;</span>
+  <span class="c">! res .eqv. .true.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">/=</span> <span class="s2">&quot;bcd&quot;</span>
+  <span class="c">! res .eqv. .false.</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">string</span> <span class="o">/=</span> <span class="s2">&quot;cde&quot;</span>
+  <span class="c">! res .eqv. .true.</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="concatenation-operator">Concatenation operator</h3>
+<h4 id="description_27">Description</h4>
+<p>Concatenate two character sequences.</p>
+<p>The left-hand side, the right-hand side or both character sequences can
+be represented by a string type.
+This defines three procedures overloading the intrinsic <code>operator(//)</code>.</p>
+<h4 id="syntax_27">Syntax</h4>
+<p><code>res = lhs // rhs</code></p>
+<h4 id="status_28">Status</h4>
+<p>Experimental</p>
+<h4 id="class_27">Class</h4>
+<p>Elemental function, <code>operator(//)</code>.</p>
+<h4 id="argument_26">Argument</h4>
+<ul>
+<li><code>lhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+<li><code>rhs</code>: Either scalar character value or string type. This argument is <code>intent(in)</code>.</li>
+</ul>
+<h4 id="result-value_26">Result value</h4>
+<p>The result is an instance of <code>string_type</code>.</p>
+<h4 id="example_27">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Hello, &quot;</span>
+  <span class="n">string</span> <span class="o">=</span> <span class="n">string</span> <span class="o">//</span> <span class="s2">&quot;World!&quot;</span>
+  <span class="c">! len(string) == 13</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="unformatted-write">Unformatted write</h3>
+<h4 id="description_28">Description</h4>
+<p>Write the character sequence hold by the string to a connected unformatted unit.
+The character sequences is represented by an 64 bit signed integer record,
+holding the length of the following character record.</p>
+<h4 id="syntax_28">Syntax</h4>
+<p><code>write(unit, iostat=iostat, iomsg=iomsg) string</code></p>
+<h4 id="status_29">Status</h4>
+<p>Experimental</p>
+<h4 id="class_28">Class</h4>
+<p>Unformatted user defined derived type output.</p>
+<h4 id="argument_27">Argument</h4>
+<ul>
+<li><code>string</code>: Instance of the string type to read. This argument is <code>intent(inout)</code>.</li>
+<li><code>unit</code>: Formatted unit for output. This argument is <code>intent(in)</code>.</li>
+<li><code>iostat</code>: Status identifier to indicate success of output operation.
+  This argument is <code>intent(out)</code>.</li>
+<li><code>iomsg</code>: Buffer to return error message in case of failing output operation.
+  This argument is <code>intent(inout)</code>.</li>
+</ul>
+<h4 id="example_28">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">io</span>
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Important saved value&quot;</span>
+
+  <span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">io</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s2">&quot;unformatted&quot;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;scratch&quot;</span><span class="p">)</span>
+  <span class="k">write</span><span class="p">(</span><span class="n">io</span><span class="p">)</span> <span class="n">string</span>
+
+  <span class="k">rewind</span><span class="p">(</span><span class="n">io</span><span class="p">)</span>
+
+  <span class="k">read</span><span class="p">(</span><span class="n">io</span><span class="p">)</span> <span class="n">string</span>
+  <span class="k">close</span><span class="p">(</span><span class="n">io</span><span class="p">)</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="formatted-write">Formatted write</h3>
+<h4 id="description_29">Description</h4>
+<p>Write the character sequence hold by the string to a connected formatted unit.</p>
+<p>The current implementation is limited to list directed output and <code>dt</code> formatted
+output. Requesting namelist output will raise an error.</p>
+<h4 id="syntax_29">Syntax</h4>
+<p><code>write(unit, fmt, iostat=iostat, iomsg=iomsg) string</code></p>
+<h4 id="status_30">Status</h4>
+<p>Experimental</p>
+<h4 id="class_29">Class</h4>
+<p>Formatted user defined derived type output.</p>
+<h4 id="argument_28">Argument</h4>
+<ul>
+<li><code>string</code>: Instance of the string type to read. This argument is <code>intent(inout)</code>.</li>
+<li><code>unit</code>: Formatted unit for output. This argument is <code>intent(in)</code>.</li>
+<li><code>iotype</code>: Type of formatted data transfer, has the value <code>"LISTDIRECTED"</code> for <code>fmt=*</code>,
+  <code>"NAMELIST"</code> for namelist output or starts with <code>"DT"</code> for derived type output.
+  This argument is <code>intent(in)</code>.</li>
+<li><code>v_list</code>: Rank one array of default integer type containing the edit descriptors for
+  derived type output.
+  This argument is <code>intent(in)</code>.</li>
+<li><code>iostat</code>: Status identifier to indicate success of output operation.
+  This argument is <code>intent(out)</code>.</li>
+<li><code>iomsg</code>: Buffer to return error message in case of failing output operation.
+  This argument is <code>intent(inout)</code>.</li>
+</ul>
+<h4 id="example_29">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">io</span>
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Important saved value&quot;</span>
+
+  <span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">io</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s2">&quot;formatted&quot;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;scratch&quot;</span><span class="p">)</span>
+  <span class="k">write</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">string</span>
+  <span class="k">write</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+
+  <span class="k">rewind</span><span class="p">(</span><span class="n">io</span><span class="p">)</span>
+
+  <span class="k">read</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">string</span>
+  <span class="k">close</span><span class="p">(</span><span class="n">io</span><span class="p">)</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="unformatted-read">Unformatted read</h3>
+<h4 id="description_30">Description</h4>
+<p>Read a character sequence from a connected unformatted unit into the string.
+The character sequences is represented by an 64 bit signed integer record,
+holding the length of the following character record.</p>
+<p>On failure the state the read variable is undefined and implementation dependent.</p>
+<h4 id="syntax_30">Syntax</h4>
+<p><code>read(unit, iostat=iostat, iomsg=iomsg) string</code></p>
+<h4 id="status_31">Status</h4>
+<p>Experimental</p>
+<h4 id="class_30">Class</h4>
+<p>Unformatted derived type input.</p>
+<h4 id="argument_29">Argument</h4>
+<ul>
+<li><code>string</code>: Instance of the string type to read. This argument is <code>intent(inout)</code>.</li>
+<li><code>unit</code>: Formatted unit for input. This argument is <code>intent(in)</code>.</li>
+<li><code>iostat</code>: Status identifier to indicate success of input operation.
+  This argument is <code>intent(out)</code>.</li>
+<li><code>iomsg</code>: Buffer to return error message in case of failing input operation.
+  This argument is <code>intent(inout)</code>.</li>
+</ul>
+<h4 id="example_30">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">io</span>
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Important saved value&quot;</span>
+
+  <span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">io</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s2">&quot;unformatted&quot;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;scratch&quot;</span><span class="p">)</span>
+  <span class="k">write</span><span class="p">(</span><span class="n">io</span><span class="p">)</span> <span class="n">string</span>
+
+  <span class="k">rewind</span><span class="p">(</span><span class="n">io</span><span class="p">)</span>
+
+  <span class="k">read</span><span class="p">(</span><span class="n">io</span><span class="p">)</span> <span class="n">string</span>
+  <span class="k">close</span><span class="p">(</span><span class="n">io</span><span class="p">)</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="formatted-read">Formatted read</h3>
+<h4 id="description_31">Description</h4>
+<p>Read a character sequence from a connected formatted unit into the string.
+List-directed input will retrieve the complete record into the string.</p>
+<p>On failure the state the read variable is undefined and implementation dependent.</p>
+<p>The current implementation is limited to list directed input.
+Requesting <code>dt</code> formatted input or namelist output will raise an error.</p>
+<h4 id="syntax_31">Syntax</h4>
+<p><code>read(unit, fmt, iostat=iostat, iomsg=iomsg) string</code></p>
+<h4 id="status_32">Status</h4>
+<p>Experimental</p>
+<h4 id="class_31">Class</h4>
+<p>Formatted derived type input.</p>
+<h4 id="argument_30">Argument</h4>
+<ul>
+<li><code>string</code>: Instance of the string type to read. This argument is <code>intent(inout)</code>.</li>
+<li><code>unit</code>: Formatted unit for input. This argument is <code>intent(in)</code>.</li>
+<li><code>iotype</code>: Type of formatted data transfer, has the value <code>"LISTDIRECTED"</code> for <code>fmt=*</code>,
+  <code>"NAMELIST"</code> for namelist input or starts with <code>"DT"</code> for derived type input.
+  This argument is <code>intent(in)</code>.</li>
+<li><code>v_list</code>: Rank one array of default integer type containing the edit descriptors for
+  derived type input.
+  This argument is <code>intent(in)</code>.</li>
+<li><code>iostat</code>: Status identifier to indicate success of input operation.
+  This argument is <code>intent(out)</code>.</li>
+<li><code>iomsg</code>: Buffer to return error message in case of failing input operation.
+  This argument is <code>intent(inout)</code>.</li>
+</ul>
+<h4 id="example_31">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">io</span>
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Important saved value&quot;</span>
+
+  <span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">io</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s2">&quot;formatted&quot;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s2">&quot;scratch&quot;</span><span class="p">)</span>
+  <span class="k">write</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">string</span>
+  <span class="k">write</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+
+  <span class="k">rewind</span><span class="p">(</span><span class="n">io</span><span class="p">)</span>
+
+  <span class="k">read</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">string</span>
+  <span class="k">close</span><span class="p">(</span><span class="n">io</span><span class="p">)</span>
+<span class="k">end program </span><span class="n">demo</span>
+</code></pre></div>
+    </div>
+    
+    <div class="col-md-3 col-md-pull-9">
+      <hr class="visible-xs visible-sm">
+        <div class="well toc">
+          <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../../page/index.html'>Contributing and specs</a></li>
+          </ul>
+          <hr>
+          <ul class="nav nav-stacked nav-pills">
+            
+            <li role="presentation">
+            <a href='../../page/./License.html'>Fortran stdlib License (MIT)</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/index.html'>Contributing</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../page/contributing/CodeOfConduct.html'>Contributor Code of Conduct</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/StyleGuide.html'>Style Guide</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/Workflow.html'>Workflow for Contributors</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/index.html'>Specifications (specs)</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_ascii.html'>ASCII</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_bitsets.html'>Bitsets</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_error.html'>error</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_io.html'>IO</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_linalg.html'>linalg</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_logger.html'>logger</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_optval.html'>optval</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_quadrature.html'>quadrature</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stats.html'>stats</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stats_distribution_PRNG.html'>stats_distribution</a>
+            
+            </li>
+            
+            <li role="presentation" class="disabled">
+            <a href='../../page/specs/stdlib_string_type.html'>string type</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+          </ul>
+        </div>
+    </div>
+    
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+                                          <br /><small>b522bbb</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2021-03-11 10:37  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>
