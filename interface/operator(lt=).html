@@ -123,28 +123,26 @@
      
      
      
-    <li><i class="fa fa-barcode"></i> experimental</li>
-    
     
     
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.2% of total for procedures.</p>Including implementation: 10 statements,  0.2% of total for procedures.">10 statements</a>
+    title="<p> 0.1% of total for procedures.</p>Including implementation: 23 statements,  0.6% of total for procedures.">5 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/stdlib_bitsets.fypp"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/stdlib_string_type.fypp"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/stdlib_bitsets.fypp.html'>stdlib_bitsets.fypp</a></li>
+     <li><a href='../sourcefile/stdlib_string_type.fypp.html'>stdlib_string_type.fypp</a></li>
     
-     <li><a href='../module/stdlib_bitsets.html'>stdlib_bitsets</a></li>
+     <li><a href='../module/stdlib_string_type.html'>stdlib_string_type</a></li>
     
   
      <li class="active">operator(<=)</li>
@@ -180,25 +178,27 @@
 
 
 
+
+
+
+
+
+
+
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
-  <div id="funcs-0" class="panel-collapse collapse">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-0">Module Procedures</a></h3></div>
+  <div id="modprocs-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../interface/operator%28lt%3D%29.html#proc-le_64">le_64</a>
+      <a class="list-group-item" href="../interface/operator%28lt%3D%29.html#moduleprocedure-le_string_string">le_string_string</a>
       
-      <a class="list-group-item" href="../interface/operator%28lt%3D%29.html#proc-le_large">le_large</a>
+      <a class="list-group-item" href="../interface/operator%28lt%3D%29.html#moduleprocedure-le_string_char">le_string_char</a>
+      
+      <a class="list-group-item" href="../interface/operator%28lt%3D%29.html#moduleprocedure-le_char_string">le_char_string</a>
       
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
 
 
 
@@ -209,30 +209,10 @@
     
     <div class="col-md-9" id='text'>
       <h2>public interface operator(<=)</h2>
-   <p>Returns <code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> are the same or the
- highest order different bit is set to 0 in <code>set1</code> and to 1 in <code>set2</code>,
- <code>.false.</code>  otherwise. The sets must have the same number of bits
- otherwise the result is undefined.
-(<a href="../page/specs/stdlib_bitsets.html#lt-compare-two-bitsets-to-determine-whether-the-first-is-less-than-or-equal-to-the-other">Specification</a>)</p>
-<h4 id="example">Example</h4>
-<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_le</span>
-        <span class="k">use </span><span class="n">stdlib_bitsets</span>
-        <span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">set0</span><span class="p">,</span> <span class="n">set1</span><span class="p">,</span> <span class="n">set2</span>
-        <span class="k">call </span><span class="n">set0</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
-        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
-        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">init</span><span class="p">(</span> <span class="mi">33</span> <span class="p">)</span>
-        <span class="k">call </span><span class="n">set1</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">0</span> <span class="p">)</span>
-        <span class="k">call </span><span class="n">set2</span> <span class="p">%</span> <span class="n">set</span><span class="p">(</span> <span class="mi">32</span> <span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span> <span class="n">set0</span> <span class="o">&lt;=</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set1</span> <span class="o">&lt;=</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set0</span> <span class="o">&lt;=</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
-            <span class="n">set0</span> <span class="o">&lt;=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set1</span> <span class="o">&lt;=</span> <span class="n">set1</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="n">set2</span> <span class="o">&lt;=</span> <span class="n">set2</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">&amp;</span>
-            <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set1</span> <span class="o">&lt;=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">set2</span> <span class="o">&lt;=</span> <span class="n">set0</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span>   <span class="p">&amp;</span>
-            <span class="n">set2</span> <span class="o">&lt;=</span> <span class="n">set1</span> <span class="p">)</span> <span class="k">then</span>
-<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Passed 64 bit less than or equal tests.&#39;</span>
-        <span class="k">else</span>
-<span class="k">            </span><span class="n">error</span> <span class="k">stop</span> <span class="s1">&#39;Failed 64 bit less than or equal tests.&#39;</span>
-        <span class="k">end if</span>
-<span class="k">    end program </span><span class="n">demo_le</span>
-</code></pre></div>
+   <p>Compare two character sequences for being less than, the left-hand side,
+ the right-hand side or both character sequences can be represented by
+ a string.</p>
+<p>This operator is elemental and returns a default logical scalar value.</p>
      
      
     <br>
@@ -254,14 +234,23 @@
 
 
 
+
+
+
+
+
+
+
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
-  <div id="funcs-1" class="panel-collapse collapse">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-1">Module Procedures</a></h3></div>
+  <div id="modprocs-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../interface/operator%28lt%3D%29.html#proc-le_64">le_64</a>
+      <a class="list-group-item" href="../interface/operator%28lt%3D%29.html#moduleprocedure-le_string_string">le_string_string</a>
       
-      <a class="list-group-item" href="../interface/operator%28lt%3D%29.html#proc-le_large">le_large</a>
+      <a class="list-group-item" href="../interface/operator%28lt%3D%29.html#moduleprocedure-le_string_char">le_string_char</a>
+      
+      <a class="list-group-item" href="../interface/operator%28lt%3D%29.html#moduleprocedure-le_char_string">le_char_string</a>
       
     </div>
   </div>
@@ -270,23 +259,20 @@
 
 
 
-
-
-
-
-
-
-
      </section>
      <br class="visible-xs visible-sm hidden-md">
      
   
-   <h2>Functions</h2>
+
+  
+
+  
+   <h2>Module Procedures</h2>
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-le_64"></span><h3>
-public elemental function le_64(set1, set2) result(le)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-le_string_string"></span><h3>
+private elemental function le_string_string(lhs, rhs) result(is_le)
     
     
    
@@ -294,6 +280,11 @@ public elemental function le_64(set1, set2) result(le)
   <div class="panel-body">
        
     
+
+
+
+<p>Compare two character sequences for being less or equal.
+ In this version both character sequences are by a string.</p>
     
     <h4>Arguments</h4>
     
@@ -314,12 +305,12 @@ public elemental function le_64(set1, set2) result(le)
   
 <tr>
   
-  <td><span class="anchor" ></span>type(<a href='../type/bitset_64.html'>bitset_64</a>),</td>
+  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>set1</strong></td><td></td>
+  <td><strong>lhs</strong></td><td></td>
   
 </tr>
 
@@ -329,12 +320,12 @@ public elemental function le_64(set1, set2) result(le)
   
 <tr>
   
-  <td><span class="anchor" ></span>type(<a href='../type/bitset_64.html'>bitset_64</a>),</td>
+  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>set2</strong></td><td></td>
+  <td><strong>rhs</strong></td><td></td>
   
 </tr>
 
@@ -360,8 +351,8 @@ public elemental function le_64(set1, set2) result(le)
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-le_large"></span><h3>
-public elemental function le_large(set1, set2) result(le)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-le_string_char"></span><h3>
+private elemental function le_string_char(lhs, rhs) result(is_le)
     
     
    
@@ -369,6 +360,11 @@ public elemental function le_large(set1, set2) result(le)
   <div class="panel-body">
        
     
+
+
+
+<p>Compare two character sequences for being less or equal.
+ In this version the left-hand side character sequences is by a string.</p>
     
     <h4>Arguments</h4>
     
@@ -389,12 +385,12 @@ public elemental function le_large(set1, set2) result(le)
   
 <tr>
   
-  <td><span class="anchor" ></span>type(<a href='../type/bitset_large.html'>bitset_large</a>),</td>
+  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>set1</strong></td><td></td>
+  <td><strong>lhs</strong></td><td></td>
   
 </tr>
 
@@ -404,12 +400,92 @@ public elemental function le_large(set1, set2) result(le)
   
 <tr>
   
-  <td><span class="anchor" ></span>type(<a href='../type/bitset_large.html'>bitset_large</a>),</td>
+  <td><span class="anchor" ></span>character(len=*),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>set2</strong></td><td></td>
+  <td><strong>rhs</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>logical
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-le_char_string"></span><h3>
+private elemental function le_char_string(lhs, rhs) result(is_le)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+<p>Compare two character sequences for being less or equal
+ In this version the right-hand side character sequences is by a string.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>lhs</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>rhs</strong></td><td></td>
   
 </tr>
 
@@ -434,10 +510,6 @@ public elemental function le_large(set1, set2) result(le)
 
    
      
-
-  
-
-  
 
  </div>
 </div>
@@ -449,12 +521,12 @@ public elemental function le_large(set1, set2) result(le)
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>0886501</small></p></div>
+                                          <br /><small>3621b03</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2021-04-10 11:54  
+             on 2021-04-11 14:53  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
