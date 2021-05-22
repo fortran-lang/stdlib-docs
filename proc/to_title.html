@@ -128,7 +128,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.4% of total for procedures.">18 statements</a>
+    title=" 0.5% of total for procedures.">20 statements</a>
      </li> 
      
      
@@ -173,9 +173,9 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../proc/to_title.html#variable-i~4">i</a>
+      <a class="list-group-item" href="../proc/to_title.html#variable-capitalize_switch">capitalize_switch</a>
       
-      <a class="list-group-item" href="../proc/to_title.html#variable-n~3">n</a>
+      <a class="list-group-item" href="../proc/to_title.html#variable-i~5">i</a>
       
     </div>
   </div>
@@ -225,7 +225,7 @@ public pure function to_title(string) result(title_string)
 
 
     
-    <p>Convert character variable to title case
+    <p>Converts character sequence to title case
  (<a href="../page/specs/stdlib_ascii.html#to_title">Specification</a>)</p>
 <p>Version: experimental</p>
     
@@ -248,7 +248,7 @@ public pure function to_title(string) result(title_string)
   
 <tr>
   
-  <td><span class="anchor" id="variable-string~3"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-string~4"></span>character(len=*),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -391,9 +391,9 @@ public pure function to_title(string) result(title_string)
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../proc/to_title.html#variable-i~4">i</a>
+      <a class="list-group-item" href="../proc/to_title.html#variable-capitalize_switch">capitalize_switch</a>
       
-      <a class="list-group-item" href="../proc/to_title.html#variable-n~3">n</a>
+      <a class="list-group-item" href="../proc/to_title.html#variable-i~5">i</a>
       
     </div>
   </div>
@@ -451,11 +451,11 @@ public pure function to_title(string) result(title_string)
   
 <tr>
   
-  <td><span class="anchor" id="variable-i~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-capitalize_switch"></span>logical,</td>
   
   <td>public</td>
   <td></td><td>::</td>
-  <td><strong>i</strong></td><td></td><td></td><td></td>
+  <td><strong>capitalize_switch</strong></td><td></td><td></td><td></td>
   
 </tr>
 
@@ -465,11 +465,11 @@ public pure function to_title(string) result(title_string)
   
 <tr>
   
-  <td><span class="anchor" id="variable-n~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-i~5"></span>integer,</td>
   
   <td>public</td>
   <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td><td></td><td></td>
+  <td><strong>i</strong></td><td></td><td></td><td></td>
   
 </tr>
 
@@ -499,22 +499,23 @@ public pure function to_title(string) result(title_string)
     <div class="highlight"><pre><span></span>    <span class="k">pure function </span><span class="n">to_title</span><span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">title_string</span><span class="p">)</span>
         <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
         <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">))</span> <span class="kd">::</span> <span class="n">title_string</span>
-        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span>
+        <span class="kt">logical</span> <span class="kd">::</span> <span class="n">capitalize_switch</span>
 
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="n">capitalize_switch</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span>
         <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">is_alphanum</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)))</span> <span class="k">then</span>
-<span class="k">                </span><span class="n">title_string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">char_to_upper</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">))</span>
-                <span class="n">n</span> <span class="o">=</span> <span class="n">i</span>
-                <span class="k">exit</span>
+<span class="k">                if</span> <span class="p">(</span><span class="n">capitalize_switch</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                    </span><span class="n">title_string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">char_to_upper</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">))</span>
+                    <span class="n">capitalize_switch</span> <span class="o">=</span> <span class="p">.</span><span class="n">false</span><span class="p">.</span>
+                <span class="k">else</span>
+<span class="k">                    </span><span class="n">title_string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">char_to_lower</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">))</span>
+                <span class="k">end if</span>
 <span class="k">            else</span>
 <span class="k">                </span><span class="n">title_string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">capitalize_switch</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span>
             <span class="k">end if</span>
 <span class="k">        end do</span>
-
-<span class="k">        do </span><span class="n">i</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-            <span class="n">title_string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">char_to_lower</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">))</span>
-        <span class="k">end do</span>
 
 <span class="k">    end function </span><span class="n">to_title</span>
 </pre></div>
@@ -533,12 +534,12 @@ public pure function to_title(string) result(title_string)
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>5f3e2f5</small></p></div>
+                                          <br /><small>1822e3f</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2021-05-01 16:13  
+             on 2021-05-22 09:12  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>

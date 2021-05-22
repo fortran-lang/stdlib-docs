@@ -172,7 +172,7 @@
 <li><a href="#example_2">Example</a></li>
 </ul>
 </li>
-<li><a href="#reverse">reverse</a><ul>
+<li><a href="#to_sentence">to_sentence</a><ul>
 <li><a href="#status_3">Status</a></li>
 <li><a href="#description_3">Description</a></li>
 <li><a href="#syntax_3">Syntax</a></li>
@@ -182,7 +182,7 @@
 <li><a href="#example_3">Example</a></li>
 </ul>
 </li>
-<li><a href="#to_string">to_string</a><ul>
+<li><a href="#reverse">reverse</a><ul>
 <li><a href="#status_4">Status</a></li>
 <li><a href="#description_4">Description</a></li>
 <li><a href="#syntax_4">Syntax</a></li>
@@ -190,6 +190,16 @@
 <li><a href="#argument_4">Argument</a></li>
 <li><a href="#result-value_4">Result value</a></li>
 <li><a href="#example_4">Example</a></li>
+</ul>
+</li>
+<li><a href="#to_string">to_string</a><ul>
+<li><a href="#status_5">Status</a></li>
+<li><a href="#description_5">Description</a></li>
+<li><a href="#syntax_5">Syntax</a></li>
+<li><a href="#class_5">Class</a></li>
+<li><a href="#argument_5">Argument</a></li>
+<li><a href="#result-value_5">Result value</a></li>
+<li><a href="#example_5">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -253,9 +263,12 @@ intrinsic character variables and constants.</p>
 <h4 id="status_2">Status</h4>
 <p>Experimental</p>
 <h4 id="description_2">Description</h4>
-<p>Returns a capitalized version of an input character variable.
-The first alphabetical character is transformed to uppercase unless it follows a numeral.
-The rest of the character sequence is transformed to lowercase.</p>
+<p>Returns the titlecase version of the input character variable.<br>
+Title case: First character of every word in the sentence is converted to 
+uppercase and the rest of the characters are converted to lowercase.<br>
+A word is a contiguous sequence of character(s) which consists of alphabetical 
+character(s) and numeral(s) only and doesn't exclude any alphabetical character 
+or numeral present next to either of its 2 ends.</p>
 <h4 id="syntax_2">Syntax</h4>
 <p><code>res = <a href="../../module/stdlib_ascii.html#proc-to_title">to_title</a> (string)</code></p>
 <h4 id="class_2">Class</h4>
@@ -268,20 +281,23 @@ The rest of the character sequence is transformed to lowercase.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_to_title</span>
     <span class="k">use </span><span class="n">stdlib_ascii</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">to_title</span>
     <span class="k">implicit none</span>
-<span class="k">    print</span><span class="o">*</span><span class="p">,</span> <span class="n">to_title</span><span class="p">(</span><span class="s2">&quot;hello!&quot;</span><span class="p">)</span> <span class="c">! returns &quot;Hello!&quot;</span>
+<span class="k">    print</span><span class="o">*</span><span class="p">,</span> <span class="n">to_title</span><span class="p">(</span><span class="s2">&quot;hello there!&quot;</span><span class="p">)</span> <span class="c">! returns &quot;Hello There!&quot;</span>
     <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="n">to_title</span><span class="p">(</span><span class="s2">&quot;&#39;enquoted&#39;&quot;</span><span class="p">)</span> <span class="c">! returns &quot;&#39;Enquoted&#39;&quot;</span>
     <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="n">to_title</span><span class="p">(</span><span class="s2">&quot;1st&quot;</span><span class="p">)</span>  <span class="c">! returns &quot;1st&quot;</span>
  <span class="k">end program </span><span class="n">demo_to_title</span>
 </code></pre></div>
 
 
-<h3 id="reverse"><code>reverse</code></h3>
+<h3 id="to_sentence"><code>to_sentence</code></h3>
 <h4 id="status_3">Status</h4>
 <p>Experimental</p>
 <h4 id="description_3">Description</h4>
-<p>Reverses the order of all characters in the input character type.</p>
+<p>Returns the sentencecase version of the input character variable.<br>
+The first alphabetical character of the sequence is transformed to uppercase 
+unless it follows a numeral. The rest of the characters in the sequence are 
+transformed to lowercase.</p>
 <h4 id="syntax_3">Syntax</h4>
-<p><code>res = <a href="../../module/stdlib_ascii.html#proc-reverse">reverse</a> (string)</code></p>
+<p><code>res = <a href="../../module/stdlib_ascii.html#proc-to_sentence">to_sentence</a> (string)</code></p>
 <h4 id="class_3">Class</h4>
 <p>Pure function.</p>
 <h4 id="argument_3">Argument</h4>
@@ -289,6 +305,30 @@ The rest of the character sequence is transformed to lowercase.</p>
 <h4 id="result-value_3">Result value</h4>
 <p>The result is an intrinsic character type of the same length as <code>string</code>.</p>
 <h4 id="example_3">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_to_sentence</span>
+    <span class="k">use </span><span class="n">stdlib_ascii</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">to_sentence</span>
+    <span class="k">implicit none</span>
+<span class="k">    print</span><span class="o">*</span><span class="p">,</span> <span class="n">to_sentence</span><span class="p">(</span><span class="s2">&quot;hello!&quot;</span><span class="p">)</span> <span class="c">! returns &quot;Hello!&quot;</span>
+    <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="n">to_sentence</span><span class="p">(</span><span class="s2">&quot;&#39;enquoted&#39;&quot;</span><span class="p">)</span> <span class="c">! returns &quot;&#39;Enquoted&#39;&quot;</span>
+    <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="n">to_sentence</span><span class="p">(</span><span class="s2">&quot;1st&quot;</span><span class="p">)</span>  <span class="c">! returns &quot;1st&quot;</span>
+ <span class="k">end program </span><span class="n">demo_to_sentence</span>
+</code></pre></div>
+
+
+<h3 id="reverse"><code>reverse</code></h3>
+<h4 id="status_4">Status</h4>
+<p>Experimental</p>
+<h4 id="description_4">Description</h4>
+<p>Reverses the order of all characters in the input character type.</p>
+<h4 id="syntax_4">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_ascii.html#proc-reverse">reverse</a> (string)</code></p>
+<h4 id="class_4">Class</h4>
+<p>Pure function.</p>
+<h4 id="argument_4">Argument</h4>
+<p><code>string</code>: shall be an intrinsic character type. It is an <code>intent(in)</code> argument.</p>
+<h4 id="result-value_4">Result value</h4>
+<p>The result is an intrinsic character type of the same length as <code>string</code>.</p>
+<h4 id="example_4">Example</h4>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_reverse</span>
     <span class="k">use </span><span class="n">stdlib_ascii</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">reverse</span>
     <span class="k">implicit none</span>
@@ -298,19 +338,19 @@ The rest of the character sequence is transformed to lowercase.</p>
 
 
 <h3 id="to_string"><code>to_string</code></h3>
-<h4 id="status_4">Status</h4>
+<h4 id="status_5">Status</h4>
 <p>Experimental</p>
-<h4 id="description_4">Description</h4>
+<h4 id="description_5">Description</h4>
 <p>Create a character string representing the value of the provided variable.</p>
-<h4 id="syntax_4">Syntax</h4>
+<h4 id="syntax_5">Syntax</h4>
 <p><code>res = <a href="../../module/stdlib_ascii.html#interface-to_string">to_string</a> (string)</code></p>
-<h4 id="class_4">Class</h4>
+<h4 id="class_5">Class</h4>
 <p>Pure function.</p>
-<h4 id="argument_4">Argument</h4>
+<h4 id="argument_5">Argument</h4>
 <p><code>val</code>: shall be an intrinsic integer or logical type. It is an <code>intent(in)</code> argument.</p>
-<h4 id="result-value_4">Result value</h4>
+<h4 id="result-value_5">Result value</h4>
 <p>The result is an intrinsic character type.</p>
-<h4 id="example_4">Example</h4>
+<h4 id="example_5">Example</h4>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_string_value</span>
     <span class="k">use </span><span class="n">stdlib_ascii</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">to_string</span>
     <span class="k">implicit none</span>
@@ -445,12 +485,12 @@ The rest of the character sequence is transformed to lowercase.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>5f3e2f5</small></p></div>
+                                          <br /><small>1822e3f</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2021-05-01 16:13  
+             on 2021-05-22 09:12  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
