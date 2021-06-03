@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A community driven standard library for (modern) Fortran">
+    
+    <meta name="author" content="fortran-lang/stdlib contributors" >
+    <link rel="icon" href="../../favicon.png">
+
+    <title>Sorting Procedures &ndash; Fortran-lang/stdlib</title>
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/pygments.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/local.css" rel="stylesheet">
+    
+    <link  href="../../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../../js/jquery-2.1.3.min.js"></script>
+    <script src="../../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">Fortran-lang/stdlib </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../../page/index.html'>Contributing and specs</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../../lists/procedures.html">Procedures</a></li>
+        
+               
+            <li><a href="../../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/procedures.html">Procedures</a></li>
+
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  <div class="row">
+    <h1>Sorting Procedures</h1>
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="well well-sm" style="min-height: 40px;">
+      <ul class="list-inline" style="margin-bottom:0px; display:inline">
+         
+         
+<!--
+        
+-->
+      </ul>
+        <ol class="breadcrumb in-well">
+      
+         <li><a href='../../page/index.html'>Contributing and specs</a></li>
+      
+         <li><a href='../../page/specs/index.html'>Specifications (specs)</a></li>
+      
+         <li class="active">Sorting Procedures</li>
+      </ol>
+    </div>
+    </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-9 col-md-push-3" id='text'>
+      <h1 id="the-stdlib_sorting-module">The <code>stdlib_sorting</code> module</h1>
+<div class="toc">
+<ul>
+<li><a href="#the-stdlib_sorting-module">The stdlib_sorting module</a><ul>
+<li><a href="#overview-of-sorting">Overview of sorting</a></li>
+<li><a href="#overview-of-the-module">Overview of the module</a><ul>
+<li><a href="#the-int_size-parameter">The int_size parameter</a></li>
+<li><a href="#the-module-subroutines">The module subroutines</a><ul>
+<li><a href="#licensing">Licensing</a></li>
+<li><a href="#the-ord_sort-subroutine">The ORD_SORT subroutine</a></li>
+<li><a href="#the-sort_index-subroutine">The SORT_INDEX subroutine</a></li>
+<li><a href="#the-sort-subroutine">The SORT subroutine</a></li>
+</ul>
+</li>
+<li><a href="#specifications-of-the-stdlib_sorting-procedures">Specifications of the stdlib_sorting procedures</a><ul>
+<li><a href="#ord_sort-sorts-an-input-array">ord_sort - sorts an input array</a><ul>
+<li><a href="#status">Status</a></li>
+<li><a href="#description">Description</a></li>
+<li><a href="#syntax">Syntax</a></li>
+<li><a href="#class">Class</a></li>
+<li><a href="#arguments">Arguments</a></li>
+<li><a href="#notes">Notes</a></li>
+<li><a href="#example">Example</a></li>
+</ul>
+</li>
+<li><a href="#sort-sorts-an-input-array">sort - sorts an input array</a><ul>
+<li><a href="#status_1">Status</a></li>
+<li><a href="#description_1">Description</a></li>
+<li><a href="#syntax_1">Syntax</a></li>
+<li><a href="#class_1">Class</a></li>
+<li><a href="#arguments_1">Arguments</a></li>
+<li><a href="#notes_1">Notes</a></li>
+<li><a href="#example_1">Example</a></li>
+</ul>
+</li>
+<li><a href="#sort_index-creates-an-array-of-sorting-indices-for-an-input-array-while-also-sorting-the-array">sort_index - creates an array of sorting indices for an input array, while also sorting the array.</a><ul>
+<li><a href="#status_2">Status</a></li>
+<li><a href="#description_2">Description</a></li>
+<li><a href="#syntax_2">Syntax</a></li>
+<li><a href="#class_2">Class</a></li>
+<li><a href="#arguments_2">Arguments</a></li>
+<li><a href="#notes_2">Notes</a></li>
+<li><a href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#performance-benchmarks">Performance benchmarks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="overview-of-sorting">Overview of sorting</h2>
+<p>The sorting of collections of data is useful in the analysis of those
+collections.
+With its absence of generics and limited polymorphism, it is
+impractical, in current Fortran, to provide sorting routines for
+arbitrary collections of arbitrary types of data.
+However Fortran's arrays are by far its most widely used collection,
+and arrays of arbitrary types of data can often be sorted in terms of
+a single component of intrinsic type.
+The Fortran Standard Library therefore provides a module,
+<code>stdlib_sorting</code>, with procedures to sort arrays of simple intrinsic
+numeric types, i.e. the different kinds of integers and reals, the
+default assumed length character, and the <code>stdlib_string_type</code>
+module's <code>string_type</code> type.</p>
+<h2 id="overview-of-the-module">Overview of the module</h2>
+<p>The module <code>stdlib_sorting</code> defines several public entities, one
+default integer parameter, <code>int_size</code>, and three overloaded
+subroutines: <code>ORD_SORT</code>, <code>SORT</code>, and <code>SORT_INDEX</code>. The
+overloaded subroutines also each have seven specific names for
+versions corresponding to different types of array arguments.</p>
+<h3 id="the-int_size-parameter">The <code>int_size</code> parameter</h3>
+<p>The <code>int_size</code> parameter is used to specify the kind of integer used
+in indexing the various arrays. Currently the module sets <code>int_size</code>
+to the value of <code>int64</code> from the <code>stdlib_kinds</code> module.</p>
+<h3 id="the-module-subroutines">The module subroutines</h3>
+<p>The <code>stdlib_sorting</code> module provides three different overloaded
+subroutines intended to sort three different kinds of arrays of
+data:
+* <code>ORD_SORT</code> is intended to sort simple arrays of intrinsic data
+  that have significant sections that were partially ordered before
+  the sort;
+* <code>SORT_INDEX</code> is based on <code>ORD_SORT</code>, but in addition to sorting the
+  input array, it returns indices that map the original array to its
+  sorted version. This enables related arrays to be re-ordered in the
+  same way; and
+* <code>SORT</code> is intended to sort simple arrays of intrinsic data
+  that are effectively unordered before the sort.</p>
+<h4 id="licensing">Licensing</h4>
+<p>The Fortran Standard Library is distributed under the MIT
+License. However components of the library may be based on code with
+additional licensing restrictions. In particular <code>ORD_SORT</code>,
+<code>SORT_INDEX</code>, and <code>SORT</code> are translations of codes with their
+own distribution restrictions.</p>
+<p>The <code>ORD_SORT</code> and <code>SORT_INDEX</code> subroutines are essentially
+translations to Fortran 2008 of the <code>"Rust" sort</code> of the Rust Language
+distributed as part of
+<a href="https://github.com/rust-lang/rust/blob/90eb44a5897c39e3dff9c7e48e3973671dcd9496/src/liballoc/slice.rs"><code>slice.rs</code></a>.
+The header of the <code>slice.rs</code> file has as its licensing requirements:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Copyright</span> <span class="mi">2012</span><span class="o">-</span><span class="mi">2015</span> <span class="n">The</span> <span class="n">Rust</span> <span class="n">Project</span> <span class="n">Developers</span><span class="p">.</span> <span class="n">See</span> <span class="n">the</span> <span class="n">COPYRIGHT</span>
+<span class="n">file</span> <span class="k">at</span> <span class="n">the</span> <span class="n">top</span><span class="o">-</span><span class="k">level</span> <span class="n">directory</span> <span class="k">of</span> <span class="n">this</span> <span class="n">distribution</span> <span class="k">and</span> <span class="k">at</span>
+<span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">rust</span><span class="o">-</span><span class="n">lang</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">COPYRIGHT</span><span class="p">.</span>
+
+<span class="n">Licensed</span> <span class="k">under</span> <span class="n">the</span> <span class="n">Apache</span> <span class="n">License</span><span class="p">,</span> <span class="k">Version</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span> <span class="o">&lt;</span><span class="n">LICENSE</span><span class="o">-</span><span class="n">APACHE</span> <span class="k">or</span>
+<span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="p">.</span><span class="n">apache</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">licenses</span><span class="o">/</span><span class="n">LICENSE</span><span class="o">-</span><span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="o">&gt;</span> <span class="k">or</span> <span class="n">the</span> <span class="n">MIT</span> <span class="n">license</span>
+<span class="o">&lt;</span><span class="n">LICENSE</span><span class="o">-</span><span class="n">MIT</span> <span class="k">or</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">opensource</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">licenses</span><span class="o">/</span><span class="n">MIT</span><span class="o">&gt;</span><span class="p">,</span> <span class="k">at</span> <span class="n">your</span>
+<span class="k">option</span><span class="p">.</span> <span class="n">This</span> <span class="n">file</span> <span class="n">may</span> <span class="k">not</span> <span class="n">be</span> <span class="n">copied</span><span class="p">,</span> <span class="n">modified</span><span class="p">,</span> <span class="k">or</span> <span class="n">distributed</span>
+<span class="k">except</span> <span class="n">according</span> <span class="k">to</span> <span class="n">those</span> <span class="n">terms</span><span class="p">.</span>
+</code></pre></div>
+
+
+<p>So the license for the <code>slice.rs</code> code is compatible with the use of
+modified versions of the code in the Fortran Standard Library under
+the MIT license.</p>
+<p>The <code>SORT</code> subroutine is essentially a translation to Fortran
+2008 of the
+[<code>introsort</code>]((http://www.cs.rpi.edu/~musser/gp/introsort.ps) of David
+Musser.  David Musser has given permission to include a variant of
+<code>introsort</code> in the Fortran Standard Library under the MIT license
+provided we cite:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">Musser, D.R., “Introspective Sorting and Selection Algorithms,”</span>
+<span class="err">Software—Practice and Experience, Vol. 27(8), 983–993 (August 1997).</span>
+</code></pre></div>
+
+
+<p>as the official source of the algorithm.</p>
+<h4 id="the-ord_sort-subroutine">The <code>ORD_SORT</code> subroutine</h4>
+<p><code>ORD_SORT</code> is a translation of the <code>"Rust" sort</code> sorting algorithm
+contained in [<code>slice.rs</code>]
+(https://github.com/rust-lang/rust/blob/90eb44a5897c39e3dff9c7e48e3973671dcd9496/src/liballoc/slice.rs).
+<code>"Rust" sort</code>, in turn, is inspired by the [<code>timsort</code> algorithm]
+(http://svn.python.org/projects/python/trunk/Objects/listsort.txt)
+that Tim Peters created for the Python Language.
+<code>ORD_SORT</code> is a hybrid stable comparison algorithm combining <code>merge sort</code>,
+and <code>insertion sort</code>. It has always at worst O(N Ln(N)) runtime
+performance in sorting random data, having a performance about 15-25%
+slower than <code>SORT</code> on such data. However it has much better
+performance than <code>SORT</code> on partially sorted data, having O(N)
+performance on uniformly increasing or decreasing data.</p>
+<p>When sorting in an increasing order, <code>ORD_SORT</code> begins by traversing the array
+starting in its tail attempting to identify <code>runs</code> in the array, where a run is
+either a uniformly decreasing sequence, <code>ARRAY(i-1) &gt; ARRAY(i)</code>, or a
+non-decreasing, <code>ARRAY(i-1) &lt;= ARRAY(i)</code>, sequence. First delimited decreasing
+sequences are reversed in their order. Then, if the sequence has less than
+<code>MIN_RUN</code> elements, previous elements in the array are added to the run using
+<code>insertion sort</code> until the run contains <code>MIN_RUN</code> elements or the array is
+completely processed. As each run is identified the start and length of the run
+are then pushed onto a stack and the stack is then processed using <code>merge</code> until
+it obeys the stack invariants:</p>
+<ol>
+<li>len(i-2) &gt; len(i-1) + len(i)</li>
+<li>len(i-1) &gt; len(i)</li>
+</ol>
+<p>ensuring that processing the stack is, at worst, of order <code>O(N
+Ln(N))</code>. However, because of the identification of decreasing and
+non-decreasing runs, processing of structured data can be much faster,
+with processing of uniformly decreasing or non-decreasing arrays being
+of order O(N). The result in our tests is that <code>ORD_SORT</code> is about
+25% slower than <code>SORT</code> on purely random data, depending on
+the compiler, but can be <code>Ln(N)</code> faster than <code>SORT</code> on highly
+structured data. As a modified <code>merge sort</code>, <code>ORD_SORT</code> requires the
+use of a "scratch" array, that may be provided as an optional <code>work</code>
+argument or allocated internally on the stack.</p>
+<p>Arrays can be also sorted in a decreasing order by providing the argument <code>reverse
+= .true.</code>.</p>
+<h4 id="the-sort_index-subroutine">The <code>SORT_INDEX</code> subroutine</h4>
+<p>The <code>SORT</code> and <code>ORD_SORT</code> subroutines can sort rank 1 isolated
+arrays of intrinsic types, but do nothing for the coordinated sorting
+of related data, e.g., multiple related rank 1 arrays, higher rank
+arrays, or arrays of derived types. For such related data, what is
+useful is an array of indices that maps a rank 1 array to its sorted
+form. For such a sort, a stable sort is useful, therefore the module
+provides a subroutine, <code>SORT_INDEX</code>, that generates such an array of
+indices based on the <code>ORD_SORT</code> algorithm, in addition to sorting
+the input array.</p>
+<p>The logic of <code>SORT_INDEX</code> parallels that of <code>ORD_SORT</code>, with
+additional housekeeping to keep the array of indices consistent with
+the sorted positions of the input array. Because of this additional
+housekeeping it has slower runtime performance than <code>ORD_SORT</code>.
+<code>SORT_INDEX</code> requires the use of two "scratch" arrays, that may be
+provided as optional <code>work</code> and <code>iwork</code> arguments or allocated
+internally on the stack.</p>
+<h4 id="the-sort-subroutine">The <code>SORT</code> subroutine</h4>
+<p><code>SORT</code> uses the <code>introsort</code> sorting algorithm of David Musser.
+<code>introsort</code> is a hybrid unstable comparison algorithm combining
+<code>quicksort</code>, <code>insertion sort</code>, and <code>heap sort</code>. While this algorithm's
+runtime performance is always O(N Ln(N)), it is relatively fast on
+randomly ordered data, but does not show the improvement in
+performance on partly sorted data found for <code>ORD_SORT</code>.</p>
+<p>First it examines the array and estimates the depth of recursion a
+quick sort would require for ideal (random) data, <code>D =
+Ceiling(Ln(N)/Ln(2))</code>. It then defines a limit to the number of
+<code>quicksort</code> recursions to be allowed in processing,
+<code>D_limit = factor * D</code>, where factor is currently 2, and
+calls <code>introsort</code> proper. <code>introsort</code> proper then:</p>
+<ol>
+<li>Examines the number of elements remaining to be sorted, and, if
+   they are less than 16, sorts them using insertion sort and returns;</li>
+<li>If they are not less than 16, checks whether the current depth of
+   recursion exceeds <code>D_limit</code> and, if it does, processes the remaining
+   elements with heap sort and returns;</li>
+<li>
+<p>If the current depth of recursion does not exceed <code>D_limit</code>, then
+   in effect does a <code>quicksort</code> step:</p>
+<ul>
+<li>Partitions the remaining array using a median of three,</li>
+<li>Calls <code>introsort</code> proper on the leftmost partition,</li>
+<li>Calls <code>introsort</code> proper on the rightmost partition, and then
+  returns.</li>
+</ul>
+</li>
+</ol>
+<p>The resulting algorithm is of order O(N Ln(N)) run time performance
+for all inputs. Because it relies on <code>quicksort</code>, the coefficient of
+the O(N Ln(N)) behavior is typically small compared to other sorting
+algorithms on random data. On partially sorted data it can show either
+slower <code>heap sort</code> performance, or enhanced performance by up to a
+factor of six. Still, even when it shows enhanced performance, its
+performance on partially sorted data is typically an order of
+magnitude slower than <code>ORD_SORT</code>. Its memory requirements are also
+low, being of order O(Ln(N)), while the memory requirements of
+<code>ORD_SORT</code> and <code>SORT_INDEX</code> are of order O(N).</p>
+<h3 id="specifications-of-the-stdlib_sorting-procedures">Specifications of the <code>stdlib_sorting</code> procedures</h3>
+<h4 id="ord_sort-sorts-an-input-array"><code>ord_sort</code> - sorts an input array</h4>
+<h5 id="status">Status</h5>
+<p>Experimental</p>
+<h5 id="description">Description</h5>
+<p>Returns an input <code>array</code> with the elements sorted in order of
+increasing, or decreasing, value.</p>
+<h5 id="syntax">Syntax</h5>
+<p><code>call <a href="../../module/stdlib_sorting.html">stdlib_sorting</a>ord_sort ( array[, work, reverse ] )</code></p>
+<h5 id="class">Class</h5>
+<p>Generic subroutine.</p>
+<h5 id="arguments">Arguments</h5>
+<p><code>array</code> : shall be a rank one array of any of the types:
+<code>integer(int8)</code>, <code>integer(int16)</code>, <code>integer(int32)</code>, <code>integer(int64)</code>,
+<code>real(sp)</code>, <code>real(dp)</code>, <code>real(qp)</code>, <code>character(*)</code>, or
+<code>type(string_type)</code>. It is an <code>intent(inout)</code> argument. On input it is
+the array to be sorted. If both the type of <code>array</code> is real and at
+least one of the elements is a <code>NaN</code>, then the ordering of the result
+is undefined. Otherwise on return its elements will be sorted in order
+of non-decreasing value.</p>
+<p><code>work</code> (optional): shall be a rank one array of the same type as
+array, and shall have at least <code>size(array)/2</code> elements. It is an
+<code>intent(out)</code> argument. It is intended to be used as "scratch"
+memory for internal record keeping. If associated with an array in
+static storage, its use can significantly reduce the stack memory
+requirements for the code. Its contents on return are undefined.</p>
+<p><code>reverse</code> (optional): shall be a scalar of type default logical. It
+is an <code>intent(in)</code> argument. If present with a value of <code>.true.</code> then
+<code>array</code> will be sorted in order of non-increasing values in stable
+order. Otherwise index will sort <code>array</code> in order of non-decreasing
+values in stable order.</p>
+<h5 id="notes">Notes</h5>
+<p><code>ORD_SORT</code> implements a hybrid sorting algorithm combining
+<code>merge sort</code>, and <code>insertion sort</code>. For most purposes it behaves like
+a <code>merge sort</code>, providing worst case <code>O(N Ln(N))</code> run time performance
+for most random arrays, that is typically slower than <code>SORT</code>.
+However, if the array has significant runs of decreasing or
+non-decreasing values, performance can be much better than
+<code>SORT</code>, with <code>O(N)</code> behavior on uniformly decreasing, or
+non-decreasing arrays. The optional <code>work</code> array replaces "scratch"
+memory that would otherwise be allocated on the stack. If <code>array</code> is of
+any type <code>REAL</code> the order of its elements on return undefined if any
+element of <code>array</code> is a <code>NaN</code>.  Sorting of <code>CHARACTER(*)</code> and
+<code>STRING_TYPE</code> arrays are based on the operators <code>&gt;</code> and <code>&lt;</code>, and not on the
+function <code>LGT</code>.</p>
+<h5 id="example">Example</h5>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_ord_sort</span>
+      <span class="k">use </span><span class="n">stdlib_sorting</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">ord_sort</span>
+      <span class="k">implicit none</span>
+<span class="k">      </span><span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">array1</span><span class="p">(:),</span> <span class="n">work</span><span class="p">(:)</span>
+
+      <span class="n">array1</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+      <span class="k">allocate</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="n">mold</span> <span class="o">=</span> <span class="n">array1</span><span class="p">)</span>
+      <span class="k">call </span><span class="n">ord_sort</span><span class="p">(</span><span class="n">array1</span><span class="p">,</span> <span class="n">work</span><span class="p">)</span>
+      <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="n">array1</span>   <span class="c">!print [1, 3, 4, 4, 5, 9, 10]</span>
+    <span class="k">end program </span><span class="n">demo_ord_sort</span>
+</code></pre></div>
+
+
+<h4 id="sort-sorts-an-input-array"><code>sort</code> - sorts an input array</h4>
+<h5 id="status_1">Status</h5>
+<p>Experimental</p>
+<h5 id="description_1">Description</h5>
+<p>Returns an input array with the elements sorted in order of increasing, or
+decreasing, value.</p>
+<h5 id="syntax_1">Syntax</h5>
+<p><code>call <a href="../../module/stdlib_sorting.html">stdlib_sorting</a>sort ( array[, reverse] )</code></p>
+<h5 id="class_1">Class</h5>
+<p>Pure generic subroutine.</p>
+<h5 id="arguments_1">Arguments</h5>
+<p><code>array</code> : shall be a rank one array of any of the types:
+<code>integer(int8)</code>, <code>integer(int16)</code>, <code>integer(int32)</code>, <code>integer(int64)</code>,
+<code>real(sp)</code>, <code>real(dp)</code>, <code>real(qp)</code>. <code>character(*)</code>, or
+<code>type(string_type)</code>. It is an <code>intent(inout)</code> argument. On return its
+input elements will be sorted in order of non-decreasing value.</p>
+<p><code>reverse</code> (optional): shall be a scalar of type default logical. It
+is an <code>intent(in)</code> argument. If present with a value of <code>.true.</code> then
+<code>array</code> will be sorted in order of non-increasing values in unstable
+order. Otherwise index will sort <code>array</code> in order of non-decreasing
+values in unstable order.</p>
+<h5 id="notes_1">Notes</h5>
+<p><code>SORT</code> implements a hybrid sorting algorithm combining
+<code>quicksort</code>, <code>merge sort</code>, and <code>insertion sort</code>. For most purposes it
+behaves like a <code>quicksort</code> with a median of three partition, providing
+good, <code>O(N Ln(N))</code>, run time performance for most random arrays, but
+defaulting to <code>merge sort</code> if the structure of the array results in
+the <code>quicksort</code> not converging as rapidly as expected. If <code>array</code> is of
+any type <code>REAL</code>, the behavior of the sorting is undefined if any
+element of <code>array</code> is a <code>NaN</code>.  Sorting of <code>CHARACTER(*)</code> and
+<code>STRING_TYPE</code> arrays are based on the operators <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, and
+<code>&gt;=</code>, and not on the functions <code>LLT</code>, <code>LLE</code>, <code>LGT</code>, or <code>LGE</code>.</p>
+<h5 id="example_1">Example</h5>
+<div class="codehilite"><pre><span></span><code>    <span class="k">program </span><span class="n">demo_sort</span>
+      <span class="k">use </span><span class="n">stdlib_sorting</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">sort</span>
+      <span class="k">implicit none</span>
+<span class="k">      </span><span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="k">array</span><span class="p">(:)</span>
+
+      <span class="k">array</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+      <span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
+      <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="k">array</span>   <span class="c">!print [1, 3, 4, 4, 5, 9, 10]</span>
+    <span class="k">end program </span><span class="n">demo_sort</span>
+</code></pre></div>
+
+
+<h4 id="sort_index-creates-an-array-of-sorting-indices-for-an-input-array-while-also-sorting-the-array"><code>sort_index</code> - creates an array of sorting indices for an input array, while also sorting the array.</h4>
+<h5 id="status_2">Status</h5>
+<p>Experimental</p>
+<h5 id="description_2">Description</h5>
+<p>Returns the input <code>array</code> sorted in the direction requested while
+retaining order stability, and an integer array whose elements would
+sort the input <code>array</code> to produce the output <code>array</code>.</p>
+<h5 id="syntax_2">Syntax</h5>
+<p><code>call <a href="../../module/stdlib_sorting.html">stdlib_sorting</a>sort_index ( array, index[, work, iwork, reverse ] )</code></p>
+<h5 id="class_2">Class</h5>
+<p>Generic subroutine.</p>
+<h5 id="arguments_2">Arguments</h5>
+<p><code>array</code>: shall be a rank one array of any of the types:
+<code>integer(int8)</code>, <code>integer(int16)</code>, <code>integer(int32)</code>, <code>integer(int64)</code>,
+<code>real(sp)</code>, <code>real(dp)</code>, <code>real(qp)</code>, <code>character(*)</code>, or
+<code>type(string_type)</code>. It is an <code>intent(inout)</code> argument. On input it
+will be an array whose sorting indices are to be determined. On return
+it will be the sorted array.</p>
+<p><code>index</code>: shall be a rank one integer array of kind <code>int_size</code> and of
+the size of <code>array</code>. It is an <code>intent(out)</code> argument. On return it
+shall have values that are the indices needed to sort the original
+array in the desired direction.</p>
+<p><code>work</code> (optional): shall be a rank one array of any of the same type as
+<code>array</code>, and shall have at least <code>size(array)/2</code> elements. It is an
+<code>intent(out)</code> argument. It is intended to be used as "scratch"
+memory for internal record keeping. If associated with an array in
+static storage, its use can significantly reduce the stack memory
+requirements for the code. Its contents on return are undefined.</p>
+<p><code>iwork</code> (optional): shall be a rank one integer array of kind
+<code>int_size</code>, and shall have at least <code>size(array)/2</code> elements. It
+is an <code>intent(out)</code> argument.  It is intended to be used as "scratch"
+memory for internal record keeping. If associated with an array in
+static storage, its use can significantly reduce the stack memory
+requirements for the code. Its contents on return are undefined.</p>
+<p><code>reverse</code> (optional): shall be a scalar of type default logical. It
+is an <code>intent(in)</code> argument. If present with a value of <code>.true.</code> then
+<code>index</code> will sort <code>array</code> in order of non-increasing values in stable
+order. Otherwise index will sort <code>array</code> in order of non-decreasing
+values in stable order.</p>
+<h5 id="notes_2">Notes</h5>
+<p><code>SORT_INDEX</code> implements the hybrid sorting algorithm of <code>ORD_SORT</code>,
+keeping the values of <code>index</code> consistent with the elements of <code>array</code>
+as it is sorted. As a <code>merge sort</code> based algorithm, it is a stable
+sorting comparison algorithm. The optional <code>work</code> and <code>iwork</code> arrays
+replace "scratch" memory that would otherwise be allocated on the
+stack. If <code>array</code> is of any kind of <code>REAL</code> the order of the elements in
+<code>index</code> and <code>array</code> on return are undefined if any element of <code>array</code>
+is a <code>NaN</code>. Sorting of <code>CHARACTER(*)</code> and <code>STRING_TYPE</code> arrays are
+based on the operator <code>&gt;</code>, and not on the function <code>LGT</code>.</p>
+<p>It should be emphasized that the order of <code>array</code> will typically be
+different on return</p>
+<h5 id="examples">Examples</h5>
+<p>Sorting a related rank one array:</p>
+<div class="codehilite"><pre><span></span><code>    <span class="k">subroutine </span><span class="n">sort_related_data</span><span class="p">(</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">work</span><span class="p">,</span> <span class="nb">index</span><span class="p">,</span> <span class="n">iwork</span> <span class="p">)</span>
+        <span class="c">! Sort `a`, and  also  sort `b` to be reorderd the same way as `a`</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">a</span><span class="p">(:)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">b</span><span class="p">(:)</span> <span class="c">! The same size as a</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">work</span><span class="p">(:)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="nb">index</span><span class="p">(:)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">iwork</span><span class="p">(:)</span>
+        <span class="c">! Find the indices to sort a</span>
+        <span class="k">call </span><span class="n">sort_index</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a</span><span class="p">)),&amp;</span>
+            <span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">iwork</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+        <span class="c">! Sort b based on the sorting of a</span>
+        <span class="n">b</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span> <span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="p">)</span>
+    <span class="k">end subroutine </span><span class="n">sort_related_data</span>
+</code></pre></div>
+
+
+<p>Sorting a rank 2 array based on the data in a column</p>
+<div class="codehilite"><pre><span></span><code>    <span class="k">subroutine </span><span class="n">sort_related_data</span><span class="p">(</span> <span class="k">array</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">work</span><span class="p">,</span> <span class="nb">index</span><span class="p">,</span> <span class="n">iwork</span> <span class="p">)</span>
+        <span class="c">! Reorder rows of `array` such that `array(:, column)` is  sorted</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>         <span class="kd">::</span> <span class="k">array</span><span class="p">(:,:)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">column</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">work</span><span class="p">(:)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="nb">index</span><span class="p">(:)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">iwork</span><span class="p">(:)</span>
+        <span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span>           <span class="kd">::</span> <span class="n">dummy</span><span class="p">(:)</span>
+        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span>
+        <span class="k">allocate</span><span class="p">(</span><span class="n">dummy</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="c">! Extract a column of `array`</span>
+        <span class="n">dummy</span><span class="p">(:)</span> <span class="o">=</span> <span class="k">array</span><span class="p">(:,</span> <span class="n">column</span><span class="p">)</span>
+        <span class="c">! Find the indices to sort the column</span>
+        <span class="k">call </span><span class="n">sort_index</span><span class="p">(</span><span class="n">dummy</span><span class="p">,</span> <span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">dummy</span><span class="p">)),&amp;</span>
+            <span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">dummy</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">iwork</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">dummy</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+        <span class="c">! Sort a based on the sorting of its column</span>
+        <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">array</span><span class="p">(:,</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)),</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">end do</span>
+<span class="k">    end subroutine </span><span class="n">sort_related_data</span>
+</code></pre></div>
+
+
+<p>Sorting an array of a derived type based on the data in one component</p>
+<div class="codehilite"><pre><span></span><code>    <span class="k">subroutine </span><span class="n">sort_a_data</span><span class="p">(</span> <span class="n">a_data</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">work</span><span class="p">,</span> <span class="nb">index</span><span class="p">,</span> <span class="n">iwork</span> <span class="p">)</span>
+        <span class="c">! Sort `a_data` in terms or its component `a`</span>
+        <span class="k">type</span><span class="p">(</span><span class="n">a_type</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">a_data</span><span class="p">(:)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">a</span><span class="p">(:)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">work</span><span class="p">(:)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="nb">index</span><span class="p">(:)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">iwork</span><span class="p">(:)</span>
+        <span class="c">! Extract a component of `a_data`</span>
+        <span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">))</span> <span class="o">=</span> <span class="n">a_data</span><span class="p">(:)</span> <span class="p">%</span> <span class="n">a</span>
+        <span class="c">! Find the indices to sort the component</span>
+        <span class="k">call </span><span class="n">sort_index</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">)),</span> <span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">)),&amp;</span>
+            <span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">iwork</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+        <span class="c">! Sort a_data based on the sorting of that component</span>
+        <span class="n">a_data</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">a_data</span><span class="p">(</span> <span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">))</span> <span class="p">)</span>
+    <span class="k">end subroutine </span><span class="n">sort_a_data</span>
+</code></pre></div>
+
+
+<h3 id="performance-benchmarks">Performance benchmarks</h3>
+<p>We have performed benchmarks of the procedures on nine different
+integer arrays each of size <code>2**20</code>:</p>
+<ul>
+<li>Blocks - the array is divided into six blocks, each of distinct
+  uniformly increasing integers.</li>
+<li>Decreasing - values decrease uniformly from <code>2**20-1</code> to <code>0</code>.</li>
+<li>Identical - all integers have the same value of 10.</li>
+<li>Increasing - values increase uniformly from <code>0</code> to <code>2**20-1</code>.</li>
+<li>Random dense - the integers are generated randomly from a set of
+  values from <code>0</code> to <code>2**18-1</code> so duplicates are dense.</li>
+<li>Random order - a set of integers from <code>0</code> to <code>2**20 - 1</code> in random
+  order.</li>
+<li>Random sparse - the integers are generated randomly from a set of
+  values from <code>0</code> to <code>2**22-1</code> so duplicates are sparse.</li>
+<li>Random-3 - the increasing array has 3 random exchanges of individual
+  elements.</li>
+<li>Random-10 - the final ten elements of the increasing array are
+  replaced by random values.</li>
+</ul>
+<p>On three different default character arrays, each of length 4 and of
+size <code>26**4</code>:</p>
+<ul>
+<li>Char. Decreasing - values decrease uniformly from <code>"zzzz"</code> to
+  <code>"aaaa"</code>.</li>
+<li>Char. Increasing - values decrease uniformly from <code>"aaaa"</code> to
+  <code>"zzzz"</code>.</li>
+<li>Char. Random - the set of strings from <code>"aaaa"</code> to <code>"zzzz"</code> in
+  random order.</li>
+</ul>
+<p>On three different <code>string_type</code> arrays, each of length 4 elements and
+of size <code>26**3</code>:</p>
+<ul>
+<li>String Decreasing - values decrease uniformly from <code>"zzz"</code> to
+  <code>"aaa"</code>.</li>
+<li>String Increasing - values decrease uniformly from <code>"aaa"</code> to
+  <code>"zzz"</code>.</li>
+<li>String Random - the set of strings from <code>"aaa"</code> to <code>"zzz"</code> in
+  random order.</li>
+</ul>
+<p>These benchmarks have been performed on two different compilers, both
+on a MacBook Pro, featuring a 2.3 GHz Quad-Core Intel Core i5, with 8
+GB 2133 MHz LPDDR3 memory. The first compiler was GNU Fortran
+(GCC) 10.2.0, with the following results:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Elements</th>
+<th>Array Name</th>
+<th>Method</th>
+<th>Time (s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Blocks</td>
+<td>Ord_Sort</td>
+<td>0.00738</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Decreasing</td>
+<td>Ord_Sort</td>
+<td>0.00380</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Identical</td>
+<td>Ord_Sort</td>
+<td>0.00220</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Increasing</td>
+<td>Ord_Sort</td>
+<td>0.00209</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random dense</td>
+<td>Ord_Sort</td>
+<td>0.17972</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random order</td>
+<td>Ord_Sort</td>
+<td>0.17503</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random sparse</td>
+<td>Ord_Sort</td>
+<td>0.17340</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random 3</td>
+<td>Ord_Sort</td>
+<td>0.00847</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random 10</td>
+<td>Ord_Sort</td>
+<td>0.00484</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Decrease</td>
+<td>Ord_Sort</td>
+<td>0.00763</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Increase</td>
+<td>Ord_Sort</td>
+<td>0.00414</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Random</td>
+<td>Ord_Sort</td>
+<td>0.23746</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Decrease</td>
+<td>Ord_Sort</td>
+<td>0.00543</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Increase</td>
+<td>Ord_Sort</td>
+<td>0.00347</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Random</td>
+<td>Ord_Sort</td>
+<td>0.09461</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Blocks</td>
+<td>Sort</td>
+<td>0.10556</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Decreasing</td>
+<td>Sort</td>
+<td>0.13348</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Identical</td>
+<td>Sort</td>
+<td>0.15719</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Increasing</td>
+<td>Sort</td>
+<td>0.05316</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random dense</td>
+<td>Sort</td>
+<td>0.15047</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random order</td>
+<td>Sort</td>
+<td>0.15176</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random sparse</td>
+<td>Sort</td>
+<td>0.15767</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random 3</td>
+<td>Sort</td>
+<td>0.19907</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random 10</td>
+<td>Sort</td>
+<td>0.34244</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Decrease</td>
+<td>Sort</td>
+<td>0.30723</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Increase</td>
+<td>Sort</td>
+<td>0.10984</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Random</td>
+<td>Sort</td>
+<td>0.20642</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Decrease</td>
+<td>Sort</td>
+<td>0.15101</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Increase</td>
+<td>Sort</td>
+<td>0.05569</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Random</td>
+<td>Sort</td>
+<td>0.08499</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Blocks</td>
+<td>Sort_Index</td>
+<td>0.01163</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Decreasing</td>
+<td>Sort_Index</td>
+<td>0.00720</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Identical</td>
+<td>Sort_Index</td>
+<td>0.00451</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Increasing</td>
+<td>Sort_Index</td>
+<td>0.00452</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random dense</td>
+<td>Sort_Index</td>
+<td>0.20295</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random order</td>
+<td>Sort_Index</td>
+<td>0.20190</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random sparse</td>
+<td>Sort_Index</td>
+<td>0.20221</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random 3</td>
+<td>Sort_Index</td>
+<td>0.01406</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random 10</td>
+<td>Sort_Index</td>
+<td>0.00765</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Decrease</td>
+<td>Sort_Index</td>
+<td>0.00912</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Increase</td>
+<td>Sort_Index</td>
+<td>0.00515</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Random</td>
+<td>Sort_Index</td>
+<td>0.24693</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Decrease</td>
+<td>Sort_Index</td>
+<td>0.00528</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Increase</td>
+<td>Sort_Index</td>
+<td>0.00341</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Random</td>
+<td>Sort_Index</td>
+<td>0.09554</td>
+</tr>
+</tbody>
+</table>
+<p>The second compiler was Intel(R) Fortran Intel(R) 64 Compiler Classic
+for applications running on Intel(R) 64, Version 2021.2.0 Build
+20210228_000000, with the following results:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Elements</th>
+<th>Array Name</th>
+<th>Method</th>
+<th>Time (s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Blocks</td>
+<td>Ord_Sort</td>
+<td>0.00320</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Decreasing</td>
+<td>Ord_Sort</td>
+<td>0.00142</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Identical</td>
+<td>Ord_Sort</td>
+<td>0.00102</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Increasing</td>
+<td>Ord_Sort</td>
+<td>0.00158</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random dense</td>
+<td>Ord_Sort</td>
+<td>0.09859</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random order</td>
+<td>Ord_Sort</td>
+<td>0.09704</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random sparse</td>
+<td>Ord_Sort</td>
+<td>0.09599</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random 3</td>
+<td>Ord_Sort</td>
+<td>0.00396</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random 10</td>
+<td>Ord_Sort</td>
+<td>0.00183</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Decrease</td>
+<td>Ord_Sort</td>
+<td>0.00763</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Increase</td>
+<td>Ord_Sort</td>
+<td>0.00341</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Random</td>
+<td>Ord_Sort</td>
+<td>0.21991</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Decrease</td>
+<td>Ord_Sort</td>
+<td>0.01957</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Increase</td>
+<td>Ord_Sort</td>
+<td>0.00573</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Random</td>
+<td>Ord_Sort</td>
+<td>0.37850</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Blocks</td>
+<td>Sort</td>
+<td>0.03668</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Decreasing</td>
+<td>Sort</td>
+<td>0.04073</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Identical</td>
+<td>Sort</td>
+<td>0.03884</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Increasing</td>
+<td>Sort</td>
+<td>0.01279</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random dense</td>
+<td>Sort</td>
+<td>0.06945</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random order</td>
+<td>Sort</td>
+<td>0.07151</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random sparse</td>
+<td>Sort</td>
+<td>0.07224</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random 3</td>
+<td>Sort</td>
+<td>0.07954</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random 10</td>
+<td>Sort</td>
+<td>0.14395</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Decrease</td>
+<td>Sort</td>
+<td>0.30367</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Increase</td>
+<td>Sort</td>
+<td>0.11316</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Random</td>
+<td>Sort</td>
+<td>0.20233</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Decrease</td>
+<td>Sort</td>
+<td>0.64479</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Increase</td>
+<td>Sort</td>
+<td>0.23737</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Random</td>
+<td>Sort</td>
+<td>0.31361</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Blocks</td>
+<td>Sort_Index</td>
+<td>0.00643</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Decreasing</td>
+<td>Sort_Index</td>
+<td>0.00219</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Identical</td>
+<td>Sort_Index</td>
+<td>0.00126</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Increasing</td>
+<td>Sort_Index</td>
+<td>0.00130</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random dense</td>
+<td>Sort_Index</td>
+<td>0.12911</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random order</td>
+<td>Sort_Index</td>
+<td>0.13024</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random sparse</td>
+<td>Sort_Index</td>
+<td>0.12956</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random 3</td>
+<td>Sort_Index</td>
+<td>0.00781</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>1048576</td>
+<td>Random 10</td>
+<td>Sort_Index</td>
+<td>0.00281</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Decrease</td>
+<td>Sort_Index</td>
+<td>0.00779</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Increase</td>
+<td>Sort_Index</td>
+<td>0.00393</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>456976</td>
+<td>Char. Random</td>
+<td>Sort_Index</td>
+<td>0.22561</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Decrease</td>
+<td>Sort_Index</td>
+<td>0.01878</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Increase</td>
+<td>Sort_Index</td>
+<td>0.00543</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>17576</td>
+<td>String Random</td>
+<td>Sort_Index</td>
+<td>0.37748</td>
+</tr>
+</tbody>
+</table>
+    </div>
+    
+    <div class="col-md-3 col-md-pull-9">
+      <hr class="visible-xs visible-sm">
+        <div class="well toc">
+          <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../../page/index.html'>Contributing and specs</a></li>
+          </ul>
+          <hr>
+          <ul class="nav nav-stacked nav-pills">
+            
+            <li role="presentation">
+            <a href='../../page/./License.html'>Fortran stdlib License (MIT)</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/index.html'>Contributing</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../page/contributing/CodeOfConduct.html'>Contributor Code of Conduct</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/StyleGuide.html'>Style Guide</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/Workflow.html'>Workflow for Contributors</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/index.html'>Specifications (specs)</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_ascii.html'>ASCII</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_bitsets.html'>Bitsets</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_error.html'>error</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_io.html'>IO</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_linalg.html'>linalg</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_logger.html'>logger</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_math.html'>math</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_optval.html'>optval</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_quadrature.html'>quadrature</a>
+            
+            </li>
+            
+            <li role="presentation" class="disabled">
+            <a href='../../page/specs/stdlib_sorting.html'>Sorting Procedures</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stats.html'>stats</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stats_distribution_PRNG.html'>stats_distribution</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_string_type.html'>string type</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_strings.html'>string handling</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+          </ul>
+        </div>
+    </div>
+    
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+                                          <br /><small>888b5d3</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2021-06-03 10:37  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>
