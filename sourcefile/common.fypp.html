@@ -268,127 +268,136 @@
 <a name="ln-27"></a><span class="cp">#! Collected (kind, type) tuples for integer types</span>
 <a name="ln-28"></a><span class="cp">#:set INT_KINDS_TYPES = list(zip(INT_KINDS, INT_TYPES))</span>
 <a name="ln-29"></a>
-<a name="ln-30"></a><span class="cp">#! Derived type string_type</span>
-<a name="ln-31"></a><span class="cp">#:set STRING_KINDS = [&quot;string_type&quot;]</span>
+<a name="ln-30"></a><span class="cp">#! Logical kinds to be considered during templating</span>
+<a name="ln-31"></a><span class="cp">#:set LOG_KINDS = [&quot;lk&quot;, &quot;c_bool&quot;]</span>
 <a name="ln-32"></a>
-<a name="ln-33"></a><span class="cp">#! String types to be considered during templating</span>
-<a name="ln-34"></a><span class="cp">#:set STRING_TYPES = [&quot;type({})&quot;.format(k) for k in STRING_KINDS]</span>
+<a name="ln-33"></a><span class="cp">#! Logical types to be considered during templating</span>
+<a name="ln-34"></a><span class="cp">#:set LOG_TYPES = [&quot;logical({})&quot;.format(k) for k in LOG_KINDS]</span>
 <a name="ln-35"></a>
-<a name="ln-36"></a><span class="cp">#! Collected (kind, type) tuples for string derived types</span>
-<a name="ln-37"></a><span class="cp">#:set STRING_KINDS_TYPES = list(zip(STRING_KINDS, STRING_TYPES))</span>
+<a name="ln-36"></a><span class="cp">#! Collected (kind, type) tuples for logical types</span>
+<a name="ln-37"></a><span class="cp">#:set LOG_KINDS_TYPES = list(zip(LOG_KINDS, LOG_TYPES))</span>
 <a name="ln-38"></a>
-<a name="ln-39"></a>
-<a name="ln-40"></a><span class="cp">#! Whether Fortran 90 compatible code should be generated</span>
-<a name="ln-41"></a><span class="cp">#:set VERSION90 = defined(&#39;VERSION90&#39;)</span>
-<a name="ln-42"></a>
-<a name="ln-43"></a>
-<a name="ln-44"></a><span class="cp">#! Ranks to be generated when templates are created</span>
-<a name="ln-45"></a><span class="cp">#:if not defined(&#39;MAXRANK&#39;)</span>
-<a name="ln-46"></a>  <span class="err">#</span><span class="p">:</span><span class="k">if </span><span class="n">VERSION90</span>
-<a name="ln-47"></a>    <span class="err">#</span><span class="p">:</span><span class="n">set</span> <span class="n">MAXRANK</span> <span class="o">=</span> <span class="mi">7</span>
-<a name="ln-48"></a>  <span class="err">#</span><span class="p">:</span><span class="k">else</span>
-<a name="ln-49"></a>    <span class="err">#</span><span class="p">:</span><span class="n">set</span> <span class="n">MAXRANK</span> <span class="o">=</span> <span class="mi">15</span>
-<a name="ln-50"></a>  <span class="err">#</span><span class="p">:</span><span class="n">endif</span>
-<a name="ln-51"></a><span class="cp">#:endif</span>
+<a name="ln-39"></a><span class="cp">#! Derived type string_type</span>
+<a name="ln-40"></a><span class="cp">#:set STRING_KINDS = [&quot;string_type&quot;]</span>
+<a name="ln-41"></a>
+<a name="ln-42"></a><span class="cp">#! String types to be considered during templating</span>
+<a name="ln-43"></a><span class="cp">#:set STRING_TYPES = [&quot;type({})&quot;.format(k) for k in STRING_KINDS]</span>
+<a name="ln-44"></a>
+<a name="ln-45"></a><span class="cp">#! Collected (kind, type) tuples for string derived types</span>
+<a name="ln-46"></a><span class="cp">#:set STRING_KINDS_TYPES = list(zip(STRING_KINDS, STRING_TYPES))</span>
+<a name="ln-47"></a>
+<a name="ln-48"></a>
+<a name="ln-49"></a><span class="cp">#! Whether Fortran 90 compatible code should be generated</span>
+<a name="ln-50"></a><span class="cp">#:set VERSION90 = defined(&#39;VERSION90&#39;)</span>
+<a name="ln-51"></a>
 <a name="ln-52"></a>
-<a name="ln-53"></a>
-<a name="ln-54"></a><span class="cp">#! Generates an array rank suffix.</span>
-<a name="ln-55"></a><span class="cp">#!</span>
-<a name="ln-56"></a><span class="cp">#! Args:</span>
-<a name="ln-57"></a><span class="cp">#!     rank (int): Rank of the variable</span>
-<a name="ln-58"></a><span class="cp">#!</span>
-<a name="ln-59"></a><span class="cp">#! Returns:</span>
-<a name="ln-60"></a><span class="cp">#!     Array rank suffix string (e.g. (:,:) if rank = 2)</span>
-<a name="ln-61"></a><span class="cp">#!</span>
-<a name="ln-62"></a><span class="cp">#:def ranksuffix(rank)</span>
-<a name="ln-63"></a><span class="cp">#{if rank &gt; 0}#(${&quot;:&quot; + &quot;,:&quot; * (rank - 1)}$)#{endif}#</span>
-<a name="ln-64"></a><span class="cp">#:enddef</span>
-<a name="ln-65"></a>
-<a name="ln-66"></a>
-<a name="ln-67"></a><span class="cp">#! Joins stripped lines with given character string</span>
-<a name="ln-68"></a><span class="cp">#!</span>
-<a name="ln-69"></a><span class="cp">#! Args:</span>
-<a name="ln-70"></a><span class="cp">#!   txt (str): Text to process</span>
-<a name="ln-71"></a><span class="cp">#!   joinstr (str): String to use as connector</span>
-<a name="ln-72"></a><span class="cp">#!   prefix (str): String to add as prefix before the joined text</span>
-<a name="ln-73"></a><span class="cp">#!   suffix (str): String to add as suffix after the joined text</span>
-<a name="ln-74"></a><span class="cp">#!</span>
-<a name="ln-75"></a><span class="cp">#! Returns:</span>
-<a name="ln-76"></a><span class="cp">#!   Lines stripped and joined with the given string.</span>
+<a name="ln-53"></a><span class="cp">#! Ranks to be generated when templates are created</span>
+<a name="ln-54"></a><span class="cp">#:if not defined(&#39;MAXRANK&#39;)</span>
+<a name="ln-55"></a>  <span class="err">#</span><span class="p">:</span><span class="k">if </span><span class="n">VERSION90</span>
+<a name="ln-56"></a>    <span class="err">#</span><span class="p">:</span><span class="n">set</span> <span class="n">MAXRANK</span> <span class="o">=</span> <span class="mi">7</span>
+<a name="ln-57"></a>  <span class="err">#</span><span class="p">:</span><span class="k">else</span>
+<a name="ln-58"></a>    <span class="err">#</span><span class="p">:</span><span class="n">set</span> <span class="n">MAXRANK</span> <span class="o">=</span> <span class="mi">15</span>
+<a name="ln-59"></a>  <span class="err">#</span><span class="p">:</span><span class="n">endif</span>
+<a name="ln-60"></a><span class="cp">#:endif</span>
+<a name="ln-61"></a>
+<a name="ln-62"></a>
+<a name="ln-63"></a><span class="cp">#! Generates an array rank suffix.</span>
+<a name="ln-64"></a><span class="cp">#!</span>
+<a name="ln-65"></a><span class="cp">#! Args:</span>
+<a name="ln-66"></a><span class="cp">#!     rank (int): Rank of the variable</span>
+<a name="ln-67"></a><span class="cp">#!</span>
+<a name="ln-68"></a><span class="cp">#! Returns:</span>
+<a name="ln-69"></a><span class="cp">#!     Array rank suffix string (e.g. (:,:) if rank = 2)</span>
+<a name="ln-70"></a><span class="cp">#!</span>
+<a name="ln-71"></a><span class="cp">#:def ranksuffix(rank)</span>
+<a name="ln-72"></a><span class="cp">#{if rank &gt; 0}#(${&quot;:&quot; + &quot;,:&quot; * (rank - 1)}$)#{endif}#</span>
+<a name="ln-73"></a><span class="cp">#:enddef</span>
+<a name="ln-74"></a>
+<a name="ln-75"></a>
+<a name="ln-76"></a><span class="cp">#! Joins stripped lines with given character string</span>
 <a name="ln-77"></a><span class="cp">#!</span>
-<a name="ln-78"></a><span class="cp">#:def join_lines(txt, joinstr, prefix=&quot;&quot;, suffix=&quot;&quot;)</span>
-<a name="ln-79"></a><span class="err">${</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">joinstr</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span> <span class="n">for</span> <span class="n">line</span> <span class="n">in</span> <span class="n">txt</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;\n&quot;</span><span class="p">)])</span> <span class="o">+</span> <span class="n">suffix</span><span class="err">}$</span>
-<a name="ln-80"></a><span class="cp">#:enddef</span>
-<a name="ln-81"></a>
-<a name="ln-82"></a>
-<a name="ln-83"></a><span class="cp">#! Brace enclosed, comma separated Fortran expressions for a reduced shape.</span>
-<a name="ln-84"></a><span class="cp">#!</span>
-<a name="ln-85"></a><span class="cp">#! Rank of the original variable will be reduced by one. The routine generates</span>
-<a name="ln-86"></a><span class="cp">#! for each dimension a Fortan expression using merge(), which calculates the</span>
-<a name="ln-87"></a><span class="cp">#! size of the array for that dimension.</span>
-<a name="ln-88"></a><span class="cp">#!</span>
-<a name="ln-89"></a><span class="cp">#! Args:</span>
-<a name="ln-90"></a><span class="cp">#!   varname (str): Name of the variable to be used as origin</span>
-<a name="ln-91"></a><span class="cp">#!   origrank (int): Rank of the original variable</span>
-<a name="ln-92"></a><span class="cp">#!   idim (int): Index of the reduced dimension</span>
+<a name="ln-78"></a><span class="cp">#! Args:</span>
+<a name="ln-79"></a><span class="cp">#!   txt (str): Text to process</span>
+<a name="ln-80"></a><span class="cp">#!   joinstr (str): String to use as connector</span>
+<a name="ln-81"></a><span class="cp">#!   prefix (str): String to add as prefix before the joined text</span>
+<a name="ln-82"></a><span class="cp">#!   suffix (str): String to add as suffix after the joined text</span>
+<a name="ln-83"></a><span class="cp">#!</span>
+<a name="ln-84"></a><span class="cp">#! Returns:</span>
+<a name="ln-85"></a><span class="cp">#!   Lines stripped and joined with the given string.</span>
+<a name="ln-86"></a><span class="cp">#!</span>
+<a name="ln-87"></a><span class="cp">#:def join_lines(txt, joinstr, prefix=&quot;&quot;, suffix=&quot;&quot;)</span>
+<a name="ln-88"></a><span class="err">${</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">joinstr</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span> <span class="n">for</span> <span class="n">line</span> <span class="n">in</span> <span class="n">txt</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;\n&quot;</span><span class="p">)])</span> <span class="o">+</span> <span class="n">suffix</span><span class="err">}$</span>
+<a name="ln-89"></a><span class="cp">#:enddef</span>
+<a name="ln-90"></a>
+<a name="ln-91"></a>
+<a name="ln-92"></a><span class="cp">#! Brace enclosed, comma separated Fortran expressions for a reduced shape.</span>
 <a name="ln-93"></a><span class="cp">#!</span>
-<a name="ln-94"></a><span class="cp">#! Returns:</span>
-<a name="ln-95"></a><span class="cp">#!   Shape expression enclosed in braces, so that it can be used as suffix to</span>
-<a name="ln-96"></a><span class="cp">#!   define array shapes in declarations.</span>
+<a name="ln-94"></a><span class="cp">#! Rank of the original variable will be reduced by one. The routine generates</span>
+<a name="ln-95"></a><span class="cp">#! for each dimension a Fortan expression using merge(), which calculates the</span>
+<a name="ln-96"></a><span class="cp">#! size of the array for that dimension.</span>
 <a name="ln-97"></a><span class="cp">#!</span>
-<a name="ln-98"></a><span class="cp">#:def reduced_shape(varname, origrank, idim)</span>
-<a name="ln-99"></a>  <span class="err">#</span><span class="p">:</span><span class="n">assert</span> <span class="n">origrank</span> <span class="o">&gt;</span> <span class="mi">0</span>
-<a name="ln-100"></a>  <span class="err">#</span><span class="p">:</span><span class="k">if </span><span class="n">origrank</span> <span class="o">&gt;</span> <span class="mi">1</span>
-<a name="ln-101"></a>    <span class="err">#</span><span class="p">:</span><span class="k">call </span><span class="n">join_lines</span><span class="p">(</span><span class="n">joinstr</span><span class="o">=</span><span class="s2">&quot;, &quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
-<a name="ln-102"></a>      <span class="err">#</span><span class="p">:</span><span class="n">for</span> <span class="n">i</span> <span class="n">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">origrank</span><span class="p">)</span>
-<a name="ln-103"></a>        <span class="nb">merge</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="err">${</span><span class="n">varname</span><span class="err">}$</span><span class="p">,</span> <span class="err">${</span><span class="n">i</span><span class="err">}$</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="err">${</span><span class="n">varname</span><span class="err">}$</span><span class="p">,</span> <span class="err">${</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="err">}$</span><span class="p">),</span> <span class="n">mask</span><span class="o">=</span><span class="err">${</span><span class="n">i</span><span class="err">}$</span><span class="o">&lt;</span><span class="err">${</span><span class="nb">idim</span><span class="err">}$</span><span class="p">)</span>
-<a name="ln-104"></a>      <span class="err">#</span><span class="p">:</span><span class="n">endfor</span>
-<a name="ln-105"></a>    <span class="err">#</span><span class="p">:</span><span class="n">endcall</span>
-<a name="ln-106"></a>  <span class="err">#</span><span class="p">:</span><span class="n">endif</span>
-<a name="ln-107"></a><span class="cp">#:enddef</span>
-<a name="ln-108"></a>
-<a name="ln-109"></a>
-<a name="ln-110"></a><span class="cp">#! Generates a routine name from a generic name, rank, type and kind</span>
-<a name="ln-111"></a><span class="cp">#!</span>
-<a name="ln-112"></a><span class="cp">#! Args:</span>
-<a name="ln-113"></a><span class="cp">#!   gname (str): Generic name</span>
-<a name="ln-114"></a><span class="cp">#!   rank (integer): Rank if exist</span>
-<a name="ln-115"></a><span class="cp">#!   type (str): Type of the input</span>
-<a name="ln-116"></a><span class="cp">#!   kind (str): kind of inputs variable</span>
-<a name="ln-117"></a><span class="cp">#!   suffix (str): other identifier (could be used for output type/kind)</span>
-<a name="ln-118"></a><span class="cp">#!</span>
-<a name="ln-119"></a><span class="cp">#! Returns:</span>
-<a name="ln-120"></a><span class="cp">#!   A string with a new name</span>
-<a name="ln-121"></a><span class="cp">#!</span>
-<a name="ln-122"></a><span class="cp">#:def rname(gname, rank, type, kind, suffix=&#39;&#39;)</span>
-<a name="ln-123"></a>  <span class="err">$</span><span class="p">:</span><span class="s2">&quot;{0}_{1}_{2}{3}_{2}{3}&quot;</span><span class="p">.</span><span class="k">format</span><span class="p">(</span><span class="n">gname</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="k">type</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">kind</span><span class="p">)</span> <span class="k">if </span><span class="n">suffix</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="s2">&quot;{0}_{1}_{2}{3}_{4}&quot;</span><span class="p">.</span><span class="k">format</span><span class="p">(</span><span class="n">gname</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="k">type</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">kind</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span>
-<a name="ln-124"></a><span class="cp">#:enddef</span>
-<a name="ln-125"></a>
-<a name="ln-126"></a>
-<a name="ln-127"></a><span class="cp">#! Generates an array rank suffix for subarrays reducing the dimension</span>
-<a name="ln-128"></a><span class="cp">#!</span>
-<a name="ln-129"></a><span class="cp">#! Args:</span>
-<a name="ln-130"></a><span class="cp">#!   rank (int): Rank of the original variable</span>
-<a name="ln-131"></a><span class="cp">#!   selectors (array): Dimension and name of the variable(s)</span>
-<a name="ln-132"></a><span class="cp">#!</span>
-<a name="ln-133"></a><span class="cp">#! Returns:</span>
-<a name="ln-134"></a><span class="cp">#!   Array rank suffix string enclosed in braces</span>
-<a name="ln-135"></a><span class="cp">#!</span>
-<a name="ln-136"></a><span class="cp">#! E.g.,</span>
-<a name="ln-137"></a><span class="cp">#!   select_subarray(5 , [(4, &#39;i&#39;), (5, &#39;j&#39;)])}$</span>
-<a name="ln-138"></a><span class="cp">#!   -&gt; (:, :, :, i, j)</span>
-<a name="ln-139"></a><span class="cp">#!</span>
-<a name="ln-140"></a><span class="cp">#:def select_subarray(rank, selectors)</span>
-<a name="ln-141"></a>  <span class="err">#</span><span class="p">:</span><span class="n">assert</span> <span class="n">rank</span> <span class="o">&gt;</span> <span class="mi">0</span>
-<a name="ln-142"></a>  <span class="err">#</span><span class="p">:</span><span class="n">set</span> <span class="n">seldict</span> <span class="o">=</span> <span class="n">dict</span><span class="p">(</span><span class="n">selectors</span><span class="p">)</span>
-<a name="ln-143"></a>  <span class="err">#</span><span class="p">:</span><span class="k">call </span><span class="n">join_lines</span><span class="p">(</span><span class="n">joinstr</span><span class="o">=</span><span class="s2">&quot;, &quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
-<a name="ln-144"></a>    <span class="err">#</span><span class="p">:</span><span class="n">for</span> <span class="n">i</span> <span class="n">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-<a name="ln-145"></a>      <span class="err">$</span><span class="p">:</span><span class="n">seldict</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">)</span>
-<a name="ln-146"></a>    <span class="err">#</span><span class="p">:</span><span class="n">endfor</span>
-<a name="ln-147"></a>  <span class="err">#</span><span class="p">:</span><span class="n">endcall</span>
-<a name="ln-148"></a><span class="cp">#:enddef</span>
-<a name="ln-149"></a>
-<a name="ln-150"></a><span class="cp">#:endmute</span>
+<a name="ln-98"></a><span class="cp">#! Args:</span>
+<a name="ln-99"></a><span class="cp">#!   varname (str): Name of the variable to be used as origin</span>
+<a name="ln-100"></a><span class="cp">#!   origrank (int): Rank of the original variable</span>
+<a name="ln-101"></a><span class="cp">#!   idim (int): Index of the reduced dimension</span>
+<a name="ln-102"></a><span class="cp">#!</span>
+<a name="ln-103"></a><span class="cp">#! Returns:</span>
+<a name="ln-104"></a><span class="cp">#!   Shape expression enclosed in braces, so that it can be used as suffix to</span>
+<a name="ln-105"></a><span class="cp">#!   define array shapes in declarations.</span>
+<a name="ln-106"></a><span class="cp">#!</span>
+<a name="ln-107"></a><span class="cp">#:def reduced_shape(varname, origrank, idim)</span>
+<a name="ln-108"></a>  <span class="err">#</span><span class="p">:</span><span class="n">assert</span> <span class="n">origrank</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<a name="ln-109"></a>  <span class="err">#</span><span class="p">:</span><span class="k">if </span><span class="n">origrank</span> <span class="o">&gt;</span> <span class="mi">1</span>
+<a name="ln-110"></a>    <span class="err">#</span><span class="p">:</span><span class="k">call </span><span class="n">join_lines</span><span class="p">(</span><span class="n">joinstr</span><span class="o">=</span><span class="s2">&quot;, &quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+<a name="ln-111"></a>      <span class="err">#</span><span class="p">:</span><span class="n">for</span> <span class="n">i</span> <span class="n">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">origrank</span><span class="p">)</span>
+<a name="ln-112"></a>        <span class="nb">merge</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="err">${</span><span class="n">varname</span><span class="err">}$</span><span class="p">,</span> <span class="err">${</span><span class="n">i</span><span class="err">}$</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="err">${</span><span class="n">varname</span><span class="err">}$</span><span class="p">,</span> <span class="err">${</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="err">}$</span><span class="p">),</span> <span class="n">mask</span><span class="o">=</span><span class="err">${</span><span class="n">i</span><span class="err">}$</span><span class="o">&lt;</span><span class="err">${</span><span class="nb">idim</span><span class="err">}$</span><span class="p">)</span>
+<a name="ln-113"></a>      <span class="err">#</span><span class="p">:</span><span class="n">endfor</span>
+<a name="ln-114"></a>    <span class="err">#</span><span class="p">:</span><span class="n">endcall</span>
+<a name="ln-115"></a>  <span class="err">#</span><span class="p">:</span><span class="n">endif</span>
+<a name="ln-116"></a><span class="cp">#:enddef</span>
+<a name="ln-117"></a>
+<a name="ln-118"></a>
+<a name="ln-119"></a><span class="cp">#! Generates a routine name from a generic name, rank, type and kind</span>
+<a name="ln-120"></a><span class="cp">#!</span>
+<a name="ln-121"></a><span class="cp">#! Args:</span>
+<a name="ln-122"></a><span class="cp">#!   gname (str): Generic name</span>
+<a name="ln-123"></a><span class="cp">#!   rank (integer): Rank if exist</span>
+<a name="ln-124"></a><span class="cp">#!   type (str): Type of the input</span>
+<a name="ln-125"></a><span class="cp">#!   kind (str): kind of inputs variable</span>
+<a name="ln-126"></a><span class="cp">#!   suffix (str): other identifier (could be used for output type/kind)</span>
+<a name="ln-127"></a><span class="cp">#!</span>
+<a name="ln-128"></a><span class="cp">#! Returns:</span>
+<a name="ln-129"></a><span class="cp">#!   A string with a new name</span>
+<a name="ln-130"></a><span class="cp">#!</span>
+<a name="ln-131"></a><span class="cp">#:def rname(gname, rank, type, kind, suffix=&#39;&#39;)</span>
+<a name="ln-132"></a>  <span class="err">$</span><span class="p">:</span><span class="s2">&quot;{0}_{1}_{2}{3}_{2}{3}&quot;</span><span class="p">.</span><span class="k">format</span><span class="p">(</span><span class="n">gname</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="k">type</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">kind</span><span class="p">)</span> <span class="k">if </span><span class="n">suffix</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="s2">&quot;{0}_{1}_{2}{3}_{4}&quot;</span><span class="p">.</span><span class="k">format</span><span class="p">(</span><span class="n">gname</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="k">type</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">kind</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span>
+<a name="ln-133"></a><span class="cp">#:enddef</span>
+<a name="ln-134"></a>
+<a name="ln-135"></a>
+<a name="ln-136"></a><span class="cp">#! Generates an array rank suffix for subarrays reducing the dimension</span>
+<a name="ln-137"></a><span class="cp">#!</span>
+<a name="ln-138"></a><span class="cp">#! Args:</span>
+<a name="ln-139"></a><span class="cp">#!   rank (int): Rank of the original variable</span>
+<a name="ln-140"></a><span class="cp">#!   selectors (array): Dimension and name of the variable(s)</span>
+<a name="ln-141"></a><span class="cp">#!</span>
+<a name="ln-142"></a><span class="cp">#! Returns:</span>
+<a name="ln-143"></a><span class="cp">#!   Array rank suffix string enclosed in braces</span>
+<a name="ln-144"></a><span class="cp">#!</span>
+<a name="ln-145"></a><span class="cp">#! E.g.,</span>
+<a name="ln-146"></a><span class="cp">#!   select_subarray(5 , [(4, &#39;i&#39;), (5, &#39;j&#39;)])}$</span>
+<a name="ln-147"></a><span class="cp">#!   -&gt; (:, :, :, i, j)</span>
+<a name="ln-148"></a><span class="cp">#!</span>
+<a name="ln-149"></a><span class="cp">#:def select_subarray(rank, selectors)</span>
+<a name="ln-150"></a>  <span class="err">#</span><span class="p">:</span><span class="n">assert</span> <span class="n">rank</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<a name="ln-151"></a>  <span class="err">#</span><span class="p">:</span><span class="n">set</span> <span class="n">seldict</span> <span class="o">=</span> <span class="n">dict</span><span class="p">(</span><span class="n">selectors</span><span class="p">)</span>
+<a name="ln-152"></a>  <span class="err">#</span><span class="p">:</span><span class="k">call </span><span class="n">join_lines</span><span class="p">(</span><span class="n">joinstr</span><span class="o">=</span><span class="s2">&quot;, &quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+<a name="ln-153"></a>    <span class="err">#</span><span class="p">:</span><span class="n">for</span> <span class="n">i</span> <span class="n">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-154"></a>      <span class="err">$</span><span class="p">:</span><span class="n">seldict</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">)</span>
+<a name="ln-155"></a>    <span class="err">#</span><span class="p">:</span><span class="n">endfor</span>
+<a name="ln-156"></a>  <span class="err">#</span><span class="p">:</span><span class="n">endcall</span>
+<a name="ln-157"></a><span class="cp">#:enddef</span>
+<a name="ln-158"></a>
+<a name="ln-159"></a><span class="cp">#:endmute</span>
 </pre></div>
 
     </section>
@@ -402,12 +411,12 @@
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>b3c3102</small></p></div>
+                                          <br /><small>9929cdb</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2021-06-06 20:01  
+             on 2021-06-07 07:03  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
