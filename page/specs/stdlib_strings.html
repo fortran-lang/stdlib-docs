@@ -181,6 +181,16 @@
 <li><a href="#example_3">Example</a></li>
 </ul>
 </li>
+<li><a href="#slice">slice</a><ul>
+<li><a href="#description_4">Description</a></li>
+<li><a href="#syntax_4">Syntax</a></li>
+<li><a href="#status_4">Status</a></li>
+<li><a href="#class_4">Class</a></li>
+<li><a href="#argument_4">Argument</a></li>
+<li><a href="#result-value_4">Result value</a></li>
+<li><a href="#example_4">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -320,6 +330,69 @@ If no character <em>set</em> or <em>substring</em> is provided trailing whitespa
   <span class="k">print</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">ends_with</span><span class="p">(</span><span class="s2">&quot;pattern&quot;</span><span class="p">,</span> <span class="s2">&quot;pat&quot;</span><span class="p">)</span>  <span class="c">! F</span>
 <span class="k">end program </span><span class="n">demo</span>
 </code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="slice"><code>slice</code></h3>
+<h4 id="description_4">Description</h4>
+<p>Extracts the characters from the defined region of the input string by taking strides.</p>
+<p>Deduction Process:
+Function first automatically deduces the optional arguments that are not provided by the user.<br>
+This process is independent of both input <code>string</code> and permitted indexes of Fortran.<br>
+Deduced <code>first</code> and <code>last</code> argument take +infinity or -infinity value whereas deduced <code>stride</code> argument takes +1 or -1 value.</p>
+<p>Validation Process:
+Argument <code>first</code> and <code>last</code> defines this region for extraction by function <code>slice</code>.<br>
+If the defined region is invalid i.e. region contains atleast one invalid index, <code>first</code> and 
+<code>last</code> are converted to first and last valid indexes in this defined region respectively, 
+if no valid index exists in this region an empty string is returned.<br>
+<code>stride</code> can attain both negative or positive values but when the only invalid value 
+0 is given, it is converted to 1.</p>
+<p>Extraction Process:
+After all this, extraction starts from <code>first</code> index and takes stride of length <code>stride</code>.<br>
+Extraction starts only if <code>last</code> index is crossable from <code>first</code> index with stride <code>stride</code> 
+and remains active until <code>last</code> index is crossed.  </p>
+<h4 id="syntax_4">Syntax</h4>
+<p><code>string = <a href="../../module/stdlib_strings.html#interface-slice">slice</a> (string, first, last, stride)</code></p>
+<h4 id="status_4">Status</h4>
+<p>Experimental</p>
+<h4 id="class_4">Class</h4>
+<p>Pure function.</p>
+<h4 id="argument_4">Argument</h4>
+<ul>
+<li><code>string</code>: Character scalar or <a href="../../module/stdlib_string_type.html#type-string_type">string_type</a>
+  This argument is intent(in).</li>
+<li><code>first</code>: integer
+  This argument is intent(in) and optional.</li>
+<li><code>last</code>: integer
+  This argument is intent(in) and optional.</li>
+<li><code>stride</code>: integer
+  This argument is intent(in) and optional.</li>
+</ul>
+<h4 id="result-value_4">Result value</h4>
+<p>The result is of the same type as <code>string</code>.</p>
+<h4 id="example_4">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_slice</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span>
+  <span class="k">use </span><span class="n">stdlib_strings</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">slice</span>
+  <span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+  <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="kd">::</span> <span class="nb">char</span>
+
+<span class="nb">  </span><span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;abcdefghij&quot;</span>
+  <span class="c">! string &lt;-- &quot;abcdefghij&quot;</span>
+
+  <span class="nb">char</span> <span class="o">=</span> <span class="s2">&quot;abcdefghij&quot;</span>
+  <span class="c">! char &lt;-- &quot;abcdefghij&quot;</span>
+
+  <span class="k">print</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">slice</span><span class="p">(</span><span class="s2">&quot;abcdefghij&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>   <span class="c">! &quot;bdf&quot;</span>
+  <span class="k">print</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">slice</span><span class="p">(</span><span class="nb">char</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>           <span class="c">! &quot;bdf&quot;</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="n">slice</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="c">! string &lt;-- &quot;bdf&quot;</span>
+
+<span class="k">end program </span><span class="n">demo_slice</span>
+</code></pre></div>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
@@ -456,12 +529,12 @@ If no character <em>set</em> or <em>substring</em> is provided trailing whitespa
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>9929cdb</small></p></div>
+                                          <br /><small>d2ac7ae</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2021-06-07 07:03  
+             on 2021-06-12 16:46  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
