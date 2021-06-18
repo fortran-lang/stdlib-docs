@@ -191,6 +191,16 @@
 <li><a href="#example_4">Example</a></li>
 </ul>
 </li>
+<li><a href="#find">find</a><ul>
+<li><a href="#description_5">Description</a></li>
+<li><a href="#syntax_5">Syntax</a></li>
+<li><a href="#status_5">Status</a></li>
+<li><a href="#class_5">Class</a></li>
+<li><a href="#argument_5">Argument</a></li>
+<li><a href="#result-value_5">Result value</a></li>
+<li><a href="#example_5">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -353,20 +363,20 @@ After all this, extraction starts from <code>first</code> index and takes stride
 Extraction starts only if <code>last</code> index is crossable from <code>first</code> index with stride <code>stride</code> 
 and remains active until <code>last</code> index is crossed.  </p>
 <h4 id="syntax_4">Syntax</h4>
-<p><code>string = <a href="../../module/stdlib_strings.html#interface-slice">slice</a> (string, first, last, stride)</code></p>
+<p><code>string = <a href="../../module/stdlib_strings.html#interface-slice">slice</a> (string [, first, last, stride])</code></p>
 <h4 id="status_4">Status</h4>
 <p>Experimental</p>
 <h4 id="class_4">Class</h4>
 <p>Pure function.</p>
 <h4 id="argument_4">Argument</h4>
 <ul>
-<li><code>string</code>: Character scalar or <a href="../../module/stdlib_string_type.html#type-string_type">string_type</a>
+<li><code>string</code>: Character scalar or <a href="../../module/stdlib_string_type.html#type-string_type">string_type</a>.
   This argument is intent(in).</li>
-<li><code>first</code>: integer
+<li><code>first</code>: integer.
   This argument is intent(in) and optional.</li>
-<li><code>last</code>: integer
+<li><code>last</code>: integer.
   This argument is intent(in) and optional.</li>
-<li><code>stride</code>: integer
+<li><code>stride</code>: integer.
   This argument is intent(in) and optional.</li>
 </ul>
 <h4 id="result-value_4">Result value</h4>
@@ -392,6 +402,51 @@ and remains active until <code>last</code> index is crossed.  </p>
   <span class="c">! string &lt;-- &quot;bdf&quot;</span>
 
 <span class="k">end program </span><span class="n">demo_slice</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="find"><code>find</code></h3>
+<h4 id="description_5">Description</h4>
+<p>Returns the starting index of the <code>occurrence</code>th occurrence of the substring <code>pattern</code> 
+in the input string <code>string</code>.<br>
+Default value of <code>occurrence</code> is set to <code>1</code>. 
+If <code>consider_overlapping</code> is not provided or is set to <code>.true.</code> the function counts two overlapping occurrences of substring as two different occurrences.<br>
+If <code>occurrence</code>th occurrence is not found, function returns <code>0</code>.</p>
+<h4 id="syntax_5">Syntax</h4>
+<p><code>string = <a href="../../module/stdlib_strings.html#interface-find">find</a> (string, pattern [, occurrence, consider_overlapping])</code></p>
+<h4 id="status_5">Status</h4>
+<p>Experimental</p>
+<h4 id="class_5">Class</h4>
+<p>Elemental function</p>
+<h4 id="argument_5">Argument</h4>
+<ul>
+<li><code>string</code>: Character scalar or <a href="../../module/stdlib_string_type.html#type-string_type">string_type</a>.
+  This argument is intent(in).</li>
+<li><code>pattern</code>: Character scalar or <a href="../../module/stdlib_string_type.html#type-string_type">string_type</a>.
+  This argument is intent(in).</li>
+<li><code>occurrence</code>: integer.
+  This argument is intent(in) and optional.</li>
+<li><code>consider_overlapping</code>: logical.
+  This argument is intent(in) and optional.</li>
+</ul>
+<h4 id="result-value_5">Result value</h4>
+<p>The result is a scalar of integer type or integer array of rank equal to the highest rank among all dummy arguments.</p>
+<h4 id="example_5">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_find</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">string_type</span><span class="p">,</span> <span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
+  <span class="k">use </span><span class="n">stdlib_strings</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">find</span>
+  <span class="k">implicit none</span>
+<span class="k">  </span><span class="n">string_type</span> <span class="kd">::</span> <span class="n">string</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;needle in the character-stack&quot;</span>
+
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">find</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;needle&quot;</span><span class="p">)</span>                       <span class="c">! 1</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">find</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>             <span class="c">! [27, 20]</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">find</span><span class="p">(</span><span class="s2">&quot;qwqwqwq&quot;</span><span class="p">,</span> <span class="s2">&quot;qwq&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[.</span><span class="n">false</span><span class="p">.,</span> <span class="p">.</span><span class="n">true</span><span class="p">.])</span> <span class="c">! [0, 5]</span>
+
+<span class="k">end program </span><span class="n">demo_find</span>
 </code></pre></div>
     </div>
     
@@ -529,12 +584,12 @@ and remains active until <code>last</code> index is crossed.  </p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>88adb9f</small></p></div>
+                                          <br /><small>79ec20a</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2021-06-13 02:17  
+             on 2021-06-18 18:27  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
