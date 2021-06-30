@@ -175,6 +175,22 @@
 <li><a href="#example_3">Example</a></li>
 </ul>
 </li>
+<li><a href="#gauss_legendre-gauss-legendre-quadrature-aka-gaussian-quadrature-nodes-and-weights">gauss_legendre - Gauss-Legendre quadrature (a.k.a. Gaussian quadrature) nodes and weights</a><ul>
+<li><a href="#status_4">Status</a></li>
+<li><a href="#description_4">Description</a></li>
+<li><a href="#syntax_4">Syntax</a></li>
+<li><a href="#arguments_4">Arguments</a></li>
+<li><a href="#example_4">Example</a></li>
+</ul>
+</li>
+<li><a href="#gauss_legendre_lobatto-gauss-legendre-lobatto-quadrature-nodes-and-weights">gauss_legendre_lobatto - Gauss-Legendre-Lobatto quadrature nodes and weights</a><ul>
+<li><a href="#status_5">Status</a></li>
+<li><a href="#description_5">Description</a></li>
+<li><a href="#syntax_5">Syntax</a></li>
+<li><a href="#arguments_5">Arguments</a></li>
+<li><a href="#example_5">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -293,6 +309,72 @@
 <span class="c">! 64.0</span>
 <span class="k">end program </span><span class="n">demo_simps_weights</span>
 </code></pre></div>
+
+
+<h2 id="gauss_legendre-gauss-legendre-quadrature-aka-gaussian-quadrature-nodes-and-weights"><code>gauss_legendre</code> - Gauss-Legendre quadrature (a.k.a. Gaussian quadrature) nodes and weights</h2>
+<h3 id="status_4">Status</h3>
+<p>Experimental</p>
+<h3 id="description_4">Description</h3>
+<p>Computes Gauss-Legendre quadrature (also known as simply Gaussian quadrature) nodes and weights,
+ for any <code>N</code> (number of nodes).
+Using the nodes <code>x</code> and weights <code>w</code>, you can compute the integral of some function <code>f</code> as follows:
+<code>integral = sum(f(x) * w)</code>.</p>
+<p>Only double precision is supported - if lower precision is required, you must do the appropriate conversion yourself.
+Accuracy has been validated up to N=64 by comparing computed results to tablulated values known to be accurate to machine precision
+(maximum difference from those values is 2 epsilon).</p>
+<h3 id="syntax_4">Syntax</h3>
+<p><code>subroutine <a href="../../module/stdlib_quadrature.html#interface-gauss_legendre">gauss_legendre</a> (x, w[, interval])</code></p>
+<h3 id="arguments_4">Arguments</h3>
+<p><code>x</code>: Shall be a rank-one array of type <code>real(real64)</code>. It is an <em>output</em> argument, representing the quadrature nodes.</p>
+<p><code>w</code>: Shall be a rank-one array of type <code>real(real64)</code>, with the same dimension as <code>x</code>. 
+It is an <em>output</em> argument, representing the quadrature weights.</p>
+<p><code>interval</code>: (Optional) Shall be a two-element array of type <code>real(real64)</code>. 
+If present, the nodes and weigts are calculated for integration from <code>interval(1)</code> to <code>interval(2)</code>.
+If not specified, the default integral is -1 to 1.</p>
+<h3 id="example_4">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">integrate</span>
+    <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="n">dp</span> <span class="o">=&gt;</span> <span class="n">real64</span>
+    <span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span><span class="p">,</span><span class="n">w</span>
+    <span class="k">call </span><span class="n">gauss_legendre</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot;integral of x**2 from -1 to 1 is&quot;</span><span class="p">,</span>  <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">w</span><span class="p">)</span>
+<span class="k">end program</span>
+</code></pre></div>
+
+
+<h2 id="gauss_legendre_lobatto-gauss-legendre-lobatto-quadrature-nodes-and-weights"><code>gauss_legendre_lobatto</code> - Gauss-Legendre-Lobatto quadrature nodes and weights</h2>
+<h3 id="status_5">Status</h3>
+<p>Experimental</p>
+<h3 id="description_5">Description</h3>
+<p>Computes Gauss-Legendre-Lobatto quadrature nodes and weights,
+ for any <code>N</code> (number of nodes).
+Using the nodes <code>x</code> and weights <code>w</code>, you can compute the integral of some function <code>f</code> as follows:
+<code>integral = sum(f(x) * w)</code>.</p>
+<p>Only double precision is supported - if lower precision is required, you must do the appropriate conversion yourself.
+Accuracy has been validated up to N=64 by comparing computed results to tablulated values known to be accurate to machine precision
+(maximum difference from those values is 2 epsilon).</p>
+<h3 id="syntax_5">Syntax</h3>
+<p><code>subroutine <a href="../../module/stdlib_quadrature.html#interface-gauss_legendre_lobatto">gauss_legendre_lobatto</a> (x, w[, interval])</code></p>
+<h3 id="arguments_5">Arguments</h3>
+<p><code>x</code>: Shall be a rank-one array of type <code>real(real64)</code>. It is an <em>output</em> argument, representing the quadrature nodes.</p>
+<p><code>w</code>: Shall be a rank-one array of type <code>real(real64)</code>, with the same dimension as <code>x</code>. 
+It is an <em>output</em> argument, representing the quadrature weights.</p>
+<p><code>interval</code>: (Optional) Shall be a two-element array of type <code>real(real64)</code>. 
+If present, the nodes and weigts are calculated for integration from <code>interval(1)</code> to <code>interval(2)</code>.
+If not specified, the default integral is -1 to 1.</p>
+<h3 id="example_5">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">integrate</span>
+    <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="n">dp</span> <span class="o">=&gt;</span> <span class="n">real64</span>
+    <span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span><span class="p">,</span><span class="n">w</span>
+    <span class="k">call </span><span class="n">gauss_legendre_lobatto</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot;integral of x**2 from -1 to 1 is&quot;</span><span class="p">,</span>  <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">w</span><span class="p">)</span>
+<span class="k">end program</span>
+</code></pre></div>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
@@ -394,6 +476,11 @@
             </li>
             
             <li role="presentation">
+            <a href='../../page/specs/stdlib_specialfunctions.html'>specialfunctions</a>
+            
+            </li>
+            
+            <li role="presentation">
             <a href='../../page/specs/stdlib_stats.html'>stats</a>
             
             </li>
@@ -429,12 +516,12 @@
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>c598899</small></p></div>
+                                          <br /><small>9fb85ff</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2021-06-30 18:56  
+             on 2021-06-30 21:52  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
