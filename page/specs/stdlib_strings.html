@@ -211,6 +211,16 @@
 <li><a href="#example_6">Example</a></li>
 </ul>
 </li>
+<li><a href="#count">count</a><ul>
+<li><a href="#description_7">Description</a></li>
+<li><a href="#syntax_7">Syntax</a></li>
+<li><a href="#status_7">Status</a></li>
+<li><a href="#class_7">Class</a></li>
+<li><a href="#argument_7">Argument</a></li>
+<li><a href="#result-value_7">Result value</a></li>
+<li><a href="#example_7">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -422,7 +432,7 @@ and remains active until <code>last</code> index is crossed.  </p>
 <p>Returns the starting index of the <code>occurrence</code>th occurrence of the substring <code>pattern</code> 
 in the input string <code>string</code>.<br>
 Default value of <code>occurrence</code> is set to <code>1</code>. 
-If <code>consider_overlapping</code> is not provided or is set to <code>.true.</code> the function counts two overlapping occurrences of substring as two different occurrences.<br>
+If <code>consider_overlapping</code> is not provided or is set to <code>.true.</code> the function counts two overlapping occurrences of substring <code>pattern</code> as two different occurrences.<br>
 If <code>occurrence</code>th occurrence is not found, function returns <code>0</code>.</p>
 <h4 id="syntax_5">Syntax</h4>
 <p><code>string = <a href="../../module/stdlib_strings.html#interface-find">find</a> (string, pattern [, occurrence, consider_overlapping])</code></p>
@@ -442,7 +452,7 @@ If <code>occurrence</code>th occurrence is not found, function returns <code>0</
   This argument is intent(in) and optional.</li>
 </ul>
 <h4 id="result-value_5">Result value</h4>
-<p>The result is a scalar of integer type or integer array of rank equal to the highest rank among all dummy arguments.</p>
+<p>The result is a scalar of integer type or an integer array of rank equal to the highest rank among all dummy arguments.</p>
 <h4 id="example_5">Example</h4>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_find</span>
   <span class="k">use </span><span class="n">stdlib_string_type</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">string_type</span><span class="p">,</span> <span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
@@ -500,6 +510,46 @@ Occurrences overlapping on a base occurrence will not be replaced.</p>
   <span class="c">! string &lt;-- &quot;technology here, technology there, technology everywhere&quot;</span>
 
 <span class="k">end program </span><span class="n">demo_replace_all</span>
+</code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="count"><code>count</code></h3>
+<h4 id="description_7">Description</h4>
+<p>Returns the number of times the substring <code>pattern</code> has occurred in the input string <code>string</code>.<br>
+If <code>consider_overlapping</code> is not provided or is set to <code>.true.</code> the function counts two overlapping occurrences of substring <code>pattern</code> as two different occurrences.</p>
+<h4 id="syntax_7">Syntax</h4>
+<p><code>string = <a href="../../module/stdlib_strings.html#interface-count">count</a> (string, pattern [, consider_overlapping])</code></p>
+<h4 id="status_7">Status</h4>
+<p>Experimental</p>
+<h4 id="class_7">Class</h4>
+<p>Elemental function</p>
+<h4 id="argument_7">Argument</h4>
+<ul>
+<li><code>string</code>: Character scalar or <a href="../../module/stdlib_string_type.html#type-string_type">string_type</a>.
+  This argument is intent(in).</li>
+<li><code>pattern</code>: Character scalar or <a href="../../module/stdlib_string_type.html#type-string_type">string_type</a>.
+  This argument is intent(in).</li>
+<li><code>consider_overlapping</code>: logical.
+  This argument is intent(in) and optional.</li>
+</ul>
+<h4 id="result-value_7">Result value</h4>
+<p>The result is a scalar of integer type or an integer array of rank equal to the highest rank among all dummy arguments.</p>
+<h4 id="example_7">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_count</span>
+  <span class="k">use </span><span class="n">stdlib_string_type</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">string_type</span><span class="p">,</span> <span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">)</span>
+  <span class="k">use </span><span class="n">stdlib_strings</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="nb">count</span>
+<span class="nb">  </span><span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span> <span class="kd">::</span> <span class="n">string</span>
+
+  <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;How much wood would a woodchuck chuck if a woodchuck could chuck wood?&quot;</span>
+
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="nb">count</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;wood&quot;</span><span class="p">)</span>                                  <span class="c">! 4</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="nb">count</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;would&quot;</span><span class="p">,</span> <span class="s2">&quot;chuck&quot;</span><span class="p">,</span> <span class="s2">&quot;could&quot;</span><span class="p">])</span>             <span class="c">! [1, 4, 1]</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="nb">count</span><span class="p">(</span><span class="s2">&quot;a long queueueueue&quot;</span><span class="p">,</span> <span class="s2">&quot;ueu&quot;</span><span class="p">,</span> <span class="p">[.</span><span class="n">false</span><span class="p">.,</span> <span class="p">.</span><span class="n">true</span><span class="p">.])</span>  <span class="c">! [2, 4]</span>
+
+<span class="k">end program </span><span class="n">demo_count</span>
 </code></pre></div>
     </div>
     
@@ -642,12 +692,12 @@ Occurrences overlapping on a base occurrence will not be replaced.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>b555c27</small></p></div>
+                                          <br /><small>c2b8338</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2021-07-04 16:12  
+             on 2021-07-04 18:26  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>

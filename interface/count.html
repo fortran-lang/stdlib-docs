@@ -10,7 +10,7 @@
     <meta name="author" content="fortran-lang/stdlib contributors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>llt &ndash; Fortran-lang/stdlib</title>
+    <title>count &ndash; Fortran-lang/stdlib</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -110,7 +110,7 @@
     
   
   <div class="row">
-    <h1>llt
+    <h1>count
    <small>Interface</small>
     
     </h1>
@@ -123,29 +123,31 @@
      
      
      
+    <li><i class="fa fa-barcode"></i> experimental</li>
+    
     
     
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.1% of total for procedures.</p>Including implementation: 23 statements,  0.5% of total for procedures.">5 statements</a>
+    title="<p> 0.1% of total for procedures.</p>Including implementation: 60 statements,  1.4% of total for procedures.">6 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/stdlib_string_type.fypp"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/stdlib_strings.f90"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/stdlib_string_type.fypp.html'>stdlib_string_type.fypp</a></li>
+     <li><a href='../sourcefile/stdlib_strings.f90.html'>stdlib_strings.f90</a></li>
     
-     <li><a href='../module/stdlib_string_type.html'>stdlib_string_type</a></li>
+     <li><a href='../module/stdlib_strings.html'>stdlib_strings</a></li>
     
   
-     <li class="active">llt</li>
+     <li class="active">count</li>
   </ol>
 </div>
 </div>
@@ -190,11 +192,13 @@
   <div id="modprocs-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../interface/llt.html#moduleprocedure-llt_string_string">llt_string_string</a>
+      <a class="list-group-item" href="../interface/count.html#moduleprocedure-count_string_string">count_string_string</a>
       
-      <a class="list-group-item" href="../interface/llt.html#moduleprocedure-llt_string_char">llt_string_char</a>
+      <a class="list-group-item" href="../interface/count.html#moduleprocedure-count_string_char">count_string_char</a>
       
-      <a class="list-group-item" href="../interface/llt.html#moduleprocedure-llt_char_string">llt_char_string</a>
+      <a class="list-group-item" href="../interface/count.html#moduleprocedure-count_char_string">count_char_string</a>
+      
+      <a class="list-group-item" href="../interface/count.html#moduleprocedure-count_char_char">count_char_char</a>
       
     </div>
   </div>
@@ -208,11 +212,10 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>public interface llt</h2>
-   <p>Lexically compare the order of two character sequences being less,
- The left-hand side, the right-hand side or both character sequences can
- be represented by a string.</p>
-<p>This method is elemental and returns a default logical scalar value.</p>
+      <h2>public interface count</h2>
+   <p>Returns the number of times substring 'pattern' has appeared in the
+ input string 'string'
+ <a href="../page/specs/stdlib_strings.html#count">Specifications</a></p>
      
      
     <br>
@@ -246,11 +249,13 @@
   <div id="modprocs-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../interface/llt.html#moduleprocedure-llt_string_string">llt_string_string</a>
+      <a class="list-group-item" href="../interface/count.html#moduleprocedure-count_string_string">count_string_string</a>
       
-      <a class="list-group-item" href="../interface/llt.html#moduleprocedure-llt_string_char">llt_string_char</a>
+      <a class="list-group-item" href="../interface/count.html#moduleprocedure-count_string_char">count_string_char</a>
       
-      <a class="list-group-item" href="../interface/llt.html#moduleprocedure-llt_char_string">llt_char_string</a>
+      <a class="list-group-item" href="../interface/count.html#moduleprocedure-count_char_string">count_char_string</a>
+      
+      <a class="list-group-item" href="../interface/count.html#moduleprocedure-count_char_char">count_char_char</a>
       
     </div>
   </div>
@@ -271,8 +276,8 @@
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-llt_string_string"></span><h3>
-private elemental function llt_string_string(lhs, rhs) result(is_llt)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-count_string_string"></span><h3>
+private elemental function count_string_string(string, pattern, consider_overlapping) result(res)
     
     
    
@@ -283,8 +288,9 @@ private elemental function llt_string_string(lhs, rhs) result(is_llt)
 
 
 
-<p>Lexically compare two character sequences for being less.
- In this version both character sequences are by a string.</p>
+<p>Returns the number of times substring 'pattern' has appeared in the
+ input string 'string'
+ Returns an integer</p>
     
     <h4>Arguments</h4>
     
@@ -310,7 +316,7 @@ private elemental function llt_string_string(lhs, rhs) result(is_llt)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
+  <td><strong>string</strong></td><td></td>
   
 </tr>
 
@@ -325,7 +331,22 @@ private elemental function llt_string_string(lhs, rhs) result(is_llt)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
+  <td><strong>pattern</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>consider_overlapping</strong></td><td></td>
   
 </tr>
 
@@ -340,7 +361,7 @@ private elemental function llt_string_string(lhs, rhs) result(is_llt)
   
   
   
-     <h4>Return Value <small>logical
+     <h4>Return Value <small>integer
   </small></h4>
   
     
@@ -351,8 +372,8 @@ private elemental function llt_string_string(lhs, rhs) result(is_llt)
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-llt_string_char"></span><h3>
-private elemental function llt_string_char(lhs, rhs) result(is_llt)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-count_string_char"></span><h3>
+private elemental function count_string_char(string, pattern, consider_overlapping) result(res)
     
     
    
@@ -363,8 +384,9 @@ private elemental function llt_string_char(lhs, rhs) result(is_llt)
 
 
 
-<p>Lexically compare two character sequences for being less.
- In this version the left-hand side character sequences is by a string.</p>
+<p>Returns the number of times substring 'pattern' has appeared in the
+ input string 'string'
+ Returns an integer</p>
     
     <h4>Arguments</h4>
     
@@ -390,7 +412,7 @@ private elemental function llt_string_char(lhs, rhs) result(is_llt)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
+  <td><strong>string</strong></td><td></td>
   
 </tr>
 
@@ -405,7 +427,22 @@ private elemental function llt_string_char(lhs, rhs) result(is_llt)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
+  <td><strong>pattern</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>consider_overlapping</strong></td><td></td>
   
 </tr>
 
@@ -420,7 +457,7 @@ private elemental function llt_string_char(lhs, rhs) result(is_llt)
   
   
   
-     <h4>Return Value <small>logical
+     <h4>Return Value <small>integer
   </small></h4>
   
     
@@ -431,8 +468,8 @@ private elemental function llt_string_char(lhs, rhs) result(is_llt)
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-llt_char_string"></span><h3>
-private elemental function llt_char_string(lhs, rhs) result(is_llt)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-count_char_string"></span><h3>
+private elemental function count_char_string(string, pattern, consider_overlapping) result(res)
     
     
    
@@ -443,8 +480,9 @@ private elemental function llt_char_string(lhs, rhs) result(is_llt)
 
 
 
-<p>Lexically compare two character sequences for being less.
- In this version the right-hand side character sequences is by a string.</p>
+<p>Returns the number of times substring 'pattern' has appeared in the
+ input string 'string'
+ Returns an integer</p>
     
     <h4>Arguments</h4>
     
@@ -470,7 +508,7 @@ private elemental function llt_char_string(lhs, rhs) result(is_llt)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
+  <td><strong>string</strong></td><td></td>
   
 </tr>
 
@@ -485,7 +523,22 @@ private elemental function llt_char_string(lhs, rhs) result(is_llt)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
+  <td><strong>pattern</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>consider_overlapping</strong></td><td></td>
   
 </tr>
 
@@ -500,7 +553,103 @@ private elemental function llt_char_string(lhs, rhs) result(is_llt)
   
   
   
-     <h4>Return Value <small>logical
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-count_char_char"></span><h3>
+private elemental function count_char_char(string, pattern, consider_overlapping) result(res)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+<p>Returns the number of times substring 'pattern' has appeared in the
+ input string 'string'
+ Returns an integer</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>string</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>pattern</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>consider_overlapping</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
   </small></h4>
   
     
