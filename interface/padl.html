@@ -10,7 +10,7 @@
     <meta name="author" content="fortran-lang/stdlib contributors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>char &ndash; Fortran-lang/stdlib</title>
+    <title>padl &ndash; Fortran-lang/stdlib</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -110,7 +110,7 @@
     
   
   <div class="row">
-    <h1>char
+    <h1>padl
    <small>Interface</small>
     
     </h1>
@@ -123,29 +123,31 @@
      
      
      
+    <li><i class="fa fa-barcode"></i> experimental</li>
+    
     
     
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.1% of total for procedures.</p>Including implementation: 23 statements,  0.5% of total for procedures.">5 statements</a>
+    title="<p> 0.1% of total for procedures.</p>Including implementation: 39 statements,  0.9% of total for procedures.">6 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/stdlib_string_type.fypp"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/stdlib_strings.f90"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/stdlib_string_type.fypp.html'>stdlib_string_type.fypp</a></li>
+     <li><a href='../sourcefile/stdlib_strings.f90.html'>stdlib_strings.f90</a></li>
     
-     <li><a href='../module/stdlib_string_type.html'>stdlib_string_type</a></li>
+     <li><a href='../module/stdlib_strings.html'>stdlib_strings</a></li>
     
   
-     <li class="active">char</li>
+     <li class="active">padl</li>
   </ol>
 </div>
 </div>
@@ -190,11 +192,13 @@
   <div id="modprocs-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../interface/char.html#moduleprocedure-char_string">char_string</a>
+      <a class="list-group-item" href="../interface/padl.html#moduleprocedure-padl_string_default">padl_string_default</a>
       
-      <a class="list-group-item" href="../interface/char.html#moduleprocedure-char_string_pos">char_string_pos</a>
+      <a class="list-group-item" href="../interface/padl.html#moduleprocedure-padl_string_pad_with">padl_string_pad_with</a>
       
-      <a class="list-group-item" href="../interface/char.html#moduleprocedure-char_string_range">char_string_range</a>
+      <a class="list-group-item" href="../interface/padl.html#moduleprocedure-padl_char_default">padl_char_default</a>
+      
+      <a class="list-group-item" href="../interface/padl.html#moduleprocedure-padl_char_pad_with">padl_char_pad_with</a>
       
     </div>
   </div>
@@ -208,9 +212,9 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>public interface char</h2>
-   <p>Return the character sequence represented by the string.</p>
-<p>This method is elemental and returns a scalar character value.</p>
+      <h2>public interface padl</h2>
+   <p>Left pad the input string
+ <a href="../page/specs/stdlib_strings.html#padl">Specifications</a></p>
      
      
     <br>
@@ -244,11 +248,13 @@
   <div id="modprocs-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../interface/char.html#moduleprocedure-char_string">char_string</a>
+      <a class="list-group-item" href="../interface/padl.html#moduleprocedure-padl_string_default">padl_string_default</a>
       
-      <a class="list-group-item" href="../interface/char.html#moduleprocedure-char_string_pos">char_string_pos</a>
+      <a class="list-group-item" href="../interface/padl.html#moduleprocedure-padl_string_pad_with">padl_string_pad_with</a>
       
-      <a class="list-group-item" href="../interface/char.html#moduleprocedure-char_string_range">char_string_range</a>
+      <a class="list-group-item" href="../interface/padl.html#moduleprocedure-padl_char_default">padl_char_default</a>
+      
+      <a class="list-group-item" href="../interface/padl.html#moduleprocedure-padl_char_pad_with">padl_char_pad_with</a>
       
     </div>
   </div>
@@ -269,8 +275,8 @@
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-char_string"></span><h3>
-private pure function char_string(string) result(character_string)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-padl_string_default"></span><h3>
+private pure function padl_string_default(string, output_length) result(res)
     
     
    
@@ -281,7 +287,7 @@ private pure function char_string(string) result(character_string)
 
 
 
-<p>Return the character sequence represented by the string.</p>
+<p>Left pad the input string with " " (1 whitespace)</p><a href="../proc/padl_string_default.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -311,6 +317,21 @@ private pure function char_string(string) result(character_string)
   
 </tr>
 
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>output_length</strong></td><td></td>
+  
+</tr>
+
 </tbody>
 </table>
 
@@ -322,7 +343,7 @@ private pure function char_string(string) result(character_string)
   
   
   
-     <h4>Return Value <small>character(len=len(string))
+     <h4>Return Value <small>type(<a href='../type/string_type.html'>string_type</a>)
   </small></h4>
   
     
@@ -333,8 +354,8 @@ private pure function char_string(string) result(character_string)
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-char_string_pos"></span><h3>
-private elemental function char_string_pos(string, pos) result(character_string)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-padl_string_pad_with"></span><h3>
+private pure function padl_string_pad_with(string, output_length, pad_with) result(res)
     
     
    
@@ -345,7 +366,7 @@ private elemental function char_string_pos(string, pos) result(character_string)
 
 
 
-<p>Return the character sequence represented by the string.</p>
+<p>Left pad the input string with the 'pad_with' character</p><a href="../proc/padl_string_pad_with.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -386,7 +407,22 @@ private elemental function char_string_pos(string, pos) result(character_string)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>pos</strong></td><td></td>
+  <td><strong>output_length</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=1),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>pad_with</strong></td><td></td>
   
 </tr>
 
@@ -401,7 +437,7 @@ private elemental function char_string_pos(string, pos) result(character_string)
   
   
   
-     <h4>Return Value <small>character(len=1)
+     <h4>Return Value <small>type(<a href='../type/string_type.html'>string_type</a>)
   </small></h4>
   
     
@@ -412,8 +448,8 @@ private elemental function char_string_pos(string, pos) result(character_string)
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-char_string_range"></span><h3>
-private pure function char_string_range(string, start, last) result(character_string)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-padl_char_default"></span><h3>
+private pure function padl_char_default(string, output_length) result(res)
     
     
    
@@ -424,7 +460,7 @@ private pure function char_string_range(string, start, last) result(character_st
 
 
 
-<p>Return the character sequence represented by the string.</p>
+<p>Left pad the input string with " " (1 whitespace)</p><a href="../proc/padl_char_default.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -445,7 +481,7 @@ private pure function char_string_range(string, start, last) result(character_st
   
 <tr>
   
-  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
+  <td><span class="anchor" ></span>character(len=*),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -465,22 +501,7 @@ private pure function char_string_range(string, start, last) result(character_st
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>start</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>last</strong></td><td></td>
+  <td><strong>output_length</strong></td><td></td>
   
 </tr>
 
@@ -495,7 +516,101 @@ private pure function char_string_range(string, start, last) result(character_st
   
   
   
-     <h4>Return Value <small>character(len=last-start+1)
+     <h4>Return Value <small>character(len=max(len(string),output_length))
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-padl_char_pad_with"></span><h3>
+private pure function padl_char_pad_with(string, output_length, pad_with) result(res)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+<p>Left pad the input string with the 'pad_with' character</p><a href="../proc/padl_char_pad_with.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>string</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>output_length</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=1),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>pad_with</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>character(len=max(len(string),output_length))
   </small></h4>
   
     
