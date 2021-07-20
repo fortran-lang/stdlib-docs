@@ -155,6 +155,35 @@
 </li>
 </ul>
 </li>
+<li><a href="#linspace-create-a-linearly-spaced-rank-one-array">linspace - Create a linearly spaced rank one array</a><ul>
+<li><a href="#description_1">Description</a></li>
+<li><a href="#syntax_1">Syntax</a></li>
+<li><a href="#status_1">Status</a></li>
+<li><a href="#class_1">Class</a></li>
+<li><a href="#arguments_1">Argument(s)</a></li>
+<li><a href="#output-value-or-result-value_1">Output value or Result value</a></li>
+<li><a href="#examples_1">Examples</a><ul>
+<li><a href="#example-1_1">Example 1:</a></li>
+<li><a href="#example-2_1">Example 2:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#logspace-create-a-logarithmically-spaced-rank-one-array">logspace - Create a logarithmically spaced rank one array</a><ul>
+<li><a href="#description_2">Description</a></li>
+<li><a href="#syntax_2">Syntax</a></li>
+<li><a href="#status_2">Status</a></li>
+<li><a href="#class_2">Class</a></li>
+<li><a href="#arguments_2">Argument(s)</a></li>
+<li><a href="#output-value-or-result-value_2">Output value or Result value</a></li>
+<li><a href="#examples_2">Examples</a><ul>
+<li><a href="#example-1_2">Example 1:</a></li>
+<li><a href="#example-2_2">Example 2:</a></li>
+<li><a href="#example-3">Example 3:</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -168,7 +197,7 @@
 
 <h3 id="clip-function"><code>clip</code> function</h3>
 <h4 id="description">Description</h4>
-<p>Returns a value which lies in the given interval [<code>xmin</code>, <code>xmax</code>] (interval is <code>xmin</code> and <code>xmax</code> inclusive) and is closest to the input value <code>x</code>.  </p>
+<p>Returns a value which lies in the given interval [<code>xmin</code>, <code>xmax</code>] (interval is <code>xmin</code> and <code>xmax</code> inclusive) and is closest to the input value <code>x</code>.</p>
 <h4 id="syntax">Syntax</h4>
 <p><code>res = <a href="../../module/stdlib_math.html#interface-clip">clip</a> (x, xmin, xmax)</code></p>
 <h4 id="status">Status</h4>
@@ -176,8 +205,8 @@
 <h4 id="class">Class</h4>
 <p>Elemental function.</p>
 <h4 id="arguments">Argument(s)</h4>
-<p><code>x</code>: scalar of either <code>integer</code> or <code>real</code> type. This argument is <code>intent(in)</code>.<br>
-<code>xmin</code>: scalar of either <code>integer</code> or <code>real</code> type. This argument is <code>intent(in)</code>.<br>
+<p><code>x</code>: scalar of either <code>integer</code> or <code>real</code> type. This argument is <code>intent(in)</code>.
+<code>xmin</code>: scalar of either <code>integer</code> or <code>real</code> type. This argument is <code>intent(in)</code>.
 <code>xmax</code>: scalar of either <code>integer</code> or <code>real</code> type, which must be greater than or equal to <code>xmin</code>. This argument is <code>intent(in)</code>.</p>
 <p>Note: All arguments must have same <code>type</code> and same <code>kind</code>.</p>
 <h4 id="output-value-or-result-value">Output value or Result value</h4>
@@ -222,6 +251,208 @@
   <span class="n">clipped_value</span> <span class="o">=</span> <span class="n">clip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">)</span>
   <span class="c">! clipped_value &lt;- 3.02500010</span>
 <span class="k">end program </span><span class="n">demo_clip_real</span>
+</code></pre></div>
+
+
+<h3 id="linspace-create-a-linearly-spaced-rank-one-array"><code>linspace</code> - Create a linearly spaced rank one array</h3>
+<h4 id="description_1">Description</h4>
+<p>Returns a linearly spaced rank 1 array from [<code>start</code>, <code>end</code>]. Optionally, you can specify the length of the returned array by passing <code>n</code>.</p>
+<h4 id="syntax_1">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_math.html#interface-linspace">linspace</a> (start, end [, n])</code></p>
+<h4 id="status_1">Status</h4>
+<p>Experimental</p>
+<h4 id="class_1">Class</h4>
+<p>Function.</p>
+<h4 id="arguments_1">Argument(s)</h4>
+<p><code>start</code>: Shall be scalar of any numeric type or kind. This argument is <code>intent(in)</code>.
+<code>end</code>: Shall be the same <code>type</code> and <code>kind</code> as <code>start</code>. This argument is <code>intent(in)</code>.
+<code>n</code>: Shall be an integer specifying the length of the output. This argument is <code>optional</code> and <code>intent(in)</code>.</p>
+<h4 id="output-value-or-result-value_1">Output value or Result value</h4>
+<p>The output is a rank 1 array whose length is either 100 (default value) or <code>n</code>.</p>
+<p>If <code>n</code> == 1, return a rank 1 array whose only element is <code>end</code>.
+If <code>n</code> &lt;= 0, return a rank 1 array with length 0.</p>
+<p>If <code>start</code>/<code>end</code> are <code>real</code> or <code>complex</code> types, the <code>result</code> will be of the same type and kind as <code>start</code>/<code>end</code>.
+If <code>start</code>/<code>end</code> are <code>integer</code> types, the <code>result</code> will default to a <code>real(dp)</code> array.</p>
+<h4 id="examples_1">Examples</h4>
+<h5 id="example-1_1">Example 1:</h5>
+<p>Here inputs are of type <code>complex</code> and kind <code>dp</code></p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_linspace_complex</span>
+  <span class="k">use </span><span class="n">stdlib_math</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">linspace</span>
+  <span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">dp</span>
+  <span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">start</span> <span class="o">=</span> <span class="kt">complex</span><span class="p">(</span><span class="mi">1</span><span class="mf">0.0_dp</span><span class="p">,</span> <span class="mf">5.0_dp</span><span class="p">)</span>
+  <span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span> <span class="kd">::</span> <span class="k">end</span> <span class="o">=</span> <span class="kt">complex</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="mf">0.0_dp</span><span class="p">,</span> <span class="mi">1</span><span class="mf">5.0_dp</span><span class="p">)</span>
+
+  <span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">z</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+
+  <span class="n">z</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="k">end</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="k">end program </span><span class="n">demo_linspace_complex</span>
+</code></pre></div>
+
+
+<h5 id="example-2_1">Example 2:</h5>
+<p>Here inputs are of type <code>integer</code> and kind <code>int16</code>, with the result defaulting to <code>real(dp)</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_linspace_int16</span>
+  <span class="k">use </span><span class="n">stdlib_math</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">linspace</span>
+  <span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">int16</span><span class="p">,</span> <span class="n">dp</span>
+  <span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int16</span><span class="p">)</span> <span class="kd">::</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">10_int16</span>
+  <span class="kt">integer</span><span class="p">(</span><span class="n">int16</span><span class="p">)</span> <span class="kd">::</span> <span class="k">end</span> <span class="o">=</span> <span class="mi">23_int16</span>
+
+  <span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">r</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+
+  <span class="n">r</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="k">end</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="k">end program </span><span class="n">demo_linspace_int16</span>
+</code></pre></div>
+
+
+<h3 id="logspace-create-a-logarithmically-spaced-rank-one-array"><code>logspace</code> - Create a logarithmically spaced rank one array</h3>
+<h4 id="description_2">Description</h4>
+<p>Returns a logarithmically spaced rank 1 array from [<code>base</code>^<code>start</code>, <code>base</code>^<code>end</code>]. The default size of the array is 50. Optionally, you can specify the length of the returned array by passing <code>n</code>. You can also specify the <code>base</code> used to compute the range (default 10).</p>
+<h4 id="syntax_2">Syntax</h4>
+<p><code>res = <a href="../../module/stdlib_math.html#interface-logspace">logspace</a> (start, end [, n [, base]])</code></p>
+<h4 id="status_2">Status</h4>
+<p>Experimental</p>
+<h4 id="class_2">Class</h4>
+<p>Function.</p>
+<h4 id="arguments_2">Argument(s)</h4>
+<p><code>start</code>: Shall be a scalar of any numeric type. All kinds are supported for real and complex arguments. For integers, only the default kind is currently implemented. This argument is <code>intent(in)</code>.
+<code>end</code>: Shall be the same <code>type</code> and <code>kind</code> as <code>start</code>. This argument is <code>intent(in)</code>.
+<code>n</code>: Shall be an integer specifying the length of the output. This argument is <code>optional</code> and <code>intent(in)</code>.
+<code>base</code> : Shall be a scalar of any numeric type. All kinds are supported for real and complex arguments. For integers, only the default kind is currently implemented. This argument is <code>optional</code> and <code>intent(in)</code>.</p>
+<h4 id="output-value-or-result-value_2">Output value or Result value</h4>
+<p>The output is a rank 1 array whose length is either 50 (default value) or <code>n</code>.</p>
+<p>If <code>n</code> == 1, return a rank 1 array whose only element is <code>base</code>^<code>end</code>.
+If <code>n</code> &lt;= 0, return a rank 1 array with length 0</p>
+<p>The <code>type</code> and <code>kind</code> of the output is dependent on the <code>type</code> and <code>kind</code> of the passed parameters.</p>
+<p>For function calls where the <code>base</code> is not specified: <code>logspace(start, end)</code>/<code>logspace(start, end, n)</code>, the <code>type</code> and <code>kind</code> of
+the output follows the same scheme as above for <code>linspace</code>.</p>
+<blockquote>
+<p>If <code>start</code>/<code>end</code> are <code>real</code> or <code>complex</code> types, the <code>result</code> will be the same type and kind as <code>start</code>/<code>end</code>.
+If <code>start</code>/<code>end</code> are integer types, the <code>result</code> will default to a <code>real(dp)</code> array.</p>
+</blockquote>
+<p>For function calls where the <code>base</code> is specified, the <code>type</code> and <code>kind</code> of the result is in accordance with the following table:</p>
+<table>
+<thead>
+<tr>
+<th><code>start</code>/<code>end</code></th>
+<th><code>n</code></th>
+<th><code>base</code></th>
+<th><code>output</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>real(KIND)</code></td>
+<td><code>Integer</code></td>
+<td><code>real(KIND)</code></td>
+<td><code>real(KIND)</code></td>
+</tr>
+<tr>
+<td>"          "</td>
+<td>"       "</td>
+<td><code>complex(KIND)</code></td>
+<td><code>complex(KIND)</code></td>
+</tr>
+<tr>
+<td>"          "</td>
+<td>"       "</td>
+<td><code>Integer</code></td>
+<td><code>real(KIND)</code></td>
+</tr>
+<tr>
+<td><code>complex(KIND)</code></td>
+<td>"       "</td>
+<td><code>real(KIND)</code></td>
+<td><code>complex(KIND)</code></td>
+</tr>
+<tr>
+<td>"             "</td>
+<td>"       "</td>
+<td><code>complex(KIND)</code></td>
+<td><code>complex(KIND)</code></td>
+</tr>
+<tr>
+<td>"             "</td>
+<td>"       "</td>
+<td><code>Integer</code></td>
+<td><code>complex(KIND)</code></td>
+</tr>
+<tr>
+<td><code>Integer</code></td>
+<td>"        "</td>
+<td><code>real(KIND)</code></td>
+<td><code>real(KIND)</code></td>
+</tr>
+<tr>
+<td>"              "</td>
+<td>"        "</td>
+<td><code>complex(KIND)</code></td>
+<td><code>complex(KIND)</code></td>
+</tr>
+<tr>
+<td>"              "</td>
+<td>"        "</td>
+<td><code>Integer</code></td>
+<td><code>Integer</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="examples_2">Examples</h4>
+<h5 id="example-1_2">Example 1:</h5>
+<p>Here inputs are of type <code>complex</code> and kind <code>dp</code>. <code>n</code> and <code>base</code> is not specified and thus default to 50 and 10, respectively.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_logspace_complex</span>
+  <span class="k">use </span><span class="n">stdlib_math</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">logspace</span>
+  <span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">dp</span>
+  <span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">start</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="mf">0.0_dp</span><span class="p">,</span> <span class="mf">5.0_dp</span><span class="p">)</span>
+  <span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span> <span class="kd">::</span> <span class="k">end</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="mf">0.0_dp</span><span class="p">,</span> <span class="mi">1</span><span class="mf">5.0_dp</span><span class="p">)</span>
+
+  <span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">z</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="c">! Complex values raised to complex powers results in complex values</span>
+
+  <span class="n">z</span> <span class="o">=</span> <span class="n">logspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="k">end</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="k">end program </span><span class="n">demo_logspace_complex</span>
+</code></pre></div>
+
+
+<h5 id="example-2_2">Example 2:</h5>
+<p>Here inputs are of type <code>integer</code> and default kind. <code>base</code> is not specified and thus defaults to 10.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_logspace_int</span>
+  <span class="k">use </span><span class="n">stdlib_math</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">logspace</span>
+  <span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">dp</span>
+  <span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">10</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="k">end</span> <span class="o">=</span> <span class="mi">23</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">15</span>
+
+  <span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">r</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">! Integer values raised to real powers results in real values</span>
+
+  <span class="n">r</span> <span class="o">=</span> <span class="n">logspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="k">end</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="k">end program </span><span class="n">demo_logspace_int</span>
+</code></pre></div>
+
+
+<h5 id="example-3">Example 3:</h5>
+<p>Here <code>start</code>/<code>end</code> are of type <code>real</code> and double precision. <code>base</code> is type <code>complex</code> and also double precision.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_logspace_rstart_cbase</span>
+  <span class="k">use </span><span class="n">stdlib_math</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">logspace</span>
+  <span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">dp</span>
+  <span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">start</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
+  <span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span> <span class="kd">::</span> <span class="k">end</span> <span class="o">=</span> <span class="mf">3.0_dp</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">4</span>
+  <span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">base</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0_dp</span><span class="p">,</span> <span class="mf">1.0_dp</span><span class="p">)</span>
+
+  <span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">z</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c">! complex values raised to real powers result in complex values</span>
+
+  <span class="n">z</span> <span class="o">=</span> <span class="n">logspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="k">end</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
+
+<span class="k">end program </span><span class="n">demo_logspace_rstart_cbase</span>
 </code></pre></div>
     </div>
     
@@ -364,12 +595,12 @@
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>d0f13b0</small></p></div>
+                                          <br /><small>233d871</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2021-07-14 20:37  
+             on 2021-07-20 20:18  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
