@@ -397,7 +397,70 @@
 <a name="ln-156"></a>  <span class="err">#</span><span class="p">:</span><span class="n">endcall</span>
 <a name="ln-157"></a><span class="cp">#:enddef</span>
 <a name="ln-158"></a>
-<a name="ln-159"></a><span class="cp">#:endmute</span>
+<a name="ln-159"></a><span class="cp">#!</span>
+<a name="ln-160"></a><span class="cp">#! Generates an array rank suffix for subarrays along a dimension</span>
+<a name="ln-161"></a><span class="cp">#!</span>
+<a name="ln-162"></a><span class="cp">#! Args:</span>
+<a name="ln-163"></a><span class="cp">#!   varname (str): Name of the variable to be used as origin</span>
+<a name="ln-164"></a><span class="cp">#!   rank (int): Rank of the original variable</span>
+<a name="ln-165"></a><span class="cp">#!   dim (int): Dimension of the variable</span>
+<a name="ln-166"></a><span class="cp">#!</span>
+<a name="ln-167"></a><span class="cp">#! Returns:</span>
+<a name="ln-168"></a><span class="cp">#!   Array rank suffix string enclosed in braces</span>
+<a name="ln-169"></a><span class="cp">#!</span>
+<a name="ln-170"></a><span class="cp">#! E.g.,</span>
+<a name="ln-171"></a><span class="cp">#!  select_subvector(&#39;j&#39;, 5, 2)</span>
+<a name="ln-172"></a><span class="cp">#!   -&gt; (j1, :, j3, j4, j5)</span>
+<a name="ln-173"></a><span class="cp">#!</span>
+<a name="ln-174"></a><span class="cp">#! Used, e.g., in</span>
+<a name="ln-175"></a><span class="cp">#!  stdlib_stats_median.fypp</span>
+<a name="ln-176"></a><span class="cp">#!</span>
+<a name="ln-177"></a><span class="cp">#:def select_subvector(varname, rank, idim)</span>
+<a name="ln-178"></a>  <span class="err">#</span><span class="p">:</span><span class="n">assert</span> <span class="n">rank</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<a name="ln-179"></a>  <span class="err">#</span><span class="p">:</span><span class="k">call </span><span class="n">join_lines</span><span class="p">(</span><span class="n">joinstr</span><span class="o">=</span><span class="s2">&quot;, &quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+<a name="ln-180"></a>    <span class="err">#</span><span class="p">:</span><span class="n">for</span> <span class="n">i</span> <span class="n">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">idim</span><span class="p">)</span>
+<a name="ln-181"></a>      <span class="err">${</span><span class="n">varname</span><span class="err">}$${</span><span class="n">i</span><span class="err">}$</span>
+<a name="ln-182"></a>    <span class="err">#</span><span class="p">:</span><span class="n">endfor</span>
+<a name="ln-183"></a>    <span class="p">:</span>
+<a name="ln-184"></a>    <span class="err">#</span><span class="p">:</span><span class="n">for</span> <span class="n">i</span> <span class="n">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">idim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-185"></a>      <span class="err">${</span><span class="n">varname</span><span class="err">}$${</span><span class="n">i</span><span class="err">}$</span>
+<a name="ln-186"></a>    <span class="err">#</span><span class="p">:</span><span class="n">endfor</span>
+<a name="ln-187"></a>  <span class="err">#</span><span class="p">:</span><span class="n">endcall</span>
+<a name="ln-188"></a><span class="cp">#:enddef</span>
+<a name="ln-189"></a>
+<a name="ln-190"></a><span class="cp">#!</span>
+<a name="ln-191"></a><span class="cp">#! Generates an array rank suffix for arrays</span>
+<a name="ln-192"></a><span class="cp">#!</span>
+<a name="ln-193"></a><span class="cp">#! Args:</span>
+<a name="ln-194"></a><span class="cp">#!   varname (str): Name of the variable to be used as origin</span>
+<a name="ln-195"></a><span class="cp">#!   rank (int): Rank of the original array variable</span>
+<a name="ln-196"></a><span class="cp">#!   idim (int): Dimension of the variable dropped</span>
+<a name="ln-197"></a><span class="cp">#!</span>
+<a name="ln-198"></a><span class="cp">#! Returns:</span>
+<a name="ln-199"></a><span class="cp">#!   Array rank suffix string enclosed in braces</span>
+<a name="ln-200"></a><span class="cp">#!</span>
+<a name="ln-201"></a><span class="cp">#! E.g.,</span>
+<a name="ln-202"></a><span class="cp">#!  reduce_subvector(&#39;j&#39;, 5, 2)</span>
+<a name="ln-203"></a><span class="cp">#!   -&gt; (j1, j3, j4, j5)</span>
+<a name="ln-204"></a><span class="cp">#!</span>
+<a name="ln-205"></a><span class="cp">#! Used, e.g., in</span>
+<a name="ln-206"></a><span class="cp">#!  stdlib_stats_median.fypp</span>
+<a name="ln-207"></a><span class="cp">#!</span>
+<a name="ln-208"></a><span class="cp">#:def reduce_subvector(varname, rank, idim)</span>
+<a name="ln-209"></a>  <span class="err">#</span><span class="p">:</span><span class="n">assert</span> <span class="n">rank</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<a name="ln-210"></a>  <span class="err">#</span><span class="p">:</span><span class="k">if </span><span class="n">rank</span> <span class="o">&gt;</span> <span class="mi">1</span>
+<a name="ln-211"></a>    <span class="err">#</span><span class="p">:</span><span class="k">call </span><span class="n">join_lines</span><span class="p">(</span><span class="n">joinstr</span><span class="o">=</span><span class="s2">&quot;, &quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+<a name="ln-212"></a>      <span class="err">#</span><span class="p">:</span><span class="n">for</span> <span class="n">i</span> <span class="n">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">idim</span><span class="p">)</span>
+<a name="ln-213"></a>        <span class="err">${</span><span class="n">varname</span><span class="err">}$${</span><span class="n">i</span><span class="err">}$</span>
+<a name="ln-214"></a>      <span class="err">#</span><span class="p">:</span><span class="n">endfor</span>
+<a name="ln-215"></a>      <span class="err">#</span><span class="p">:</span><span class="n">for</span> <span class="n">i</span> <span class="n">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">idim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-216"></a>        <span class="err">${</span><span class="n">varname</span><span class="err">}$${</span><span class="n">i</span><span class="err">}$</span>
+<a name="ln-217"></a>      <span class="err">#</span><span class="p">:</span><span class="n">endfor</span>
+<a name="ln-218"></a>    <span class="err">#</span><span class="p">:</span><span class="n">endcall</span>
+<a name="ln-219"></a>  <span class="err">#</span><span class="p">:</span><span class="n">endif</span>
+<a name="ln-220"></a><span class="cp">#:enddef</span>
+<a name="ln-221"></a>
+<a name="ln-222"></a><span class="cp">#:endmute</span>
 </pre></div>
 
     </section>
@@ -411,12 +474,12 @@
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>88e2219</small></p></div>
+                                          <br /><small>dd81cf5</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2021-07-22 07:12  
+             on 2021-07-23 13:59  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
