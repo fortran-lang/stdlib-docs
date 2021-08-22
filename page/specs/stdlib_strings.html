@@ -241,6 +241,16 @@
 <li><a href="#example_9">Example</a></li>
 </ul>
 </li>
+<li><a href="#to_string">to_string</a><ul>
+<li><a href="#description_10">Description</a></li>
+<li><a href="#syntax_10">Syntax</a></li>
+<li><a href="#status_10">Status</a></li>
+<li><a href="#class_10">Class</a></li>
+<li><a href="#argument_10">Argument</a></li>
+<li><a href="#result-value_10">Result value</a></li>
+<li><a href="#example_10">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -652,6 +662,64 @@ If <code>consider_overlapping</code> is not provided or is set to <code>.true.</
 
 <span class="k">end program </span><span class="n">demo_count</span>
 </code></pre></div>
+
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+<h3 id="to_string"><code>to_string</code></h3>
+<h4 id="description_10">Description</h4>
+<p>Format or transfer a <code>integer/real/complex/logical</code> scalar as a string.<br>
+Input a wrong <code>format</code> that cause the internal-IO to fail, the result value is a string of <code>[*]</code>.</p>
+<h4 id="syntax_10">Syntax</h4>
+<p><code>string = <a href="../../module/stdlib_strings.html#interface-to_string">to_string</a> (value [, format])</code></p>
+<h4 id="status_10">Status</h4>
+<p>Experimental</p>
+<h4 id="class_10">Class</h4>
+<p>Pure function.</p>
+<h4 id="argument_10">Argument</h4>
+<ul>
+<li><code>value</code>: Shall be an <code>integer/real/complex/logical</code> scalar.
+  This is an <code>intent(in)</code> argument.</li>
+<li><code>format</code>: Shall be a <code>character(len=*)</code> scalar like <code>'(F6.2)'</code> or just <code>'F6.2'</code>.
+  This is an <code>intent(in)</code> and <code>optional</code> argument.<br>
+  Contains the edit descriptor to format <code>value</code> into a string, for example <code>'(F6.2)'</code> or <code>'(f6.2)'</code>. 
+  <code>to_string</code> will automatically enclose <code>format</code> in a set of parentheses, so passing <code>F6.2</code> or <code>f6.2</code> as <code>format</code> is possible as well.</li>
+</ul>
+<h4 id="result-value_10">Result value</h4>
+<p>The result is an <code>allocatable</code> length <code>character</code> scalar with up to <code>128</code> cached <code>character</code> length.</p>
+<h4 id="example_10">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_to_string</span>
+    <span class="k">use </span><span class="n">stdlib_strings</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">to_string</span>
+
+    <span class="c">!&gt; Example for `complex` type</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_string</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>              <span class="c">!! &quot;(1.00000000,1.00000000)&quot;</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_string</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;(F6.2)&#39;</span><span class="p">)</span>    <span class="c">!! &quot;(  1.00,  1.00)&quot;</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_string</span><span class="p">((</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;(ES0.2)&#39;</span><span class="p">),</span> <span class="n">to_string</span><span class="p">((</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;(SP,F6.3)&#39;</span><span class="p">)</span>     
+                    <span class="c">!! &quot;(1.00E+3,1.00)&quot;&quot;(******,+1.000)&quot;</span>
+                    <span class="c">!! Too narrow formatter for real number</span>
+                    <span class="c">!! Normal demonstration(`******` from Fortran Standard)</span>
+
+    <span class="c">!&gt; Example for `integer` type</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_string</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span>                  <span class="c">!! &quot;-3&quot;</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_string</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="s1">&#39;(I4)&#39;</span><span class="p">)</span>          <span class="c">!! &quot;  42&quot;</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_string</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;(I0.4)&#39;</span><span class="p">),</span> <span class="n">to_string</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;(B4)&#39;</span><span class="p">)</span>           <span class="c">!! &quot;0001&quot;&quot;  10&quot;  </span>
+
+    <span class="c">!&gt; Example for `real` type</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_string</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>                  <span class="c">!! &quot;1.00000000&quot;</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_string</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="s1">&#39;(F6.2)&#39;</span><span class="p">)</span>        <span class="c">!! &quot;  1.00&quot; </span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_string</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="s1">&#39;F6.2&#39;</span><span class="p">)</span>          <span class="c">!! &quot;  1.00&quot; </span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_string</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="s1">&#39;(SP,ES9.2)&#39;</span><span class="p">),</span> <span class="n">to_string</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;(F7.3)&#39;</span><span class="p">)</span>    <span class="c">!! &quot;+1.00E+00&quot;&quot;[*]&quot;</span>
+                    <span class="c">!! 1 wrong demonstration (`[*]` from `to_string`)</span>
+
+    <span class="c">!&gt; Example for `logical` type</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_string</span><span class="p">(.</span><span class="n">true</span><span class="p">.)</span>              <span class="c">!! &quot;T&quot;</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_string</span><span class="p">(.</span><span class="n">true</span><span class="p">.,</span> <span class="s1">&#39;(L2)&#39;</span><span class="p">)</span>      <span class="c">!! &quot; T&quot;</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_string</span><span class="p">(.</span><span class="n">true</span><span class="p">.,</span> <span class="s1">&#39;L2&#39;</span><span class="p">)</span>        <span class="c">!! &quot; T&quot;</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">to_string</span><span class="p">(.</span><span class="n">false</span><span class="p">.,</span> <span class="s1">&#39;(I5)&#39;</span><span class="p">)</span>     <span class="c">!! &quot;[*]&quot;</span>
+                    <span class="c">!! 1 wrong demonstrations(`[*]` from `to_string`)</span>
+
+<span class="k">end program </span><span class="n">demo_to_string</span>
+</code></pre></div>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
@@ -793,12 +861,12 @@ If <code>consider_overlapping</code> is not provided or is set to <code>.true.</
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>590adbe</small></p></div>
+                                          <br /><small>5089a40</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2021-08-10 14:30  
+             on 2021-08-22 16:48  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
