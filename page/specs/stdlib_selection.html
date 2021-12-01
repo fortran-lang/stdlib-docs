@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A community driven standard library for (modern) Fortran">
+    
+    <meta name="author" content="fortran-lang/stdlib contributors" >
+    <link rel="icon" href="../../favicon.png">
+
+    <title>Selection Procedures &ndash; Fortran-lang/stdlib</title>
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/pygments.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/local.css" rel="stylesheet">
+    
+    <link  href="../../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../../js/jquery-2.1.3.min.js"></script>
+    <script src="../../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">Fortran-lang/stdlib </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../../page/index.html'>Contributing and specs</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../../lists/procedures.html">Procedures</a></li>
+        
+               
+            <li><a href="../../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/procedures.html">Procedures</a></li>
+
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  <div class="row">
+    <h1>Selection Procedures</h1>
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="well well-sm" style="min-height: 40px;">
+      <ul class="list-inline" style="margin-bottom:0px; display:inline">
+         
+         
+<!--
+        
+-->
+      </ul>
+        <ol class="breadcrumb in-well">
+      
+         <li><a href='../../page/index.html'>Contributing and specs</a></li>
+      
+         <li><a href='../../page/specs/index.html'>Specifications (specs)</a></li>
+      
+         <li class="active">Selection Procedures</li>
+      </ol>
+    </div>
+    </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-9 col-md-push-3" id='text'>
+      <h1 id="the-stdlib_selection-module">The <code>stdlib_selection</code> module</h1>
+<div class="toc">
+<ul>
+<li><a href="#the-stdlib_selection-module">The stdlib_selection module</a><ul>
+<li><a href="#overview-of-selection">Overview of selection</a></li>
+<li><a href="#overview-of-the-module">Overview of the module</a></li>
+<li><a href="#select-find-the-k-th-smallest-value-in-an-input-array">select - find the k-th smallest value in an input array</a><ul>
+<li><a href="#status">Status</a></li>
+<li><a href="#description">Description</a></li>
+<li><a href="#syntax">Syntax</a></li>
+<li><a href="#class">Class</a></li>
+<li><a href="#arguments">Arguments</a></li>
+<li><a href="#notes">Notes</a></li>
+<li><a href="#example">Example</a></li>
+</ul>
+</li>
+<li><a href="#arg_select-find-the-index-of-the-k-th-smallest-value-in-an-input-array">arg_select - find the index of the k-th smallest value in an input array</a><ul>
+<li><a href="#status_1">Status</a></li>
+<li><a href="#description_1">Description</a></li>
+<li><a href="#syntax_1">Syntax</a></li>
+<li><a href="#class_1">Class</a></li>
+<li><a href="#arguments_1">Arguments</a></li>
+<li><a href="#notes_1">Notes</a></li>
+<li><a href="#example_1">Example</a></li>
+</ul>
+</li>
+<li><a href="#comparison-with-using-sort">Comparison with using sort</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="overview-of-selection">Overview of selection</h2>
+<p>Suppose you wish to find the value of the k-th smallest entry in an array of size N, or
+the index of that value. While it could be done by sorting the whole array
+using <code><a href="../../module/stdlib_sorting.html#interface-sort">sort</a></code> or 
+<code><a href="../../module/stdlib_sorting.html#interface-sort_index">sort_index</a></code> from 
+<code><a href="../../module/stdlib_sorting.html">stdlib_sorting</a></code> and then finding the k-th entry, that would
+require O(N x LOG(N)) time. However selection of a single entry can be done in
+O(N) time, which is much faster for large arrays.  This is useful, for example,
+to quickly find the median of an array, or some other percentile.</p>
+<p>The Fortran Standard Library therefore provides a module, <code>stdlib_selection</code>,
+which implements selection algorithms.</p>
+<h2 id="overview-of-the-module">Overview of the module</h2>
+<p>The module <code>stdlib_selection</code> defines two generic subroutines:
+* <code>select</code> is used to find the k-th smallest entry of an array. The input
+array is also modified in-place, and on return will be partially sorted
+such that <code>all(array(1:k) &lt;= array(k)))</code>  and <code>all(array(k) &lt;= array((k+1):size(array)))</code> is true.
+The user can optionally specify <code>left</code> and <code>right</code> indices to constrain the search
+for the k-th smallest value. This can be useful if you have previously called <code>select</code>
+to find a smaller or larger rank (that will have led to partial sorting of
+<code>array</code>, thus implying some constraints on the location).</p>
+<ul>
+<li><code>arg_select</code> is used to find the index of the k-th smallest entry of an array.
+In this case the input array is not modified, but the user must provide an
+input index array with the same size as <code>array</code>, having indices that are a permutation of
+<code>1:size(array)</code>, which is modified instead. On return the index array is modified
+such that <code>all(array(index(1:k)) &lt;= array(index(k)))</code> and <code>all(array(k) &lt;= array(k+1:size(array)))</code>.
+The user can optionally specify <code>left</code> and <code>right</code> indices to constrain the search
+for the k-th smallest value. This can be useful if you have previously called <code>arg_select</code>
+to find a smaller or larger rank (that will have led to partial sorting of
+<code>index</code>, thus implying some constraints on the location).</li>
+</ul>
+<h2 id="select-find-the-k-th-smallest-value-in-an-input-array"><code>select</code> - find the k-th smallest value in an input array</h2>
+<h3 id="status">Status</h3>
+<p>Experimental</p>
+<h3 id="description">Description</h3>
+<p>Returns the k-th smallest value of <code>array(:)</code>, and also partially sorts <code>array(:)</code>
+such that <code>all(array(1:k) &lt;= array(k))</code>  and <code>all(array(k) &lt;= array((k+1):size(array)))</code></p>
+<h3 id="syntax">Syntax</h3>
+<p><code>call <a href="../../module/stdlib_selection.html#interface-select">select</a>( array, k, kth_smallest [, left, right ] )</code></p>
+<h3 id="class">Class</h3>
+<p>Generic subroutine.</p>
+<h3 id="arguments">Arguments</h3>
+<p><code>array</code> : shall be a rank one array of any of the types:
+<code>integer(int8)</code>, <code>integer(int16)</code>, <code>integer(int32)</code>, <code>integer(int64)</code>,
+<code>real(sp)</code>, <code>real(dp)</code>, <code>real(xdp)</code>, <code>real(qp)</code>. It is an <code>intent(inout)</code> argument. </p>
+<p><code>k</code>: shall be a scalar with any of the types:
+<code>integer(int8)</code>, <code>integer(int16)</code>, <code>integer(int32)</code>, <code>integer(int64)</code>. It
+is an <code>intent(in)</code> argument. We search for the <code>k</code>-th smallest entry of <code>array(:)</code>.</p>
+<p><code>kth_smallest</code>: shall be a scalar with the same type as <code>array</code>. It is an
+<code>intent(out)</code> argument. On return it contains the k-th smallest entry of
+<code>array(:)</code>.</p>
+<p><code>left</code> (optional): shall be a scalar with the same type as <code>k</code>. It is an
+<code>intent(in)</code> argument. If specified then we assume the k-th smallest value is
+definitely contained in <code>array(left:size(array))</code>. If <code>left</code> is not present,
+the default is 1. This is typically useful if multiple calls to <code>select</code> are
+made, because the partial sorting of <code>array</code> implies constraints on where we
+need to search.</p>
+<p><code>right</code> (optional): shall be a scalar with the same type as <code>k</code>. It is an
+<code>intent(in)</code> argument. If specified then we assume the k-th smallest value is
+definitely contained in <code>array(1:right)</code>. If <code>right</code> is not present, the
+default is <code>size(array)</code>. This is typically useful if multiple calls to
+<code>select</code> are made, because the partial sorting of <code>array</code> implies constraints
+on where we need to search.</p>
+<h3 id="notes">Notes</h3>
+<p>Selection of a single value should have runtime of O(<code>size(array)</code>), so it is
+asymptotically faster than sorting <code>array</code> entirely. The test program at the
+end of this document shows that is the case.</p>
+<p>The code does not support <code>NaN</code> elements in <code>array</code>; it will run, but there is
+no consistent interpretation given to the order of <code>NaN</code> entries of <code>array</code>
+compared to other entries.</p>
+<p><code>select</code> was derived from code in the Coretran library by Leon Foks,
+https://github.com/leonfoks/coretran. Leon Foks has given permission for the
+code here to be released under stdlib's MIT license.</p>
+<h3 id="example">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_select</span>
+  <span class="k">use </span><span class="n">stdlib_selection</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="k">select</span>
+<span class="k">  implicit none</span>
+
+<span class="k">  </span><span class="kt">real</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="k">array</span><span class="p">(:)</span>
+  <span class="kt">real</span> <span class="kd">::</span> <span class="n">kth_smallest</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">k</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span>
+
+  <span class="k">array</span> <span class="o">=</span> <span class="p">[</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">7.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">]</span>
+
+  <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="k">call select</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">kth_smallest</span><span class="p">)</span>
+  <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="n">kth_smallest</span> <span class="c">! print 1.0</span>
+
+  <span class="n">k</span> <span class="o">=</span> <span class="mi">7</span>
+  <span class="c">! Due to the previous call to select, we know for sure this is in an</span>
+  <span class="c">! index &gt;= 2</span>
+  <span class="k">call select</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">kth_smallest</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+  <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="n">kth_smallest</span> <span class="c">! print 5.0</span>
+
+  <span class="n">k</span> <span class="o">=</span> <span class="mi">6</span>
+  <span class="c">! Due to the previous two calls to select, we know for sure this is in</span>
+  <span class="c">! an index &gt;= 2 and &lt;= 7</span>
+  <span class="k">call select</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">kth_smallest</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+  <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="n">kth_smallest</span> <span class="c">! print 4.0</span>
+
+<span class="k">end program </span><span class="n">demo_select</span>
+</code></pre></div>
+
+
+<h2 id="arg_select-find-the-index-of-the-k-th-smallest-value-in-an-input-array"><code>arg_select</code> - find the index of the k-th smallest value in an input array</h2>
+<h3 id="status_1">Status</h3>
+<p>Experimental</p>
+<h3 id="description_1">Description</h3>
+<p>Returns the index of the k-th smallest value of <code>array(:)</code>, and also partially sorts
+the index-array <code>indx(:)</code> such that <code>all(array(indx(1:k)) &lt;= array(indx(k)))</code>  and
+<code>all(array(indx(k)) &lt;= array(indx((k+1):size(array))))</code></p>
+<h3 id="syntax_1">Syntax</h3>
+<p><code>call <a href="../../module/stdlib_selection.html#interface-arg_select">arg_select</a>( array, indx, k, kth_smallest [, left, right ] )</code></p>
+<h3 id="class_1">Class</h3>
+<p>Generic subroutine.</p>
+<h3 id="arguments_1">Arguments</h3>
+<p><code>array</code> : shall be a rank one array of any of the types:
+<code>integer(int8)</code>, <code>integer(int16)</code>, <code>integer(int32)</code>, <code>integer(int64)</code>,
+<code>real(sp)</code>, <code>real(dp)</code>, <code>real(xdp),</code>real(qp)<code>. It is an</code>intent(in)` argument. On input it is
+the array in which we search for the k-th smallest entry.</p>
+<p><code>indx</code>: shall be a rank one array with the same size as <code>array</code>, containing all integers
+from <code>1:size(array)</code> in any order. It is of any of the types:
+<code>integer(int8)</code>, <code>integer(int16)</code>, <code>integer(int32)</code>, <code>integer(int64)</code>. It is an
+<code>intent(inout)</code> argument. On return its elements will define a partial sorting of <code>array(:)</code> such that:
+ <code>all( array(indx(1:k-1)) &lt;= array(indx(k)) )</code> and <code>all(array(indx(k)) &lt;= array(indx(k+1:size(array))))</code>.</p>
+<p><code>k</code>: shall be a scalar with the same type as <code>indx</code>. It is an <code>intent(in)</code>
+argument. We search for the <code>k</code>-th smallest entry of <code>array(:)</code>.</p>
+<p><code>kth_smallest</code>: a scalar with the same type as <code>indx</code>. It is an <code>intent(out)</code> argument,
+and on return it contains the index of the k-th smallest entry of <code>array(:)</code>.</p>
+<p><code>left</code> (optional): shall be a scalar with the same type as <code>k</code>. It is an <code>intent(in)</code>
+argument. If specified then we assume the k-th smallest value is definitely contained
+in <code>array(indx(left:size(array)))</code>. If <code>left</code> is not present, the default is 1.
+This is typically useful if multiple calls to <code>arg_select</code> are made, because
+the partial sorting of <code>indx</code> implies constraints on where we need to search.</p>
+<p><code>right</code> (optional): shall be a scalar with the same type as <code>k</code>. It is an <code>intent(in)</code>
+argument. If specified then we assume the k-th smallest value is definitely contained
+in <code>array(indx(1:right))</code>. If <code>right</code> is not present, the default is
+<code>size(array)</code>. This is typically useful if multiple calls to <code>arg_select</code> are
+made, because the reordering of <code>indx</code> implies constraints on where we need to
+search.</p>
+<h3 id="notes_1">Notes</h3>
+<p><code>arg_select</code> does not modify <code>array</code>, unlike <code>select</code>.</p>
+<p>The partial sorting of <code>indx</code> is not stable, i.e., indices that map to equal
+values of array may be reordered.</p>
+<p>The code does not support <code>NaN</code> elements in <code>array</code>; it will run, but there is
+no consistent interpretation given to the order of <code>NaN</code> entries of <code>array</code>
+compared to other entries.</p>
+<p>While it is essential that that <code>indx</code> contains a permutation of the integers <code>1:size(array)</code>, 
+the code does not check for this. For example if <code>size(array) == 4</code>, then we could have 
+<code>indx = [4, 2, 1, 3]</code> or <code>indx = [1, 2, 3, 4]</code>, but not <code>indx = [2, 1, 2, 4]</code>. It is the user's
+responsibility to avoid such errors.</p>
+<p>Selection of a single value should have runtime of O(<code>size(array)</code>), so it is
+asymptotically faster than sorting <code>array</code> entirely. The test program at the end of
+these documents confirms that is the case.</p>
+<p><code>arg_select</code> was derived using code from the Coretran library by Leon Foks,
+https://github.com/leonfoks/coretran. Leon Foks has given permission for the
+code here to be released under stdlib's MIT license.</p>
+<h3 id="example_1">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_arg_select</span>
+  <span class="k">use </span><span class="n">stdlib_selection</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">arg_select</span>
+  <span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">real</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="k">array</span><span class="p">(:)</span>
+  <span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">indx</span><span class="p">(:)</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">kth_smallest</span>
+  <span class="kt">integer</span> <span class="kd">::</span> <span class="n">k</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span>
+
+  <span class="k">array</span> <span class="o">=</span> <span class="p">[</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">7.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">]</span>
+  <span class="n">indx</span> <span class="o">=</span> <span class="p">[(</span> <span class="n">k</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">)</span> <span class="p">)]</span>
+
+  <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="k">call </span><span class="n">arg_select</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="n">indx</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">kth_smallest</span><span class="p">)</span>
+  <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="n">kth_smallest</span><span class="p">)</span> <span class="c">! print 1.0</span>
+
+  <span class="n">k</span> <span class="o">=</span> <span class="mi">7</span>
+  <span class="c">! Due to the previous call to arg_select, we know for sure this is in an</span>
+  <span class="c">! index &gt;= 2</span>
+  <span class="k">call </span><span class="n">arg_select</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="n">indx</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">kth_smallest</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+  <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="n">kth_smallest</span><span class="p">)</span> <span class="c">! print 5.0</span>
+
+  <span class="n">k</span> <span class="o">=</span> <span class="mi">6</span>
+  <span class="c">! Due to the previous two calls to arg_select, we know for sure this is in</span>
+  <span class="c">! an index &gt;= 2 and &lt;= 7</span>
+  <span class="k">call </span><span class="n">arg_select</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="n">indx</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">kth_smallest</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+  <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="n">kth_smallest</span><span class="p">)</span> <span class="c">! print 4.0</span>
+
+<span class="k">end program </span><span class="n">demo_arg_select</span>
+</code></pre></div>
+
+
+<h2 id="comparison-with-using-sort">Comparison with using <code>sort</code></h2>
+<p>The following program compares the timings of <code>select</code> and <code>arg_select</code> for
+computing the median of an array, vs using <code>sort</code> from <code>stdlib</code>.  In theory we
+should see a speed improvement with the selection routines which grows like
+LOG(size(<code>array</code>)).</p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">selection_vs_sort</span>
+  <span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">dp</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="n">int64</span>
+  <span class="k">use </span><span class="n">stdlib_selection</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="k">select</span><span class="p">,</span> <span class="n">arg_select</span>
+  <span class="k">use </span><span class="n">stdlib_sorting</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">sort</span>
+  <span class="k">implicit none</span>
+
+<span class="k">  call </span><span class="n">compare_select_sort_for_median</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="k">call </span><span class="n">compare_select_sort_for_median</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+  <span class="k">call </span><span class="n">compare_select_sort_for_median</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span>
+  <span class="k">call </span><span class="n">compare_select_sort_for_median</span><span class="p">(</span><span class="mi">1001</span><span class="p">)</span>
+  <span class="k">call </span><span class="n">compare_select_sort_for_median</span><span class="p">(</span><span class="mi">10001</span><span class="p">)</span>
+  <span class="k">call </span><span class="n">compare_select_sort_for_median</span><span class="p">(</span><span class="mi">100001</span><span class="p">)</span>
+
+  <span class="k">contains</span>
+<span class="k">      subroutine </span><span class="n">compare_select_sort_for_median</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+          <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">N</span>
+
+          <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">result_arg_select</span><span class="p">,</span> <span class="n">indx</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">indx_local</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+          <span class="kt">real</span> <span class="kd">::</span> <span class="n">random_vals</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">local_random_vals</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+          <span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">test_reps</span> <span class="o">=</span> <span class="mi">100</span>
+          <span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span>
+          <span class="kt">real</span> <span class="kd">::</span> <span class="n">result_sort</span><span class="p">,</span> <span class="n">result_select</span>
+          <span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">time_sort</span><span class="p">,</span> <span class="n">time_select</span><span class="p">,</span> <span class="n">time_arg_select</span>
+          <span class="kt">logical</span> <span class="kd">::</span> <span class="n">select_test_passed</span><span class="p">,</span> <span class="n">arg_select_test_passed</span>
+
+          <span class="c">! Ensure N is odd</span>
+          <span class="k">if</span><span class="p">(</span><span class="nb">mod</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">stop</span>
+
+<span class="k">          </span><span class="n">time_sort</span> <span class="o">=</span> <span class="mi">0</span>
+          <span class="n">time_select</span> <span class="o">=</span> <span class="mi">0</span>
+          <span class="n">time_arg_select</span> <span class="o">=</span> <span class="mi">0</span>
+
+          <span class="n">select_test_passed</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span>
+          <span class="n">arg_select_test_passed</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span>
+
+          <span class="n">indx</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="p">(</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="o">/</span><span class="p">)</span>
+
+          <span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="c">! Deliberate integer division</span>
+
+          <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">test_reps</span>
+              <span class="k">call </span><span class="nb">random_number</span><span class="p">(</span><span class="n">random_vals</span><span class="p">)</span>
+
+              <span class="c">! Compute the median with sorting</span>
+              <span class="n">local_random_vals</span> <span class="o">=</span> <span class="n">random_vals</span>
+              <span class="k">call </span><span class="nb">system_clock</span><span class="p">(</span><span class="n">t0</span><span class="p">)</span>
+              <span class="k">call </span><span class="n">sort</span><span class="p">(</span><span class="n">local_random_vals</span><span class="p">)</span>
+              <span class="n">result_sort</span> <span class="o">=</span> <span class="n">local_random_vals</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+              <span class="k">call </span><span class="nb">system_clock</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+              <span class="n">time_sort</span> <span class="o">=</span> <span class="n">time_sort</span> <span class="o">+</span> <span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span>
+
+              <span class="c">! Compute the median with selection, assuming N is odd</span>
+              <span class="n">local_random_vals</span> <span class="o">=</span> <span class="n">random_vals</span>
+              <span class="k">call </span><span class="nb">system_clock</span><span class="p">(</span><span class="n">t0</span><span class="p">)</span>
+              <span class="k">call select</span><span class="p">(</span><span class="n">local_random_vals</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">result_select</span><span class="p">)</span>
+              <span class="k">call </span><span class="nb">system_clock</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+              <span class="n">time_select</span> <span class="o">=</span> <span class="n">time_select</span> <span class="o">+</span> <span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span>
+
+              <span class="c">! Compute the median with arg_select, assuming N is odd</span>
+              <span class="n">local_random_vals</span> <span class="o">=</span> <span class="n">random_vals</span>
+              <span class="n">indx_local</span> <span class="o">=</span> <span class="n">indx</span>
+              <span class="k">call </span><span class="nb">system_clock</span><span class="p">(</span><span class="n">t0</span><span class="p">)</span>
+              <span class="k">call </span><span class="n">arg_select</span><span class="p">(</span><span class="n">local_random_vals</span><span class="p">,</span> <span class="n">indx_local</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">result_arg_select</span><span class="p">)</span>
+              <span class="k">call </span><span class="nb">system_clock</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+              <span class="n">time_arg_select</span> <span class="o">=</span> <span class="n">time_arg_select</span> <span class="o">+</span> <span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span>
+
+              <span class="k">if</span><span class="p">(</span><span class="n">result_select</span> <span class="o">/=</span> <span class="n">result_sort</span><span class="p">)</span> <span class="n">select_test_passed</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+              <span class="k">if</span><span class="p">(</span><span class="n">local_random_vals</span><span class="p">(</span><span class="n">result_arg_select</span><span class="p">)</span> <span class="o">/=</span> <span class="n">result_sort</span><span class="p">)</span> <span class="n">arg_select_test_passed</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+          <span class="k">end do</span>
+
+<span class="k">          print</span><span class="o">*</span><span class="p">,</span> <span class="s2">&quot;select    ; N=&quot;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;; &#39;</span><span class="p">,</span> <span class="nb">merge</span><span class="p">(</span><span class="s1">&#39;PASS&#39;</span><span class="p">,</span> <span class="s1">&#39;FAIL&#39;</span><span class="p">,</span> <span class="n">select_test_passed</span><span class="p">),</span> <span class="p">&amp;</span>
+              <span class="s1">&#39;; Relative-speedup-vs-sort:&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">*</span><span class="n">time_sort</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0</span><span class="o">*</span><span class="n">time_select</span><span class="p">)</span>
+          <span class="k">print</span><span class="o">*</span><span class="p">,</span> <span class="s2">&quot;arg_select; N=&quot;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;; &#39;</span><span class="p">,</span> <span class="nb">merge</span><span class="p">(</span><span class="s1">&#39;PASS&#39;</span><span class="p">,</span> <span class="s1">&#39;FAIL&#39;</span><span class="p">,</span> <span class="n">arg_select_test_passed</span><span class="p">),</span> <span class="p">&amp;</span>
+              <span class="s1">&#39;; Relative-speedup-vs-sort:&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">*</span><span class="n">time_sort</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0</span><span class="o">*</span><span class="n">time_arg_select</span><span class="p">)</span>
+
+      <span class="k">end subroutine</span>
+
+<span class="k">end program</span>
+</code></pre></div>
+
+
+<p>The results seem consistent with expectations when the <code>array</code> is large; the program prints:</p>
+<div class="codehilite"><pre><span></span><code><span class="err"> select    ; N=           1 ; PASS; Relative-speedup-vs-sort:   1.90928173    </span>
+<span class="err"> arg_select; N=           1 ; PASS; Relative-speedup-vs-sort:   1.76875830    </span>
+<span class="err"> select    ; N=          11 ; PASS; Relative-speedup-vs-sort:   1.14835048    </span>
+<span class="err"> arg_select; N=          11 ; PASS; Relative-speedup-vs-sort:   1.00794709    </span>
+<span class="err"> select    ; N=         101 ; PASS; Relative-speedup-vs-sort:   2.31012774    </span>
+<span class="err"> arg_select; N=         101 ; PASS; Relative-speedup-vs-sort:   1.92877376    </span>
+<span class="err"> select    ; N=        1001 ; PASS; Relative-speedup-vs-sort:   4.24190664    </span>
+<span class="err"> arg_select; N=        1001 ; PASS; Relative-speedup-vs-sort:   3.54580402    </span>
+<span class="err"> select    ; N=       10001 ; PASS; Relative-speedup-vs-sort:   5.61573362    </span>
+<span class="err"> arg_select; N=       10001 ; PASS; Relative-speedup-vs-sort:   4.79348087    </span>
+<span class="err"> select    ; N=      100001 ; PASS; Relative-speedup-vs-sort:   7.28823519    </span>
+<span class="err"> arg_select; N=      100001 ; PASS; Relative-speedup-vs-sort:   6.03007460    </span>
+</code></pre></div>
+    </div>
+    
+    <div class="col-md-3 col-md-pull-9">
+      <hr class="visible-xs visible-sm">
+        <div class="well toc">
+          <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../../page/index.html'>Contributing and specs</a></li>
+          </ul>
+          <hr>
+          <ul class="nav nav-stacked nav-pills">
+            
+            <li role="presentation">
+            <a href='../../page/./License.html'>Fortran stdlib License (MIT)</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/./changelog.html'>Changelog</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/index.html'>Contributing</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../page/contributing/CodeOfConduct.html'>Contributor Code of Conduct</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/StyleGuide.html'>Style Guide</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/Workflow.html'>Workflow for Contributors</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/index.html'>Specifications (specs)</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_ascii.html'>ASCII</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_bitsets.html'>Bitsets</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_error.html'>error</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_io.html'>IO</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_kinds.html'>kinds</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_linalg.html'>linalg</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_logger.html'>logger</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_math.html'>math</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_optval.html'>optval</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_quadrature.html'>quadrature</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_random.html'>stats_random</a>
+            
+            </li>
+            
+            <li role="presentation" class="disabled">
+            <a href='../../page/specs/stdlib_selection.html'>Selection Procedures</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_sorting.html'>Sorting Procedures</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_specialfunctions.html'>specialfunctions</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stats.html'>stats</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stats_distribution_uniform.html'>stats_distribution_uniform</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_string_type.html'>string type</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stringlist_type.html'>stringlist type</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_strings.html'>string handling</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_version.html'>Version information</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+          </ul>
+        </div>
+    </div>
+    
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+                                          <br /><small>22c1be0</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2021-12-01 15:27  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>
