@@ -166,6 +166,24 @@
 <li><a href="#example_2">Example</a></li>
 </ul>
 </li>
+<li><a href="#load_npy">load_npy</a><ul>
+<li><a href="#status_3">Status</a></li>
+<li><a href="#description_3">Description</a></li>
+<li><a href="#syntax_3">Syntax</a></li>
+<li><a href="#arguments_3">Arguments</a></li>
+<li><a href="#return-value_2">Return value</a></li>
+<li><a href="#example_3">Example</a></li>
+</ul>
+</li>
+<li><a href="#save_npy">save_npy</a><ul>
+<li><a href="#status_4">Status</a></li>
+<li><a href="#description_4">Description</a></li>
+<li><a href="#syntax_4">Syntax</a></li>
+<li><a href="#arguments_4">Arguments</a></li>
+<li><a href="#output_1">Output</a></li>
+<li><a href="#example_4">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -187,7 +205,7 @@
     <span class="k">use </span><span class="n">stdlib_io</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">loadtxt</span>
     <span class="k">implicit none</span>
 <span class="k">    </span><span class="kt">real</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(:,:)</span>
-    <span class="k">call </span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;example.dat&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> 
+    <span class="k">call </span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;example.dat&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 <span class="k">end program </span><span class="n">demo_loadtxt</span>
 </code></pre></div>
 
@@ -274,8 +292,68 @@
     <span class="k">use </span><span class="n">stdlib_io</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">savetxt</span>
     <span class="k">implicit none</span>
 <span class="k">    </span><span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">call </span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;example.dat&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> 
+    <span class="k">call </span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;example.dat&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 <span class="k">end program </span><span class="n">demo_savetxt</span>
+</code></pre></div>
+
+
+<h2 id="load_npy"><code>load_npy</code></h2>
+<h3 id="status_3">Status</h3>
+<p>Experimental</p>
+<h3 id="description_3">Description</h3>
+<p>Loads an <code>array</code> from a npy formatted binary file.</p>
+<h3 id="syntax_3">Syntax</h3>
+<p><code>call <a href="../../module/stdlib_io_npy.html#interface-load_npy">load_npy</a>(filename, array[, iostat][, iomsg])</code></p>
+<h3 id="arguments_3">Arguments</h3>
+<p><code>filename</code>: Shall be  a character expression containing the file name from which to load the <code>array</code>.
+            This argument is <code>intent(in)</code>.</p>
+<p><code>array</code>: Shall be an allocatable array of any rank of type <code>real</code>, <code>complex</code> or <code>integer</code>.
+         This argument is <code>intent(out)</code>.</p>
+<p><code>iostat</code>: Default integer, contains status of loading to file, zero in case of success.
+          It is an optional argument, in case not present the program will halt for non-zero status.
+          This argument is <code>intent(out)</code>.</p>
+<p><code>iomsg</code>: Deferred length character value, contains error message in case <code>iostat</code> is non-zero.
+         It is an optional argument, error message will be dropped if not present.
+         This argument is <code>intent(out)</code>.</p>
+<h3 id="return-value_2">Return value</h3>
+<p>Returns an allocated <code>array</code> with the content of <code>filename</code> in case of success.</p>
+<h3 id="example_3">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_loadnpy</span>
+    <span class="k">use </span><span class="n">stdlib_io_npy</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">load_npy</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">real</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(:,:)</span>
+    <span class="k">call </span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;example.npy&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="k">end program </span><span class="n">demo_loadnpy</span>
+</code></pre></div>
+
+
+<h2 id="save_npy"><code>save_npy</code></h2>
+<h3 id="status_4">Status</h3>
+<p>Experimental</p>
+<h3 id="description_4">Description</h3>
+<p>Saves an <code>array</code> into a npy formatted binary file.</p>
+<h3 id="syntax_4">Syntax</h3>
+<p><code>call <a href="../../module/stdlib_io_npy.html#interface-save_npy">save_npy</a>(filename, array[, iostat][, iomsg])</code></p>
+<h3 id="arguments_4">Arguments</h3>
+<p><code>filename</code>: Shall be  a character expression containing the name of the file that will contain the <code>array</code>.
+            This argument is <code>intent(in)</code>.</p>
+<p><code>array</code>: Shall be an array of any rank of type <code>real</code>, <code>complex</code> or <code>integer</code>.
+         This argument is <code>intent(in)</code>.</p>
+<p><code>iostat</code>: Default integer, contains status of saving to file, zero in case of success.
+          It is an optional argument, in case not present the program will halt for non-zero status.
+          This argument is <code>intent(out)</code>.</p>
+<p><code>iomsg</code>: Deferred length character value, contains error message in case <code>iostat</code> is non-zero.
+         It is an optional argument, error message will be dropped if not present.
+         This argument is <code>intent(out)</code>.</p>
+<h3 id="output_1">Output</h3>
+<p>Provides a npy file called <code>filename</code> that contains the rank-2 <code>array</code>.</p>
+<h3 id="example_4">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_savenpy</span>
+    <span class="k">use </span><span class="n">stdlib_io_npy</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">save_npy</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">call </span><span class="n">save_npy</span><span class="p">(</span><span class="s1">&#39;example.npy&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="k">end program </span><span class="n">demo_savenpy</span>
 </code></pre></div>
     </div>
     
@@ -443,12 +521,12 @@
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>3e49820</small></p></div>
+                                          <br /><small>ce9c234</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2021-12-04 09:15  
+             on 2021-12-06 20:14  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
