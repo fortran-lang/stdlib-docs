@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A community driven standard library for (modern) Fortran">
+    
+    <meta name="author" content="fortran-lang/stdlib contributors" >
+    <link rel="icon" href="../../favicon.png">
+
+    <title>stats_distribution_normal &ndash; Fortran-lang/stdlib</title>
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/pygments.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/local.css" rel="stylesheet">
+    
+    <link  href="../../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../../js/jquery-2.1.3.min.js"></script>
+    <script src="../../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">Fortran-lang/stdlib </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../../page/index.html'>Contributing and specs</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../../lists/procedures.html">Procedures</a></li>
+        
+               
+            <li><a href="../../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/procedures.html">Procedures</a></li>
+
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  <div class="row">
+    <h1>stats_distribution_normal</h1>
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="well well-sm" style="min-height: 40px;">
+      <ul class="list-inline" style="margin-bottom:0px; display:inline">
+         
+         
+<!--
+        
+-->
+      </ul>
+        <ol class="breadcrumb in-well">
+      
+         <li><a href='../../page/index.html'>Contributing and specs</a></li>
+      
+         <li><a href='../../page/specs/index.html'>Specifications (specs)</a></li>
+      
+         <li class="active">stats_distribution_normal</li>
+      </ol>
+    </div>
+    </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-9 col-md-push-3" id='text'>
+      <h1 id="statistical-distributions-normal-distribution-module">Statistical Distributions -- Normal Distribution Module</h1>
+<div class="toc">
+<ul>
+<li><a href="#statistical-distributions-normal-distribution-module">Statistical Distributions -- Normal Distribution Module</a><ul>
+<li><a href="#rvs_normal-normal-distribution-random-variates">rvs_normal - normal distribution random variates</a><ul>
+<li><a href="#status">Status</a></li>
+<li><a href="#description">Description</a></li>
+<li><a href="#syntax">Syntax</a></li>
+<li><a href="#class">Class</a></li>
+<li><a href="#arguments">Arguments</a></li>
+<li><a href="#return-value">Return value</a></li>
+<li><a href="#example">Example</a></li>
+</ul>
+</li>
+<li><a href="#pdf_normal-normal-distribution-probability-density-function">pdf_normal - normal distribution probability density function</a><ul>
+<li><a href="#status_1">Status</a></li>
+<li><a href="#description_1">Description</a></li>
+<li><a href="#syntax_1">Syntax</a></li>
+<li><a href="#class_1">Class</a></li>
+<li><a href="#arguments_1">Arguments</a></li>
+<li><a href="#return-value_1">Return value</a></li>
+<li><a href="#example_1">Example</a></li>
+</ul>
+</li>
+<li><a href="#cdf_normal-normal-distribution-cumulative-distribution-function">cdf_normal - normal distribution cumulative distribution function</a><ul>
+<li><a href="#status_2">Status</a></li>
+<li><a href="#description_2">Description</a></li>
+<li><a href="#syntax_2">Syntax</a></li>
+<li><a href="#class_2">Class</a></li>
+<li><a href="#arguments_2">Arguments</a></li>
+<li><a href="#return-value_2">Return value</a></li>
+<li><a href="#example_2">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="rvs_normal-normal-distribution-random-variates"><code>rvs_normal</code> - normal distribution random variates</h2>
+<h3 id="status">Status</h3>
+<p>Experimental</p>
+<h3 id="description">Description</h3>
+<p>A normal continuous random variate distribution, also known as Gaussian, or Gauss or Laplace-Gauss distribution. The location <code>loc</code> specifies the mean or expectation. The <code>scale</code> specifies the standard deviation. </p>
+<p>Without argument the function returns a standard normal distributed random variate N(0,1).</p>
+<p>With two arguments, the function returns a normal distributed random variate N(loc, scale^2). For complex arguments, the real and imaginary parts are independent of each other.</p>
+<p>With three arguments, the function returns a rank one array of normal distributed random variates.</p>
+<p>Note: the algorithm used for generating normal random variates is fundamentally limited to double precision.</p>
+<h3 id="syntax">Syntax</h3>
+<p><code>result = <a href="../../module/stdlib_stats_distribution_normal.html#interface-rvs_normal">rvs_normal</a>([loc, scale] [[, array_size]])</code></p>
+<h3 id="class">Class</h3>
+<p>Function</p>
+<h3 id="arguments">Arguments</h3>
+<p><code>array_size</code>: optional argument has <code>intent(in)</code> and is a scalar of type <code>integer</code>.</p>
+<p><code>loc</code>: optional argument has <code>intent(in)</code> and is a scalar of type <code>real</code> or <code>complex</code>.</p>
+<p><code>scale</code>: optional argument has <code>intent(in)</code> and is a scalar of type <code>real</code> or <code>complex</code>.</p>
+<p><code>loc</code> and <code>scale</code> arguments must be of the same type.</p>
+<h3 id="return-value">Return value</h3>
+<p>The result is a scalar or rank one array, with a size of <code>array_size</code>, and as the same type of <code>scale</code> and <code>loc</code>.</p>
+<h3 id="example">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_normal_rvs</span>
+    <span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="nb">random_seed</span>
+<span class="nb">    </span><span class="k">use </span><span class="n">stdlib_stats_distribution_normal</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">norm</span> <span class="o">=&gt;</span> <span class="n">rvs_normal</span>
+
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">real</span> <span class="kd">::</span>  <span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">complx</span> <span class="kd">::</span> <span class="nb">loc</span><span class="p">,</span> <span class="nb">scale</span>
+<span class="nb">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">seed_put</span><span class="p">,</span> <span class="n">seed_get</span>
+
+    <span class="n">seed_put</span> <span class="o">=</span> <span class="mi">1234567</span>
+    <span class="k">call </span><span class="nb">random_seed</span><span class="p">(</span><span class="n">seed_put</span><span class="p">,</span> <span class="n">seed_get</span><span class="p">)</span>
+
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">norm</span><span class="p">(</span> <span class="p">)</span>           <span class="c">!single standard normal random variate</span>
+
+<span class="c">! 0.563655198</span>
+
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">norm</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+    <span class="c">!normal random variate mu=1.0, sigma=2.0</span>
+
+<span class="c">! -0.633261681</span>
+
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">norm</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>       <span class="c">!an array of 10 standard norml random variates</span>
+
+<span class="c">! -3.38123664E-02  -0.190365672  0.220678389  -0.424612164  -0.249541596</span>
+<span class="c">!  0.865260184  1.11086845  -0.328349441  1.10873628  1.27049923</span>
+
+    <span class="n">a</span><span class="p">(:,:,:)</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">b</span><span class="p">(:,:,:)</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>         <span class="c">! a rank 3 random variates array</span>
+
+<span class="c">!0.152776539  -7.51764774E-02  1.47208166  0.180561781  1.32407105</span>
+<span class="c">! 1.20383692  0.123445868  -0.455737948  -0.469808221  1.60750175</span>
+<span class="c">! 1.05748117  0.720934749  0.407810807  1.48165631  2.31749439</span>
+<span class="c">! 0.414566994  3.06084275  1.86505437  1.36338580  7.26878643E-02</span>
+<span class="c">! 0.178585172  1.39557445  0.828021586  0.872084975</span>
+
+    <span class="nb">loc</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+    <span class="nb">scale</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">norm</span><span class="p">(</span><span class="nb">loc</span><span class="p">,</span> <span class="nb">scale</span><span class="p">)</span>
+    <span class="c">!single complex normal random variate with real part of mu=-1, sigma=2;</span>
+    <span class="c">!imagainary part of mu=2.0 and sigma=1.0</span>
+
+<span class="c">! (1.22566295,2.12518454)</span>
+
+<span class="k">end program </span><span class="n">demo_normal_rvs</span>
+</code></pre></div>
+
+
+<h2 id="pdf_normal-normal-distribution-probability-density-function"><code>pdf_normal</code> - normal distribution probability density function</h2>
+<h3 id="status_1">Status</h3>
+<p>Experimental</p>
+<h3 id="description_1">Description</h3>
+<p>The probability density function (pdf) of the single real variable normal distribution:</p>
+<p>
+<script type="math/tex; mode=display">f(x) = \frac{1}{\sigma \sqrt{2}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^{2}}</script>
+</p>
+<p>For complex varible (x + y i) with independent real x and imaginary y parts, the joint probability density function is the product of corresponding marginal pdf of real and imaginary pdf (ref. "Probability and Random Processes with Applications to Signal Processing and Communications", 2nd ed., Scott L. Miller and Donald Childers, 2012, p.197):</p>
+<p>
+<script type="math/tex; mode=display">f(x + y \mathit{i}) = f(x) f(y) = \frac{1}{2\sigma_{x}\sigma_{y}} e^{-\frac{1}{2}[(\frac{x-\mu}{\sigma_{x}})^{2}+(\frac{y-\nu}{\sigma_{y}})^{2}]}</script>
+</p>
+<h3 id="syntax_1">Syntax</h3>
+<p><code>result = <a href="../../module/stdlib_stats_distribution_normal.html#interface-pdf_normal">pdf_normal</a>(x, loc, scale)</code></p>
+<h3 id="class_1">Class</h3>
+<p>Elemental function</p>
+<h3 id="arguments_1">Arguments</h3>
+<p><code>x</code>: has <code>intent(in)</code> and is a scalar of type <code>real</code> or <code>complex</code>.</p>
+<p><code>loc</code>: has <code>intent(in)</code> and is a scalar of type <code>real</code> or <code>complex</code>.</p>
+<p><code>scale</code>: has <code>intent(in)</code> and is a scalar of type <code>real</code> or <code>complex</code>.</p>
+<p>All three arguments must have the same type.</p>
+<h3 id="return-value_1">Return value</h3>
+<p>The result is a scalar or an array, with a shape conformable to arguments, and as the same type of input arguments.</p>
+<h3 id="example_1">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_normal_pdf</span>
+    <span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="nb">random_seed</span>
+<span class="nb">    </span><span class="k">use </span><span class="n">stdlib_stats_distribution_normal</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">norm_pdf</span><span class="o">=&gt;</span><span class="n">pdf_normal</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                 <span class="n">norm</span> <span class="o">=&gt;</span> <span class="n">rvs_normal</span>
+
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">a</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">b</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">complx</span> <span class="kd">::</span> <span class="nb">loc</span><span class="p">,</span> <span class="nb">scale</span>
+<span class="nb">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">seed_put</span><span class="p">,</span> <span class="n">seed_get</span>
+
+    <span class="n">seed_put</span> <span class="o">=</span> <span class="mi">1234567</span>
+    <span class="k">call </span><span class="nb">random_seed</span><span class="p">(</span><span class="n">seed_put</span><span class="p">,</span> <span class="n">seed_get</span><span class="p">)</span>
+
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">norm_pdf</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">)</span> <span class="c">!a probability density at 1.0 in standard normal</span>
+
+<span class="c">! 0.241970733</span>
+
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">norm_pdf</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+    <span class="c">!a probability density at 2.0 with mu=-1.0 sigma=2.0</span>
+
+<span class="c">!6.47588000E-02</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">60</span><span class="p">),[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+    <span class="c">! standard normal random variates array</span>
+
+    <span class="n">a</span><span class="p">(:,:,:)</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">b</span><span class="p">(:,:,:)</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">norm_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>  <span class="c">! standard normal probability density array</span>
+
+<span class="c">!  0.340346158  0.285823315  0.398714304  0.391778737  0.389345556</span>
+<span class="c">!  0.364551932  0.386712372  0.274370432  0.215250477  0.378006011</span>
+<span class="c">!  0.215760440  0.177990928  0.278640658  0.223813817  0.356875211</span>
+<span class="c">!  0.285167664  0.378533930  0.390739858  0.271684974  0.138273031</span>
+<span class="c">!  0.135456234  0.331718773  0.398283750  0.383706540</span>
+
+    <span class="nb">loc</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="nb">scale</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.</span><span class="p">)</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">norm_pdf</span><span class="p">((</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span> <span class="nb">loc</span><span class="p">,</span> <span class="nb">scale</span><span class="p">)</span>
+    <span class="c">! a complex normal probability density function at (1.5,1.0) with real part</span>
+    <span class="c">! of mu=1.0, sigma=1.0 and imaginary part of mu=-0.5, sigma=2.0</span>
+
+<span class="c">! 5.30100204E-02</span>
+
+<span class="k">end program </span><span class="n">demo_normal_pdf</span>
+</code></pre></div>
+
+
+<h2 id="cdf_normal-normal-distribution-cumulative-distribution-function"><code>cdf_normal</code> - normal distribution cumulative distribution function</h2>
+<h3 id="status_2">Status</h3>
+<p>Experimental</p>
+<h3 id="description_2">Description</h3>
+<p>Cumulative distribution function of the single real variable normal distribution:</p>
+<p>
+<script type="math/tex; mode=display">F(x)=\frac{1}{2}\left [ 1+erf(\frac{x-\mu}{\sigma \sqrt{2}}) \right ]</script>
+</p>
+<p>For the complex variable (x + y i) with independent real x and imaginary y parts, the joint cumulative distribution function is the product of corresponding marginal cdf of real and imaginary cdf (ref. "Probability and Random Processes with Applications to Signal Processing and Communications", 2nd ed., Scott L. Miller and Donald Childers, 2012, p.197):</p>
+<p>
+<script type="math/tex; mode=display">F(x+y\mathit{i})=F(x)F(y)=\frac{1}{4} [1+erf(\frac{x-\mu}{\sigma_{x} \sqrt{2}})] [1+erf(\frac{y-\nu}{\sigma_{y} \sqrt{2}})]</script>
+</p>
+<h3 id="syntax_2">Syntax</h3>
+<p><code>result = <a href="../../module/stdlib_stats_distribution_normal.html#interface-cdf_normal">cdf_normal</a>(x, loc, scale)</code></p>
+<h3 id="class_2">Class</h3>
+<p>Elemental function</p>
+<h3 id="arguments_2">Arguments</h3>
+<p><code>x</code>: has <code>intent(in)</code> and is a scalar of type <code>real</code> or <code>complex</code>.</p>
+<p><code>loc</code>: has <code>intent(in)</code> and is a scalar of type <code>real</code> or <code>complex</code>.</p>
+<p><code>scale</code>: has <code>intent(in)</code> and is a scalar of type <code>real</code> or <code>complex</code>.</p>
+<p>All three arguments must have the same type.</p>
+<h3 id="return-value_2">Return value</h3>
+<p>The result is a scalar or an array, with a shape conformable to arguments, as the same type of input arguments.</p>
+<h3 id="example_2">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_norm_cdf</span>
+    <span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="nb">random_seed</span>
+<span class="nb">    </span><span class="k">use </span><span class="n">stdlib_stats_distribution_normal</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">norm_cdf</span> <span class="o">=&gt;</span> <span class="n">cdf_normal</span><span class="p">,</span>  <span class="p">&amp;</span>
+                                                 <span class="n">norm</span> <span class="o">=&gt;</span> <span class="n">rvs_normal</span>
+
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">b</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">complx</span> <span class="kd">::</span> <span class="nb">loc</span><span class="p">,</span> <span class="nb">scale</span>
+<span class="nb">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">seed_put</span><span class="p">,</span> <span class="n">seed_get</span>
+
+    <span class="n">seed_put</span> <span class="o">=</span> <span class="mi">1234567</span>
+    <span class="k">call </span><span class="nb">random_seed</span><span class="p">(</span><span class="n">seed_put</span><span class="p">,</span> <span class="n">seed_get</span><span class="p">)</span>
+
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">norm_cdf</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>  <span class="c">! a standard normal cumulative at 1.0</span>
+
+<span class="c">! 0.841344714</span>
+
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">norm_cdf</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+    <span class="c">! a cumulative at 2.0 with mu=-1 sigma=2</span>
+
+<span class="c">! 0.933192849</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">24</span><span class="p">),[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+    <span class="c">! standard normal random variates array</span>
+
+    <span class="n">a</span><span class="p">(:,:,:)</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">b</span><span class="p">(:,:,:)</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">norm_cdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>        <span class="c">! standard normal cumulative array</span>
+
+<span class="c">!  0.713505626  0.207069695  0.486513376  0.424511284  0.587328553</span>
+<span class="c">!  0.335559726  0.401470929  0.806552052  0.866687536  0.371323735</span>
+<span class="c">!  0.866228044  0.898046613  0.198435277  0.141147852  0.681565762</span>
+<span class="c">!  0.206268221  0.627057910  0.580759525  0.190364420  7.27325380E-02</span>
+<span class="c">!  7.08068311E-02  0.728241026  0.522919059  0.390097380</span>
+
+    <span class="nb">loc</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)</span>
+    <span class="nb">scale</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">norm_cdf</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span><span class="o">-</span><span class="mf">0.5</span><span class="p">),</span><span class="nb">loc</span><span class="p">,</span><span class="nb">scale</span><span class="p">)</span>
+    <span class="c">!complex normal cumulative distribution at (0.5,-0.5) with real part of</span>
+    <span class="c">!mu=1.0, sigma=0.5 and imaginary part of mu=0.0, sigma=1.0</span>
+
+<span class="c">!4.89511043E-02</span>
+
+<span class="k">end program </span><span class="n">demo_norm_cdf</span>
+</code></pre></div>
+    </div>
+    
+    <div class="col-md-3 col-md-pull-9">
+      <hr class="visible-xs visible-sm">
+        <div class="well toc">
+          <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../../page/index.html'>Contributing and specs</a></li>
+          </ul>
+          <hr>
+          <ul class="nav nav-stacked nav-pills">
+            
+            <li role="presentation">
+            <a href='../../page/./License.html'>Fortran stdlib License (MIT)</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/./changelog.html'>Changelog</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/index.html'>Contributing</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../page/contributing/CodeOfConduct.html'>Contributor Code of Conduct</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/StyleGuide.html'>Style Guide</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/Workflow.html'>Workflow for Contributors</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/index.html'>Specifications (specs)</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_ascii.html'>ASCII</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_bitsets.html'>Bitsets</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_error.html'>error</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_io.html'>IO</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_kinds.html'>kinds</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_linalg.html'>linalg</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_logger.html'>logger</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_math.html'>math</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_optval.html'>optval</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_quadrature.html'>quadrature</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_random.html'>stats_random</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_selection.html'>Selection Procedures</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_sorting.html'>Sorting Procedures</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_specialfunctions.html'>specialfunctions</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stats.html'>stats</a>
+            
+            </li>
+            
+            <li role="presentation" class="disabled">
+            <a href='../../page/specs/stdlib_stats_distribution_normal.html'>stats_distribution_normal</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stats_distribution_uniform.html'>stats_distribution_uniform</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_string_type.html'>string type</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stringlist_type.html'>stringlist type</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_strings.html'>string handling</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_version.html'>Version information</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+          </ul>
+        </div>
+    </div>
+    
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+                                          <br /><small>49d269b</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2021-12-09 06:18  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>
