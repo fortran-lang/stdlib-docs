@@ -159,7 +159,7 @@
 <li><a href="#example_1">Example</a></li>
 </ul>
 </li>
-<li><a href="#pdf_uniform-uniform-probability-density-function">pdf_uniform - Uniform probability density function</a><ul>
+<li><a href="#pdf_uniform-uniform-distribution-probability-density-function">pdf_uniform - Uniform distribution probability density function</a><ul>
 <li><a href="#status_2">Status</a></li>
 <li><a href="#description_2">Description</a></li>
 <li><a href="#syntax_2">Syntax</a></li>
@@ -169,7 +169,7 @@
 <li><a href="#example_2">Example</a></li>
 </ul>
 </li>
-<li><a href="#cdf_uniform-uniform-cumulative-distribution-function">cdf_uniform - Uniform cumulative distribution function</a><ul>
+<li><a href="#cdf_uniform-uniform-distribution-cumulative-distribution-function">cdf_uniform - Uniform distribution cumulative distribution function</a><ul>
 <li><a href="#status_3">Status</a></li>
 <li><a href="#description_3">Description</a></li>
 <li><a href="#syntax_3">Syntax</a></li>
@@ -198,7 +198,7 @@
 <p>Return a randomized rank one array of the input type.</p>
 <h3 id="example">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_shuffle</span>
-    <span class="k">use </span><span class="n">stdlib_stats_distribution_PRNG</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="nb">random_seed</span>
+    <span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="nb">random_seed</span>
 <span class="nb">    </span><span class="k">use </span><span class="n">stdlib_stats_distribution_uniform</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">shuffle</span>
     <span class="k">implicit none</span>
 <span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">seed_put</span><span class="p">,</span> <span class="n">seed_get</span><span class="p">,</span> <span class="n">i</span>
@@ -236,10 +236,11 @@
 <h3 id="description_1">Description</h3>
 <p>Without argument the function returns a scalar standard uniformly distributed variate U(0,1) of <code>real</code> type with single precision on [0,1].</p>
 <p>With single argument <code>scale</code> of <code>integer</code> type the function returns a scalar uniformly distributed variate of <code>integer</code> type on [0,scale]. This is the standard Rectangular distribution.</p>
-<p>With single argument <code>scale</code> of <code>real</code> or <code>complex</code> type the function returns a scalar uniformly distributed variate of <code>real</code> or <code>complex</code> type on [0, scale].</p>
-<p>With double arguments <code>loc</code> and <code>scale</code> the function returns a scalar uniformly distributed random variates of <code>integer</code>, <code>real</code> or <code>complex</code> type on [loc, loc + scale] dependent of input type.</p>
+<p>With single argument <code>scale</code> of <code>real</code> or <code>complex</code> type the function returns a scalar uniformly distributed variate of <code>real</code> type on [0, scale] or <code>complex</code> type on [(0, 0i), (scale, i(scale))].</p>
+<p>With double arguments <code>loc</code> and <code>scale</code> the function returns a scalar uniformly distributed random variates of <code>integer</code> or <code>real</code> type on [loc, loc + scale], or <code>complex</code> type on [(loc, i(loc)), ((loc + scale), i(loc + scale))], dependent of input type.</p>
 <p>With triple arguments <code>loc</code>, <code>scale</code> and <code>array_size</code> the function returns a rank one array of uniformly distributed variates of <code>integer</code>, <code>real</code> or <code>complex</code> type with an array size of <code>array_size</code>.</p>
 <p>For <code>complex</code> type, the real part and imaginary part are independent of each other.</p>
+<p>Note: the algorithm used for generating uniform random variates is fundamentally limited to double precision.</p>
 <h3 id="syntax_1">Syntax</h3>
 <p><code>result = <a href="../../module/stdlib_stats_distribution_uniform.html#interface-rvs_uniform">rvs_uniform</a>([[loc,] scale] [[[,array_size]]])</code></p>
 <h3 id="class_1">Class</h3>
@@ -247,13 +248,13 @@
 <h3 id="arguments_1">Arguments</h3>
 <p><code>loc</code>: optional argument has <code>intent(in)</code> and is a scalar of type <code>integer</code>, <code>real</code> or <code>complex</code>.</p>
 <p><code>scale</code>: optional argument has <code>intent(in)</code> and is a scalar of type <code>integer</code>, <code>real</code> or <code>complex</code>.</p>
-<p><code>array_size</code>: optional argument has <code>intent(in)</code> and is a scalar of type <code>integer</code>.</p>
+<p><code>array_size</code>: optional argument has <code>intent(in)</code> and is a scalar of type <code>integer</code> with default kind.</p>
 <p><code>loc</code> and <code>scale</code> must have the same type and kind when both are present.</p>
 <h3 id="return-value_1">Return value</h3>
-<p>The result is a scalar or a rank one array, with size of <code>array_size</code>, of type <code>integer</code>, <code>real</code> or <code>complex</code> depending on the input type.</p>
+<p>The result is a scalar or a rank one array with size of <code>array_size</code>, of type <code>integer</code>, <code>real</code> or <code>complex</code> depending on the input type.</p>
 <h3 id="example_1">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_uniform_rvs</span>
-    <span class="k">use </span><span class="n">stdlib_stats_distribution_PRNG</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span><span class="nb">random_seed</span>
+    <span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span><span class="nb">random_seed</span>
 <span class="nb">    </span><span class="k">use </span><span class="n">stdlib_stats_distribution_uniform</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span><span class="n">uni</span><span class="o">=&gt;</span> <span class="n">rvs_uniform</span>
 
     <span class="k">implicit none</span>
@@ -334,11 +335,13 @@
 </code></pre></div>
 
 
-<h2 id="pdf_uniform-uniform-probability-density-function"><code>pdf_uniform</code> - Uniform probability density function</h2>
+<h2 id="pdf_uniform-uniform-distribution-probability-density-function"><code>pdf_uniform</code> - Uniform distribution probability density function</h2>
 <h3 id="status_2">Status</h3>
 <p>Experimental</p>
 <h3 id="description_2">Description</h3>
-<p>The probability density function of the uniform distribution.</p>
+<p>The probability density function of the uniform distribution:</p>
+<p>f(x) = 0       x &lt; loc or x &gt; loc + scale  for all types uniform distributions</p>
+<p>For random variable x in [loc, loc + scale]:</p>
 <p>f(x) = 1 / (scale + 1);            for discrete uniform distribution.</p>
 <p>f(x) = 1 / scale;                  for continuous uniform distribution.</p>
 <p>f(x) = 1 / (scale%re * scale%im);  for complex uniform distribution.</p>
@@ -355,7 +358,7 @@
 <p>The result is a scalar or an array, with a shape conformable to arguments, of type <code>real</code>.</p>
 <h3 id="example_2">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_uniform_pdf</span>
-    <span class="k">use </span><span class="n">stdlib_stats_distribution_PRNG</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="nb">random_seed</span>
+    <span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="nb">random_seed</span>
 <span class="nb">    </span><span class="k">use </span><span class="n">stdlib_stats_distribution_uniform</span><span class="p">,</span>  <span class="n">only</span> <span class="p">:</span> <span class="n">uni_pdf</span> <span class="o">=&gt;</span> <span class="n">pdf_uniform</span><span class="p">,</span>     <span class="p">&amp;</span>
                                                    <span class="n">uni</span> <span class="o">=&gt;</span> <span class="n">rvs_uniform</span>
 
@@ -406,11 +409,14 @@
 </code></pre></div>
 
 
-<h2 id="cdf_uniform-uniform-cumulative-distribution-function"><code>cdf_uniform</code> - Uniform cumulative distribution function</h2>
+<h2 id="cdf_uniform-uniform-distribution-cumulative-distribution-function"><code>cdf_uniform</code> - Uniform distribution cumulative distribution function</h2>
 <h3 id="status_3">Status</h3>
 <p>Experimental</p>
 <h3 id="description_3">Description</h3>
-<p>Cumulative distribution function of the uniform distribution</p>
+<p>Cumulative distribution function of the uniform distribution:</p>
+<p>F(x) = 0             x &lt; loc             for all types uniform distributions</p>
+<p>F(x) = 1             x &gt; loc + scale     for all types uniform distributions</p>
+<p>For random variable x in [loc, loc + scale]:</p>
 <p>F(x) = (x - loc + 1) / (scale + 1);      for discrete uniform distribution.</p>
 <p>F(x) = (x - loc) / scale;                for continuous uniform distribution.</p>
 <p>F(x) = (x%re - loc%re)(x%im - loc%im) / (scale%re * scale%im); for complex uniform distribution.</p>
@@ -427,7 +433,7 @@
 <p>The result is a scalar or an array, with a shape conformable to arguments, of type <code>real</code>.</p>
 <h3 id="example_3">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_uniform_cdf</span>
-    <span class="k">use </span><span class="n">stdlib_stats_distribution_PRNG</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="nb">random_seed</span>
+    <span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="nb">random_seed</span>
 <span class="nb">    </span><span class="k">use </span><span class="n">stdlib_stats_distribution_uniform</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">uni_cdf</span> <span class="o">=&gt;</span> <span class="n">cdf_uniform</span><span class="p">,</span>      <span class="p">&amp;</span>
                                                   <span class="n">uni</span> <span class="o">=&gt;</span> <span class="n">rvs_uniform</span>
 
@@ -646,12 +652,12 @@
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>d58f77d</small></p></div>
+                                          <br /><small>e7f423a</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2021-12-10 17:12  
+             on 2021-12-12 21:27  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors</p></div>
