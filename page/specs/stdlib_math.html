@@ -215,24 +215,54 @@
 <li><a href="#example">Example</a></li>
 </ul>
 </li>
-<li><a href="#is_close">is_close</a><ul>
-<li><a href="#description_5">Description</a></li>
-<li><a href="#syntax_5">Syntax</a></li>
+<li><a href="#arg-computes-the-phase-angle-in-radian-of-a-complex-scalar">arg - Computes the phase angle in radian of a complex scalar</a><ul>
 <li><a href="#status_5">Status</a></li>
 <li><a href="#class_5">Class</a></li>
+<li><a href="#description_5">Description</a></li>
+<li><a href="#syntax_5">Syntax</a></li>
 <li><a href="#arguments_5">Arguments</a></li>
-<li><a href="#result-value">Result value</a></li>
+<li><a href="#return-value_1">Return value</a></li>
 <li><a href="#example_1">Example</a></li>
 </ul>
 </li>
-<li><a href="#all_close">all_close</a><ul>
-<li><a href="#description_6">Description</a></li>
-<li><a href="#syntax_6">Syntax</a></li>
+<li><a href="#argd-computes-the-phase-angle-in-degree-of-a-complex-scalar">argd - Computes the phase angle in degree of a complex scalar</a><ul>
 <li><a href="#status_6">Status</a></li>
 <li><a href="#class_6">Class</a></li>
+<li><a href="#description_6">Description</a></li>
+<li><a href="#syntax_6">Syntax</a></li>
 <li><a href="#arguments_6">Arguments</a></li>
-<li><a href="#result-value_1">Result value</a></li>
+<li><a href="#return-value_2">Return value</a></li>
 <li><a href="#example_2">Example</a></li>
+</ul>
+</li>
+<li><a href="#argpi-computes-the-phase-angle-in-circular-of-a-complex-scalar">argpi - Computes the phase angle in circular of a complex scalar</a><ul>
+<li><a href="#status_7">Status</a></li>
+<li><a href="#class_7">Class</a></li>
+<li><a href="#description_7">Description</a></li>
+<li><a href="#syntax_7">Syntax</a></li>
+<li><a href="#arguments_7">Arguments</a></li>
+<li><a href="#return-value_3">Return value</a></li>
+<li><a href="#example_3">Example</a></li>
+</ul>
+</li>
+<li><a href="#is_close">is_close</a><ul>
+<li><a href="#description_8">Description</a></li>
+<li><a href="#syntax_8">Syntax</a></li>
+<li><a href="#status_8">Status</a></li>
+<li><a href="#class_8">Class</a></li>
+<li><a href="#arguments_8">Arguments</a></li>
+<li><a href="#result-value">Result value</a></li>
+<li><a href="#example_4">Example</a></li>
+</ul>
+</li>
+<li><a href="#all_close">all_close</a><ul>
+<li><a href="#description_9">Description</a></li>
+<li><a href="#syntax_9">Syntax</a></li>
+<li><a href="#status_9">Status</a></li>
+<li><a href="#class_9">Class</a></li>
+<li><a href="#arguments_9">Arguments</a></li>
+<li><a href="#result-value_1">Result value</a></li>
+<li><a href="#example_5">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -576,8 +606,83 @@ For <code>real</code> type arguments, the length of the result vector is <code>f
 <span class="k">end program </span><span class="n">demo_math_arange</span>
 </code></pre></div>
 
-<h3 id="is_close"><code>is_close</code></h3>
+<h3 id="arg-computes-the-phase-angle-in-radian-of-a-complex-scalar"><code>arg</code> - Computes the phase angle in radian of a complex scalar</h3>
+<h4 id="status_5">Status</h4>
+<p>Experimental</p>
+<h4 id="class_5">Class</h4>
+<p>Elemental function.</p>
 <h4 id="description_5">Description</h4>
+<p><code>arg</code> computes the phase angle (radian version) of <code>complex</code> scalar in the interval (-π,π]. 
+The angles in <code>θ</code> are such that <code>z = abs(z)*exp((0.0, θ))</code>.</p>
+<h4 id="syntax_5">Syntax</h4>
+<p><code>result = <a href="../../module/stdlib_math.html#interface-arg">arg</a>(z)</code></p>
+<h4 id="arguments_5">Arguments</h4>
+<p><code>z</code>: Shall be a <code>complex</code> scalar/array.
+This is an <code>intent(in)</code> argument.</p>
+<h4 id="return-value_1">Return value</h4>
+<p>Returns the <code>real</code> type phase angle (radian version) of the <code>complex</code> argument <code>z</code>.</p>
+<p>Notes: Although the angle of the complex number <code>0</code> is undefined, <code>arg((0,0))</code> returns the value <code>0</code>.</p>
+<h4 id="example_1">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_math_arg</span>
+    <span class="k">use </span><span class="n">stdlib_math</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">arg</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">arg</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>                  <span class="c">!! 0.0</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">arg</span><span class="p">((</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">))</span>                  <span class="c">!! 0.927</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">arg</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="nb">exp</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)))</span>         <span class="c">!! 0.5</span>
+<span class="k">end program </span><span class="n">demo_math_arg</span>
+</code></pre></div>
+
+<h3 id="argd-computes-the-phase-angle-in-degree-of-a-complex-scalar"><code>argd</code> - Computes the phase angle in degree of a complex scalar</h3>
+<h4 id="status_6">Status</h4>
+<p>Experimental</p>
+<h4 id="class_6">Class</h4>
+<p>Elemental function.</p>
+<h4 id="description_6">Description</h4>
+<p><code>argd</code> computes the phase angle (degree version) of <code>complex</code> scalar in the interval (-180.0,180.0]. 
+The angles in <code>θ</code> are such that <code>z = abs(z)*exp((0.0, θ*π/180.0))</code>.</p>
+<h4 id="syntax_6">Syntax</h4>
+<p><code>result = <a href="../../module/stdlib_math.html#interface-argd">argd</a>(z)</code></p>
+<h4 id="arguments_6">Arguments</h4>
+<p><code>z</code>: Shall be a <code>complex</code> scalar/array.
+This is an <code>intent(in)</code> argument.</p>
+<h4 id="return-value_2">Return value</h4>
+<p>Returns the <code>real</code> type phase angle (degree version) of the <code>complex</code> argument <code>z</code>.</p>
+<p>Notes: Although the angle of the complex number <code>0</code> is undefined, <code>argd((0,0))</code> returns the value <code>0</code>.</p>
+<h4 id="example_2">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_math_argd</span>
+    <span class="k">use </span><span class="n">stdlib_math</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">argd</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">argd</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>                  <span class="c">!! 0.0</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">argd</span><span class="p">((</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">))</span>                  <span class="c">!! 53.1°</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">argd</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="nb">exp</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)))</span>         <span class="c">!! 28.64°</span>
+<span class="k">end program </span><span class="n">demo_math_argd</span>
+</code></pre></div>
+
+<h3 id="argpi-computes-the-phase-angle-in-circular-of-a-complex-scalar"><code>argpi</code> - Computes the phase angle in circular of a complex scalar</h3>
+<h4 id="status_7">Status</h4>
+<p>Experimental</p>
+<h4 id="class_7">Class</h4>
+<p>Elemental function.</p>
+<h4 id="description_7">Description</h4>
+<p><code>argpi</code> computes the phase angle (IEEE circular version) of <code>complex</code> scalar in the interval (-1.0,1.0]. 
+The angles in <code>θ</code> are such that <code>z = abs(z)*exp((0.0, θ*π))</code>.</p>
+<h4 id="syntax_7">Syntax</h4>
+<p><code>result = <a href="../../module/stdlib_math.html#interface-argpi">argpi</a>(z)</code></p>
+<h4 id="arguments_7">Arguments</h4>
+<p><code>z</code>: Shall be a <code>complex</code> scalar/array.
+This is an <code>intent(in)</code> argument.</p>
+<h4 id="return-value_3">Return value</h4>
+<p>Returns the <code>real</code> type phase angle (circular version) of the <code>complex</code> argument <code>z</code>.</p>
+<p>Notes: Although the angle of the complex number <code>0</code> is undefined, <code>argpi((0,0))</code> returns the value <code>0</code>.</p>
+<h4 id="example_3">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_math_argpi</span>
+    <span class="k">use </span><span class="n">stdlib_math</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">argpi</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">argpi</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>                  <span class="c">!! 0.0</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">argpi</span><span class="p">((</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">))</span>                  <span class="c">!! 0.295</span>
+    <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">argpi</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="nb">exp</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)))</span>         <span class="c">!! 0.159</span>
+<span class="k">end program </span><span class="n">demo_math_argpi</span>
+</code></pre></div>
+
+<h3 id="is_close"><code>is_close</code></h3>
+<h4 id="description_8">Description</h4>
 <p>Returns a boolean scalar/array where two scalars/arrays are element-wise equal within a tolerance.</p>
 <div class="codehilite"><pre><span></span><code><span class="c">!&gt; For `real` type</span>
 <span class="n">is_close</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">rel_tol</span><span class="p">,</span> <span class="n">abs_tol</span><span class="p">)</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">max</span><span class="p">(</span><span class="n">rel_tol</span><span class="o">*</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">b</span><span class="p">)),</span> <span class="n">abs_tol</span><span class="p">)</span>
@@ -587,13 +692,13 @@ For <code>real</code> type arguments, the length of the result vector is <code>f
                                    <span class="n">is_close</span><span class="p">(</span><span class="n">a</span><span class="p">%</span><span class="n">im</span><span class="p">,</span> <span class="n">b</span><span class="p">%</span><span class="n">im</span><span class="p">,</span> <span class="n">rel_tol</span><span class="p">,</span> <span class="n">abs_tol</span><span class="p">)</span>
 </code></pre></div>
 
-<h4 id="syntax_5">Syntax</h4>
+<h4 id="syntax_8">Syntax</h4>
 <p><code>bool = <a href="../../module/stdlib_math.html#interface-is_close">is_close</a> (a, b [, rel_tol, abs_tol, equal_nan])</code></p>
-<h4 id="status_5">Status</h4>
+<h4 id="status_8">Status</h4>
 <p>Experimental.</p>
-<h4 id="class_5">Class</h4>
+<h4 id="class_8">Class</h4>
 <p>Elemental function.</p>
-<h4 id="arguments_5">Arguments</h4>
+<h4 id="arguments_8">Arguments</h4>
 <p>Note: All <code>real/complex</code> arguments must have same <code>kind</code>.<br>
 If the value of <code>rel_tol/abs_tol</code> is negative (not recommended), 
 it will be corrected to <code>abs(rel_tol/abs_tol)</code> by the internal process of <code>is_close</code>.</p>
@@ -611,11 +716,10 @@ Whether to compare <code>NaN</code> values as equal. If <code>.true.</code>,
 <code>NaN</code> values in <code>a</code> will be considered equal to <code>NaN</code> values in <code>b</code>.</p>
 <h4 id="result-value">Result value</h4>
 <p>Returns a <code>logical</code> scalar/array.</p>
-<h4 id="example_1">Example</h4>
+<h4 id="example_4">Example</h4>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_math_is_close</span>
 
     <span class="k">use </span><span class="n">stdlib_math</span><span class="p">,</span>  <span class="k">only</span><span class="p">:</span> <span class="n">is_close</span>
-    <span class="k">use </span><span class="n">stdlib_error</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">check</span>
     <span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="n">NAN</span>
 
     <span class="n">y</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
@@ -630,15 +734,15 @@ Whether to compare <code>NaN</code> values as equal. If <code>.true.</code>,
 </code></pre></div>
 
 <h3 id="all_close"><code>all_close</code></h3>
-<h4 id="description_6">Description</h4>
+<h4 id="description_9">Description</h4>
 <p>Returns a boolean scalar where two arrays are element-wise equal within a tolerance.</p>
-<h4 id="syntax_6">Syntax</h4>
+<h4 id="syntax_9">Syntax</h4>
 <p><code>bool = <a href="../../module/stdlib_math.html#interface-all_close">all_close</a> (a, b [, rel_tol, abs_tol, equal_nan])</code></p>
-<h4 id="status_6">Status</h4>
+<h4 id="status_9">Status</h4>
 <p>Experimental.</p>
-<h4 id="class_6">Class</h4>
+<h4 id="class_9">Class</h4>
 <p>Pure function.</p>
-<h4 id="arguments_6">Arguments</h4>
+<h4 id="arguments_9">Arguments</h4>
 <p>Note: All <code>real/complex</code> arguments must have same <code>kind</code>.<br>
 If the value of <code>rel_tol/abs_tol</code> is negative (not recommended), 
 it will be corrected to <code>abs(rel_tol/abs_tol)</code> by the internal process of <code>all_close</code>.</p>
@@ -656,11 +760,10 @@ Whether to compare <code>NaN</code> values as equal. If <code>.true.</code>,
 <code>NaN</code> values in <code>a</code> will be considered equal to <code>NaN</code> values in <code>b</code>.</p>
 <h4 id="result-value_1">Result value</h4>
 <p>Returns a <code>logical</code> scalar.</p>
-<h4 id="example_2">Example</h4>
+<h4 id="example_5">Example</h4>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_math_all_close</span>
 
     <span class="k">use </span><span class="n">stdlib_math</span><span class="p">,</span>  <span class="k">only</span><span class="p">:</span> <span class="n">all_close</span>
-    <span class="k">use </span><span class="n">stdlib_error</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">check</span>
     <span class="kt">real</span>    <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="n">NAN</span>
     <span class="kt">complex</span> <span class="kd">::</span> <span class="n">z</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 
@@ -845,13 +948,13 @@ Whether to compare <code>NaN</code> values as equal. If <code>.true.</code>,
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>bae6be5</small></p>
+                                          <br /><small>01b3fb9</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-             on 2021-12-19 09:30  
+             on 2021-12-19 14:20  
             
           </p>
         </div>
