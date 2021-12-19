@@ -189,6 +189,14 @@
 <li><a href="#example_4">Example</a></li>
 </ul>
 </li>
+<li><a href="#getline">getline</a><ul>
+<li><a href="#status_5">Status</a></li>
+<li><a href="#description_5">Description</a></li>
+<li><a href="#syntax_5">Syntax</a></li>
+<li><a href="#arguments_5">Arguments</a></li>
+<li><a href="#example_5">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -355,6 +363,42 @@
 <span class="k">    </span><span class="kt">real</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">call </span><span class="n">save_npy</span><span class="p">(</span><span class="s1">&#39;example.npy&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 <span class="k">end program </span><span class="n">demo_savenpy</span>
+</code></pre></div>
+
+<h2 id="getline"><code>getline</code></h2>
+<h3 id="status_5">Status</h3>
+<p>Experimental</p>
+<h3 id="description_5">Description</h3>
+<p>Read a whole line from a formatted unit into a string variable</p>
+<h3 id="syntax_5">Syntax</h3>
+<p><code>call <a href="../../module/stdlib_io.html#interface-getline">getline</a> (unit, line[, iostat][, iomsg])</code>
+<code>call <a href="../../module/stdlib_io.html#interface-getline">getline</a> (line[, iostat][, iomsg])</code></p>
+<h3 id="arguments_5">Arguments</h3>
+<p><code>unit</code>: Formatted input unit.
+        This argument is <code>intent(in)</code>.
+        If <code>unit</code> is not specified standard input is used.</p>
+<p><code>line</code>: Deferred length character or <code>string_type</code> variable.
+        This argument is <code>intent(out)</code>.</p>
+<p><code>iostat</code>: Default integer, contains status of reading from unit, zero in case of success.
+          It is an optional argument, in case not present the program will halt for non-zero status.
+          This argument is <code>intent(out)</code>.</p>
+<p><code>iomsg</code>: Deferred length character value, contains error message in case <code>iostat</code> is non-zero.
+         It is an optional argument, error message will be dropped if not present.
+         This argument is <code>intent(out)</code>.</p>
+<h3 id="example_5">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_getline</span>
+    <span class="k">use</span><span class="p">,</span> <span class="k">intrinsic</span> <span class="kd">::</span> <span class="n">iso_fortran_env</span><span class="p">,</span> <span class="k">only</span> <span class="p">:</span> <span class="n">input_unit</span><span class="p">,</span> <span class="n">output_unit</span>
+    <span class="k">use </span><span class="n">stdlib_io</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">getline</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">line</span>
+    <span class="kt">integer</span> <span class="kd">::</span> <span class="nb">stat</span>
+
+<span class="nb">    </span><span class="k">call </span><span class="n">getline</span><span class="p">(</span><span class="n">input_unit</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="nb">stat</span><span class="p">)</span>
+    <span class="k">do while</span><span class="p">(</span><span class="nb">stat</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="k">write</span><span class="p">(</span><span class="n">output_unit</span><span class="p">,</span> <span class="s1">&#39;(a)&#39;</span><span class="p">)</span> <span class="n">line</span>
+      <span class="k">call </span><span class="n">getline</span><span class="p">(</span><span class="n">input_unit</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="nb">stat</span><span class="p">)</span>
+    <span class="k">end do</span>
+<span class="k">end program </span><span class="n">demo_getline</span>
 </code></pre></div>
     </div>
     
@@ -527,13 +571,13 @@
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>2601bf1</small></p>
+                                          <br /><small>bae6be5</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-             on 2021-12-18 19:03  
+             on 2021-12-19 09:30  
             
           </p>
         </div>
