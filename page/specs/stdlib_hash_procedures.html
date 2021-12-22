@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A community driven standard library for (modern) Fortran">
+    
+    <meta name="author" content="fortran-lang/stdlib contributors" >
+    <link rel="icon" href="../../favicon.png">
+
+    <title>Hash procedures &ndash; Fortran-lang/stdlib</title>
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/pygments.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/local.css" rel="stylesheet">
+    
+    <link  href="../../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../../js/jquery-2.1.3.min.js"></script>
+    <script src="../../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">Fortran-lang/stdlib </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../../page/index.html'>Contributing and specs</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../../lists/procedures.html">Procedures</a></li>
+        
+               
+            <li><a href="../../lists/types.html">Derived Types</a></li>
+        
+               
+        
+        
+            </ul>
+        
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/procedures.html">Procedures</a></li>
+
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../../lists/types.html">Derived Types</a></li>
+
+
+
+
+          </ul>
+        
+        <form action="../../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  <div class="row">
+    <h1>Hash procedures</h1>
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="well well-sm" style="min-height: 40px;">
+      <ul class="list-inline" style="margin-bottom:0px; display:inline">
+         
+         
+<!--
+        
+-->
+      </ul>
+        <ol class="breadcrumb in-well">
+      
+         <li><a href='../../page/index.html'>Contributing and specs</a></li>
+      
+         <li><a href='../../page/specs/index.html'>Specifications (specs)</a></li>
+      
+         <li class="active">Hash procedures</li>
+      </ol>
+    </div>
+    </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-9 col-md-push-3" id='text'>
+      <h1 id="the-stdlib_hash_32bit-and-stdlib_hash_64bit-modules">The <code>stdlib_hash_32bit</code> and <code>stdlib_hash_64bit</code> modules</h1>
+<div class="toc">
+<ul>
+<li><a href="#the-stdlib_hash_32bit-and-stdlib_hash_64bit-modules">The stdlib_hash_32bit and stdlib_hash_64bit modules</a><ul>
+<li><a href="#overview-of-hash-procedures">Overview of hash procedures</a></li>
+<li><a href="#licensing">Licensing</a></li>
+<li><a href="#glossary">Glossary</a></li>
+<li><a href="#the-hash-codes-modules">The hash codes modules</a><ul>
+<li><a href="#overview-of-the-modules">Overview of the modules</a></li>
+</ul>
+</li>
+<li><a href="#the-stdlib_hash_32bit-module">The stdlib_hash_32bit module</a><ul>
+<li><a href="#overview-of-the-module">Overview of the module</a></li>
+<li><a href="#the-int_hash-parameter">The int_hash parameter</a></li>
+<li><a href="#the-little_endian-parameter">The little_endian parameter</a></li>
+<li><a href="#specifications-of-the-stdlib_hash_32bit-procedures">Specifications of the stdlib_hash_32bit procedures</a><ul>
+<li><a href="#fibonacci_hash-maps-an-integer-to-a-smaller-number-of-bits">fibonacci_hash - maps an integer to a smaller number of bits</a><ul>
+<li><a href="#status">Status</a></li>
+<li><a href="#description">Description</a></li>
+<li><a href="#syntax">Syntax</a></li>
+<li><a href="#class">Class</a></li>
+<li><a href="#arguments">Arguments</a></li>
+<li><a href="#result">Result</a></li>
+<li><a href="#note">Note</a></li>
+<li><a href="#example">Example</a></li>
+</ul>
+</li>
+<li><a href="#fnv_1_hash-calculates-a-hash-code-from-a-key">fnv_1_hash- calculates a hash code from a key</a><ul>
+<li><a href="#status_1">Status</a></li>
+<li><a href="#description_1">Description</a></li>
+<li><a href="#syntax_1">Syntax</a></li>
+<li><a href="#class_1">Class</a></li>
+<li><a href="#argument">Argument</a></li>
+<li><a href="#result_1">Result</a></li>
+<li><a href="#note_1">Note</a></li>
+<li><a href="#example_1">Example</a></li>
+</ul>
+</li>
+<li><a href="#fnv_1a_hash-calculates-a-hash-code-from-a-key">fnv_1a_hash- calculates a hash code from a key</a><ul>
+<li><a href="#status_2">Status</a></li>
+<li><a href="#description_2">Description</a></li>
+<li><a href="#syntax_2">Syntax</a></li>
+<li><a href="#class_2">Class</a></li>
+<li><a href="#argument_1">Argument</a></li>
+<li><a href="#result_2">Result</a></li>
+<li><a href="#note_2">Note</a></li>
+<li><a href="#example_2">Example</a></li>
+</ul>
+</li>
+<li><a href="#new_nmhash32_seed-returns-a-valid-input-seed-for-nmhash32">new_nmhash32_seed- returns a valid input seed for nmhash32</a><ul>
+<li><a href="#status_3">Status</a></li>
+<li><a href="#description_3">Description</a></li>
+<li><a href="#syntax_3">Syntax</a></li>
+<li><a href="#class_3">Class</a></li>
+<li><a href="#argument_2">Argument</a></li>
+<li><a href="#note_3">Note</a></li>
+<li><a href="#example_3">Example</a></li>
+</ul>
+</li>
+<li><a href="#new_nmhash32x_seed-returns-a-valid-input-seed-for-nmhash32x">new_nmhash32x_seed- returns a valid input seed for nmhash32x</a><ul>
+<li><a href="#status_4">Status</a></li>
+<li><a href="#description_4">Description</a></li>
+<li><a href="#syntax_4">Syntax</a></li>
+<li><a href="#class_4">Class</a></li>
+<li><a href="#argument_3">Argument</a></li>
+<li><a href="#note_4">Note</a></li>
+<li><a href="#example_4">Example</a></li>
+</ul>
+</li>
+<li><a href="#new_water_hash_seed-returns-a-valid-input-seed-for-water_hash">new_water_hash_seed- returns a valid input seed for water_hash</a><ul>
+<li><a href="#status_5">Status</a></li>
+<li><a href="#description_5">Description</a></li>
+<li><a href="#syntax_5">Syntax</a></li>
+<li><a href="#class_5">Class</a></li>
+<li><a href="#argument_4">Argument</a></li>
+<li><a href="#note_5">Note</a></li>
+<li><a href="#example_5">Example</a></li>
+</ul>
+</li>
+<li><a href="#nmhash32-calculates-a-hash-code-from-a-key-and-a-seed">nmhash32- calculates a hash code from a key and a seed</a><ul>
+<li><a href="#status_6">Status</a></li>
+<li><a href="#description_6">Description</a></li>
+<li><a href="#syntax_6">Syntax</a></li>
+<li><a href="#class_6">Class</a></li>
+<li><a href="#arguments_1">Arguments</a></li>
+<li><a href="#result_3">Result</a></li>
+<li><a href="#note_6">Note</a></li>
+<li><a href="#example_6">Example</a></li>
+</ul>
+</li>
+<li><a href="#nmhash32x-calculates-a-hash-code-from-a-key-and-a-seed">nmhash32x- calculates a hash code from a key and a seed</a><ul>
+<li><a href="#status_7">Status</a></li>
+<li><a href="#description_7">Description</a></li>
+<li><a href="#syntax_7">Syntax</a></li>
+<li><a href="#class_7">Class</a></li>
+<li><a href="#arguments_2">Arguments</a></li>
+<li><a href="#result_4">Result</a></li>
+<li><a href="#note_7">Note</a></li>
+<li><a href="#example_7">Example</a></li>
+</ul>
+</li>
+<li><a href="#odd_random_integer-returns-an-odd-integer">odd_random_integer - returns an odd integer</a><ul>
+<li><a href="#status_8">Status</a></li>
+<li><a href="#description_8">Description</a></li>
+<li><a href="#syntax_8">Syntax</a></li>
+<li><a href="#class_8">Class</a></li>
+<li><a href="#argument_5">Argument</a></li>
+<li><a href="#note_8">Note</a></li>
+<li><a href="#example_8">Example</a></li>
+</ul>
+</li>
+<li><a href="#universal_mult_hash-maps-an-integer-to-a-smaller-number-of-bits">universal_mult_hash - maps an integer to a smaller number of bits</a><ul>
+<li><a href="#status_9">Status</a></li>
+<li><a href="#description_9">Description</a></li>
+<li><a href="#syntax_9">Syntax</a></li>
+<li><a href="#class_9">Class</a></li>
+<li><a href="#arguments_3">Arguments</a></li>
+<li><a href="#result_5">Result</a></li>
+<li><a href="#note_9">Note</a></li>
+<li><a href="#example_9">Example</a></li>
+</ul>
+</li>
+<li><a href="#water_hash-calculates-a-hash-code-from-a-key-and-a-seed">water_hash- calculates a hash code from a key and a seed</a><ul>
+<li><a href="#status_10">Status</a></li>
+<li><a href="#description_10">Description</a></li>
+<li><a href="#syntax_10">Syntax</a></li>
+<li><a href="#class_10">Class</a></li>
+<li><a href="#arguments_4">Arguments</a></li>
+<li><a href="#result_6">Result</a></li>
+<li><a href="#note_10">Note</a></li>
+<li><a href="#example_10">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#the-stdlib_hash_64bit-module">The stdlib_hash_64bit module</a><ul>
+<li><a href="#overview-of-the-module_1">Overview of the module</a></li>
+<li><a href="#the-int_hash-parameters">The int_hash parameters</a></li>
+<li><a href="#the-little_endian-parameter_1">The little_endian parameter</a></li>
+<li><a href="#specifications-of-the-stdlib_hash_64bit-procedures">Specifications of the stdlib_hash_64bit procedures</a><ul>
+<li><a href="#fibonacci_hash-maps-an-integer-to-a-smaller-number-of-bits_1">fibonacci_hash - maps an integer to a smaller number of bits</a><ul>
+<li><a href="#status_11">Status</a></li>
+<li><a href="#description_11">Description</a></li>
+<li><a href="#syntax_11">Syntax</a></li>
+<li><a href="#class_11">Class</a></li>
+<li><a href="#arguments_5">Arguments</a></li>
+<li><a href="#result_7">Result</a></li>
+<li><a href="#note_11">Note</a></li>
+<li><a href="#example_11">Example</a></li>
+</ul>
+</li>
+<li><a href="#fnv_1-calculates-a-hash-code-from-a-key">FNV_1- calculates a hash code from a key</a><ul>
+<li><a href="#status_12">Status</a></li>
+<li><a href="#description_12">Description</a></li>
+<li><a href="#syntax_12">Syntax</a></li>
+<li><a href="#class_12">Class</a></li>
+<li><a href="#argument_6">Argument</a></li>
+<li><a href="#result_8">Result</a></li>
+<li><a href="#note_12">Note</a></li>
+<li><a href="#example_12">Example</a></li>
+</ul>
+</li>
+<li><a href="#fnv_1a-calculates-a-hash-code-from-a-key">FNV_1A- calculates a hash code from a key</a><ul>
+<li><a href="#status_13">Status</a></li>
+<li><a href="#description_13">Description</a></li>
+<li><a href="#syntax_13">Syntax</a></li>
+<li><a href="#class_13">Class</a></li>
+<li><a href="#argument_7">Argument</a></li>
+<li><a href="#result_9">Result</a></li>
+<li><a href="#note_13">Note</a></li>
+<li><a href="#example_13">Example</a></li>
+</ul>
+</li>
+<li><a href="#new_pengy_hash_seed-returns-a-valid-input-seed-for-pengy_hash">new_pengy_hash_seed- returns a valid input seed for pengy_hash</a><ul>
+<li><a href="#status_14">Status</a></li>
+<li><a href="#description_14">Description</a></li>
+<li><a href="#syntax_14">Syntax</a></li>
+<li><a href="#class_14">Class</a></li>
+<li><a href="#argument_8">Argument</a></li>
+<li><a href="#note_14">Note</a></li>
+<li><a href="#example_14">Example</a></li>
+</ul>
+</li>
+<li><a href="#new_spooky_hash_seed-returns-a-valid-input-seed-for-spooky_hash">new_spooky_hash_seed- returns a valid input seed for spooky_hash</a><ul>
+<li><a href="#status_15">Status</a></li>
+<li><a href="#description_15">Description</a></li>
+<li><a href="#syntax_15">Syntax</a></li>
+<li><a href="#class_15">Class</a></li>
+<li><a href="#argument_9">Argument</a></li>
+<li><a href="#note_15">Note</a></li>
+<li><a href="#example_15">Example</a></li>
+</ul>
+</li>
+<li><a href="#odd_random_integer-returns-odd-integer">odd_random_integer - returns odd integer</a><ul>
+<li><a href="#status_16">Status</a></li>
+<li><a href="#description_16">Description</a></li>
+<li><a href="#syntax_16">Syntax</a></li>
+<li><a href="#class_16">Class</a></li>
+<li><a href="#argument_10">Argument</a></li>
+<li><a href="#note_16">Note</a></li>
+<li><a href="#example_16">Example</a></li>
+</ul>
+</li>
+<li><a href="#pengy_hash-maps-a-character-string-or-integer-vector-to-an-integer">pengy_hash - maps a character string or integer vector to an integer</a><ul>
+<li><a href="#status_17">Status</a></li>
+<li><a href="#description_17">Description</a></li>
+<li><a href="#syntax_17">Syntax</a></li>
+<li><a href="#class_17">Class</a></li>
+<li><a href="#arguments_6">Arguments</a></li>
+<li><a href="#result_10">Result</a></li>
+<li><a href="#note_17">Note</a></li>
+<li><a href="#example_17">Example</a></li>
+</ul>
+</li>
+<li><a href="#spooky_hash-maps-a-character-string-or-integer-vector-to-an-integer">spooky_hash - maps a character string or integer vector to an integer</a><ul>
+<li><a href="#status_18">Status</a></li>
+<li><a href="#description_18">Description</a></li>
+<li><a href="#syntax_18">Syntax</a></li>
+<li><a href="#class_18">Class</a></li>
+<li><a href="#arguments_7">Arguments</a></li>
+<li><a href="#result_11">Result</a></li>
+<li><a href="#note_18">Note</a></li>
+<li><a href="#example_18">Example</a></li>
+</ul>
+</li>
+<li><a href="#universal_mult_hash-maps-an-integer-to-a-smaller-number-of-bits_1">universal_mult_hash - maps an integer to a smaller number of bits</a><ul>
+<li><a href="#status_19">Status</a></li>
+<li><a href="#description_19">Description</a></li>
+<li><a href="#syntax_19">Syntax</a></li>
+<li><a href="#class_19">Class</a></li>
+<li><a href="#arguments_8">Arguments</a></li>
+<li><a href="#result_12">Result</a></li>
+<li><a href="#note_19">Note</a></li>
+<li><a href="#example_19">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#test-codes">Test Codes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="overview-of-hash-procedures">Overview of hash procedures</h2>
+<p>The comparison of lexical entities or other objects for equality
+can be computationally expensive.
+This cost is often reduced by computing a near unique integer value,
+termed a hash code, from the structure of the object using a procedure
+termed a hash function.
+Equality of hash codes is a necessary, but not sufficient, condition
+for the original objects to be equal.
+As integer comparisons are very efficient, performing an initial
+comparison of hash codes and then performing a detailed comparison
+only if the hash codes are equal can improve performance.
+The hash codes, in turn, can be mapped to a smaller set of integers,
+that can be used as an index, termed a hash index, to a rank-1
+array, often termed a hash table.
+This mapping will be known as a scalar hash.
+The use of a hash table reduces the number of hash codes that need to
+be compared, further improving performance.
+A hash function can also be used to generate a checksum to verify that
+data has not changed.
+The Fortran Standard Library therefore provides procedures to compute
+hash codes and scalar hashes.
+This document only discusses the hash codes and scalar hashes in the
+library.</p>
+<h2 id="licensing">Licensing</h2>
+<p>The Fortran Standard Library is distributed under the MIT License.
+However components of the library may be based on code released under a
+different license. In particular, the hash codes are often based
+on algorithms considered as public domain (<code>Fibonacci Hash</code>, <code>Universal
+Multiplicative Hash)</code>or released under a different license than the
+MIT license (<code>FNV-1 Hash</code>, <code>FNV-1A Hash</code>, <code>nmhash32</code>, <code>nmhash32x</code>,
+<code>waterhash</code>, <code>pengyhash</code> and <code>SpookyHash</code>)
+The licensing status of the algorithms are discussed below.</p>
+<p><code>fibonacci_hash</code> is a scalar hash. It is an implementation in Fortran
+2008 and signed two's complement integers of the Fibonacci Hash
+described in D. E. Knuth, "The Art of
+Computer Programming, Second Edition, Volume 3, Sorting and
+Searching", Addison-Wesley, Upper Saddle River, NJ,
+pp. 517-518, 1998. The algorithms in that source are considered public
+domain, and its use is unrestricted.</p>
+<p><code>universal_mult_hash</code> is a scalar hash. It is an implementation in
+Fortran 2008 and signed two's complement integers of the
+universal multiplicative hash algorithm of M. Dietzfelbinger,
+T. Hagerup, J. Katajainen, and M. Penttonen, "A Reliable Randomized
+Algorithm for the Closest-Pair Problem," J. Algorithms, Vol. 25,
+No. 1, Oct. 1997, pp. 19-51. Because of its publication in the Journal
+of Algorithms, the universal multiplicative hash algorithm is public
+domain.</p>
+<p><code>fnv_1_hash</code> and <code>fnv_1a_hash</code> are translations to Fortran 2008 and
+signed two's complement integers of the
+<code>FNV-1</code> and <code>FNV-1a</code> hash functions of Glenn Fowler, Landon Curt Noll,
+and Phong Vo, that has been released into the public
+domain. Permission has been granted, by Landon Curt Noll, for the use
+of these algorithms in the Fortran Standard Library. A description of
+these functions is available at
+<a href="https://en.wikipedia.org/wiki/Fowler–Noll–Vo_hash_function">https://en.wikipedia.org/wiki/Fowler–Noll–Vo_hash_function</a>.
+These functions have been modified from their normal forms to also
+encode the structure size in the output hash.</p>
+<p>Similarly <code>spooky_hash</code> and associated procedures are translations to
+Fortran 2008 and signed two's complement integers of the unsigned 64
+bit version 2 <code>SpookyHash</code> functions of Bob
+Jenkins <a href="https://burtleburtle.net/bob/hash/spooky.html">https://burtleburtle.net/bob/hash/spooky.html</a> to signed 64
+bit operations. Version 2 was chosen over version 1 as it has better
+performance and fewer bad seeds
+Bob Jenkins has also put this code in the public
+domain and has given permission to treat this code as public domain in
+the USA, provided the code can be used under other licenses and he is
+given appropriate credit.</p>
+<p><code>nmhash32</code> and <code>nmhash32x</code> are translations to Fortran 2008 and signed
+two's complement integers of the unsigned 32-bit
+hashes of James Z. M. Gao's <code>nmhash32</code> and <code>nmhash32x</code> version of 0.2,
+<a href="https://github.com/gzm55/hash-garage/blob/a8913138bdb3b7539c202edee30a7f0794bbd835/nmhash.h">https://github.com/gzm55/hash-garage/blob/a8913138bdb3b7539c202edee30a7f0794bbd835/nmhash.h</a>
+James Z. M. Gao has released his code under the BSD 2 Clause
+License. The BSD 2-Clause license is as follows:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">BSD</span> <span class="nt">2-Clause</span> <span class="nt">License</span>
+
+<span class="nt">Copyright</span> <span class="o">(</span><span class="nt">c</span><span class="o">)</span> <span class="nt">2021</span><span class="o">,</span> <span class="nt">James</span> <span class="nt">Z</span><span class="p">.</span><span class="nc">M</span><span class="o">.</span> <span class="nt">Gao</span>
+<span class="nt">All</span> <span class="nt">rights</span> <span class="nt">reserved</span><span class="o">.</span>
+
+<span class="nt">Redistribution</span> <span class="nt">and</span> <span class="nt">use</span> <span class="nt">in</span> <span class="nt">source</span> <span class="nt">and</span> <span class="nt">binary</span> <span class="nt">forms</span><span class="o">,</span> <span class="nt">with</span> <span class="nt">or</span> <span class="nt">without</span>
+<span class="nt">modification</span><span class="o">,</span> <span class="nt">are</span> <span class="nt">permitted</span> <span class="nt">provided</span> <span class="nt">that</span> <span class="nt">the</span> <span class="nt">following</span> <span class="nt">conditions</span> <span class="nt">are</span> <span class="nt">met</span><span class="o">:</span>
+
+<span class="nt">1</span><span class="o">.</span> <span class="nt">Redistributions</span> <span class="nt">of</span> <span class="nt">source</span> <span class="nt">code</span> <span class="nt">must</span> <span class="nt">retain</span> <span class="nt">the</span> <span class="nt">above</span> <span class="nt">copyright</span> <span class="nt">notice</span><span class="o">,</span>
+   <span class="nt">this</span> <span class="nt">list</span> <span class="nt">of</span> <span class="nt">conditions</span> <span class="nt">and</span> <span class="nt">the</span> <span class="nt">following</span> <span class="nt">disclaimer</span><span class="o">.</span>
+
+<span class="nt">2</span><span class="o">.</span> <span class="nt">Redistributions</span> <span class="nt">in</span> <span class="nt">binary</span> <span class="nt">form</span> <span class="nt">must</span> <span class="nt">reproduce</span> <span class="nt">the</span> <span class="nt">above</span> <span class="nt">copyright</span> <span class="nt">notice</span><span class="o">,</span>
+   <span class="nt">this</span> <span class="nt">list</span> <span class="nt">of</span> <span class="nt">conditions</span> <span class="nt">and</span> <span class="nt">the</span> <span class="nt">following</span> <span class="nt">disclaimer</span> <span class="nt">in</span> <span class="nt">the</span> <span class="nt">documentation</span>
+   <span class="nt">and</span><span class="o">/</span><span class="nt">or</span> <span class="nt">other</span> <span class="nt">materials</span> <span class="nt">provided</span> <span class="nt">with</span> <span class="nt">the</span> <span class="nt">distribution</span><span class="o">.</span>
+
+<span class="nt">THIS</span> <span class="nt">SOFTWARE</span> <span class="nt">IS</span> <span class="nt">PROVIDED</span> <span class="nt">BY</span> <span class="nt">THE</span> <span class="nt">COPYRIGHT</span> <span class="nt">HOLDERS</span> <span class="nt">AND</span> <span class="nt">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span>
+<span class="nt">AND</span> <span class="nt">ANY</span> <span class="nt">EXPRESS</span> <span class="nt">OR</span> <span class="nt">IMPLIED</span> <span class="nt">WARRANTIES</span><span class="o">,</span> <span class="nt">INCLUDING</span><span class="o">,</span> <span class="nt">BUT</span> <span class="nt">NOT</span> <span class="nt">LIMITED</span> <span class="nt">TO</span><span class="o">,</span> <span class="nt">THE</span>
+<span class="nt">IMPLIED</span> <span class="nt">WARRANTIES</span> <span class="nt">OF</span> <span class="nt">MERCHANTABILITY</span> <span class="nt">AND</span> <span class="nt">FITNESS</span> <span class="nt">FOR</span> <span class="nt">A</span> <span class="nt">PARTICULAR</span> <span class="nt">PURPOSE</span>
+<span class="nt">ARE</span> <span class="nt">DISCLAIMED</span><span class="o">.</span> <span class="nt">IN</span> <span class="nt">NO</span> <span class="nt">EVENT</span> <span class="nt">SHALL</span> <span class="nt">THE</span> <span class="nt">COPYRIGHT</span> <span class="nt">HOLDER</span> <span class="nt">OR</span> <span class="nt">CONTRIBUTORS</span> <span class="nt">BE</span>
+<span class="nt">LIABLE</span> <span class="nt">FOR</span> <span class="nt">ANY</span> <span class="nt">DIRECT</span><span class="o">,</span> <span class="nt">INDIRECT</span><span class="o">,</span> <span class="nt">INCIDENTAL</span><span class="o">,</span> <span class="nt">SPECIAL</span><span class="o">,</span> <span class="nt">EXEMPLARY</span><span class="o">,</span> <span class="nt">OR</span>
+<span class="nt">CONSEQUENTIAL</span> <span class="nt">DAMAGES</span> <span class="o">(</span><span class="nt">INCLUDING</span><span class="o">,</span> <span class="nt">BUT</span> <span class="nt">NOT</span> <span class="nt">LIMITED</span> <span class="nt">TO</span><span class="o">,</span> <span class="nt">PROCUREMENT</span> <span class="nt">OF</span>
+<span class="nt">SUBSTITUTE</span> <span class="nt">GOODS</span> <span class="nt">OR</span> <span class="nt">SERVICES</span><span class="o">;</span> <span class="nt">LOSS</span> <span class="nt">OF</span> <span class="nt">USE</span><span class="o">,</span> <span class="nt">DATA</span><span class="o">,</span> <span class="nt">OR</span> <span class="nt">PROFITS</span><span class="o">;</span> <span class="nt">OR</span> <span class="nt">BUSINESS</span>
+<span class="nt">INTERRUPTION</span><span class="o">)</span> <span class="nt">HOWEVER</span> <span class="nt">CAUSED</span> <span class="nt">AND</span> <span class="nt">ON</span> <span class="nt">ANY</span> <span class="nt">THEORY</span> <span class="nt">OF</span> <span class="nt">LIABILITY</span><span class="o">,</span> <span class="nt">WHETHER</span> <span class="nt">IN</span>
+<span class="nt">CONTRACT</span><span class="o">,</span> <span class="nt">STRICT</span> <span class="nt">LIABILITY</span><span class="o">,</span> <span class="nt">OR</span> <span class="nt">TORT</span> <span class="o">(</span><span class="nt">INCLUDING</span> <span class="nt">NEGLIGENCE</span> <span class="nt">OR</span> <span class="nt">OTHERWISE</span><span class="o">)</span>
+<span class="nt">ARISING</span> <span class="nt">IN</span> <span class="nt">ANY</span> <span class="nt">WAY</span> <span class="nt">OUT</span> <span class="nt">OF</span> <span class="nt">THE</span> <span class="nt">USE</span> <span class="nt">OF</span> <span class="nt">THIS</span> <span class="nt">SOFTWARE</span><span class="o">,</span> <span class="nt">EVEN</span> <span class="nt">IF</span> <span class="nt">ADVISED</span> <span class="nt">OF</span> <span class="nt">THE</span>
+<span class="nt">POSSIBILITY</span> <span class="nt">OF</span> <span class="nt">SUCH</span> <span class="nt">DAMAGE</span><span class="o">.</span>
+</code></pre></div>
+
+<p><code>water_hash</code> is a translation to Fortran 2008  and signed two's
+complement integers of the <code>waterhash</code> algorithm
+of Tommy Ettinger. This algorithm is inspired by the Wy Hash of
+Wang Yi. Tommy Ettinger's original C++ code, <code>waterhash.h</code>,
+is available at URL: <a href="https://github.com/tommyettinger/waterhash">https://github.com/tommyettinger/waterhash</a> under
+the <code>unlicense</code>,
+<a href="https://github.com/tommyettinger/waterhash/blob/master/LICENSE">https://github.com/tommyettinger/waterhash/blob/master/LICENSE</a>.
+The <code>unlicense</code> reads as follows:</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">This</span> <span class="nv">is</span> <span class="nv">free</span> <span class="nv">and</span> <span class="nv">unencumbered</span> <span class="nv">software</span> <span class="nv">released</span> <span class="nv">into</span> <span class="nv">the</span> <span class="nv">public</span> <span class="nv">domain</span>.
+<span class="nv">Anyone</span> <span class="nv">is</span> <span class="nv">free</span> <span class="nv">to</span> <span class="nv">copy</span>, <span class="nv">modify</span>, <span class="nv">publish</span>, <span class="nv">use</span>, <span class="nv">compile</span>, <span class="nv">sell</span>, <span class="nv">or</span>
+<span class="nv">distribute</span> <span class="nv">this</span> <span class="nv">software</span>, <span class="nv">either</span> <span class="nv">in</span> <span class="nv">source</span> <span class="nv">code</span> <span class="nv">form</span> <span class="nv">or</span> <span class="nv">as</span> <span class="nv">a</span> <span class="nv">compiled</span>
+<span class="nv">binary</span>, <span class="k">for</span> <span class="nv">any</span> <span class="nv">purpose</span>, <span class="nv">commercial</span> <span class="nv">or</span> <span class="nv">non</span><span class="o">-</span><span class="nv">commercial</span>, <span class="nv">and</span> <span class="nv">by</span> <span class="nv">any</span>
+<span class="nv">means</span>.
+
+<span class="nv">In</span> <span class="nv">jurisdictions</span> <span class="nv">that</span> <span class="nv">recognize</span> <span class="nv">copyright</span> <span class="nv">laws</span>, <span class="nv">the</span> <span class="nv">author</span> <span class="nv">or</span> <span class="nv">authors</span>
+<span class="nv">of</span> <span class="nv">this</span> <span class="nv">software</span> <span class="nv">dedicate</span> <span class="nv">any</span> <span class="nv">and</span> <span class="nv">all</span> <span class="nv">copyright</span> <span class="nv">interest</span> <span class="nv">in</span> <span class="nv">the</span>
+<span class="nv">software</span> <span class="nv">to</span> <span class="nv">the</span> <span class="nv">public</span> <span class="nv">domain</span>. <span class="nv">We</span> <span class="nv">make</span> <span class="nv">this</span> <span class="nv">dedication</span> <span class="k">for</span> <span class="nv">the</span> <span class="nv">benefit</span>
+<span class="nv">of</span> <span class="nv">the</span> <span class="nv">public</span> <span class="nv">at</span> <span class="nv">large</span> <span class="nv">and</span> <span class="nv">to</span> <span class="nv">the</span> <span class="nv">detriment</span> <span class="nv">of</span> <span class="nv">our</span> <span class="nv">heirs</span> <span class="nv">and</span>
+<span class="nv">successors</span>. <span class="nv">We</span> <span class="nv">intend</span> <span class="nv">this</span> <span class="nv">dedication</span> <span class="nv">to</span> <span class="nv">be</span> <span class="nv">an</span> <span class="nv">overt</span> <span class="nv">act</span> <span class="nv">of</span>
+<span class="nv">relinquishment</span> <span class="nv">in</span> <span class="nv">perpetuity</span> <span class="nv">of</span> <span class="nv">all</span> <span class="nv">present</span> <span class="nv">and</span> <span class="nv">future</span> <span class="nv">rights</span> <span class="nv">to</span> <span class="nv">this</span>
+<span class="nv">software</span> <span class="nv">under</span> <span class="nv">copyright</span> <span class="nv">law</span>.
+
+<span class="nv">THE</span> <span class="nv">SOFTWARE</span> <span class="nv">IS</span> <span class="nv">PROVIDED</span> <span class="s2">&quot;</span><span class="s">AS IS</span><span class="s2">&quot;</span>, <span class="nv">WITHOUT</span> <span class="nv">WARRANTY</span> <span class="nv">OF</span> <span class="nv">ANY</span> <span class="nv">KIND</span>,
+<span class="nv">EXPRESS</span> <span class="nv">OR</span> <span class="nv">IMPLIED</span>, <span class="nv">INCLUDING</span> <span class="nv">BUT</span> <span class="nv">NOT</span> <span class="nv">LIMITED</span> <span class="nv">TO</span> <span class="nv">THE</span> <span class="nv">WARRANTIES</span> <span class="nv">OF</span>
+<span class="nv">MERCHANTABILITY</span>, <span class="nv">FITNESS</span> <span class="k">FOR</span> <span class="nv">A</span> <span class="nv">PARTICULAR</span> <span class="nv">PURPOSE</span> <span class="nv">AND</span> <span class="nv">NONINFRINGEMENT</span>.
+<span class="nv">IN</span> <span class="nv">NO</span> <span class="nv">EVENT</span> <span class="nv">SHALL</span> <span class="nv">THE</span> <span class="nv">AUTHORS</span> <span class="nv">BE</span> <span class="nv">LIABLE</span> <span class="k">FOR</span> <span class="nv">ANY</span> <span class="nv">CLAIM</span>, <span class="nv">DAMAGES</span> <span class="nv">OR</span>
+<span class="nv">OTHER</span> <span class="nv">LIABILITY</span>, <span class="nv">WHETHER</span> <span class="nv">IN</span> <span class="nv">AN</span> <span class="nv">ACTION</span> <span class="nv">OF</span> <span class="nv">CONTRACT</span>, <span class="nv">TORT</span> <span class="nv">OR</span> <span class="nv">OTHERWISE</span>,
+<span class="nv">ARISING</span> <span class="nv">FROM</span>, <span class="nv">OUT</span> <span class="nv">OF</span> <span class="nv">OR</span> <span class="nv">IN</span> <span class="nv">CONNECTION</span> <span class="nv">WITH</span> <span class="nv">THE</span> <span class="nv">SOFTWARE</span> <span class="nv">OR</span> <span class="nv">THE</span> <span class="nv">USE</span> <span class="nv">OR</span>
+<span class="nv">OTHER</span> <span class="nv">DEALINGS</span> <span class="nv">IN</span> <span class="nv">THE</span> <span class="nv">SOFTWARE</span>.
+
+<span class="k">For</span> <span class="nv">more</span> <span class="nv">information</span>, <span class="nv">please</span> <span class="nv">refer</span> <span class="nv">to</span> <span class="o">&lt;</span><span class="nv">http</span>:<span class="o">//</span><span class="nv">unlicense</span>.<span class="nv">org</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<p><code>pengy_hash</code> is a translation to Fortran 2008 and signed two's
+complement arithmetic of the <code>pengyhash</code> algorithm of Alberto Fajardo,
+copyright 2020. Alberto Fajardo's original C code, <code>pengyhash.c</code>, is
+available at the URL:
+https://github.com/tinypeng/pengyhash/blob/master/pengyhash.c
+under the BSD 2-Clause License:
+https://github.com/tinypeng/pengyhash/blob/master/LICENSE</p>
+<p>The BSD 2-Clause license is as follows:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">BSD</span> <span class="nt">2-Clause</span> <span class="nt">License</span>
+
+<span class="nt">pengyhash</span>
+<span class="nt">Copyright</span> <span class="o">(</span><span class="nt">c</span><span class="o">)</span> <span class="nt">2020</span> <span class="nt">Alberto</span> <span class="nt">Fajardo</span>
+<span class="nt">All</span> <span class="nt">rights</span> <span class="nt">reserved</span><span class="o">.</span>
+
+<span class="nt">Redistribution</span> <span class="nt">and</span> <span class="nt">use</span> <span class="nt">in</span> <span class="nt">source</span> <span class="nt">and</span> <span class="nt">binary</span> <span class="nt">forms</span><span class="o">,</span> <span class="nt">with</span> <span class="nt">or</span> <span class="nt">without</span>
+<span class="nt">modification</span><span class="o">,</span> <span class="nt">are</span> <span class="nt">permitted</span> <span class="nt">provided</span> <span class="nt">that</span> <span class="nt">the</span> <span class="nt">following</span> <span class="nt">conditions</span>
+<span class="nt">are</span> <span class="nt">met</span><span class="o">:</span>
+
+<span class="nt">1</span><span class="o">.</span> <span class="nt">Redistributions</span> <span class="nt">of</span> <span class="nt">source</span> <span class="nt">code</span> <span class="nt">must</span> <span class="nt">retain</span> <span class="nt">the</span> <span class="nt">above</span> <span class="nt">copyright</span>
+<span class="nt">notice</span><span class="o">,</span> <span class="nt">this</span> <span class="nt">list</span> <span class="nt">of</span> <span class="nt">conditions</span> <span class="nt">and</span> <span class="nt">the</span> <span class="nt">following</span> <span class="nt">disclaimer</span><span class="o">.</span>
+
+<span class="nt">2</span><span class="o">.</span> <span class="nt">Redistributions</span> <span class="nt">in</span> <span class="nt">binary</span> <span class="nt">form</span> <span class="nt">must</span> <span class="nt">reproduce</span> <span class="nt">the</span> <span class="nt">above</span>
+<span class="nt">copyright</span> <span class="nt">notice</span><span class="o">,</span> <span class="nt">this</span> <span class="nt">list</span> <span class="nt">of</span> <span class="nt">conditions</span> <span class="nt">and</span> <span class="nt">the</span> <span class="nt">following</span>
+<span class="nt">disclaimer</span> <span class="nt">in</span> <span class="nt">the</span> <span class="nt">documentation</span> <span class="nt">and</span><span class="o">/</span><span class="nt">or</span> <span class="nt">other</span> <span class="nt">materials</span> <span class="nt">provided</span>
+<span class="nt">with</span> <span class="nt">the</span> <span class="nt">distribution</span><span class="o">.</span>
+
+<span class="nt">THIS</span> <span class="nt">SOFTWARE</span> <span class="nt">IS</span> <span class="nt">PROVIDED</span> <span class="nt">BY</span> <span class="nt">THE</span> <span class="nt">COPYRIGHT</span> <span class="nt">HOLDERS</span> <span class="nt">AND</span>
+<span class="nt">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span> <span class="nt">AND</span> <span class="nt">ANY</span> <span class="nt">EXPRESS</span> <span class="nt">OR</span> <span class="nt">IMPLIED</span> <span class="nt">WARRANTIES</span><span class="o">,</span>
+<span class="nt">INCLUDING</span><span class="o">,</span> <span class="nt">BUT</span> <span class="nt">NOT</span> <span class="nt">LIMITED</span> <span class="nt">TO</span><span class="o">,</span> <span class="nt">THE</span> <span class="nt">IMPLIED</span> <span class="nt">WARRANTIES</span> <span class="nt">OF</span>
+<span class="nt">MERCHANTABILITY</span> <span class="nt">AND</span> <span class="nt">FITNESS</span> <span class="nt">FOR</span> <span class="nt">A</span> <span class="nt">PARTICULAR</span> <span class="nt">PURPOSE</span> <span class="nt">ARE</span>
+<span class="nt">DISCLAIMED</span><span class="o">.</span> <span class="nt">IN</span> <span class="nt">NO</span> <span class="nt">EVENT</span> <span class="nt">SHALL</span> <span class="nt">THE</span> <span class="nt">COPYRIGHT</span> <span class="nt">HOLDER</span> <span class="nt">OR</span> <span class="nt">CONTRIBUTORS</span>
+<span class="nt">BE</span> <span class="nt">LIABLE</span> <span class="nt">FOR</span> <span class="nt">ANY</span> <span class="nt">DIRECT</span><span class="o">,</span> <span class="nt">INDIRECT</span><span class="o">,</span> <span class="nt">INCIDENTAL</span><span class="o">,</span> <span class="nt">SPECIAL</span><span class="o">,</span>
+<span class="nt">EXEMPLARY</span><span class="o">,</span> <span class="nt">OR</span> <span class="nt">CONSEQUENTIAL</span> <span class="nt">DAMAGES</span> <span class="o">(</span><span class="nt">INCLUDING</span><span class="o">,</span> <span class="nt">BUT</span> <span class="nt">NOT</span> <span class="nt">LIMITED</span>
+<span class="nt">TO</span><span class="o">,</span> <span class="nt">PROCUREMENT</span> <span class="nt">OF</span> <span class="nt">SUBSTITUTE</span> <span class="nt">GOODS</span> <span class="nt">OR</span> <span class="nt">SERVICES</span><span class="o">;</span> <span class="nt">LOSS</span> <span class="nt">OF</span> <span class="nt">USE</span><span class="o">,</span>
+<span class="nt">DATA</span><span class="o">,</span> <span class="nt">OR</span> <span class="nt">PROFITS</span><span class="o">;</span> <span class="nt">OR</span> <span class="nt">BUSINESS</span> <span class="nt">INTERRUPTION</span><span class="o">)</span> <span class="nt">HOWEVER</span> <span class="nt">CAUSED</span> <span class="nt">AND</span> <span class="nt">ON</span>
+<span class="nt">ANY</span> <span class="nt">THEORY</span> <span class="nt">OF</span> <span class="nt">LIABILITY</span><span class="o">,</span> <span class="nt">WHETHER</span> <span class="nt">IN</span> <span class="nt">CONTRACT</span><span class="o">,</span> <span class="nt">STRICT</span> <span class="nt">LIABILITY</span><span class="o">,</span> <span class="nt">OR</span>
+<span class="nt">TORT</span> <span class="o">(</span><span class="nt">INCLUDING</span> <span class="nt">NEGLIGENCE</span> <span class="nt">OR</span> <span class="nt">OTHERWISE</span><span class="o">)</span> <span class="nt">ARISING</span> <span class="nt">IN</span> <span class="nt">ANY</span> <span class="nt">WAY</span> <span class="nt">OUT</span> <span class="nt">OF</span>
+<span class="nt">THE</span> <span class="nt">USE</span> <span class="nt">OF</span> <span class="nt">THIS</span> <span class="nt">SOFTWARE</span><span class="o">,</span> <span class="nt">EVEN</span> <span class="nt">IF</span> <span class="nt">ADVISED</span> <span class="nt">OF</span> <span class="nt">THE</span> <span class="nt">POSSIBILITY</span> <span class="nt">OF</span>
+<span class="nt">SUCH</span> <span class="nt">DAMAGE</span><span class="o">.</span>
+</code></pre></div>
+
+<h2 id="glossary">Glossary</h2>
+<p>There are a few words used in this document that may not be familiar to
+readers of this document:</p>
+<ul>
+<li>
+<p>Key - a value to be used to find entries in a hash table typically
+  using its hashed value for the initial search;</p>
+</li>
+<li>
+<p>Salt - see seed, and;</p>
+</li>
+<li>
+<p>Seed - an additional argument to a hash function that changes its
+  output making some attacks impractical.</p>
+</li>
+</ul>
+<h2 id="the-hash-codes-modules">The hash codes modules</h2>
+<h3 id="overview-of-the-modules">Overview of the modules</h3>
+<p>The Standard Library provides two modules implementing hash
+functions and scalar hashes.
+The <code>stdlib_hash_32bit</code> module provides procedures to
+compute 32-bit integer hash codes and a scalar hash.
+The hash codes can be used for tables of up to <code>2**30</code> entries, and
+for keys with a few hundred elements, but performance has only been
+tested for tables up to <code>2**16</code> entries and performance may degrade
+for larger numbers of entries.
+The <code>stdlib_hash_64bit</code> module provides hash procedures to
+compute 64-bit integer hash codes and a scalar hash.
+The hash codes can, in principle, be used for tables of up to <code>2**62</code>
+entries, and for keys with a few thousand elements, but testing of
+performance has only been been for tables up to <code>2**16</code>elements and
+performance may degrade for larger numbers of entries.
+While one of the codes in <code>stdlib_hash_64bit</code>,
+<code>SPOOKY_HASH</code>, can also be used to calculate 128 bit hash codes, none
+of the current codes can be used to calculate 256 bit hash codes.
+Such larger hash codes are useful for larger hash tables and keys, and
+for checksums.
+Such larger keys and tables are little used, if used at all, in
+current
+Fortran codes, but the larger hash codes may be added to the library
+if there is a demand for them.</p>
+<p>Hash functions are often divided into two categories
+"cryptographic" and "non-cryptographic".
+Cryptographic hash functions produce codes that are infeasible to
+reverse without additional information beyond the identity of
+the hash function used to generate the code and the resulting codes.
+Non-cryptographic codes, in some circumstances, are believed to be
+reversible.
+The modules only implement hash
+functions that are considered non-cryptographic, with
+implementations available in the public domain.</p>
+<p>There are a number of algorithms available for the computation of
+non-cryptographic 32 and 64-bit hash codes that differ in their
+computational complexity,
+their relative performance on different size keys, and the
+expected uniqueness (randomness) of the resulting hash codes.
+Their relative performance in the analysis of text, in particular,
+can depend on the compiler, character set, language, and content.
+The quality of a hash function is often evaluated using
+the SMHasher test suite, originally written by
+<a href="https://github.com/aappleby/smhasher">Austin Appleby</a>, but greatly
+extended by <a href="https://github.com/rurban/smhasher">Reini Urban</a>.
+All except the simplest, <code>FNV_1</code> and <code>FNV_1A</code>, of the hash functions
+defined in the modules perform well on the tests in Reini Urban's
+version of SMHasher.</p>
+<p>There are two problems in implementing hash functions in Fortran.
+First, the static typing of Fortran makes it awkward to define general
+purpose hash functions.
+Instead hash functions are defined for some of the more common
+objects: character strings and rank-1 arrays of integers.
+Other objects can, in principle, be hashed by using <code>transfer</code> to
+map their contents to an integer array, typically one of kind <code>int8</code>.
+The other problem is that hash codes are typically defined using
+modular unsigned integer arithmetic.
+As such integers are not part of the current Fortran standard,
+workarounds have to be used.
+These can take two forms.
+In one, the operations are emulated by using an integer of a
+larger size, or, for the larger integers, by dividing the integer into
+two lower and higher order halves,
+and performing the operations on each half separately using
+the larger integers.
+In the second, the unsigned integers may be replaced directly by
+the corresponding signed integers, but
+otherwise not modifying the code logic.
+The first should be standard conforming on current compilers, but
+is more computationally intensive unless the compilers recognize
+underlying idioms that are rarely used in Fortran codes. The second is
+not standard conforming as bit operations involving the sign are
+undefined,
+but should yield equivalent results with fewer operations on
+compilers with two's complement integers that do not trap on over
+or under flow. The codes currently use the second method.</p>
+<p>In order to compile the hash function modules, the compilers must
+implement much of Fortran 2003, and selected components of Fortran
+2008: submodules, 64-bit integers, and some bit intrinsics.
+The main limitation on valid compilers is whether they
+implement the submodules enhancement of Fortran 2008.
+In order to properly run the hash functions, the compilers must
+use two's complement integers, and be able to execute them with
+wraparound semantics and no integer overflow exceptions.
+Current Fortran 2003+ compilers solely use two's complement
+integers, and appear to be able to turn off overflow detection,
+so the modules use signed integer arithmetic. For that reason
+trapping on signed arithmetic must be disabled. The command line
+flags to disable overflow detection for compilers implementing
+submodules are summarized in the table below.
+Note that FLANG, gfortran (since version 10), ifort, and NAG all default to
+integer overflow wrapping.</p>
+<table>
+<thead>
+<tr>
+<th>Compiler</th>
+<th>Legal flag</th>
+<th>Illegal flag</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARM Fortran</td>
+<td>NA?</td>
+<td>NA?</td>
+<td>overflow wrapping?</td>
+</tr>
+<tr>
+<td>Cray Fortran</td>
+<td>NA?</td>
+<td>NA?</td>
+<td>overflow wrapping?</td>
+</tr>
+<tr>
+<td>FLANG/PGI</td>
+<td>-fwrapv</td>
+<td>-ftrapv</td>
+<td>-fwrapv</td>
+</tr>
+<tr>
+<td>gfortran</td>
+<td>-fwrapv</td>
+<td>-ftrapv</td>
+<td>-fwrapv</td>
+</tr>
+<tr>
+<td>IBM Fortran</td>
+<td>NA?</td>
+<td>NA?</td>
+<td>overflow wrapping?</td>
+</tr>
+<tr>
+<td>ifort</td>
+<td>NA?</td>
+<td>NA?</td>
+<td>overflow wrapping</td>
+</tr>
+<tr>
+<td>NAG Fortran</td>
+<td>-C=none</td>
+<td>-C=intovf</td>
+<td>-C=none</td>
+</tr>
+<tr>
+<td>NEC Fortran</td>
+<td>NA?</td>
+<td>NA?</td>
+<td>overflow wrapping?</td>
+</tr>
+<tr>
+<td>NVIDIA Fortran</td>
+<td>NA?</td>
+<td>NA?</td>
+<td>overflow wrapping?</td>
+</tr>
+</tbody>
+</table>
+<p>All of the modules' hash functions take one or two arguments.
+All of them have as their first argument the object to be hashed,
+termed a <em>key</em>.
+Most have a second argument, termed a <em>seed</em>, that sets the initial
+value of the hash code changing the hash function behavior.
+In particular, inputs that hash to the same hash index with a given
+seed, will often hash to different indexes with a different seed.
+This difference in behavior makes algorithms that use a seed much
+more resistant to denial of service attacks that use the properties
+of a known hash to increase the number of hash table collisions.
+This additional integer must be kept the same for all hashes
+in a given hash table, but can be changed and the objects rehashed
+if collisions are unusually common.
+The <em>seed</em> can be either a scalar or a two-element array.
+Some of the hash functions have alternatives that allow incremental
+hashing.</p>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Seed</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FNV-1</td>
+<td>None</td>
+<td>32 or 64-bit integer</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td>None</td>
+<td>32 or 64-bit integer</td>
+</tr>
+<tr>
+<td>nmhash32</td>
+<td>32-bit scalar integer</td>
+<td>32-bit integer</td>
+</tr>
+<tr>
+<td>nmhash32x</td>
+<td>32-bit scalar integer</td>
+<td>32-bit integer</td>
+</tr>
+<tr>
+<td>pengyhash</td>
+<td>32-bit scalar integer</td>
+<td>64-bit integer</td>
+</tr>
+<tr>
+<td>Spooky Hash</td>
+<td>64-bit two element vector</td>
+<td>64-bit two element vector</td>
+</tr>
+<tr>
+<td>waterhash</td>
+<td>64-bit scalar integer</td>
+<td>32-bit integer</td>
+</tr>
+</tbody>
+</table>
+<p>The hash function modules each provide at least five algorithms for
+hash functions: two optimized for small (&lt; 32 <code>int8</code> integer elements)
+keys, and three optimized for large (&gt; 100 <code>int8</code> integer elements)
+keys.
+The core implementation for each algorithm is for keys that are
+vectors of <code>int8</code> integers.
+These core implementations are then used in wrappers for keys
+that are vectors of <code>int16</code>, <code>int32</code> and <code>int64</code> integers, or default
+character strings, in the expectation that inlining will eliminate the
+overhead of transferring the other keys to <code>int8</code> integer vectors.</p>
+<p>The <code>stdlib_hash_32bit</code> module provides
+implementations of five hash code algorithms:
+the <em>FNV_1</em> and <em>FNV_1A</em> variants of Glenn Fowler,
+Landon Curt Noll, and Kiem-Phong Vo;
+the <em>nmhash32</em> and <em>nmhash32x</em> of James Z. M. Gao;
+and the <em>waterhash</em>  of Tommy Ettinger.
+The detailed implementation of each algorithm is handled in a separate
+submodule: <code>stdlib_hash_32bit_fnv</code>,
+<code>stdlib_hash_32bit_nm</code>, and <code>stdlib_hash_32bit_water</code>,
+respectively. The <code>nmhash32</code>, <code>nmhash32x</code>, and <code>waterhash</code> algorithms
+require seeds. The submodules provide separate seed generators
+for each algorithm.
+The module itself
+implements two scalar hash functions, <code>fibonacci_hash</code> and
+<code>universal_mult_hash</code>.
+It also implements the subroutine, <code>odd_random_integer</code>, for
+generating seeds for <code>universal_mult_hash</code>.
+All assume a two's complement sign bit, and no out of
+range checks.</p>
+<p>The <code>stdlib_hash_64bit</code> module also provides
+implementations of four hash code algorithms:
+the <em>FNV_1</em> and <em>FNV_1A</em> variants of Glenn Fowler,
+Landon Curt Noll, and Kiem-Phong Vo;
+the <em>pengyhash</em> of Alberto Fajardo;
+and the <em>SpookyHash</em>  of Bob Jenkins.
+The detailed implementation of each algorithm is handled in a separate
+submodule: <code>stdlib_hash_64bit_fnv</code>,
+<code>stdlib_hash_64bit_pengy</code>, and <code>stdlib_hash_64bit_spooky</code>,
+respectively.
+The <code>pengyhash</code>, and <code>Spooky Hash</code> algorithms
+require seeds. The submodules provide separate seed generators
+for each algorithm.
+The module itself implements two scalar hash functions,
+<code>fibonacci_hash</code> and <code>universal_mult_hash</code>.
+It also implements the subroutine, <code>odd_random_integer</code>, for
+generating seeds for <code>universal_mult_hash</code>.
+All assume a two's complement sign bit, and no out of
+range checks.</p>
+<p>The <code>stdlib_hash_32bit_fnv</code> and <code>stdlib_hash_64bit_fnv</code>
+submodules each provide implementations of the FNV-1 and FNV-1A
+algorithms in the form of two separate overloaded functions: <code>FNV_1</code>
+and <code>FNV_1A</code>.
+The FNV-1 and FNV-2 algorithms differ in their order of the
+multiplication and exclusive or operations.
+They differ from their normal implementation in that they also
+encode the structure size in the hash code.
+The 32 and 64-bit algorithms differ in their initial offsets and in
+their multiplicative constants.
+Analysis suggests that <code>FNV_1A</code> should be better at randomizing the
+input, but tests with hash tables show negligible difference.
+These algorithms have the reputation of being particularly useful for
+small byte strings, i.e., strings of less than 32 bytes.
+While they do not at all perform well on the SMHasher test suite,
+usage indicates that this has little impact on the
+performance of small hash tables, and the small size of the functions
+allows their quick loading and retainment in the instruction cache,
+giving a performance boost where the hashing is intermittent.
+(See the
+<a href="https://github.com/rurban/smhasher/README.md">SMHasher discussion</a>
+and <a href="https://bigdata.uni-saarland.de/publications/p249-richter.pdf">S. Richter, V. Alvarez, and J. Dittrich. 2015. A Seven-Dimensional Analysis of Hashing Methods and its Implications on Query Processing, Proceedings of the VLDB Endowment, Vol. 9, No. 3.</a> <a href="https://doi.org/10.14778/2850583.2850585">https://doi.org/10.14778/2850583.2850585</a>.</p>
+<p>The <code>stdlib_hash_32bit_nm</code> submodule provides implementations
+of James Z.M. Gao's <code>nmhash32</code> and <code>nmhash32x</code> algorithms,
+version 0.2,
+in the form of the overloaded functions, <code>nmhash32</code> and <code>nmhash32x</code>.
+The implementations are based on the scalar versions of Gao's
+algorithms and not the vector versions that require access to
+the vector instructions of some compilers.
+Both algorithms perform well on the SMHasher tests, and have no known
+bad seeds. The vector versions of both codes perform well on large
+keys, with the <code>nmhash32x</code> faster on short keys. To provide randomly
+generated seeds for the two functions the submodule also defines the
+subroutines <code>new_nmhash32_seed</code> and <code>new_nmhash32x_seed</code>. Gao claims
+that <code>nmhash32x</code> is significantly faster than <code>nmhash32</code> on short
+seeds, but slower on long seeds, but our limited testing so far shows
+<code>nmhash32x</code> to be significantly faster on short seeds and slightly
+faster on long seeds.</p>
+<p>The <code>stdlib_hash_32bit_water</code> submodule provides implementations
+of Tommy Ettinger's <code>waterhash</code> algorithm in the form of the overloaded
+function, <code>water_hash</code>. Water Hash has not been tested by Reini Urban,
+but Tommy Ettinger has tested it with Urban's SMHasher and presents
+results that shows Water Hash passing all the tests. So far his
+testing hasn't found any bad seeds for the algorithm. To provide
+randomly generated seeds for the hash function the submodule also
+defines the subroutine <code>new_water_hash_seed</code>.</p>
+<p>The <code>stdlib_hash_64bit_pengy</code> submodule provides implementations of
+Alberto Fajardo's <code>pengyhash</code> in the form of the overloaded function,
+<code>pengy_hash</code>. Reini Urban's testing shows that PengyHash passes all
+the tests and has no bad seeds.  To provide randomly generated seeds
+for the hash function the submodule also defines the subroutine
+<code>new_pengy_hash_seed</code>.</p>
+<p>The <code>stdlib_hash_64bit_spooky</code> submodule provides implementations
+of Bob Jenkins' SpookyHash in the form of the overloaded function,
+<code>spooky_hash</code>. Future implementations may provide the SpookyHash
+incremental hashing procedures.
+SpookyHash is optimized for large objects and should give excellent
+performance for objects greater than about 96 byes, but has
+significant overhead for smaller objects.
+The code was designed for little-endian compilers, and will give
+different results on big-endian compilers, but the hash quality on
+those compilers is probably just as good.
+SpookyHash version 2 passes all of Reini Urban's SMHasher tests, and
+has one bad seed only when reduced to a 32-bit output.
+Its only potential problem is undefined behavior if the key is
+misaligned.</p>
+<h2 id="the-stdlib_hash_32bit-module">The <code>stdlib_hash_32bit</code> module</h2>
+<h3 id="overview-of-the-module">Overview of the module</h3>
+<p>Thirty two bit hash functions are primarily useful for generating hash
+codes and hash indices for hash tables.
+They tend to be less useful for generating checksums, which generally
+benefit from having a larger number of bits.
+The <code>stdlib_hash_32bit</code> module defines five public overloaded
+32-bit hash code functions, <code>FNV_1</code>, <code>FNV-1A</code>, <code>nmhash32</code>, <code>nmhash32x</code>
+and <code>water_hash</code>, two scalar hash functions, <code>fibonacci_hash</code> and
+<code>universal_mult_hash</code>, four seed generators, <code>odd_random_integer</code> for
+<code>universal_mult_hash</code>, and <code>new_nmhash32_seed</code>, <code>new_nmhash32x_seed</code>,
+and <code>new_water_hash_seed</code>, for their respective hash code
+functions. It also defines the integer kind constant, <code>int_hash</code>, and
+a logical constant, <code>little_endian</code>, used to deal with one aspect of
+the machine dependence of the hash codes.</p>
+<h3 id="the-int_hash-parameter">The <code>int_hash</code> parameter</h3>
+<p>It is necessary to define the kind of integer used to return the hash
+code.
+As <code>stdlib_hash_32bit</code> deals exclusively with 32-bit hash codes,
+<code>int_hash</code> is an alias for the integer kind <code>int32</code>.</p>
+<h3 id="the-little_endian-parameter">The <code>little_endian</code> parameter</h3>
+<p>In implementing hash functions it is sometimes necessary to know the
+"endianess" of the compiler's integers. To this end the
+<code>stdlib_hash_32bit</code> module defines the logical parameter
+<code>little_endian</code> that, if true, indicates that the compiler has
+little-endian integers, and that if false indicates that the integers
+are big-endian.</p>
+<h3 id="specifications-of-the-stdlib_hash_32bit-procedures">Specifications of the <code>stdlib_hash_32bit</code> procedures</h3>
+<h4 id="fibonacci_hash-maps-an-integer-to-a-smaller-number-of-bits"><code>fibonacci_hash</code> - maps an integer to a smaller number of bits</h4>
+<h5 id="status">Status</h5>
+<p>Experimental</p>
+<h5 id="description">Description</h5>
+<p>Calculates an <code>nbits</code> hash code from a 32-bit integer. This is useful
+in mapping hash codes into small arrays.</p>
+<h5 id="syntax">Syntax</h5>
+<p><code>code = <a href="../../module/stdlib_hash_32bit.html#proc-fibonacci_hash">fibonacci_hash</a>( key, nbits )</code></p>
+<h5 id="class">Class</h5>
+<p>Elemental function</p>
+<h5 id="arguments">Arguments</h5>
+<p><code>key</code>: Shall be a scalar integer expression of kind <code>int32</code>. It is an
+<code>intent(in)</code> argument.</p>
+<p><code>nbits</code> Shall be a scalar default integer expression with <code>0 &lt; nbits &lt;
+32</code>. It is an <code>intent(in)</code> argument.</p>
+<h5 id="result">Result</h5>
+<p>The result is an integer of kind <code>int32</code> with at most the lowest
+<code>nbits</code> nonzero, mapping to a range 0 to <code>nbits-1</code>.</p>
+<h5 id="note">Note</h5>
+<p><code>fibonacci_hash</code> is an implementation of the Fibonacci Hash of Donald
+E. Knuth. It multiplies the <code>key</code> by the odd valued approximation to
+<code>2**32/phi</code>, where <code>phi</code> is the golden ratio 1.618..., and returns the
+<code>nbits</code> upper bits of the product as the lowest bits of the result.</p>
+<h5 id="example">Example</h5>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_fibonacci_hash</span>
+  <span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">fibonacci_hash</span>
+  <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">int32</span>
+  <span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">array1</span><span class="p">(:)</span>
+  <span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hash</span><span class="p">,</span> <span class="n">source</span>
+  <span class="k">allocate</span><span class="p">(</span> <span class="n">array1</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+  <span class="n">array1</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">source</span> <span class="o">=</span> <span class="mi">42_int32</span>
+  <span class="n">hash</span> <span class="o">=</span> <span class="n">fibonacci_hash</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+  <span class="n">array1</span><span class="p">(</span><span class="n">hash</span><span class="p">)</span> <span class="o">=</span> <span class="n">source</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">hash</span>
+<span class="k">end program </span><span class="n">demo_fibonacci_hash</span>
+</code></pre></div>
+
+<h4 id="fnv_1_hash-calculates-a-hash-code-from-a-key"><code>fnv_1_hash</code>- calculates a hash code from a key</h4>
+<h5 id="status_1">Status</h5>
+<p>Experimental</p>
+<h5 id="description_1">Description</h5>
+<p>Calculates a 32-bit hash code from a rank-1 integer array or a default
+character string.</p>
+<h5 id="syntax_1">Syntax</h5>
+<p><code>code = <a href="../../module/stdlib_hash_32bit.html#interface-fnv_1_hash">fnv_1_hash</a>( key )</code></p>
+<h5 id="class_1">Class</h5>
+<p>Pure/elemental function</p>
+<h5 id="argument">Argument</h5>
+<p><code>key</code>: Shall be a deferred length default character scalar expression
+or a rank-1 integer array expression of kind <code>int8</code>, <code>int16</code>,
+<code>int32</code>, or <code>int64</code>.
+It is an <code>intent(in)</code> argument.</p>
+<h5 id="result_1">Result</h5>
+<p>The result is a scalar integer of kind <code>int32</code>.</p>
+<h5 id="note_1">Note</h5>
+<p><code>fnv_1_hash</code> is an implementation of the original FNV-1 hash code of Glenn
+Fowler, Landon Curt Noll, and Phong Vo.
+It differs from typical implementations in that it also encodes the
+size of the structure in the hash code.
+This code is relatively fast on short keys, and is small enough that it
+will often be retained in the instruction cache if hashing is
+intermittent.
+As a result it should give good performance for typical hash table
+applications.
+This code does not pass any of the SMHasher tests, but the resulting
+degradation in performance due to its larger number of collisions is
+expected to be minor compared to its faster hashing rate.
+It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
+function for character strings.</p>
+<h5 id="example_1">Example</h5>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_fnv_1_hash</span>
+  <span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">fnv_1_hash</span>
+  <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">int32</span>
+  <span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hash</span>
+  <span class="n">hash</span> <span class="o">=</span> <span class="n">fnv_1_hash</span><span class="p">([</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">hash</span>
+<span class="k">end program </span><span class="n">demo_fnv_1_hash</span>
+</code></pre></div>
+
+<h4 id="fnv_1a_hash-calculates-a-hash-code-from-a-key"><code>fnv_1a_hash</code>- calculates a hash code from a key</h4>
+<h5 id="status_2">Status</h5>
+<p>Experimental</p>
+<h5 id="description_2">Description</h5>
+<p>Calculates a 32-bit hash code from a rank-1 integer array or a default
+character string.</p>
+<h5 id="syntax_2">Syntax</h5>
+<p><code>code = <a href="../../module/stdlib_hash_32bit.html#interface-fnv_1a_hash">fnv_1a_hash</a>( key )</code></p>
+<h5 id="class_2">Class</h5>
+<p>Pure/elemental function</p>
+<h5 id="argument_1">Argument</h5>
+<p><code>key</code>: Shall be a deferred length default character scalar expression
+or a rank-1 integer array expression of kind <code>int8</code>, <code>int16</code>,
+<code>int32</code>, or <code>int64</code>.
+It is an <code>intent(in)</code> argument.</p>
+<h5 id="result_2">Result</h5>
+<p>The result is a scalar integer of kind <code>int32</code>.</p>
+<h5 id="note_2">Note</h5>
+<p><code>fnv_1a_hash</code> is an implementation of the alternative FNV-1a hash code of
+Glenn Fowler, Landon Curt Noll, and Phong Vo.
+It differs from typical implementations in that it also encodes the
+size of the structure in the hash code.
+This code is relatively fast on short keys, and is small enough that it
+will often be retained in the instruction cache if hashing is
+intermittent.
+As a result it should give good performance for typical hash table
+applications.
+This code does not pass any of the SMHasher tests, but the resulting
+degradation in performance due to its larger number of collisions is
+expected to be minor compared to its faster hashing rate.
+It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
+function for character strings.</p>
+<h5 id="example_2">Example</h5>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_fnv_1a_hash</span>
+  <span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">fnv_1a_hash</span>
+  <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">int32</span>
+  <span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hash</span>
+  <span class="n">hash</span> <span class="o">=</span> <span class="n">fnv_1a_hash</span><span class="p">(</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span> <span class="p">)</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">hash</span>
+<span class="k">end program </span><span class="n">demo_fnv_1a_hash</span>
+</code></pre></div>
+
+<h4 id="new_nmhash32_seed-returns-a-valid-input-seed-for-nmhash32"><code>new_nmhash32_seed</code>- returns a valid input seed for <code>nmhash32</code></h4>
+<h5 id="status_3">Status</h5>
+<p>Experimental</p>
+<h5 id="description_3">Description</h5>
+<p>Calculates a 32-bit "random" integer that is believed to be a valid
+seed for <code>nmhash32</code> and is also different from the input seed.</p>
+<h5 id="syntax_3">Syntax</h5>
+<p><code>code = call <a href="../../module/stdlib_hash_32bit.html#interface-new_nmhash32_seed">new_nmhash32_seed</a>( seed )</code></p>
+<h5 id="class_3">Class</h5>
+<p>Subroutine</p>
+<h5 id="argument_2">Argument</h5>
+<p><code>seed</code>: shall be a defined integer scalar variable of kind <code>int32</code>.
+It is an <code>intent(inout)</code> argument. On input <code>seed</code> should be defined,
+and on output it will be different from the input <code>seed</code>.</p>
+<h5 id="note_3">Note</h5>
+<p>Currently there are no known bad seeds for <code>nmhash32</code>, but if any are
+identified the procedure will be revised so that they cannot be
+returned. This subroutine uses Fortran's intrinsic
+ <code>random_number</code> and the values returned can be changed by calling the
+ intrinsic <code>random_init</code>.</p>
+<h5 id="example_3">Example</h5>
+<p>See the example for <code>nmhash32</code>.</p>
+<h4 id="new_nmhash32x_seed-returns-a-valid-input-seed-for-nmhash32x"><code>new_nmhash32x_seed</code>- returns a valid input seed for <code>nmhash32x</code></h4>
+<h5 id="status_4">Status</h5>
+<p>Experimental</p>
+<h5 id="description_4">Description</h5>
+<p>Calculates a 32-bit "random" integer that is believed to be a valid
+seed for <code>nmhash32x</code> and is also different from the input seed.</p>
+<h5 id="syntax_4">Syntax</h5>
+<p><code>code = call <a href="../../module/stdlib_hash_32bit.html#interface-new_nmhash32x_seed">new_nmhash32x_seed</a>( seed )</code></p>
+<h5 id="class_4">Class</h5>
+<p>Subroutine</p>
+<h5 id="argument_3">Argument</h5>
+<p><code>seed</code>: shall be a defined integer scalar variable of kind <code>int32</code>.
+It is an <code>intent(inout)</code> argument. On input <code>seed</code> should be defined,
+and on output it will be different from the input <code>seed</code>.</p>
+<h5 id="note_4">Note</h5>
+<p>Currently there are no known bad seeds for <code>nmhash32x</code>, but if any are
+identified the procedure will be revised so that they cannot be
+returned. This subroutine uses Fortran's intrinsic
+ <code>random_number</code> and the values returned can be changed by calling the
+ intrinsic <code>random_init</code>.</p>
+<h5 id="example_4">Example</h5>
+<p>See the example for <code>nmhash32x</code>.</p>
+<h4 id="new_water_hash_seed-returns-a-valid-input-seed-for-water_hash"><code>new_water_hash_seed</code>- returns a valid input seed for <code>water_hash</code></h4>
+<h5 id="status_5">Status</h5>
+<p>Experimental</p>
+<h5 id="description_5">Description</h5>
+<p>Calculates a 64-bit "random" integer that is believed to be a valid
+seed for <code>water_hash</code> and is also different from the input seed.</p>
+<h5 id="syntax_5">Syntax</h5>
+<p><code>code = call <a href="../../module/stdlib_hash_32bit.html#interface-new_water_hash_seed">new_water_hash_seed</a>( seed )</code></p>
+<h5 id="class_5">Class</h5>
+<p>Subroutine</p>
+<h5 id="argument_4">Argument</h5>
+<p><code>seed</code>: shall be a defined integer scalar variable of kind <code>int64</code>.
+It is an <code>intent(inout)</code> argument. On input <code>seed</code> should be defined,
+and on output it will be different from the input <code>seed</code>.</p>
+<h5 id="note_5">Note</h5>
+<p>Currently there are no known bad seeds for <code>water_hash</code>, but if any
+are identified the procedure will be revised so that they cannot be
+returned. This subroutine uses Fortran's intrinsic
+ <code>random_number</code> and the values returned can be changed by calling the
+ intrinsic <code>random_init</code>.</p>
+<h5 id="example_5">Example</h5>
+<p>See the example for <code>water_hash</code>.</p>
+<h4 id="nmhash32-calculates-a-hash-code-from-a-key-and-a-seed"><code>nmhash32</code>- calculates a hash code from a key and a seed</h4>
+<h5 id="status_6">Status</h5>
+<p>Experimental</p>
+<h5 id="description_6">Description</h5>
+<p>Calculates a 32-bit hash code from a rank-1 integer array or a default
+character string, and the input <code>seed</code>.</p>
+<h5 id="syntax_6">Syntax</h5>
+<p><code>code = <a href="../../module/stdlib_hash_32bit.html#interface-nmhash32">nmhash32</a>( key, seed )</code></p>
+<h5 id="class_6">Class</h5>
+<p>Pure/elemental function</p>
+<h5 id="arguments_1">Arguments</h5>
+<p><code>key</code>: Shall be a deferred length default character scalar expression
+or a rank-1 integer array expression of kind <code>int8</code>, <code>int16</code>,
+<code>int32</code>, or <code>int64</code>.
+It is an <code>intent(in)</code> argument.</p>
+<p><code>seed</code>: shall be an integer scalar expression of kind <code>int32</code>.
+It is an <code>intent(in)</code> argument.</p>
+<h5 id="result_3">Result</h5>
+<p>The result is a scalar integer of kind <code>int32</code>.</p>
+<h5 id="note_6">Note</h5>
+<p><code>nmhash32</code> is an implementation of the <code>nmhash32</code> hash code of
+James Z. M. Gao.
+This code has good, but not great, performance on long keys, poorer
+performance on short keys.
+As a result it should give fair performance for typical hash table
+applications.
+This code passes the SMHasher tests, and has no known bad seeds.
+It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
+function for character strings.</p>
+<h5 id="example_6">Example</h5>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_nmhash32</span>
+  <span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">nmhash32</span><span class="p">,</span> <span class="p">&amp;</span>
+      <span class="n">new_nmhash32_seed</span>
+  <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">int32</span>
+  <span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hash</span>
+  <span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span> <span class="kd">::</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">42_int32</span>
+  <span class="k">call </span><span class="n">new_nmhash32_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+  <span class="n">hash</span> <span class="o">=</span> <span class="n">nmhash32</span><span class="p">([</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">seed</span><span class="p">)</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">hash</span>
+<span class="k">end program </span><span class="n">demo_nmhash32</span>
+</code></pre></div>
+
+<h4 id="nmhash32x-calculates-a-hash-code-from-a-key-and-a-seed"><code>nmhash32x</code>- calculates a hash code from a key and a seed</h4>
+<h5 id="status_7">Status</h5>
+<p>Experimental</p>
+<h5 id="description_7">Description</h5>
+<p>Calculates a 32-bit hash code from a rank-1 integer array or a default
+character string, and the input <code>seed</code>.</p>
+<h5 id="syntax_7">Syntax</h5>
+<p><code>code = <a href="../../module/stdlib_hash_32bit.html#interface-nmhash32x">nmhash32x</a>( key, seed )</code></p>
+<h5 id="class_7">Class</h5>
+<p>Pure/elemental function</p>
+<h5 id="arguments_2">Arguments</h5>
+<p><code>key</code>: Shall be a deferred length default character scalar expression
+or a rank-1 integer array expression of kind <code>int8</code>, <code>int16</code>,
+<code>int32</code>, or <code>int64</code>.
+It is an <code>intent(in)</code> argument.</p>
+<p><code>seed</code>: shall be an integer scalar expression of kind <code>int32</code>.
+It is an <code>intent(in)</code> argument.</p>
+<h5 id="result_4">Result</h5>
+<p>The result is a scalar integer of kind <code>int32</code>.</p>
+<h5 id="note_7">Note</h5>
+<p><code>nmhash32x</code> is an implementation of the <code>nmhash32x</code> hash code of
+James Z. M. Gao.
+This code has good, but not great, performance on long keys, poorer
+performance on short keys.
+As a result it should give fair performance for typical hash table
+applications.
+This code passes the SMHasher tests, and has no known bad seeds.
+It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
+function for character strings.</p>
+<h5 id="example_7">Example</h5>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_nmhash32x</span>
+  <span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">nmhash32x</span><span class="p">,</span> <span class="p">&amp;</span>
+    <span class="n">new_nmhash32x_seed</span>
+  <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">int32</span>
+  <span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hash</span>
+  <span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span> <span class="kd">::</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">42_int32</span>
+  <span class="k">call </span><span class="n">new_nmhash32x_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+  <span class="n">hash</span> <span class="o">=</span> <span class="n">nmhash32x</span><span class="p">([</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">seed</span><span class="p">)</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">hash</span>
+<span class="k">end program </span><span class="n">demo_nmhash32x</span>
+</code></pre></div>
+
+<h4 id="odd_random_integer-returns-an-odd-integer"><code>odd_random_integer</code> - returns an odd integer</h4>
+<h5 id="status_8">Status</h5>
+<p>Experimental</p>
+<h5 id="description_8">Description</h5>
+<p>Returns a random 32-bit integer distributed uniformly over the odd values.</p>
+<h5 id="syntax_8">Syntax</h5>
+<p><code>call <a href="../../module/stdlib_hash_32bit.html#proc-odd_random_integer">odd_random_integer</a>( harvest )</code></p>
+<h5 id="class_8">Class</h5>
+<p>Subroutine</p>
+<h5 id="argument_5">Argument</h5>
+<p><code>harvest</code>: Shall be a scalar integer variable of kind <code>int32</code>. It is
+an <code>intent(out)</code> argument.</p>
+<h5 id="note_8">Note</h5>
+<p><code>odd_random_integer</code> is intended to generate seeds for
+ <code>universal_mult_hash</code>. <code>odd_random_integer</code> uses Fortran's intrinsic
+ <code>random_number</code> and the values returned can be changed by calling the
+ intrinsic <code>random_init</code>.</p>
+<h5 id="example_8">Example</h5>
+<p>See <code>universal_mult_hash</code>.</p>
+<h4 id="universal_mult_hash-maps-an-integer-to-a-smaller-number-of-bits"><code>universal_mult_hash</code> - maps an integer to a smaller number of bits</h4>
+<h5 id="status_9">Status</h5>
+<p>Experimental</p>
+<h5 id="description_9">Description</h5>
+<p>Calculates an <code>nbits</code> hash code from a 32-bit integer. This is useful
+in mapping a hash value to a range 0 to <code>2**nbits-1</code>.</p>
+<h5 id="syntax_9">Syntax</h5>
+<p><code>code = <a href="../../module/stdlib_hash_32bit.html#proc-universal_mult_hash">universal_mult_hash</a>( key, seed, nbits )</code></p>
+<h5 id="class_9">Class</h5>
+<p>Elemental function</p>
+<h5 id="arguments_3">Arguments</h5>
+<p><code>key</code>: Shall be a scalar integer expression of kind <code>int32</code>. It is an
+<code>intent(in)</code> argument.</p>
+<p><code>seed</code>: Shall be a scalar integer expression of kind <code>int32</code>. It is an
+<code>intent(in)</code> argument. It must have an odd value.</p>
+<p><code>nbits</code> Shall be a scalar default integer expression with <code>0 &lt; nbits &lt;
+32</code>. It is an <code>intent(in)</code> argument.</p>
+<h5 id="result_5">Result</h5>
+<p>The result is a scalar integer of kind <code>int32</code> with at most the lowest
+<code>nbits</code> nonzero.</p>
+<h5 id="note_9">Note</h5>
+<p><code>universal_mult_hash</code> is an implementation of the Universal
+Multiplicative Hash of M. Dietzfelbinger, et al.
+It multiplies the <code>key</code> by <code>seed</code>, and returns the
+<code>nbits</code> upper bits of the product as the lowest bits of the result.</p>
+<h5 id="example_9">Example</h5>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_universal_mult_hash</span>
+  <span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">odd_random_integer</span><span class="p">,</span> <span class="p">&amp;</span>
+    <span class="n">universal_mult_hash</span>
+  <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">int32</span>
+  <span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">array1</span><span class="p">(:)</span>
+  <span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hash</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">source</span>
+  <span class="n">seed</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">allocate</span><span class="p">(</span> <span class="n">array1</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+  <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">array1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
+  <span class="k">end do</span>
+<span class="k">  call </span><span class="n">odd_random_integer</span><span class="p">(</span> <span class="n">seed</span> <span class="p">)</span>
+  <span class="n">source</span> <span class="o">=</span> <span class="mi">42_int32</span>
+  <span class="n">hash</span> <span class="o">=</span> <span class="n">universal_mult_hash</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+  <span class="n">array1</span><span class="p">(</span><span class="n">hash</span><span class="p">)</span> <span class="o">=</span> <span class="n">source</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">hash</span><span class="p">,</span> <span class="n">array1</span>
+<span class="k">end program </span><span class="n">demo_odd_random_integer</span>
+</code></pre></div>
+
+<h4 id="water_hash-calculates-a-hash-code-from-a-key-and-a-seed"><code>water_hash</code>- calculates a hash code from a key and a seed</h4>
+<h5 id="status_10">Status</h5>
+<p>Experimental</p>
+<h5 id="description_10">Description</h5>
+<p>Calculates a 32-bit hash code from a rank-1 integer array or a default
+character string, and the input <code>seed</code>.</p>
+<h5 id="syntax_10">Syntax</h5>
+<p><code>code = <a href="../../module/stdlib_hash_32bit.html#interface-water_hash">water_hash</a>( key, seed )</code></p>
+<h5 id="class_10">Class</h5>
+<p>Pure/elemental function</p>
+<h5 id="arguments_4">Arguments</h5>
+<p><code>key</code>: Shall be a deferred length default character scalar expression
+or a rank-1 integer array expression of kind <code>int8</code>, <code>int16</code>,
+<code>int32</code>, or <code>int64</code>.
+It is an <code>intent(in)</code> argument.</p>
+<p><code>seed</code>: shall be an integer scalar expression of kind <code>int64</code>.
+It is an <code>intent(in)</code> argument.</p>
+<h5 id="result_6">Result</h5>
+<p>The result is a scalar integer of kind <code>int32</code>.</p>
+<h5 id="note_10">Note</h5>
+<p><code>water_hash</code> is an implementation of the <code>waterhash</code> hash code of
+Tommy Ettinger.
+This code has excellent performance on long keys, and good performance
+on short keys.
+As a result it should give reasonable performance for typical hash
+table applications.
+This code passes the SMHasher tests.
+The <code>waterhash</code> is based on the <code>wyhash</code> of Wang Yi.
+While <code>wyhash</code> has a number of bad seeds, where randomization of the
+output is poor,
+so far testing has not found any bad seeds for <code>waterhash</code>.
+It can have undefined behavior if the key is not word aligned,
+i.e. some computer processors can only process a given size integer if
+the address of the integer is a multiple of the integer size.
+It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
+function for character strings.</p>
+<h5 id="example_10">Example</h5>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_water_hash</span>
+  <span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">water_hash</span><span class="p">,</span> <span class="p">&amp;</span>
+    <span class="n">new_water_hash_seed</span>
+  <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">int32</span><span class="p">,</span> <span class="n">int64</span>
+  <span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hash</span>
+  <span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">42_int64</span>
+  <span class="k">call </span><span class="n">new_water_hash_seed</span><span class="p">(</span> <span class="n">seed</span> <span class="p">)</span>
+  <span class="n">hash</span> <span class="o">=</span> <span class="n">water_hash</span><span class="p">([</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">seed</span><span class="p">)</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">hash</span><span class="p">,</span> <span class="n">seed</span>
+<span class="k">end program </span><span class="n">demo_water_hash</span>
+</code></pre></div>
+
+<h2 id="the-stdlib_hash_64bit-module">The <code>stdlib_hash_64bit</code> module</h2>
+<h3 id="overview-of-the-module_1">Overview of the module</h3>
+<p>Sixty-four bit hash functions are generally overkill for hash table
+applications, and are primarily useful for check sums and related
+applications.
+As checksums often have to deal with extremely large files or
+directories, it is often useful to use incremental hashing as well as
+direct hashing, so 64-bit and higher hash algorithms often provide
+multiple implementations. The current module, for simplicity of API,
+doesn't provide any incremental hashes.
+The <code>stdlib_hash_64bit</code> module defines several public
+overloaded 64-bit hash procedures, <code>FNV_1</code>, <code>FNV-1A</code>,
+<code>pengy_hash</code>, and <code>spooky_hash</code>, two scalar hash functions,
+<code>fibonacci_hash</code> and
+<code>universal_mult_hash</code>, a seed generator, <code>odd_random_integer</code>, for the
+<code>universal_mult_hash</code>, and two seed generators, <code>new_pengy_hash_seed</code>
+and <code>new_spooky_hash_seed</code> for their respective hash functions. It
+also defines the integer kind constant, <code>int_hash</code>, used to specify
+the kind of the hash function results, and a logical constant,
+<code>little_endian</code>, used to deal with one aspect of the machine
+dependence of the hash codes.
+Note that while SpookyHash can be used as a sixty-four bit hash
+algorithm, its algorithms actually returns two element integer arrays
+of kind <code>int64</code>, so it can also be used as a 128 bit hash.</p>
+<h3 id="the-int_hash-parameters">The <code>int_hash</code> parameters</h3>
+<p>It is necessary to define the kind of integer used to return the hash
+code.
+As <code>stdlib_haash_64bit</code> deals exclusively with 64-bit hash codes,
+<code>int_hash</code> is an alias for the integer kind <code>int64</code>.</p>
+<h3 id="the-little_endian-parameter_1">The <code>little_endian</code> parameter</h3>
+<p>In implementing hash functions it is sometimes necessary to know the
+"endianess" of the compiler's integers. To this end the
+<code>stdlib_hash_64bit</code> module defines the logical parameter
+<code>little_endian</code> that if true indicates that the compiler has
+little-endian integers, and that if false indicates that the integers
+are big-endian.</p>
+<h3 id="specifications-of-the-stdlib_hash_64bit-procedures">Specifications of the <code>stdlib_hash_64bit</code> procedures</h3>
+<h4 id="fibonacci_hash-maps-an-integer-to-a-smaller-number-of-bits_1"><code>fibonacci_hash</code> - maps an integer to a smaller number of bits</h4>
+<h5 id="status_11">Status</h5>
+<p>Experimental</p>
+<h5 id="description_11">Description</h5>
+<p>Calculates an <code>nbits</code> hash code from a 64-bit integer. This is useful
+in mapping hash codes into small arrays.</p>
+<h5 id="syntax_11">Syntax</h5>
+<p><code>code = <a href="../../module/stdlib_hash_64bit.html#proc-fibonacci_hash~2">fibonacci_hash</a>( key, nbits )</code></p>
+<h5 id="class_11">Class</h5>
+<p>Elemental function</p>
+<h5 id="arguments_5">Arguments</h5>
+<p><code>key</code>: Shall be a scalar integer expression of kind <code>int64</code>. It is an
+<code>intent(in)</code> argument.</p>
+<p><code>nbits</code> Shall be a scalar default integer expression with <code>0 &lt; nbits &lt;
+64</code>. It is an <code>intent(in)</code> argument.</p>
+<h5 id="result_7">Result</h5>
+<p>The result is an integer of kind <code>int64</code> with at most the lowest
+<code>nbits</code> nonzero, mapping to a range 0 to <code>nbits-1</code>.</p>
+<h5 id="note_11">Note</h5>
+<p><code>fibonacci_hash</code> is an implementation of the Fibonacci Hash of Donald
+E. Knuth. It multiplies the <code>key</code> by the odd valued approximation to
+<code>2**64/phi</code>, where <code>phi</code> is the golden ratio 1.618..., and returns the
+<code>nbits</code> upper bits of the product as the lowest bits of the result.</p>
+<h5 id="example_11">Example</h5>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_fibonacci_hash</span>
+  <span class="k">use </span><span class="n">stdlib_hash_64bit</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">fibonacci_hash</span>
+  <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">int64</span>
+  <span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">array1</span><span class="p">(:)</span>
+  <span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hash</span><span class="p">,</span> <span class="n">source</span>
+  <span class="k">allocate</span><span class="p">(</span> <span class="n">array1</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+  <span class="n">array1</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">source</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">Z</span><span class="s1">&#39;1FFFFFFFF&#39;</span><span class="p">,</span> <span class="n">int64</span><span class="p">)</span>
+  <span class="n">hash</span> <span class="o">=</span> <span class="n">fibonacci_hash</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+  <span class="n">array1</span><span class="p">(</span><span class="n">hash</span><span class="p">)</span> <span class="o">=</span> <span class="n">source</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">hash</span>
+<span class="k">end program </span><span class="n">demo_fibonacci_hash</span>
+</code></pre></div>
+
+<h4 id="fnv_1-calculates-a-hash-code-from-a-key"><code>FNV_1</code>- calculates a hash code from a key</h4>
+<h5 id="status_12">Status</h5>
+<p>Experimental</p>
+<h5 id="description_12">Description</h5>
+<p>Calculates a 64-bit hash code from a rank-1 integer array or a default
+character string.</p>
+<h5 id="syntax_12">Syntax</h5>
+<p><code>code = <a href="../../module/stdlib_hash_64bit.html#interface-fnv_1_hash~2">fnv_1_hash</a>( key )</code></p>
+<h5 id="class_12">Class</h5>
+<p>Pure/elemental function</p>
+<h5 id="argument_6">Argument</h5>
+<p><code>key</code>: Shall be a deferred length default character scalar expression
+or a rank-1 integer array expression of kind <code>int8</code>, <code>int16</code>,
+<code>int32</code>, or <code>int64</code>.
+It is an <code>intent(in)</code> argument.</p>
+<h5 id="result_8">Result</h5>
+<p>The result is a scalar integer of kind <code>int64</code>.</p>
+<h5 id="note_12">Note</h5>
+<p><code>FNV_1</code> is an implementation of the original FNV-1 hash code of Glenn
+Fowler, Landon Curt Noll, and Phong Vo.
+It differs from typical implementations in that it also ecodes the
+size of the structure in the hash code.
+This code is relatively fast on short keys, and is small enough that it
+will often be retained in the instruction cache if hashing is
+intermittent.
+As a result it should give good performance for typical hash table
+applications, although it is rare for them to need 64 bits.
+This code does not pass any of the SMHasher tests, but the resulting
+degradation in performance due to its larger number of collisions is
+expected to be minor compared to its faster hashing rate.
+It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
+function for character strings.</p>
+<h5 id="example_12">Example</h5>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_fnv_1_hash</span>
+  <span class="k">use </span><span class="n">stdlib_hash_64bit</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">fnv_1_hash</span>
+    <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">int64</span>
+  <span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">array1</span><span class="p">(:)</span>
+  <span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hash</span>
+  <span class="n">array1</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+  <span class="n">hash</span> <span class="o">=</span> <span class="n">fnv_1_hash</span><span class="p">(</span><span class="n">array1</span><span class="p">)</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">hash</span>
+<span class="k">end program </span><span class="n">demo_fnv_1_hash</span>
+</code></pre></div>
+
+<h4 id="fnv_1a-calculates-a-hash-code-from-a-key"><code>FNV_1A</code>- calculates a hash code from a key</h4>
+<h5 id="status_13">Status</h5>
+<p>Experimental</p>
+<h5 id="description_13">Description</h5>
+<p>Calculates a 64-bit hash code from a rank-1 integer array or a default
+character string.</p>
+<h5 id="syntax_13">Syntax</h5>
+<p><code>code = <a href="../../module/stdlib_hash_64bit.html#interface-fnv_1a_hash~2">fnv_1a_hash</a>( key )</code></p>
+<h5 id="class_13">Class</h5>
+<p>Pure/elemental function</p>
+<h5 id="argument_7">Argument</h5>
+<p><code>key</code>: Shall be a deferred length default character scalar expression
+or a rank-1 integer array expression of kind <code>int8</code>, <code>int16</code>,
+<code>int32</code>, or <code>int64</code>.
+It is an <code>intent(in)</code> argument.</p>
+<h5 id="result_9">Result</h5>
+<p>The result is a scalar integer of kind <code>int32</code>.</p>
+<h5 id="note_13">Note</h5>
+<p><code>FNV_1A</code> is an implementation of the alternative FNV-1a hash code of
+Glenn Fowler, Landon Curt Noll, and Phong Vo.
+It differs from typical implementations in that it also encodes the
+size of the structure in the hash code.
+This code is relatively fast on short keys, and is small enough that it
+will often be retained in the instruction cache if hashing is
+intermittent.
+As a result it should give good performance for typical hash table
+applications.
+This code does not pass any of the SMHasher tests, but the resulting
+degradation in performance due to its larger number of collisions is
+expected to be minor compared to its faster hashing rate.
+It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
+function for character strings.</p>
+<h5 id="example_13">Example</h5>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_fnv_1a_hash</span>
+  <span class="k">use </span><span class="n">stdlib_hash_64bit</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">fnv_1a_hash</span>
+  <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">int64</span>
+  <span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">array1</span><span class="p">(:)</span>
+  <span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hash</span>
+  <span class="n">array1</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+  <span class="n">hash</span> <span class="o">=</span> <span class="n">fnv_1a_hash</span><span class="p">(</span><span class="n">array1</span><span class="p">)</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">hash</span>
+<span class="k">end program </span><span class="n">demo_fnv_1a_hash</span>
+</code></pre></div>
+
+<h4 id="new_pengy_hash_seed-returns-a-valid-input-seed-for-pengy_hash"><code>new_pengy_hash_seed</code>- returns a valid input seed for <code>pengy_hash</code></h4>
+<h5 id="status_14">Status</h5>
+<p>Experimental</p>
+<h5 id="description_14">Description</h5>
+<p>Calculates a 32-bit "random" integer that is believed to be a valid
+seed for <code>pengy_hash</code> and is also different from the input seed.</p>
+<h5 id="syntax_14">Syntax</h5>
+<p><code>code = call <a href="../../module/stdlib_hash_64bit.html#interface-new_pengy_hash_seed">new_pengy_hash_seed</a>( seed )</code></p>
+<h5 id="class_14">Class</h5>
+<p>Subroutine</p>
+<h5 id="argument_8">Argument</h5>
+<p><code>seed</code>: shall be a defined integer scalar variable of kind <code>int32</code>.
+It is an <code>intent(inout)</code> argument. On input <code>seed</code> should be defined,
+and on output it will be different from the input <code>seed</code>.</p>
+<h5 id="note_14">Note</h5>
+<p>Currently there are no known bad seeds for <code>pengy_hash</code>, but if any are
+identified the procedure will be revised so that they cannot be
+returned.  This subroutine uses Fortran's intrinsic
+ <code>random_number</code> and the values returned can be changed by calling the
+ intrinsic <code>random_init</code>.</p>
+<h5 id="example_14">Example</h5>
+<p>See the example for <code>pengy_hash</code>.</p>
+<h4 id="new_spooky_hash_seed-returns-a-valid-input-seed-for-spooky_hash"><code>new_spooky_hash_seed</code>- returns a valid input seed for <code>spooky_hash</code></h4>
+<h5 id="status_15">Status</h5>
+<p>Experimental</p>
+<h5 id="description_15">Description</h5>
+<p>Calculates a 32-bit two element vector of "random" integer values that
+is believed to be a valid seed for <code>spooky_hash</code> and is also different
+from the input seed.</p>
+<h5 id="syntax_15">Syntax</h5>
+<p><code>code = call <a href="../../module/stdlib_hash_64bit.html#interface-new_spooky_hash_seed">new_spooky_hash_seed</a>( seed )</code></p>
+<h5 id="class_15">Class</h5>
+<p>Subroutine</p>
+<h5 id="argument_9">Argument</h5>
+<p><code>seed</code>: shall be a defined two element integer vector variable of kind
+<code>int32</code>. It is an <code>intent(inout)</code> argument. On input <code>seed</code> should be
+defined, and on output it will be different from the input <code>seed</code>.</p>
+<h5 id="note_15">Note</h5>
+<p>Currently there are no known bad seeds for <code>spooky_hash</code>, but if any are
+identified the procedure will be revised so that they cannot be
+returned.  This subroutine uses Fortran's intrinsic
+ <code>random_number</code> and the values returned can be changed by calling the
+ intrinsic <code>random_init</code>.</p>
+<h5 id="example_15">Example</h5>
+<p>See the example for <code>spooky_hash</code>.</p>
+<h4 id="odd_random_integer-returns-odd-integer"><code>odd_random_integer</code> - returns odd integer</h4>
+<h5 id="status_16">Status</h5>
+<p>Experimental</p>
+<h5 id="description_16">Description</h5>
+<p>Returns a random 64-bit integer distributed uniformly over the odd values.</p>
+<h5 id="syntax_16">Syntax</h5>
+<p><code>call <a href="../../module/stdlib_hash_64bit.html#proc-odd_random_integer~2">odd_random_integer</a>( harvest )</code></p>
+<h5 id="class_16">Class</h5>
+<p>Subroutine</p>
+<h5 id="argument_10">Argument</h5>
+<p><code>harvest</code>: Shall be an integer of kind <code>int64</code>. It is an <code>intent(out)</code>
+argument.</p>
+<h5 id="note_16">Note</h5>
+<p><code>odd_random_integer</code> is intended to generate seeds for
+ <code>universal_mult_hash</code>. <code>odd_random_integer</code> uses Fortran's intrinsic
+ <code>random_number</code> and the values returned can be changed by calling the
+ intrinsic <code>random_init</code>.</p>
+<h5 id="example_16">Example</h5>
+<p>See <code>universal_mult_hash</code>.</p>
+<h4 id="pengy_hash-maps-a-character-string-or-integer-vector-to-an-integer"><code>pengy_hash</code> - maps a character string or integer vector to an integer</h4>
+<h5 id="status_17">Status</h5>
+<p>Experimental</p>
+<h5 id="description_17">Description</h5>
+<p>Maps a character string or integer vector to a 64-bit integer whose
+value also depends on a scalar 32-bit integer, <code>seed</code>.</p>
+<h5 id="syntax_17">Syntax</h5>
+<p><code>code = <a href="../../module/stdlib_hash_64bit.html#interface-pengy_hash">pengy_hash</a>( key, seed )</code></p>
+<h5 id="class_17">Class</h5>
+<p>Pure/elemental function</p>
+<h5 id="arguments_6">Arguments</h5>
+<p><code>key</code>: shall be a scalar  expression of type default character or a
+rank-1 integer vector expression of kind <code>int8</code>, <code>int16</code>, <code>int32</code>, or
+<code>int64</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>seed</code>: shall be an integer expression of kind <code>int64</code>. It is
+an <code>intent(in)</code> argument.</p>
+<h5 id="result_10">Result</h5>
+<p>The result is an integer of kind <code>int64</code>.</p>
+<h5 id="note_17">Note</h5>
+<p><code>pengy_hash</code> is an implementation of the 64-bit <code>pengyhash</code> of Alberto
+Fajardo. The hash has acceptable performance on small keys, and good
+performance on long keys. It passes all the SMHasher tests, and has
+no known bad seeds.
+It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
+function for character strings.</p>
+<h5 id="example_17">Example</h5>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_pengy_hash</span>
+  <span class="k">use </span><span class="n">stdlib_hash_64bit</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">new_pengy_hash_seed</span><span class="p">,</span> <span class="n">pengy_hash</span>
+  <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">int32</span><span class="p">,</span> <span class="n">int64</span>
+  <span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">key</span><span class="p">(:)</span>
+  <span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hash</span>
+  <span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span>  <span class="kd">::</span>  <span class="n">seed</span>
+  <span class="n">key</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="p">]</span>
+  <span class="n">seed</span> <span class="o">=</span> <span class="mi">0_int32</span>
+  <span class="k">call </span><span class="n">new_pengy_hash_seed</span><span class="p">(</span> <span class="n">seed</span> <span class="p">)</span>
+  <span class="n">hash</span> <span class="o">=</span> <span class="n">pengy_hash</span><span class="p">(</span> <span class="n">key</span><span class="p">,</span> <span class="n">seed</span> <span class="p">)</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">hash</span>
+<span class="k">end program </span><span class="n">demo_pengy_hash</span>
+</code></pre></div>
+
+<h4 id="spooky_hash-maps-a-character-string-or-integer-vector-to-an-integer"><code>spooky_hash</code> - maps a character string or integer vector to an integer</h4>
+<h5 id="status_18">Status</h5>
+<p>Experimental</p>
+<h5 id="description_18">Description</h5>
+<p>Maps a character string or integer vector to a 64-bit integer whose
+value also depends on a two element vector,  <code>seed</code>.</p>
+<h5 id="syntax_18">Syntax</h5>
+<p><code>code = <a href="../../module/stdlib_hash_64bit.html#interface-spooky_hash">spooky_hash</a>( key, seed )</code></p>
+<h5 id="class_18">Class</h5>
+<p>Function</p>
+<h5 id="arguments_7">Arguments</h5>
+<p><code>key</code>: shall be a scalar of type default character expression or a
+rank-1 integer vector expression of kind <code>int8</code>, <code>int16</code>, <code>int32</code>, or
+<code>int64</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>seed</code>: shall be a two element integer vector expression of kind
+<code>int64</code>. It is an <code>intent(in)</code> argument.</p>
+<h5 id="result_11">Result</h5>
+<p>The result is a two element integer vector of kind <code>int64</code>.</p>
+<h5 id="note_18">Note</h5>
+<p><code>spooky_hash</code> is an implementation of the 64-bit version 2 of
+SpookyHash of Bob Jenkins. The code was designed for little-endian
+compilers. The output is different on big-endian compilers, but still
+probably as good quality. It is often used as a 64-bit hash using the
+first element of the returned value, but can be used as a 128 bit
+hash. This version of <code>spooky_hash</code> has good performance on small keys
+and excellent performance on long keys. It passes all the SMHasher tests
+and has no known bad seeds.</p>
+<h5 id="example_18">Example</h5>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_spooky_hash</span>
+  <span class="k">use </span><span class="n">stdlib_hash_64bit</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">new_spooky_hash_seed</span><span class="p">,</span> <span class="p">&amp;</span>
+    <span class="n">spooky_hash</span>
+  <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">int64</span>
+  <span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">key</span><span class="p">(:)</span>
+  <span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hash</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">seed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">key</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="p">]</span>
+  <span class="n">seed</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">119_int64</span><span class="p">,</span> <span class="mi">2_int64</span><span class="o">**</span><span class="mi">41</span><span class="o">-</span><span class="mi">1</span> <span class="p">]</span>
+  <span class="k">call </span><span class="n">new_spooky_hash_seed</span><span class="p">(</span> <span class="n">seed</span> <span class="p">)</span>
+  <span class="n">hash</span> <span class="o">=</span> <span class="n">spooky_hash</span><span class="p">(</span> <span class="n">key</span><span class="p">,</span> <span class="n">seed</span> <span class="p">)</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">hash</span>
+<span class="k">end program </span><span class="n">demo_spooky_hash</span>
+</code></pre></div>
+
+<h4 id="universal_mult_hash-maps-an-integer-to-a-smaller-number-of-bits_1"><code>universal_mult_hash</code> - maps an integer to a smaller number of bits</h4>
+<h5 id="status_19">Status</h5>
+<p>Experimental</p>
+<h5 id="description_19">Description</h5>
+<p>Calculates an <code>nbits</code> hash code from a 64-bit integer. This is useful
+in mapping a hash value to a range 0 to <code>2**nbits-1</code>.</p>
+<h5 id="syntax_19">Syntax</h5>
+<p><code>code = <a href="../../module/stdlib_hash_64bit.html#proc-universal_mult_hash~2">universal_mult_hash</a>( key, seed, nbits )</code></p>
+<h5 id="class_19">Class</h5>
+<p>Elemental function</p>
+<h5 id="arguments_8">Arguments</h5>
+<p><code>key</code>: Shall be an integer of kind <code>int64</code>. It is an <code>intent(in)</code>
+argument.</p>
+<p><code>seed</code>: Shall be an integer of kind <code>int64</code>. It is an <code>intent(in)</code>
+argument. It should be an odd value.</p>
+<p><code>nbits</code> Shall be a default integer with <code>0 &lt; nbits &lt; 64</code>. It is an
+<code>intent(in)</code> argument.  It must be an odd integer.</p>
+<h5 id="result_12">Result</h5>
+<p>The result is an integer of kind <code>int64</code> with at most the lowest
+<code>nbits</code> nonzero.</p>
+<h5 id="note_19">Note</h5>
+<p><code>universal_mult_hash</code> is an implementation of the Universal
+Multiplicative Hash of M. Dietzfelbinger, et al.
+It multiplies the <code>key</code> by <code>seed</code>, and returns the
+<code>nbits</code> upper bits of the product as the lowest bits of the result.</p>
+<h5 id="example_19">Example</h5>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_universal_mult_hash</span>
+  <span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">odd_random_integer</span><span class="p">,</span> <span class="p">&amp;</span>
+    <span class="n">universal_mult_hash</span>
+  <span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">int64</span>
+  <span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">array1</span><span class="p">(:)</span>
+  <span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hash</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">source</span>
+  <span class="n">seed</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">allocate</span><span class="p">(</span> <span class="n">array1</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+  <span class="n">array1</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">call </span><span class="n">odd_random_integer</span><span class="p">(</span> <span class="n">seed</span> <span class="p">)</span>
+  <span class="n">source</span> <span class="o">=</span> <span class="mi">42_int64</span>
+  <span class="n">hash</span> <span class="o">=</span> <span class="n">universal_mult_hash</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+  <span class="n">array1</span><span class="p">(</span><span class="n">hash</span><span class="p">)</span> <span class="o">=</span> <span class="n">source</span>
+  <span class="k">print</span> <span class="o">*</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">hash</span><span class="p">,</span> <span class="n">array1</span>
+<span class="k">end program </span><span class="n">demo_universal_mult_hash</span>
+</code></pre></div>
+
+<h3 id="test-codes">Test Codes</h3>
+<p>The Fortran Standard Library provides two categories of test
+codes. One category is tests of the relative performance of the
+various hash functions. The other is a comparison of the outputs of
+the Fortran hash functions, with the outputs of the C and C++ hash
+procedures that are the inspiration for the Fortran hash functions.</p>
+<p>In the <code>src/test/hash_functions_perf</code> subdirectory, the Fortran Standard
+Library provides two performance test codes for
+the hash functions of <code>stdlib_hash_32bit</code> and
+<code>stdlib_hash_64bit</code>, <code>test_32_bit_hash_performance</code> and
+<code>test_64_bit_hash_performance</code> respectively. These are primarily set
+up to test runtime performance of the functions. They take a sample of
+<code>2**18</code> integers of kind <code>int8</code> and break it up into vectors of size
+1, 2, 4, 8, 16, 64,  256, and 1024 elements, yielding <code>2**18</code>,
+<code>2**17</code>, <code>2**16</code>, <code>2**15</code>, <code>2**14</code>, <code>2**12</code>, <code>2**10</code>, and <code>2**8</code>
+vectors respectively. These are then processed by the hash functions
+4 times, and the time for processing is reported. Testing so far has
+been on a MacBook Pro with a 2.3 GHz Quad-Core Intel Core i5 and 8 GB
+2133 MHz LPDDR3 of RAM, using GNU Fortran (GCC) 11.1.0 to compile the
+code. The results for <code>test_32_bit_hash_performance</code> is given by the
+following table:</p>
+<p>| Algorithm  | Key Size  | Key #      | Time (s) |
+|            | Bytes     |            |          |
+|------------|-----------|------------|----------|
+|     FNV-1  |       1   |    1048576 |  0.02949 |
+|     FNV-1  |       2   |     524288 |  0.02361 |
+|     FNV-1  |       4   |     262144 |  0.02016 |
+|     FNV-1  |       8   |     131072 |  0.01806 |
+|     FNV-1  |      16   |      65536 |  0.01867 |
+|     FNV-1  |      64   |      16384 |  0.01717 |
+|     FNV-1  |     256   |       4096 |  0.01759 |
+|     FNV-1  |    1024   |       1024 |  0.01659 |
+|    FNV-1a  |       1   |    1048576 |  0.02897 |
+|    FNV-1a  |       2   |     524288 |  0.02472 |
+|    FNV-1a  |       4   |     262144 |  0.02025 |
+|    FNV-1a  |       8   |     131072 |  0.01901 |
+|    FNV-1a  |      16   |      65536 |  0.01898 |
+|    FNV-1a  |      64   |      16384 |  0.01784 |
+|    FNV-1a  |     256   |       4096 |  0.01723 |
+|    FNV-1a  |    1024   |       1024 |  0.01673 |
+|  nmhash32  |       1   |    1048576 |  0.31092 |
+|  nmhash32  |       2   |     524288 |  0.16230 |
+|  nmhash32  |       4   |     262144 |  0.07815 |
+|  nmhash32  |       8   |     131072 |  0.04176 |
+|  nmhash32  |      16   |      65536 |  0.09261 |
+|  nmhash32  |      64   |      16384 |  0.04587 |
+|  nmhash32  |     256   |       4096 |  0.07238 |
+|  nmhash32  |    1024   |       1024 |  0.07263 |
+| nmhash32x  |       1   |    1048576 |  0.04294 |
+| nmhash32x  |       2   |     524288 |  0.02937 |
+| nmhash32x  |       4   |     262144 |  0.01096 |
+| nmhash32x  |       8   |     131072 |  0.00911 |
+| nmhash32x  |      16   |      65536 |  0.01291 |
+| nmhash32x  |      64   |      16384 |  0.00859 |
+| nmhash32x  |     256   |       4096 |  0.07373 |
+| nmhash32x  |    1024   |       1024 |  0.07618 |
+|     water  |       1   |    1048576 |  0.12560 |
+|     water  |       2   |     524288 |  0.06302 |
+|     water  |       4   |     262144 |  0.04020 |
+|     water  |       8   |     131072 |  0.01999 |
+|     water  |      16   |      65536 |  0.01459 |
+|     water  |      64   |      16384 |  0.00923 |
+|     water  |     256   |       4096 |  0.00816 |
+|     water  |    1024   |       1024 |  0.00792 |</p>
+<p>while for <code>test_64_bit_hash_performance</code> the results are:</p>
+<p>| Algorithm  | Key Size  | Key #      | Time (s) |
+|            | Bytes     |            |          |
+|------------|-----------|------------|----------|
+|     FNV-1  |       1   |    1048576 |  0.02981 |
+|     FNV-1  |       2   |     524288 |  0.02697 |
+|     FNV-1  |       4   |     262144 |  0.02275 |
+|     FNV-1  |       8   |     131072 |  0.02431 |
+|     FNV-1  |      16   |      65536 |  0.02158 |
+|     FNV-1  |      64   |      16384 |  0.02007 |
+|     FNV-1  |     256   |       4096 |  0.01932 |
+|     FNV-1  |    1024   |       1024 |  0.02089 |
+|    FNV-1a  |       1   |    1048576 |  0.03226 |
+|    FNV-1a  |       2   |     524288 |  0.03076 |
+|    FNV-1a  |       4   |     262144 |  0.02359 |
+|    FNV-1a  |       8   |     131072 |  0.02542 |
+|    FNV-1a  |      16   |      65536 |  0.02364 |
+|    FNV-1a  |      64   |      16384 |  0.02130 |
+|    FNV-1a  |     256   |       4096 |  0.01962 |
+|    FNV-1a  |    1024   |       1024 |  0.01966 |
+|     Pengy  |       1   |    1048576 |  0.24294 |
+|     Pengy  |       2   |     524288 |  0.12066 |
+|     Pengy  |       4   |     262144 |  0.06205 |
+|     Pengy  |       8   |     131072 |  0.03138 |
+|     Pengy  |      16   |      65536 |  0.01608 |
+|     Pengy  |      64   |      16384 |  0.00669 |
+|     Pengy  |     256   |       4096 |  0.00387 |
+|     Pengy  |    1024   |       1024 |  0.00295 |
+|    Spooky  |       1   |    1048576 |  0.11920 |
+|    Spooky  |       2   |     524288 |  0.07478 |
+|    Spooky  |       4   |     262144 |  0.03185 |
+|    Spooky  |       8   |     131072 |  0.01468 |
+|    Spooky  |      16   |      65536 |  0.01503 |
+|    Spooky  |      64   |      16384 |  0.00440 |
+|    Spooky  |     256   |       4096 |  0.00290 |
+|    Spooky  |    1024   |       1024 |  0.00177 |</p>
+<p>As the tested function will typically reside in the instruction cache
+these results do not include the costs of reloading the procedure if
+hashing is intermittent. If hashing is intermittent then that can more
+severely impact the performance of  <code>nmhash32</code>, <code>nmhash32x</code>,
+<code>water_hash</code>, <code>pengy_hash</code>, and <code>spooky_hash</code> relative to
+<code>fnv_1_hash</code> and <code>fnv_1a_hash</code>.</p>
+<p>In the <code>src/test/hash_functions</code> subdirectory, the Fortran
+Standard Library contains codes to test the validity of
+the Fortran codes against the original C and C++ codes. It consists of one
+executable <code>test_hash_functions</code> that
+1) generates a random sequence of 2048
+integers of kind <code>int8</code>, and stores that sequence in the binary file
+<code>key_array.bin</code>;
+2) reads the values in <code>key_array.bin</code>, and, for each complicated C/C++-coded
+hash procedure, generates a corresponding binary file containing 2049 hash
+values generated from the values in <code>key_array.bin</code>., and
+3) reads the binary files, and, for each complicated C/C++-coded hash procedure,
+compares the contents of the binary file
+with the results of calculating hash values using the corresponding
+Fortran hash procedure on the same keys.</p>
+    </div>
+    
+    <div class="col-md-3 col-md-pull-9">
+      <hr class="visible-xs visible-sm">
+        <div class="well toc">
+          <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../../page/index.html'>Contributing and specs</a></li>
+          </ul>
+          <hr>
+          <ul class="nav nav-stacked nav-pills">
+            
+            <li role="presentation">
+            <a href='../../page/./License.html'>Fortran stdlib License (MIT)</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/./changelog.html'>Changelog</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/index.html'>Contributing</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../page/contributing/CodeOfConduct.html'>Contributor Code of Conduct</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/StyleGuide.html'>Style Guide</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/contributing/Workflow.html'>Workflow for Contributors</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/index.html'>Specifications (specs)</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_array.html'>array</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_ascii.html'>ASCII</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_bitsets.html'>Bitsets</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_error.html'>error</a>
+            
+            </li>
+            
+            <li role="presentation" class="disabled">
+            <a href='../../page/specs/stdlib_hash_procedures.html'>Hash procedures</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_io.html'>IO</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_kinds.html'>kinds</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_linalg.html'>linalg</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_logger.html'>logger</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_math.html'>math</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_optval.html'>optval</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_quadrature.html'>quadrature</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_random.html'>stats_random</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_selection.html'>Selection Procedures</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_sorting.html'>Sorting Procedures</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_specialfunctions.html'>specialfunctions</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stats.html'>stats</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stats_distribution_normal.html'>stats_distribution_normal</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stats_distribution_uniform.html'>stats_distribution_uniform</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_string_type.html'>string type</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_stringlist_type.html'>stringlist type</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_strings.html'>string handling</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../page/specs/stdlib_version.html'>Version information</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+          </ul>
+        </div>
+    </div>
+    
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+                                          <br /><small>9f1aa24</small></p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+             on 2021-12-22 18:05  
+            
+          </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>
