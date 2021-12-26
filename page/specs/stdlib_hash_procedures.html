@@ -1712,85 +1712,463 @@ been on a MacBook Pro with a 2.3 GHz Quad-Core Intel Core i5 and 8 GB
 2133 MHz LPDDR3 of RAM, using GNU Fortran (GCC) 11.1.0 to compile the
 code. The results for <code>test_32_bit_hash_performance</code> is given by the
 following table:</p>
-<p>| Algorithm  | Key Size  | Key #      | Time (s) |
-|            | Bytes     |            |          |
-|------------|-----------|------------|----------|
-|     FNV-1  |       1   |    1048576 |  0.02949 |
-|     FNV-1  |       2   |     524288 |  0.02361 |
-|     FNV-1  |       4   |     262144 |  0.02016 |
-|     FNV-1  |       8   |     131072 |  0.01806 |
-|     FNV-1  |      16   |      65536 |  0.01867 |
-|     FNV-1  |      64   |      16384 |  0.01717 |
-|     FNV-1  |     256   |       4096 |  0.01759 |
-|     FNV-1  |    1024   |       1024 |  0.01659 |
-|    FNV-1a  |       1   |    1048576 |  0.02897 |
-|    FNV-1a  |       2   |     524288 |  0.02472 |
-|    FNV-1a  |       4   |     262144 |  0.02025 |
-|    FNV-1a  |       8   |     131072 |  0.01901 |
-|    FNV-1a  |      16   |      65536 |  0.01898 |
-|    FNV-1a  |      64   |      16384 |  0.01784 |
-|    FNV-1a  |     256   |       4096 |  0.01723 |
-|    FNV-1a  |    1024   |       1024 |  0.01673 |
-|  nmhash32  |       1   |    1048576 |  0.31092 |
-|  nmhash32  |       2   |     524288 |  0.16230 |
-|  nmhash32  |       4   |     262144 |  0.07815 |
-|  nmhash32  |       8   |     131072 |  0.04176 |
-|  nmhash32  |      16   |      65536 |  0.09261 |
-|  nmhash32  |      64   |      16384 |  0.04587 |
-|  nmhash32  |     256   |       4096 |  0.07238 |
-|  nmhash32  |    1024   |       1024 |  0.07263 |
-| nmhash32x  |       1   |    1048576 |  0.04294 |
-| nmhash32x  |       2   |     524288 |  0.02937 |
-| nmhash32x  |       4   |     262144 |  0.01096 |
-| nmhash32x  |       8   |     131072 |  0.00911 |
-| nmhash32x  |      16   |      65536 |  0.01291 |
-| nmhash32x  |      64   |      16384 |  0.00859 |
-| nmhash32x  |     256   |       4096 |  0.07373 |
-| nmhash32x  |    1024   |       1024 |  0.07618 |
-|     water  |       1   |    1048576 |  0.12560 |
-|     water  |       2   |     524288 |  0.06302 |
-|     water  |       4   |     262144 |  0.04020 |
-|     water  |       8   |     131072 |  0.01999 |
-|     water  |      16   |      65536 |  0.01459 |
-|     water  |      64   |      16384 |  0.00923 |
-|     water  |     256   |       4096 |  0.00816 |
-|     water  |    1024   |       1024 |  0.00792 |</p>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th align="center">Key Size Bytes</th>
+<th align="center">Key #</th>
+<th align="center">Time (s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FNV-1</td>
+<td align="center">1</td>
+<td align="center">1048576</td>
+<td align="center">0.02949</td>
+</tr>
+<tr>
+<td>FNV-1</td>
+<td align="center">2</td>
+<td align="center">524288</td>
+<td align="center">0.02361</td>
+</tr>
+<tr>
+<td>FNV-1</td>
+<td align="center">4</td>
+<td align="center">262144</td>
+<td align="center">0.02016</td>
+</tr>
+<tr>
+<td>FNV-1</td>
+<td align="center">8</td>
+<td align="center">131072</td>
+<td align="center">0.01806</td>
+</tr>
+<tr>
+<td>FNV-1</td>
+<td align="center">16</td>
+<td align="center">65536</td>
+<td align="center">0.01867</td>
+</tr>
+<tr>
+<td>FNV-1</td>
+<td align="center">64</td>
+<td align="center">16384</td>
+<td align="center">0.01717</td>
+</tr>
+<tr>
+<td>FNV-1</td>
+<td align="center">256</td>
+<td align="center">4096</td>
+<td align="center">0.01759</td>
+</tr>
+<tr>
+<td>FNV-1</td>
+<td align="center">1024</td>
+<td align="center">1024</td>
+<td align="center">0.01659</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">1</td>
+<td align="center">1048576</td>
+<td align="center">0.02897</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">2</td>
+<td align="center">524288</td>
+<td align="center">0.02472</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">4</td>
+<td align="center">262144</td>
+<td align="center">0.02025</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">8</td>
+<td align="center">131072</td>
+<td align="center">0.01901</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">16</td>
+<td align="center">65536</td>
+<td align="center">0.01898</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">64</td>
+<td align="center">16384</td>
+<td align="center">0.01784</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">256</td>
+<td align="center">4096</td>
+<td align="center">0.01723</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">1024</td>
+<td align="center">1024</td>
+<td align="center">0.01673</td>
+</tr>
+<tr>
+<td>nmhash32</td>
+<td align="center">1</td>
+<td align="center">1048576</td>
+<td align="center">0.31092</td>
+</tr>
+<tr>
+<td>nmhash32</td>
+<td align="center">2</td>
+<td align="center">524288</td>
+<td align="center">0.16230</td>
+</tr>
+<tr>
+<td>nmhash32</td>
+<td align="center">4</td>
+<td align="center">262144</td>
+<td align="center">0.07815</td>
+</tr>
+<tr>
+<td>nmhash32</td>
+<td align="center">8</td>
+<td align="center">131072</td>
+<td align="center">0.04176</td>
+</tr>
+<tr>
+<td>nmhash32</td>
+<td align="center">16</td>
+<td align="center">65536</td>
+<td align="center">0.09261</td>
+</tr>
+<tr>
+<td>nmhash32</td>
+<td align="center">64</td>
+<td align="center">16384</td>
+<td align="center">0.04587</td>
+</tr>
+<tr>
+<td>nmhash32</td>
+<td align="center">256</td>
+<td align="center">4096</td>
+<td align="center">0.07238</td>
+</tr>
+<tr>
+<td>nmhash32</td>
+<td align="center">1024</td>
+<td align="center">1024</td>
+<td align="center">0.07263</td>
+</tr>
+<tr>
+<td>nmhash32x</td>
+<td align="center">1</td>
+<td align="center">1048576</td>
+<td align="center">0.04294</td>
+</tr>
+<tr>
+<td>nmhash32x</td>
+<td align="center">2</td>
+<td align="center">524288</td>
+<td align="center">0.02937</td>
+</tr>
+<tr>
+<td>nmhash32x</td>
+<td align="center">4</td>
+<td align="center">262144</td>
+<td align="center">0.01096</td>
+</tr>
+<tr>
+<td>nmhash32x</td>
+<td align="center">8</td>
+<td align="center">131072</td>
+<td align="center">0.00911</td>
+</tr>
+<tr>
+<td>nmhash32x</td>
+<td align="center">16</td>
+<td align="center">65536</td>
+<td align="center">0.01291</td>
+</tr>
+<tr>
+<td>nmhash32x</td>
+<td align="center">64</td>
+<td align="center">16384</td>
+<td align="center">0.00859</td>
+</tr>
+<tr>
+<td>nmhash32x</td>
+<td align="center">256</td>
+<td align="center">4096</td>
+<td align="center">0.07373</td>
+</tr>
+<tr>
+<td>nmhash32x</td>
+<td align="center">1024</td>
+<td align="center">1024</td>
+<td align="center">0.07618</td>
+</tr>
+<tr>
+<td>water</td>
+<td align="center">1</td>
+<td align="center">1048576</td>
+<td align="center">0.12560</td>
+</tr>
+<tr>
+<td>water</td>
+<td align="center">2</td>
+<td align="center">524288</td>
+<td align="center">0.06302</td>
+</tr>
+<tr>
+<td>water</td>
+<td align="center">4</td>
+<td align="center">262144</td>
+<td align="center">0.04020</td>
+</tr>
+<tr>
+<td>water</td>
+<td align="center">8</td>
+<td align="center">131072</td>
+<td align="center">0.01999</td>
+</tr>
+<tr>
+<td>water</td>
+<td align="center">16</td>
+<td align="center">65536</td>
+<td align="center">0.01459</td>
+</tr>
+<tr>
+<td>water</td>
+<td align="center">64</td>
+<td align="center">16384</td>
+<td align="center">0.00923</td>
+</tr>
+<tr>
+<td>water</td>
+<td align="center">256</td>
+<td align="center">4096</td>
+<td align="center">0.00816</td>
+</tr>
+<tr>
+<td>water</td>
+<td align="center">1024</td>
+<td align="center">1024</td>
+<td align="center">0.00792</td>
+</tr>
+</tbody>
+</table>
 <p>while for <code>test_64_bit_hash_performance</code> the results are:</p>
-<p>| Algorithm  | Key Size  | Key #      | Time (s) |
-|            | Bytes     |            |          |
-|------------|-----------|------------|----------|
-|     FNV-1  |       1   |    1048576 |  0.02981 |
-|     FNV-1  |       2   |     524288 |  0.02697 |
-|     FNV-1  |       4   |     262144 |  0.02275 |
-|     FNV-1  |       8   |     131072 |  0.02431 |
-|     FNV-1  |      16   |      65536 |  0.02158 |
-|     FNV-1  |      64   |      16384 |  0.02007 |
-|     FNV-1  |     256   |       4096 |  0.01932 |
-|     FNV-1  |    1024   |       1024 |  0.02089 |
-|    FNV-1a  |       1   |    1048576 |  0.03226 |
-|    FNV-1a  |       2   |     524288 |  0.03076 |
-|    FNV-1a  |       4   |     262144 |  0.02359 |
-|    FNV-1a  |       8   |     131072 |  0.02542 |
-|    FNV-1a  |      16   |      65536 |  0.02364 |
-|    FNV-1a  |      64   |      16384 |  0.02130 |
-|    FNV-1a  |     256   |       4096 |  0.01962 |
-|    FNV-1a  |    1024   |       1024 |  0.01966 |
-|     Pengy  |       1   |    1048576 |  0.24294 |
-|     Pengy  |       2   |     524288 |  0.12066 |
-|     Pengy  |       4   |     262144 |  0.06205 |
-|     Pengy  |       8   |     131072 |  0.03138 |
-|     Pengy  |      16   |      65536 |  0.01608 |
-|     Pengy  |      64   |      16384 |  0.00669 |
-|     Pengy  |     256   |       4096 |  0.00387 |
-|     Pengy  |    1024   |       1024 |  0.00295 |
-|    Spooky  |       1   |    1048576 |  0.11920 |
-|    Spooky  |       2   |     524288 |  0.07478 |
-|    Spooky  |       4   |     262144 |  0.03185 |
-|    Spooky  |       8   |     131072 |  0.01468 |
-|    Spooky  |      16   |      65536 |  0.01503 |
-|    Spooky  |      64   |      16384 |  0.00440 |
-|    Spooky  |     256   |       4096 |  0.00290 |
-|    Spooky  |    1024   |       1024 |  0.00177 |</p>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th align="center">Key Size Bytes</th>
+<th align="center">Key #</th>
+<th align="center">Time (s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FNV-1</td>
+<td align="center">1</td>
+<td align="center">1048576</td>
+<td align="center">0.02981</td>
+</tr>
+<tr>
+<td>FNV-1</td>
+<td align="center">2</td>
+<td align="center">524288</td>
+<td align="center">0.02697</td>
+</tr>
+<tr>
+<td>FNV-1</td>
+<td align="center">4</td>
+<td align="center">262144</td>
+<td align="center">0.02275</td>
+</tr>
+<tr>
+<td>FNV-1</td>
+<td align="center">8</td>
+<td align="center">131072</td>
+<td align="center">0.02431</td>
+</tr>
+<tr>
+<td>FNV-1</td>
+<td align="center">16</td>
+<td align="center">65536</td>
+<td align="center">0.02158</td>
+</tr>
+<tr>
+<td>FNV-1</td>
+<td align="center">64</td>
+<td align="center">16384</td>
+<td align="center">0.02007</td>
+</tr>
+<tr>
+<td>FNV-1</td>
+<td align="center">256</td>
+<td align="center">4096</td>
+<td align="center">0.01932</td>
+</tr>
+<tr>
+<td>FNV-1</td>
+<td align="center">1024</td>
+<td align="center">1024</td>
+<td align="center">0.02089</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">1</td>
+<td align="center">1048576</td>
+<td align="center">0.03226</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">2</td>
+<td align="center">524288</td>
+<td align="center">0.03076</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">4</td>
+<td align="center">262144</td>
+<td align="center">0.02359</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">8</td>
+<td align="center">131072</td>
+<td align="center">0.02542</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">16</td>
+<td align="center">65536</td>
+<td align="center">0.02364</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">64</td>
+<td align="center">16384</td>
+<td align="center">0.02130</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">256</td>
+<td align="center">4096</td>
+<td align="center">0.01962</td>
+</tr>
+<tr>
+<td>FNV-1a</td>
+<td align="center">1024</td>
+<td align="center">1024</td>
+<td align="center">0.01966</td>
+</tr>
+<tr>
+<td>Pengy</td>
+<td align="center">1</td>
+<td align="center">1048576</td>
+<td align="center">0.24294</td>
+</tr>
+<tr>
+<td>Pengy</td>
+<td align="center">2</td>
+<td align="center">524288</td>
+<td align="center">0.12066</td>
+</tr>
+<tr>
+<td>Pengy</td>
+<td align="center">4</td>
+<td align="center">262144</td>
+<td align="center">0.06205</td>
+</tr>
+<tr>
+<td>Pengy</td>
+<td align="center">8</td>
+<td align="center">131072</td>
+<td align="center">0.03138</td>
+</tr>
+<tr>
+<td>Pengy</td>
+<td align="center">16</td>
+<td align="center">65536</td>
+<td align="center">0.01608</td>
+</tr>
+<tr>
+<td>Pengy</td>
+<td align="center">64</td>
+<td align="center">16384</td>
+<td align="center">0.00669</td>
+</tr>
+<tr>
+<td>Pengy</td>
+<td align="center">256</td>
+<td align="center">4096</td>
+<td align="center">0.00387</td>
+</tr>
+<tr>
+<td>Pengy</td>
+<td align="center">1024</td>
+<td align="center">1024</td>
+<td align="center">0.00295</td>
+</tr>
+<tr>
+<td>Spooky</td>
+<td align="center">1</td>
+<td align="center">1048576</td>
+<td align="center">0.11920</td>
+</tr>
+<tr>
+<td>Spooky</td>
+<td align="center">2</td>
+<td align="center">524288</td>
+<td align="center">0.07478</td>
+</tr>
+<tr>
+<td>Spooky</td>
+<td align="center">4</td>
+<td align="center">262144</td>
+<td align="center">0.03185</td>
+</tr>
+<tr>
+<td>Spooky</td>
+<td align="center">8</td>
+<td align="center">131072</td>
+<td align="center">0.01468</td>
+</tr>
+<tr>
+<td>Spooky</td>
+<td align="center">16</td>
+<td align="center">65536</td>
+<td align="center">0.01503</td>
+</tr>
+<tr>
+<td>Spooky</td>
+<td align="center">64</td>
+<td align="center">16384</td>
+<td align="center">0.00440</td>
+</tr>
+<tr>
+<td>Spooky</td>
+<td align="center">256</td>
+<td align="center">4096</td>
+<td align="center">0.00290</td>
+</tr>
+<tr>
+<td>Spooky</td>
+<td align="center">1024</td>
+<td align="center">1024</td>
+<td align="center">0.00177</td>
+</tr>
+</tbody>
+</table>
 <p>As the tested function will typically reside in the instruction cache
 these results do not include the costs of reloading the procedure if
 hashing is intermittent. If hashing is intermittent then that can more
@@ -1992,13 +2370,13 @@ Fortran hash procedure on the same keys.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2021 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>3bb004d</small></p>
+                                          <br /><small>2bb6539</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-             on 2021-12-22 19:19  
+             on 2021-12-26 13:18  
             
           </p>
         </div>
