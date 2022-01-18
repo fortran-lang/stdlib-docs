@@ -197,6 +197,12 @@
 <li><a href="#example_5">Example</a></li>
 </ul>
 </li>
+<li><a href="#formatting-constants">Formatting constants</a><ul>
+<li><a href="#status_6">Status</a></li>
+<li><a href="#description_6">Description</a></li>
+<li><a href="#example_6">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -400,6 +406,41 @@
     <span class="k">end do</span>
 <span class="k">end program </span><span class="n">demo_getline</span>
 </code></pre></div>
+
+<h2 id="formatting-constants">Formatting constants</h2>
+<h3 id="status_6">Status</h3>
+<p>Experimental</p>
+<h3 id="description_6">Description</h3>
+<p>Formatting constants for printing out integer, floating point, and complex numbers at their full precision.
+Provides formats for all kinds as defined in the <code>stdlib_kinds</code> module.</p>
+<h3 id="example_6">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_fmt_constants</span>
+    <span class="k">use</span><span class="p">,</span> <span class="n">stdlib_kinds</span><span class="p">,</span> <span class="k">only</span> <span class="p">:</span> <span class="n">int32</span><span class="p">,</span> <span class="n">int64</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="n">dp</span> 
+    <span class="k">use </span><span class="n">stdlib_io</span><span class="p">,</span>     <span class="k">only</span> <span class="p">:</span> <span class="n">FMT_INT</span><span class="p">,</span> <span class="n">FMT_REAL_SP</span><span class="p">,</span> <span class="n">FMT_REAL_DP</span><span class="p">,</span> <span class="n">FMT_COMPLEX_SP</span><span class="p">,</span> <span class="n">FMT_COMPLEX_DP</span>
+    <span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span> <span class="kd">::</span> <span class="n">i32</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int64</span><span class="p">)</span> <span class="kd">::</span> <span class="n">i64</span>
+    <span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">r32</span>
+    <span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">r64</span>
+    <span class="kt">complex</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">c32</span>
+    <span class="kt">complex</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">c64</span>
+
+    <span class="n">i32</span> <span class="o">=</span> <span class="mi">100_int32</span>
+    <span class="n">i64</span> <span class="o">=</span> <span class="mi">100_int64</span>
+    <span class="n">r32</span> <span class="o">=</span> <span class="mi">10</span><span class="mf">0.0_sp</span>
+    <span class="n">r64</span> <span class="o">=</span> <span class="mi">10</span><span class="mf">0.0_dp</span>
+    <span class="n">c32</span> <span class="o">=</span> <span class="nb">cmplx</span><span class="p">(</span><span class="mi">10</span><span class="mf">0.0_sp</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
+    <span class="n">c64</span> <span class="o">=</span> <span class="nb">cmplx</span><span class="p">(</span><span class="mi">10</span><span class="mf">0.0_dp</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
+
+    <span class="k">print</span> <span class="s2">&quot;(2(&quot;</span><span class="o">//</span><span class="n">FMT_INT</span><span class="o">//</span><span class="s2">&quot;,1x))&quot;</span><span class="p">,</span> <span class="n">i32</span><span class="p">,</span> <span class="n">i64</span> <span class="c">! outputs: 100 100</span>
+    <span class="k">print </span><span class="n">FMT_REAL_SP</span><span class="p">,</span> <span class="n">r32</span>                  <span class="c">! outputs: 1.00000000E+02</span>
+    <span class="k">print </span><span class="n">FMT_REAL_DP</span><span class="p">,</span> <span class="n">r64</span>                  <span class="c">! outputs: 1.0000000000000000E+002</span>
+    <span class="k">print </span><span class="n">FMT_COMPLEX_SP</span><span class="p">,</span> <span class="n">c32</span>               <span class="c">! outputs: 1.00000000E+02  0.00000000E+00</span>
+    <span class="k">print </span><span class="n">FMT_COMPLEX_DP</span><span class="p">,</span> <span class="n">c64</span>               <span class="c">! outputs: 1.0000000000000000E+002  0.0000000000000000E+000</span>
+
+<span class="k">end program </span><span class="n">demo_fmt_constants</span>
+</code></pre></div>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
@@ -586,13 +627,13 @@
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2022 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-                                          <br /><small>15f3270</small></p>
+                                          <br /><small>084f3c4</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-             on 2022-01-02 10:07  
+             on 2022-01-18 19:06  
             
           </p>
         </div>
