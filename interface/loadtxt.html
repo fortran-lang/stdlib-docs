@@ -89,7 +89,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.2% of total for procedures.</p>Including implementation: 124 statements,  2.2% of total for procedures.">10 statements</a>
+    title="<p> 0.2% of total for procedures.</p>Including implementation: 204 statements,  3.6% of total for procedures.">10 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/stdlib_io.fypp"> Source File</a></li>
   </ul>
@@ -165,7 +165,7 @@
 
    <h2>Module Procedures</h2>
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_rsp"></span><h3>private subroutine loadtxt_rsp(filename, d)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_rsp"></span><h3>private subroutine loadtxt_rsp(filename, d, skiprows, max_rows)</h3></div>
   <div class="panel-body">
        <p>Loads a 2D array from a text file.</p><a href="../proc/loadtxt_rsp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
@@ -182,7 +182,22 @@
   <td><span class="anchor" ></span>real(kind=sp),</td>
 <td>intent(out),</td>
   <td></td>  <td>allocatable</td><td>::</td>
-  <td><strong>d</strong>(:,:)</td><td><p>Example</p>
+  <td><strong>d</strong>(:,:)</td><td><p>Skip the first <code>skiprows</code> lines. If skipping more rows than present, a 0-sized array will be returned. The default is 0.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>skiprows</strong></td><td><p>Read <code>max_rows</code> lines of content after <code>skiprows</code> lines.
+A negative value results in reading all lines.
+A value of zero results in no lines to be read.
+The default value is -1.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>max_rows</strong></td><td><p>Example</p>
 <hr>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">data</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w"></span>
 <span class="w"> </span><span class="k">call </span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">  </span><span class="c">! &#39;data&#39; will be automatically allocated</span>
@@ -204,7 +219,7 @@
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_rdp"></span><h3>private subroutine loadtxt_rdp(filename, d)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_rdp"></span><h3>private subroutine loadtxt_rdp(filename, d, skiprows, max_rows)</h3></div>
   <div class="panel-body">
        <p>Loads a 2D array from a text file.</p><a href="../proc/loadtxt_rdp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
@@ -221,7 +236,22 @@
   <td><span class="anchor" ></span>real(kind=dp),</td>
 <td>intent(out),</td>
   <td></td>  <td>allocatable</td><td>::</td>
-  <td><strong>d</strong>(:,:)</td><td><p>Example</p>
+  <td><strong>d</strong>(:,:)</td><td><p>Skip the first <code>skiprows</code> lines. If skipping more rows than present, a 0-sized array will be returned. The default is 0.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>skiprows</strong></td><td><p>Read <code>max_rows</code> lines of content after <code>skiprows</code> lines.
+A negative value results in reading all lines.
+A value of zero results in no lines to be read.
+The default value is -1.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>max_rows</strong></td><td><p>Example</p>
 <hr>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">data</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w"></span>
 <span class="w"> </span><span class="k">call </span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">  </span><span class="c">! &#39;data&#39; will be automatically allocated</span>
@@ -243,7 +273,7 @@
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_iint8"></span><h3>private subroutine loadtxt_iint8(filename, d)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_iint8"></span><h3>private subroutine loadtxt_iint8(filename, d, skiprows, max_rows)</h3></div>
   <div class="panel-body">
        <p>Loads a 2D array from a text file.</p><a href="../proc/loadtxt_iint8.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
@@ -260,7 +290,22 @@
   <td><span class="anchor" ></span>integer(kind=int8),</td>
 <td>intent(out),</td>
   <td></td>  <td>allocatable</td><td>::</td>
-  <td><strong>d</strong>(:,:)</td><td><p>Example</p>
+  <td><strong>d</strong>(:,:)</td><td><p>Skip the first <code>skiprows</code> lines. If skipping more rows than present, a 0-sized array will be returned. The default is 0.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>skiprows</strong></td><td><p>Read <code>max_rows</code> lines of content after <code>skiprows</code> lines.
+A negative value results in reading all lines.
+A value of zero results in no lines to be read.
+The default value is -1.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>max_rows</strong></td><td><p>Example</p>
 <hr>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="kt">integer</span><span class="p">(</span><span class="n">int8</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">data</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w"></span>
 <span class="w"> </span><span class="k">call </span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">  </span><span class="c">! &#39;data&#39; will be automatically allocated</span>
@@ -282,7 +327,7 @@
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_iint16"></span><h3>private subroutine loadtxt_iint16(filename, d)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_iint16"></span><h3>private subroutine loadtxt_iint16(filename, d, skiprows, max_rows)</h3></div>
   <div class="panel-body">
        <p>Loads a 2D array from a text file.</p><a href="../proc/loadtxt_iint16.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
@@ -299,7 +344,22 @@
   <td><span class="anchor" ></span>integer(kind=int16),</td>
 <td>intent(out),</td>
   <td></td>  <td>allocatable</td><td>::</td>
-  <td><strong>d</strong>(:,:)</td><td><p>Example</p>
+  <td><strong>d</strong>(:,:)</td><td><p>Skip the first <code>skiprows</code> lines. If skipping more rows than present, a 0-sized array will be returned. The default is 0.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>skiprows</strong></td><td><p>Read <code>max_rows</code> lines of content after <code>skiprows</code> lines.
+A negative value results in reading all lines.
+A value of zero results in no lines to be read.
+The default value is -1.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>max_rows</strong></td><td><p>Example</p>
 <hr>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="kt">integer</span><span class="p">(</span><span class="n">int16</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">data</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w"></span>
 <span class="w"> </span><span class="k">call </span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">  </span><span class="c">! &#39;data&#39; will be automatically allocated</span>
@@ -321,7 +381,7 @@
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_iint32"></span><h3>private subroutine loadtxt_iint32(filename, d)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_iint32"></span><h3>private subroutine loadtxt_iint32(filename, d, skiprows, max_rows)</h3></div>
   <div class="panel-body">
        <p>Loads a 2D array from a text file.</p><a href="../proc/loadtxt_iint32.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
@@ -338,7 +398,22 @@
   <td><span class="anchor" ></span>integer(kind=int32),</td>
 <td>intent(out),</td>
   <td></td>  <td>allocatable</td><td>::</td>
-  <td><strong>d</strong>(:,:)</td><td><p>Example</p>
+  <td><strong>d</strong>(:,:)</td><td><p>Skip the first <code>skiprows</code> lines. If skipping more rows than present, a 0-sized array will be returned. The default is 0.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>skiprows</strong></td><td><p>Read <code>max_rows</code> lines of content after <code>skiprows</code> lines.
+A negative value results in reading all lines.
+A value of zero results in no lines to be read.
+The default value is -1.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>max_rows</strong></td><td><p>Example</p>
 <hr>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">data</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w"></span>
 <span class="w"> </span><span class="k">call </span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">  </span><span class="c">! &#39;data&#39; will be automatically allocated</span>
@@ -360,7 +435,7 @@
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_iint64"></span><h3>private subroutine loadtxt_iint64(filename, d)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_iint64"></span><h3>private subroutine loadtxt_iint64(filename, d, skiprows, max_rows)</h3></div>
   <div class="panel-body">
        <p>Loads a 2D array from a text file.</p><a href="../proc/loadtxt_iint64.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
@@ -377,7 +452,22 @@
   <td><span class="anchor" ></span>integer(kind=int64),</td>
 <td>intent(out),</td>
   <td></td>  <td>allocatable</td><td>::</td>
-  <td><strong>d</strong>(:,:)</td><td><p>Example</p>
+  <td><strong>d</strong>(:,:)</td><td><p>Skip the first <code>skiprows</code> lines. If skipping more rows than present, a 0-sized array will be returned. The default is 0.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>skiprows</strong></td><td><p>Read <code>max_rows</code> lines of content after <code>skiprows</code> lines.
+A negative value results in reading all lines.
+A value of zero results in no lines to be read.
+The default value is -1.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>max_rows</strong></td><td><p>Example</p>
 <hr>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">data</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w"></span>
 <span class="w"> </span><span class="k">call </span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">  </span><span class="c">! &#39;data&#39; will be automatically allocated</span>
@@ -399,7 +489,7 @@
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_csp"></span><h3>private subroutine loadtxt_csp(filename, d)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_csp"></span><h3>private subroutine loadtxt_csp(filename, d, skiprows, max_rows)</h3></div>
   <div class="panel-body">
        <p>Loads a 2D array from a text file.</p><a href="../proc/loadtxt_csp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
@@ -416,7 +506,22 @@
   <td><span class="anchor" ></span>complex(kind=sp),</td>
 <td>intent(out),</td>
   <td></td>  <td>allocatable</td><td>::</td>
-  <td><strong>d</strong>(:,:)</td><td><p>Example</p>
+  <td><strong>d</strong>(:,:)</td><td><p>Skip the first <code>skiprows</code> lines. If skipping more rows than present, a 0-sized array will be returned. The default is 0.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>skiprows</strong></td><td><p>Read <code>max_rows</code> lines of content after <code>skiprows</code> lines.
+A negative value results in reading all lines.
+A value of zero results in no lines to be read.
+The default value is -1.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>max_rows</strong></td><td><p>Example</p>
 <hr>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="kt">complex</span><span class="p">(</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">data</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w"></span>
 <span class="w"> </span><span class="k">call </span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">  </span><span class="c">! &#39;data&#39; will be automatically allocated</span>
@@ -438,7 +543,7 @@
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_cdp"></span><h3>private subroutine loadtxt_cdp(filename, d)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-loadtxt_cdp"></span><h3>private subroutine loadtxt_cdp(filename, d, skiprows, max_rows)</h3></div>
   <div class="panel-body">
        <p>Loads a 2D array from a text file.</p><a href="../proc/loadtxt_cdp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
@@ -455,7 +560,22 @@
   <td><span class="anchor" ></span>complex(kind=dp),</td>
 <td>intent(out),</td>
   <td></td>  <td>allocatable</td><td>::</td>
-  <td><strong>d</strong>(:,:)</td><td><p>Example</p>
+  <td><strong>d</strong>(:,:)</td><td><p>Skip the first <code>skiprows</code> lines. If skipping more rows than present, a 0-sized array will be returned. The default is 0.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>skiprows</strong></td><td><p>Read <code>max_rows</code> lines of content after <code>skiprows</code> lines.
+A negative value results in reading all lines.
+A value of zero results in no lines to be read.
+The default value is -1.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>max_rows</strong></td><td><p>Example</p>
 <hr>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">data</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w"></span>
 <span class="w"> </span><span class="k">call </span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">  </span><span class="c">! &#39;data&#39; will be automatically allocated</span>
@@ -486,13 +606,13 @@
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2022 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>729d5d8</small></p>
+<br /><small>3028a36</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2022-06-13 02:57            </p>
+ on 2022-06-16 19:57            </p>
         </div>
       </div>
       <br>
