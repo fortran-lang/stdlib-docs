@@ -185,7 +185,7 @@
 <li><a href="#example_6">Example</a></li>
 </ul>
 </li>
-<li><a href="#hasher_fun-serves-aa-a-function-prototype">hasher_fun- serves aa a function prototype.</a><ul>
+<li><a href="#hasher_fun-serves-as-a-function-prototype">hasher_fun- serves as a function prototype.</a><ul>
 <li><a href="#status_8">Status</a></li>
 <li><a href="#description_8">Description</a></li>
 <li><a href="#syntax_7">Syntax</a></li>
@@ -433,7 +433,7 @@ This document discusses the hash maps in the Fortran Standard Library.</p>
 <h2 id="licensing">Licensing</h2>
 <p>The Fortran Standard Library is distributed under the MIT License.
 However components of the library should be evaluated as to whether
-they are compatible with the MTI License.
+they are compatible with the MIT License.
 The current hash maps were inspired by an
 <a href="http://chasewoerner.org/src/hasht/">implementation</a> of David
 Chase. While the code has been greatly modified from his
@@ -623,14 +623,14 @@ is an <code>intent(out)</code> argument.</p>
 <h5 id="example">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">demo_copy_key</span><span class="w"></span>
 <span class="w">      </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">          </span><span class="n">copy_key</span><span class="p">,</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">),</span><span class="w"> </span><span class="n">key_type</span><span class="w"></span>
+<span class="w">          </span><span class="n">copy_key</span><span class="p">,</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">),</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="w"></span>
 <span class="w">      </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="w"></span>
 <span class="w">      </span><span class="k">implicit none</span>
 <span class="k">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">key_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">old_key</span><span class="p">,</span><span class="w"> </span><span class="n">new_key</span><span class="w"></span>
 <span class="w">      </span><span class="k">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">)]</span><span class="w"></span>
-<span class="w">      </span><span class="k">call </span><span class="n">set</span><span class="p">(</span><span class="w"> </span><span class="n">key_out</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">call </span><span class="n">copy_key</span><span class="p">(</span><span class="w"> </span><span class="n">key_out</span><span class="p">,</span><span class="w"> </span><span class="n">new_key</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">call </span><span class="n">set</span><span class="p">(</span><span class="w"> </span><span class="n">old_key</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">call </span><span class="n">copy_key</span><span class="p">(</span><span class="w"> </span><span class="n">old_key</span><span class="p">,</span><span class="w"> </span><span class="n">new_key</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;old_key == new_key = &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">old_key</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">new_key</span><span class="w"></span>
 <span class="w">    </span><span class="k">end program </span><span class="n">demo_copy_key</span><span class="w"></span>
 </code></pre></div>
@@ -651,26 +651,24 @@ is an <code>intent(in)</code> argument.</p>
 is an <code>intent(out)</code> argument.</p>
 <h5 id="example_1">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">demo_copy_other</span><span class="w"></span>
-<span class="w">      </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">          </span><span class="n">copy_other</span><span class="p">,</span><span class="w"> </span><span class="n">get</span><span class="p">,</span><span class="w"> </span><span class="n">other_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="w"></span>
+<span class="w">      </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">copy_other</span><span class="p">,</span><span class="w"> </span><span class="n">other_type</span><span class="w"></span>
 <span class="w">      </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="w"></span>
 <span class="w">      </span><span class="k">implicit none</span>
 <span class="k">      type</span><span class="p">(</span><span class="n">other_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">other_in</span><span class="p">,</span><span class="w"> </span><span class="n">other_out</span><span class="w"></span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
-<span class="w">      </span><span class="k">class</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dummy</span><span class="w"></span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
 <span class="w">      </span><span class="k">type </span><span class="n">dummy_type</span><span class="w"></span>
 <span class="w">          </span><span class="kt">integer</span><span class="p">(</span><span class="n">int8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">end type</span>
 <span class="k">      type</span><span class="p">(</span><span class="n">dummy_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dummy_val</span><span class="w"></span>
-<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="w"></span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="w"></span>
 <span class="w">          </span><span class="n">dummy_val</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">value1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
 <span class="w">      </span><span class="k">end do</span>
 <span class="k">      allocate</span><span class="p">(</span><span class="n">other_in</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">dummy_val</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">call </span><span class="n">copy_other</span><span class="p">(</span><span class="w"> </span><span class="n">other_in</span><span class="p">,</span><span class="w"> </span><span class="n">other_out</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">select type</span><span class="p">(</span><span class="n">other_out</span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">dummy_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">select type</span><span class="p">(</span><span class="n">out</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">other_out</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">value</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">type is</span><span class="w"> </span><span class="p">(</span><span class="n">dummy_type</span><span class="p">)</span><span class="w"></span>
 <span class="w">          </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;other_in == other_out = &quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">            </span><span class="k">all</span><span class="p">(</span><span class="w"> </span><span class="n">dummy_val</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">other_out</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">all</span><span class="p">(</span><span class="w"> </span><span class="n">dummy_val</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">end select</span>
 <span class="k">    end program </span><span class="n">demo_copy_other</span><span class="w"></span>
 </code></pre></div>
@@ -813,19 +811,19 @@ is an <code>intent(out)</code> argument.</p>
 <h5 id="example_5">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">demo_free_other</span><span class="w"></span>
 <span class="w">      </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">          </span><span class="n">copy_other</span><span class="p">,</span><span class="w"> </span><span class="n">free_other</span><span class="p">,</span><span class="w"> </span><span class="n">other_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="w"></span>
+<span class="w">          </span><span class="n">copy_other</span><span class="p">,</span><span class="w"> </span><span class="n">free_other</span><span class="p">,</span><span class="w"> </span><span class="n">other_type</span><span class="w"></span>
 <span class="w">      </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="w"></span>
 <span class="w">      </span><span class="k">implicit none</span>
 <span class="k">      type </span><span class="n">dummy_type</span><span class="w"></span>
 <span class="w">          </span><span class="kt">integer</span><span class="p">(</span><span class="n">int8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">end type </span><span class="n">dummy_type</span><span class="w"></span>
-<span class="w">      </span><span class="n">typer</span><span class="p">(</span><span class="n">dummy_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dummy_val</span><span class="w"></span>
+<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">dummy_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dummy_val</span><span class="w"></span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">other_type</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">other_in</span><span class="p">,</span><span class="w"> </span><span class="n">other_out</span><span class="w"></span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
 <span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="w"></span>
 <span class="w">          </span><span class="n">dummy_val</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">value</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
 <span class="w">      </span><span class="k">end do</span>
-<span class="k">      allocate</span><span class="p">(</span><span class="n">other_in</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">dummy_val</span><span class="p">)</span><span class="w"></span>
+<span class="k">      allocate</span><span class="p">(</span><span class="n">other_in</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">dummy_val</span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">call </span><span class="n">copy_other</span><span class="p">(</span><span class="w"> </span><span class="n">other_in</span><span class="p">,</span><span class="w"> </span><span class="n">other_out</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">call </span><span class="n">free_other</span><span class="p">(</span><span class="w"> </span><span class="n">other_out</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="k">end program </span><span class="n">demo_free_other</span><span class="w"></span>
@@ -861,7 +859,7 @@ an allocatable of <code>class(*)</code>. It is an <code>intent(out)</code> argum
 <span class="w">      </span><span class="k">implicit none</span>
 <span class="k">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int8</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span><span class="p">(:),</span><span class="w"> </span><span class="k">result</span><span class="p">(:)</span><span class="w"></span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">key_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span><span class="w"></span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
 <span class="w">      </span><span class="k">allocate</span><span class="p">(</span><span class="w"> </span><span class="k">value</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">15</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="w"></span>
 <span class="w">        </span><span class="k">value</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
@@ -872,7 +870,7 @@ an allocatable of <code>class(*)</code>. It is an <code>intent(out)</code> argum
 <span class="w">    </span><span class="k">end program </span><span class="n">demo_get</span><span class="w"></span>
 </code></pre></div>
 
-<h4 id="hasher_fun-serves-aa-a-function-prototype"><code>hasher_fun</code>- serves aa a function prototype.</h4>
+<h4 id="hasher_fun-serves-as-a-function-prototype"><code>hasher_fun</code>- serves as a function prototype.</h4>
 <h5 id="status_8">Status</h5>
 <p>Experimental</p>
 <h5 id="description_8">Description</h5>
@@ -1103,7 +1101,7 @@ value to an <code>int8</code> vector.</p>
 <span class="w">      </span><span class="k">implicit none</span>
 <span class="k">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int8</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span><span class="p">(:),</span><span class="w"> </span><span class="k">result</span><span class="p">(:)</span><span class="w"></span>
 <span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">key_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span><span class="w"></span>
-<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
 <span class="w">      </span><span class="k">allocate</span><span class="p">(</span><span class="w"> </span><span class="k">value</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">15</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="w"></span>
 <span class="w">        </span><span class="k">value</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
@@ -1550,7 +1548,7 @@ It is an <code>intent(in)</code> argument.</p>
 <span class="w">      </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="w"></span>
 <span class="w">      </span><span class="k">implicit none</span>
 <span class="k">      type</span><span class="p">(</span><span class="n">chaining_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span><span class="w"></span>
-<span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">int_calls</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">initial_calls</span><span class="w"></span>
+<span class="w">      </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_calls</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">initial_calls</span><span class="w"></span>
 <span class="w">      </span><span class="k">call </span><span class="n">map</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="n">initial_calls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">calls</span><span class="p">()</span><span class="w"></span>
 <span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;INITIAL_CALLS =  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">initial_calls</span><span class="w"></span>
@@ -1639,9 +1637,9 @@ undefined.</p>
 <span class="w">        </span><span class="k">end if</span>
 <span class="k">        call </span><span class="n">get</span><span class="p">(</span><span class="w"> </span><span class="n">other</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
 <span class="w">        </span><span class="k">select type</span><span class="p">(</span><span class="w"> </span><span class="k">data</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">type</span><span class="w"> </span><span class="p">(</span><span class="n">dummy_type</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">type is</span><span class="w"> </span><span class="p">(</span><span class="n">dummy_type</span><span class="p">)</span><span class="w"></span>
 <span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Other data % value = &#39;</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">value</span>
-<span class="k">        type </span><span class="n">default</span><span class="w"></span>
+<span class="k">        class </span><span class="n">default</span><span class="w"></span>
 <span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Invalid data type in other&#39;</span><span class="w"></span>
 <span class="w">        </span><span class="k">end select</span>
 <span class="k">    end program </span><span class="n">demo_get_other_data</span><span class="w"></span>
@@ -1675,7 +1673,7 @@ undefined.</p>
 </li>
 <li>
 <p>If <code>slots_bits</code> is absent then the effective value for <code>slots_bits</code>
-  is <code>default_slots_bits</code>.</p>
+  is <code>default_bits</code>.</p>
 </li>
 </ul>
 <p><code>status</code> (optional): shall be a scalar integer variable of kind
@@ -1701,11 +1699,11 @@ has the value <code>alloc_fault</code>.</p>
 </ul>
 <h5 id="example_16">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">demo_init</span><span class="w"></span>
-<span class="w">        </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chaining_map_type</span><span class="w"></span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chaining_hashmap_type</span><span class="w"></span>
 <span class="w">        </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="w"></span>
-<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">fnv_1a_type</span><span class="p">)</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">fnv_1</span><span class="w"></span>
-<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">chaining_map_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span><span class="w"></span>
-<span class="w">        </span><span class="k">call </span><span class="n">map</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="n">fnv_1a</span><span class="p">,</span><span class="w"> </span><span class="n">slots_bits</span><span class="o">=</span><span class="mi">10</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">implicit none</span>
+<span class="k">        type</span><span class="p">(</span><span class="n">chaining_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span><span class="w"></span>
+<span class="w">        </span><span class="k">call </span><span class="n">map</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">slots_bits</span><span class="o">=</span><span class="mi">10</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="k">end program </span><span class="n">demo_init</span><span class="w"></span>
 </code></pre></div>
 
@@ -1812,7 +1810,7 @@ is ignored.</li>
 <div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">demo_map_entry</span><span class="w"></span>
 <span class="w">        </span><span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="w"></span>
 <span class="w">        </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chaining_hashmap_type</span><span class="w"></span>
-<span class="w">        </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">other_type</span><span class="w"></span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">other_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="w"></span>
 <span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">chaining_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span><span class="w"></span>
 <span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">key_type</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span><span class="w"></span>
 <span class="w">        </span><span class="kt">logical</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">conflict</span><span class="w"></span>
@@ -1853,7 +1851,7 @@ rehashing. </p>
 <span class="k">      type</span><span class="p">(</span><span class="n">chaining_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span><span class="w"></span>
 <span class="w">      </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nprobes</span><span class="w"></span>
 <span class="w">      </span><span class="k">call </span><span class="n">map</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">nprobes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">probes</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="n">nprobes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">map_probes</span><span class="p">()</span><span class="w"></span>
 <span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Initial probes =  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nprobes</span><span class="w"></span>
 <span class="w">    </span><span class="k">end program </span><span class="n">demo_probes</span><span class="w"></span>
 </code></pre></div>
@@ -1885,7 +1883,7 @@ hash map of interest.</p>
 <span class="w">      </span><span class="k">call </span><span class="n">map</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
 <span class="w">      </span><span class="n">initial_slots</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">num_slots</span><span class="w"> </span><span class="p">()</span><span class="w"></span>
 <span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Initial slots =  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">initial_slots</span><span class="w"></span>
-<span class="w">    </span><span class="k">end program </span><span class="n">num_slots</span><span class="w"></span>
+<span class="w">    </span><span class="k">end program </span><span class="n">demo_num_slots</span><span class="w"></span>
 </code></pre></div>
 
 <h4 id="rehash-changes-the-hashing-function"><code>rehash</code> - changes the hashing function</h4>
@@ -1906,10 +1904,12 @@ method is to be changed.</p>
 It is the hash method to be used by <code>map</code>.</p>
 <h5 id="example_22">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">demo_rehash</span><span class="w"></span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="w"></span>
 <span class="w">        </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">open_hashmap_type</span><span class="w"></span>
-<span class="w">        </span><span class="k">use </span><span class="n">stdlib_hasmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">fnv_1a_hasher</span><span class="p">,&amp;</span><span class="w"></span>
-<span class="w">            </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">other_type</span><span class="w"></span>
-<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">openn_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span><span class="w"></span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">fnv_1a_hasher</span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">other_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="w"></span>
+<span class="w">    </span><span class="k">implicit none</span>
+<span class="k">        type</span><span class="p">(</span><span class="n">open_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span><span class="w"></span>
 <span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">key_type</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span><span class="w"></span>
 <span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">other_type</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">other</span><span class="w"></span>
 <span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dummy</span><span class="w"></span>
@@ -1992,20 +1992,23 @@ data was replaced, otherwise if <code>exists</code> is <code>.false.</code> the 
 not exist and nothing was done.</p>
 <h5 id="example_24">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">demo_set_other_data</span><span class="w"></span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="w"></span>
 <span class="w">        </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">open_hashmap_type</span><span class="w"></span>
 <span class="w">        </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
 <span class="w">            </span><span class="n">fnv_1a_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">other_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="w"></span>
+<span class="w">    </span><span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">exists</span><span class="w"></span>
 <span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">open_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span><span class="w"></span>
 <span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">key_type</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span><span class="w"></span>
 <span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">other_type</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">other</span><span class="w"></span>
 <span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dummy</span><span class="w"></span>
 <span class="w">        </span><span class="k">call </span><span class="n">map</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">slots_bits</span><span class="o">=</span><span class="mi">10</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">allocate</span><span class="p">(</span><span class="w"> </span><span class="n">dummy</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="s1">&#39;A value` )</span>
-<span class="s1">        call set( key, [ 5_int8, 7_int8, 4_int8, 13_int8 ] )</span>
-<span class="s1">        call set( other, dummy )</span>
-<span class="s1">        call map % map_entry( key, other )</span>
-<span class="s1">        deallocate( dummy )</span>
-<span class="s1">        allocate( dummy, source=&#39;</span><span class="n">Another</span><span class="w"> </span><span class="k">value</span><span class="err">`</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">allocate</span><span class="p">(</span><span class="w"> </span><span class="n">dummy</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="s1">&#39;A value&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">call </span><span class="n">set</span><span class="p">(</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">5_int8</span><span class="p">,</span><span class="w"> </span><span class="mi">7_int8</span><span class="p">,</span><span class="w"> </span><span class="mi">4_int8</span><span class="p">,</span><span class="w"> </span><span class="mi">13_int8</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">call </span><span class="n">set</span><span class="p">(</span><span class="w"> </span><span class="n">other</span><span class="p">,</span><span class="w"> </span><span class="n">dummy</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">call </span><span class="n">map</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">map_entry</span><span class="p">(</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">deallocate</span><span class="p">(</span><span class="w"> </span><span class="n">dummy</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">allocate</span><span class="p">(</span><span class="w"> </span><span class="n">dummy</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="s1">&#39;Another value&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
 <span class="w">        </span><span class="k">call </span><span class="n">set</span><span class="p">(</span><span class="w"> </span><span class="n">other</span><span class="p">,</span><span class="w"> </span><span class="n">dummy</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
 <span class="w">        </span><span class="k">call </span><span class="n">map</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set_other_data</span><span class="p">(</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">other</span><span class="p">,</span><span class="w"> </span><span class="n">exists</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
 <span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;The entry to have its other data replaced exists = &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">exists</span><span class="w"></span>
@@ -2197,13 +2200,13 @@ from their slot index the map.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2022 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>2779aa8</small></p>
+<br /><small>78a680a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2022-07-05 06:24            </p>
+ on 2022-07-05 09:06            </p>
         </div>
       </div>
       <br>
