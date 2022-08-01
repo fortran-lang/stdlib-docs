@@ -157,39 +157,38 @@ For complex arguments, the real and imaginary parts are sampled independently of
 <h3 id="return-value">Return value</h3>
 <p>The result is a scalar or rank one array with a size of <code>array_size</code>, and has the same type of <code>lambda</code>.</p>
 <h3 id="example">Example</h3>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_exponential_rvs</span><span class="w"></span>
-<span class="w">    </span><span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">random_seed</span>
-<span class="nb">    </span><span class="k">use </span><span class="n">stdlib_stats_distribution_exponential</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">rexp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">rvs_exp</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_exponential_rvs</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="nb">random_seed</span>
+<span class="nb">  </span><span class="k">use </span><span class="n">stdlib_stats_distribution_exponential</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">rexp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">rvs_exp</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">implicit none</span>
-<span class="k">    </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w">  </span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="kt">complex</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">scale</span>
-<span class="nb">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">seed_put</span><span class="p">,</span><span class="w"> </span><span class="n">seed_get</span><span class="w"></span>
+<span class="w">  </span><span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">complex</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">scale</span>
+<span class="nb">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">seed_put</span><span class="p">,</span><span class="w"> </span><span class="n">seed_get</span><span class="w"></span>
 
-<span class="w">    </span><span class="n">seed_put</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1234567</span><span class="w"></span>
-<span class="w">    </span><span class="k">call </span><span class="nb">random_seed</span><span class="p">(</span><span class="n">seed_put</span><span class="p">,</span><span class="w"> </span><span class="n">seed_get</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">seed_put</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1234567</span><span class="w"></span>
+<span class="w">  </span><span class="k">call </span><span class="nb">random_seed</span><span class="p">(</span><span class="n">seed_put</span><span class="p">,</span><span class="w"> </span><span class="n">seed_get</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">rexp</span><span class="p">(</span><span class="w"> </span><span class="p">)</span><span class="w">         </span><span class="c">!single standard exponential random variate</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">rexp</span><span class="p">()</span><span class="w">         </span><span class="c">!single standard exponential random variate</span>
 
 <span class="c">! 0.358690143</span>
 
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">rexp</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span><span class="w">       </span><span class="c">!exponential random variate with lambda=2.0</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">rexp</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span><span class="w">       </span><span class="c">!exponential random variate with lambda=2.0</span>
 
 <span class="c">! 0.816459715</span>
 
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">rexp</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w">   </span><span class="c">!an array of 10 variates with lambda=0.3</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">rexp</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w">   </span><span class="c">!an array of 10 variates with lambda=0.3</span>
 
-<span class="c">!  1.84008647E-02  3.59742008E-02  0.136567295  0.262772143  3.62352766E-02 </span>
+<span class="c">!  1.84008647E-02  3.59742008E-02  0.136567295  0.262772143  3.62352766E-02</span>
 <span class="c">!  0.547133625  0.213591918  4.10784185E-02  0.583882213  0.671128035</span>
 
-<span class="w">    </span><span class="nb">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.7</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">rexp</span><span class="p">(</span><span class="nb">scale</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="c">!single complex exponential random variate with real part of lambda=2.0;</span>
-<span class="w">    </span><span class="c">!imagainary part of lambda=0.7</span>
+<span class="w">  </span><span class="nb">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.7</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">rexp</span><span class="p">(</span><span class="nb">scale</span><span class="p">)</span><span class="w"></span>
+<span class="c">!single complex exponential random variate with real part of lambda=2.0;</span>
+<span class="c">!imagainary part of lambda=0.7</span>
 
 <span class="c">! (1.41435969,4.081114382E-02)</span>
 
-<span class="k">end program </span><span class="n">demo_exponential_rvs</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_exponential_rvs</span><span class="w"></span>
 </code></pre></div>
 
 <h2 id="pdf_exp-exponential-distribution-probability-density-function"><code>pdf_exp</code> - exponential distribution probability density function</h2>
@@ -217,45 +216,45 @@ is the product of the corresponding marginal pdf of real and imaginary pdf (for 
 <h3 id="return-value_1">Return value</h3>
 <p>The result is a scalar or an array, with a shape conformable to arguments, and has the same type of input arguments.</p>
 <h3 id="example_1">Example</h3>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_exponential_pdf</span><span class="w"></span>
-<span class="w">    </span><span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">random_seed</span>
-<span class="nb">    </span><span class="k">use </span><span class="n">stdlib_stats_distribution_exponential</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">exp_pdf</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">pdf_exp</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                     </span><span class="n">rexp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">rvs_exp</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_exponential_pdf</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="nb">random_seed</span>
+<span class="nb">  </span><span class="k">use </span><span class="n">stdlib_stats_distribution_exponential</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">exp_pdf</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">pdf_exp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                   </span><span class="n">rexp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">rvs_exp</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">implicit none</span>
-<span class="k">    </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="kt">complex</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">scale</span>
-<span class="nb">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">seed_put</span><span class="p">,</span><span class="w"> </span><span class="n">seed_get</span><span class="w"></span>
+<span class="w">  </span><span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kt">complex</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">scale</span>
+<span class="nb">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">seed_put</span><span class="p">,</span><span class="w"> </span><span class="n">seed_get</span><span class="w"></span>
 
-<span class="w">    </span><span class="n">seed_put</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1234567</span><span class="w"></span>
-<span class="w">    </span><span class="k">call </span><span class="nb">random_seed</span><span class="p">(</span><span class="n">seed_put</span><span class="p">,</span><span class="w"> </span><span class="n">seed_get</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">seed_put</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1234567</span><span class="w"></span>
+<span class="w">  </span><span class="k">call </span><span class="nb">random_seed</span><span class="p">(</span><span class="n">seed_put</span><span class="p">,</span><span class="w"> </span><span class="n">seed_get</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_pdf</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)</span><span class="w"> </span><span class="c">!a probability density at 1.0 in standard expon</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_pdf</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span><span class="w"> </span><span class="c">!a probability density at 1.0 in standard expon</span>
 
 <span class="c">! 0.367879450</span>
 
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_pdf</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">)</span><span class="w"> </span><span class="c">!a probability density at 2.0 with lambda=2.0</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_pdf</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">)</span><span class="w"> </span><span class="c">!a probability density at 2.0 with lambda=2.0</span>
 
 <span class="c">! 3.66312787E-02</span>
 
-<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">),[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span><span class="w"> </span><span class="c">! standard expon random variates array</span>
-<span class="w">    </span><span class="n">a</span><span class="p">(:,:,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w"></span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">     </span><span class="c">! a rank 3 standard expon probability density</span>
+<span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">])</span><span class="w"> </span><span class="c">! standard expon random variates array</span>
+<span class="w">  </span><span class="n">a</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w"></span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">     </span><span class="c">! a rank 3 standard expon probability density</span>
 
-<span class="c">!  0.457115263  0.451488823  0.492391467  0.485233188  0.446215510 </span>
-<span class="c">!  0.401670188  0.485127628  0.316924453  0.418474048  0.483173639 </span>
-<span class="c">!  0.307366133  0.285812140  0.448017836  0.426440030  0.403896868 </span>
-<span class="c">!  0.334653258  0.410376132  0.485370994  0.333617479  0.263791025 </span>
+<span class="c">!  0.457115263  0.451488823  0.492391467  0.485233188  0.446215510</span>
+<span class="c">!  0.401670188  0.485127628  0.316924453  0.418474048  0.483173639</span>
+<span class="c">!  0.307366133  0.285812140  0.448017836  0.426440030  0.403896868</span>
+<span class="c">!  0.334653258  0.410376132  0.485370994  0.333617479  0.263791025</span>
 <span class="c">!  0.249779820  0.457159877  0.495636940  0.482243657</span>
 
-<span class="w">    </span><span class="nb">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_pdf</span><span class="p">((</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span><span class="w"> </span><span class="nb">scale</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="c">! a complex expon probability density function at (1.5,1.0) with real part</span>
-<span class="w">    </span><span class="c">!of lambda=1.0 and imaginary part of lambda=2.0</span>
+<span class="w">  </span><span class="nb">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_pdf</span><span class="p">((</span><span class="mf">1.5</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">),</span><span class="w"> </span><span class="nb">scale</span><span class="p">)</span><span class="w"></span>
+<span class="c">! a complex expon probability density function at (1.5,1.0) with real part</span>
+<span class="c">!of lambda=1.0 and imaginary part of lambda=2.0</span>
 
 <span class="c">! 6.03947677E-02</span>
 
-<span class="k">end program </span><span class="n">demo_exponential_pdf</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_exponential_pdf</span><span class="w"></span>
 </code></pre></div>
 
 <h2 id="cdf_exp-exponential-cumulative-distribution-function"><code>cdf_exp</code> - exponential cumulative distribution function</h2>
@@ -283,46 +282,46 @@ function is the product of corresponding marginal cdf of real and imaginary cdf 
 <h3 id="return-value_2">Return value</h3>
 <p>The result is a scalar or an array, with a shape conformable to arguments, and has the same type of input arguments.</p>
 <h3 id="example_2">Example</h3>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_exponential_cdf</span><span class="w"></span>
-<span class="w">    </span><span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">random_seed</span>
-<span class="nb">    </span><span class="k">use </span><span class="n">stdlib_stats_distribution_exponential</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">exp_cdf</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">cdf_exp</span><span class="p">,</span><span class="w">    </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                      </span><span class="n">rexp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">rvs_exp</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_exponential_cdf</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="nb">random_seed</span>
+<span class="nb">  </span><span class="k">use </span><span class="n">stdlib_stats_distribution_exponential</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">exp_cdf</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">cdf_exp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                                   </span><span class="n">rexp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">rvs_exp</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">implicit none</span>
-<span class="k">    </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="kt">complex</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">scale</span>
-<span class="nb">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">seed_put</span><span class="p">,</span><span class="w"> </span><span class="n">seed_get</span><span class="w"></span>
+<span class="w">  </span><span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kt">complex</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">scale</span>
+<span class="nb">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">seed_put</span><span class="p">,</span><span class="w"> </span><span class="n">seed_get</span><span class="w"></span>
 
-<span class="w">    </span><span class="n">seed_put</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1234567</span><span class="w"></span>
-<span class="w">    </span><span class="k">call </span><span class="nb">random_seed</span><span class="p">(</span><span class="n">seed_put</span><span class="p">,</span><span class="w"> </span><span class="n">seed_get</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">seed_put</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1234567</span><span class="w"></span>
+<span class="w">  </span><span class="k">call </span><span class="nb">random_seed</span><span class="p">(</span><span class="n">seed_put</span><span class="p">,</span><span class="w"> </span><span class="n">seed_get</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_cdf</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span><span class="w">  </span><span class="c">! a standard exponential cumulative at 1.0</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_cdf</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span><span class="w">  </span><span class="c">! a standard exponential cumulative at 1.0</span>
 
 <span class="c">! 0.632120550</span>
 
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_cdf</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">)</span><span class="w"> </span><span class="c">! a cumulative at 2.0 with lambda=2</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_cdf</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">)</span><span class="w"> </span><span class="c">! a cumulative at 2.0 with lambda=2</span>
 
 <span class="c">! 0.981684387</span>
 
-<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">),[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span><span class="w"></span>
-<span class="w">    </span><span class="c">! standard exponential random variates array</span>
-<span class="w">    </span><span class="n">a</span><span class="p">(:,:,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w"></span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_cdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">  </span><span class="c">! a rank 3 array of standard exponential cumulative</span>
+<span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">])</span><span class="w"></span>
+<span class="c">! standard exponential random variates array</span>
+<span class="w">  </span><span class="n">a</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w"></span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_cdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">  </span><span class="c">! a rank 3 array of standard exponential cumulative</span>
 
-<span class="c">!  8.57694745E-02  9.70223546E-02  1.52170658E-02  2.95336246E-02 </span>
-<span class="c">!  0.107568979  0.196659625  2.97447443E-02  0.366151094  0.163051903 </span>
-<span class="c">!  3.36527228E-02  0.385267735  0.428375721  0.103964329  0.147119939 </span>
-<span class="c">!  0.192206264  0.330693483  0.179247737  2.92580128E-02  0.332765043 </span>
+<span class="c">!  8.57694745E-02  9.70223546E-02  1.52170658E-02  2.95336246E-02</span>
+<span class="c">!  0.107568979  0.196659625  2.97447443E-02  0.366151094  0.163051903</span>
+<span class="c">!  3.36527228E-02  0.385267735  0.428375721  0.103964329  0.147119939</span>
+<span class="c">!  0.192206264  0.330693483  0.179247737  2.92580128E-02  0.332765043</span>
 <span class="c">!  0.472417951  0.500440359  8.56802464E-02  8.72612000E-03  3.55126858E-02</span>
 
-<span class="w">    </span><span class="nb">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_cdf</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">),</span><span class="nb">scale</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="c">!complex exponential cumulative distribution at (0.5,0.5) with real part of</span>
-<span class="w">    </span><span class="c">!lambda=0.5 and imaginary part of lambda=1.0</span>
+<span class="w">  </span><span class="nb">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">exp_cdf</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">),</span><span class="w"> </span><span class="nb">scale</span><span class="p">)</span><span class="w"></span>
+<span class="c">!complex exponential cumulative distribution at (0.5,0.5) with real part of</span>
+<span class="c">!lambda=0.5 and imaginary part of lambda=1.0</span>
 
 <span class="c">! 8.70351046E-02</span>
 
-<span class="k">end program </span><span class="n">demo_exponential_cdf</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_exponential_cdf</span><span class="w"></span>
 </code></pre></div>
     </div>
     <div class="col-md-3 col-md-pull-9">
@@ -448,13 +447,13 @@ function is the product of corresponding marginal cdf of real and imaginary cdf 
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2022 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>5a2028a</small></p>
+<br /><small>c6b54e1</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2022-07-31 19:30            </p>
+ on 2022-08-01 09:03            </p>
         </div>
       </div>
       <br>

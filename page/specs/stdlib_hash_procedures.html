@@ -924,19 +924,19 @@ E. Knuth. It multiplies the <code>key</code> by the odd valued approximation to
 <code>2**32/phi</code>, where <code>phi</code> is the golden ratio 1.618..., and returns the
 <code>nbits</code> upper bits of the product as the lowest bits of the result.</p>
 <h5 id="example">Example</h5>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_fibonacci_hash</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_fibonacci_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fibonacci_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int32</span><span class="w"></span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">array1</span><span class="p">(:)</span><span class="w"></span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="w"></span>
-<span class="w">  </span><span class="k">allocate</span><span class="p">(</span><span class="w"> </span><span class="n">array1</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">array1</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
 <span class="w">  </span><span class="n">array1</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 <span class="w">  </span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42_int32</span><span class="w"></span>
 <span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fibonacci_hash</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">array1</span><span class="p">(</span><span class="n">hash</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source</span><span class="w"></span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
-<span class="k">end program </span><span class="n">demo_fibonacci_hash</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_fibonacci_hash</span><span class="w"></span>
 </code></pre></div>
 
 <h4 id="fnv_1_hash-calculates-a-hash-code-from-a-key"><code>fnv_1_hash</code>- calculates a hash code from a key</h4>
@@ -972,14 +972,14 @@ expected to be minor compared to its faster hashing rate.
 It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
 function for character strings.</p>
 <h5 id="example_1">Example</h5>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_fnv_1_hash</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_fnv_1_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int32</span><span class="w"></span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
-<span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fnv_1_hash</span><span class="p">([</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">])</span><span class="w"></span>
+<span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fnv_1_hash</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">])</span><span class="w"></span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
-<span class="k">end program </span><span class="n">demo_fnv_1_hash</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_fnv_1_hash</span><span class="w"></span>
 </code></pre></div>
 
 <h4 id="fnv_1a_hash-calculates-a-hash-code-from-a-key"><code>fnv_1a_hash</code>- calculates a hash code from a key</h4>
@@ -1015,14 +1015,14 @@ expected to be minor compared to its faster hashing rate.
 It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
 function for character strings.</p>
 <h5 id="example_2">Example</h5>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_fnv_1a_hash</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_fnv_1a_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1a_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int32</span><span class="w"></span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
-<span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fnv_1a_hash</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fnv_1a_hash</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">])</span><span class="w"></span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
-<span class="k">end program </span><span class="n">demo_fnv_1a_hash</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_fnv_1a_hash</span><span class="w"></span>
 </code></pre></div>
 
 <h4 id="new_nmhash32_seed-returns-a-valid-input-seed-for-nmhash32"><code>new_nmhash32_seed</code>- returns a valid input seed for <code>nmhash32</code></h4>
@@ -1121,17 +1121,17 @@ This code passes the SMHasher tests, and has no known bad seeds.
 It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
 function for character strings.</p>
 <h5 id="example_6">Example</h5>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_nmhash32</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_nmhash32</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">nmhash32</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">      </span><span class="n">new_nmhash32_seed</span><span class="w"></span>
+<span class="w">                               </span><span class="n">new_nmhash32_seed</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int32</span><span class="w"></span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42_int32</span><span class="w"></span>
 <span class="w">  </span><span class="k">call </span><span class="n">new_nmhash32_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nmhash32</span><span class="p">([</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">],</span><span class="w"> </span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nmhash32</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">],</span><span class="w"> </span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
-<span class="k">end program </span><span class="n">demo_nmhash32</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_nmhash32</span><span class="w"></span>
 </code></pre></div>
 
 <h4 id="nmhash32x-calculates-a-hash-code-from-a-key-and-a-seed"><code>nmhash32x</code>- calculates a hash code from a key and a seed</h4>
@@ -1164,17 +1164,17 @@ This code passes the SMHasher tests, and has no known bad seeds.
 It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
 function for character strings.</p>
 <h5 id="example_7">Example</h5>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_nmhash32x</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_nmhash32x</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">nmhash32x</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">    </span><span class="n">new_nmhash32x_seed</span><span class="w"></span>
+<span class="w">                               </span><span class="n">new_nmhash32x_seed</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int32</span><span class="w"></span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42_int32</span><span class="w"></span>
 <span class="w">  </span><span class="k">call </span><span class="n">new_nmhash32x_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nmhash32x</span><span class="p">([</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">],</span><span class="w"> </span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nmhash32x</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">],</span><span class="w"> </span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
-<span class="k">end program </span><span class="n">demo_nmhash32x</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_nmhash32x</span><span class="w"></span>
 </code></pre></div>
 
 <h4 id="odd_random_integer-returns-an-odd-integer"><code>odd_random_integer</code> - returns an odd integer</h4>
@@ -1222,24 +1222,24 @@ Multiplicative Hash of M. Dietzfelbinger, et al.
 It multiplies the <code>key</code> by <code>seed</code>, and returns the
 <code>nbits</code> upper bits of the product as the lowest bits of the result.</p>
 <h5 id="example_9">Example</h5>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_universal_mult_hash</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_universal_mult_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">odd_random_integer</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">    </span><span class="n">universal_mult_hash</span><span class="w"></span>
+<span class="w">                               </span><span class="n">universal_mult_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int32</span><span class="w"></span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">array1</span><span class="p">(:)</span><span class="w"></span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="w"></span>
 <span class="w">  </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">  </span><span class="k">allocate</span><span class="p">(</span><span class="w"> </span><span class="n">array1</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">array1</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 <span class="w">    </span><span class="n">array1</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
 <span class="w">  </span><span class="k">end do</span>
-<span class="k">  call </span><span class="n">odd_random_integer</span><span class="p">(</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="k">  call </span><span class="n">odd_random_integer</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42_int32</span><span class="w"></span>
 <span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">universal_mult_hash</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">array1</span><span class="p">(</span><span class="n">hash</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source</span><span class="w"></span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="p">,</span><span class="w"> </span><span class="n">array1</span><span class="w"></span>
-<span class="k">end program </span><span class="n">demo_odd_random_integer</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_universal_mult_hash</span><span class="w"></span>
 </code></pre></div>
 
 <h4 id="water_hash-calculates-a-hash-code-from-a-key-and-a-seed"><code>water_hash</code>- calculates a hash code from a key and a seed</h4>
@@ -1279,17 +1279,17 @@ the address of the integer is a multiple of the integer size.
 It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
 function for character strings.</p>
 <h5 id="example_10">Example</h5>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_water_hash</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_water_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">water_hash</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">    </span><span class="n">new_water_hash_seed</span><span class="w"></span>
+<span class="w">                               </span><span class="n">new_water_hash_seed</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int32</span><span class="p">,</span><span class="w"> </span><span class="n">int64</span><span class="w"></span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42_int64</span><span class="w"></span>
-<span class="w">  </span><span class="k">call </span><span class="n">new_water_hash_seed</span><span class="p">(</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">water_hash</span><span class="p">([</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">],</span><span class="w"> </span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">call </span><span class="n">new_water_hash_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">water_hash</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">],</span><span class="w"> </span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="w"></span>
-<span class="k">end program </span><span class="n">demo_water_hash</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_water_hash</span><span class="w"></span>
 </code></pre></div>
 
 <h2 id="the-stdlib_hash_64bit-module">The <code>stdlib_hash_64bit</code> module</h2>
@@ -1353,19 +1353,19 @@ E. Knuth. It multiplies the <code>key</code> by the odd valued approximation to
 <code>2**64/phi</code>, where <code>phi</code> is the golden ratio 1.618..., and returns the
 <code>nbits</code> upper bits of the product as the lowest bits of the result.</p>
 <h5 id="example_11">Example</h5>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_fibonacci_hash</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_fibonacci_hash_64</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hash_64bit</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fibonacci_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int64</span><span class="w"></span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">array1</span><span class="p">(:)</span><span class="w"></span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="w"></span>
-<span class="w">  </span><span class="k">allocate</span><span class="p">(</span><span class="w"> </span><span class="n">array1</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">array1</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
 <span class="w">  </span><span class="n">array1</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 <span class="w">  </span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">Z</span><span class="s1">&#39;1FFFFFFFF&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">int64</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fibonacci_hash</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">array1</span><span class="p">(</span><span class="n">hash</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source</span><span class="w"></span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
-<span class="k">end program </span><span class="n">demo_fibonacci_hash</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_fibonacci_hash_64</span><span class="w"></span>
 </code></pre></div>
 
 <h4 id="fnv_1-calculates-a-hash-code-from-a-key"><code>FNV_1</code>- calculates a hash code from a key</h4>
@@ -1401,16 +1401,16 @@ expected to be minor compared to its faster hashing rate.
 It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
 function for character strings.</p>
 <h5 id="example_12">Example</h5>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_fnv_1_hash</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_fnv_1_hash_64</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hash_64bit</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hash</span><span class="w"></span>
-<span class="w">    </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int64</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int64</span><span class="w"></span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">array1</span><span class="p">(:)</span><span class="w"></span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
-<span class="w">  </span><span class="n">array1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="n">array1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">]</span><span class="w"></span>
 <span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fnv_1_hash</span><span class="p">(</span><span class="n">array1</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
-<span class="k">end program </span><span class="n">demo_fnv_1_hash</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_fnv_1_hash_64</span><span class="w"></span>
 </code></pre></div>
 
 <h4 id="fnv_1a-calculates-a-hash-code-from-a-key"><code>FNV_1A</code>- calculates a hash code from a key</h4>
@@ -1446,16 +1446,16 @@ expected to be minor compared to its faster hashing rate.
 It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
 function for character strings.</p>
 <h5 id="example_13">Example</h5>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_fnv_1a_hash</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_fnv_1a_hash_64</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hash_64bit</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1a_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int64</span><span class="w"></span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">array1</span><span class="p">(:)</span><span class="w"></span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
-<span class="w">  </span><span class="n">array1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="n">array1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">]</span><span class="w"></span>
 <span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fnv_1a_hash</span><span class="p">(</span><span class="n">array1</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
-<span class="k">end program </span><span class="n">demo_fnv_1a_hash</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_fnv_1a_hash_64</span><span class="w"></span>
 </code></pre></div>
 
 <h4 id="new_pengy_hash_seed-returns-a-valid-input-seed-for-pengy_hash"><code>new_pengy_hash_seed</code>- returns a valid input seed for <code>pengy_hash</code></h4>
@@ -1548,19 +1548,19 @@ no known bad seeds.
 It is a <em>pure</em> function for integer arrays, and an <em>elemental</em>
 function for character strings.</p>
 <h5 id="example_17">Example</h5>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_pengy_hash</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_pengy_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hash_64bit</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">new_pengy_hash_seed</span><span class="p">,</span><span class="w"> </span><span class="n">pengy_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int32</span><span class="p">,</span><span class="w"> </span><span class="n">int64</span><span class="w"></span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span><span class="p">(:)</span><span class="w"></span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w">  </span><span class="n">seed</span><span class="w"></span>
-<span class="w">  </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span><span class="w"></span>
 <span class="w">  </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0_int32</span><span class="w"></span>
-<span class="w">  </span><span class="k">call </span><span class="n">new_pengy_hash_seed</span><span class="p">(</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pengy_hash</span><span class="p">(</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">call </span><span class="n">new_pengy_hash_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pengy_hash</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
-<span class="k">end program </span><span class="n">demo_pengy_hash</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_pengy_hash</span><span class="w"></span>
 </code></pre></div>
 
 <h4 id="spooky_hash-maps-a-character-string-or-integer-vector-to-an-integer"><code>spooky_hash</code> - maps a character string or integer vector to an integer</h4>
@@ -1591,19 +1591,19 @@ hash. This version of <code>spooky_hash</code> has good performance on small key
 and excellent performance on long keys. It passes all the SMHasher tests
 and has no known bad seeds.</p>
 <h5 id="example_18">Example</h5>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_spooky_hash</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_spooky_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hash_64bit</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">new_spooky_hash_seed</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">    </span><span class="n">spooky_hash</span><span class="w"></span>
+<span class="w">                               </span><span class="n">spooky_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int64</span><span class="w"></span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span><span class="p">(:)</span><span class="w"></span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">seed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">]</span><span class="w"></span>
-<span class="w">  </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">119_int64</span><span class="p">,</span><span class="w"> </span><span class="mi">2_int64</span><span class="o">**</span><span class="mi">41</span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="p">]</span><span class="w"></span>
-<span class="w">  </span><span class="k">call </span><span class="n">new_spooky_hash_seed</span><span class="p">(</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spooky_hash</span><span class="p">(</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">119_int64</span><span class="p">,</span><span class="w"> </span><span class="mi">2_int64</span><span class="o">**</span><span class="mi">41</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="k">call </span><span class="n">new_spooky_hash_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spooky_hash</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="w"></span>
-<span class="k">end program </span><span class="n">demo_spooky_hash</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_spooky_hash</span><span class="w"></span>
 </code></pre></div>
 
 <h4 id="universal_mult_hash-maps-an-integer-to-a-smaller-number-of-bits_1"><code>universal_mult_hash</code> - maps an integer to a smaller number of bits</h4>
@@ -1632,22 +1632,22 @@ Multiplicative Hash of M. Dietzfelbinger, et al.
 It multiplies the <code>key</code> by <code>seed</code>, and returns the
 <code>nbits</code> upper bits of the product as the lowest bits of the result.</p>
 <h5 id="example_19">Example</h5>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_universal_mult_hash</span><span class="w"></span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hash_32bit</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">odd_random_integer</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">    </span><span class="n">universal_mult_hash</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_universal_mult_hash_64</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hash_64bit</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">odd_random_integer</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                               </span><span class="n">universal_mult_hash</span><span class="w"></span>
 <span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int64</span><span class="w"></span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">array1</span><span class="p">(:)</span><span class="w"></span>
-<span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="w"></span>
+<span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="w"></span>
 <span class="w">  </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">  </span><span class="k">allocate</span><span class="p">(</span><span class="w"> </span><span class="n">array1</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">array1</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="o">**</span><span class="mi">6</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
 <span class="w">  </span><span class="n">array1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">  </span><span class="k">call </span><span class="n">odd_random_integer</span><span class="p">(</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">call </span><span class="n">odd_random_integer</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42_int64</span><span class="w"></span>
 <span class="w">  </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">universal_mult_hash</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="n">array1</span><span class="p">(</span><span class="n">hash</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source</span><span class="w"></span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="p">,</span><span class="w"> </span><span class="n">array1</span><span class="w"></span>
-<span class="k">end program </span><span class="n">demo_universal_mult_hash</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_universal_mult_hash_64</span><span class="w"></span>
 </code></pre></div>
 
 <h3 id="test-codes">Test Codes</h3>
@@ -2272,13 +2272,13 @@ Fortran hash procedure on the same keys.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2022 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>5a2028a</small></p>
+<br /><small>c6b54e1</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2022-07-31 19:30            </p>
+ on 2022-08-01 09:03            </p>
         </div>
       </div>
       <br>

@@ -535,18 +535,18 @@ an <code>intent(in)</code> argument. It shall be the name of the file to be open
   <code>open_failure</code> if <code>filename</code> could not be opened. If absent and <code>filename</code>
   could not be opened then processing will stop with an informative message as the stop code.</p>
 <h4 id="example">Example</h4>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_global_logger</span><span class="w"></span>
-<span class="w">    </span><span class="k">use </span><span class="n">stdlib_logger</span><span class="p">,</span><span class="w"> </span><span class="n">global</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">global_logger</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_global_logger</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_logger</span><span class="p">,</span><span class="w"> </span><span class="n">global</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">global_logger</span><span class="w"></span>
 
-<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span>
+<span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span>
 
-<span class="nb">    </span><span class="k">call </span><span class="n">global</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">add_log_file</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;error_log.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">        </span><span class="n">position</span><span class="o">=</span><span class="s1">&#39;asis&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">         error stop</span><span class="w"> </span><span class="s1">&#39;Unable to open &quot;error_log.txt&quot;.&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="k">end if</span>
+<span class="nb">  </span><span class="k">call </span><span class="n">global</span><span class="p">%</span><span class="n">add_log_file</span><span class="p">(</span><span class="s1">&#39;error_log.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                           </span><span class="n">position</span><span class="o">=</span><span class="s1">&#39;asis&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">success</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">    error stop</span><span class="w"> </span><span class="s1">&#39;Unable to open &quot;error_log.txt&quot;.&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end if</span>
 
-<span class="k">end program </span><span class="n">demo_global_logger</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_global_logger</span><span class="w"></span>
 </code></pre></div>
 
 <h3 id="add_log_unit-add-a-unit-to-the-array-self-log_units"><code>add_log_unit</code> - add a unit to the array <code>self % log_units</code></h3>
@@ -587,28 +587,25 @@ to <code>unit</code>.</p>
     <code>'FORMATTED'</code>
   * <code>unopened_in_error</code> - <code>unit</code> was not opened</p>
 <h4 id="example_1">Example</h4>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_add_log_unit</span><span class="w"></span>
-<span class="w">    </span><span class="k">use </span><span class="n">stdlib_logger</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">global_logger</span><span class="p">,</span><span class="w"> </span><span class="n">read_only_error</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_add_log_unit</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_logger</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">global_logger</span><span class="p">,</span><span class="w"> </span><span class="n">read_only_error</span><span class="w"></span>
 
-<span class="w">     </span><span class="kt">character</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iomsg</span><span class="w"></span>
-<span class="w">     </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span>
+<span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iomsg</span><span class="w"></span>
+<span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span>
 
-<span class="nb">     </span><span class="k">open</span><span class="p">(</span><span class="w"> </span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;error_log.txt&#39;</span><span class="p">,</span><span class="w">      </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">          </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">          </span><span class="n">position</span><span class="o">=</span><span class="s1">&#39;rewind&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="o">=</span><span class="mi">999</span><span class="p">,</span><span class="w">         </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">          </span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;read&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="n">iomsg</span><span class="o">=</span><span class="n">iomsg</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="nb">  </span><span class="k">open</span><span class="w"> </span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="s1">&#39;error_log.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">        </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">        </span><span class="n">position</span><span class="o">=</span><span class="s1">&#39;rewind&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">        </span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;write&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="n">iomsg</span><span class="o">=</span><span class="n">iomsg</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">     </span><span class="k">call </span><span class="n">global_logger</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">add_log_unit</span><span class="p">(</span><span class="w"> </span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">     </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nb">stat</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">call </span><span class="n">global_logger</span><span class="p">%</span><span class="n">add_log_unit</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">     </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">read_only_error</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;Unable to write to &quot;error_log.txt&quot;.&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">read_only_error</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;Unable to write to &quot;error_log.txt&quot;.&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end select</span>
 
-<span class="w">     </span><span class="k">end select</span>
-
-<span class="k">     </span><span class="mi">999</span><span class="w"> </span><span class="k">error stop</span><span class="w"> </span><span class="err">&#39;</span><span class="n">Unable</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="k">open</span><span class="w"> </span><span class="s2">&quot;error_log.txt&quot;</span><span class="p">.</span><span class="w"></span>
-
-<span class="k">end program </span><span class="n">demo_add_log_unit</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_add_log_unit</span><span class="w"></span>
 </code></pre></div>
 
 <h3 id="configuration-report-a-loggers-configuration"><code>configuration</code> - report a logger's configuration</h3>
@@ -698,12 +695,12 @@ to <code>unit</code>.</p>
   precede output with a time stamp of the form 'yyyy-mm-dd
   hh:mm:ss.sss', and to <code>.false.</code> otherwise.</p>
 <h4 id="example_3">Example</h4>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_configure</span><span class="w"></span>
-<span class="w">    </span><span class="k">use </span><span class="n">stdlib_logger</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">global</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">global_logger</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_configure</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_logger</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">global</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">global_logger</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">call </span><span class="n">global</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">configure</span><span class="p">(</span><span class="w"> </span><span class="n">indent</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.,</span><span class="w"> </span><span class="n">max_width</span><span class="o">=</span><span class="mi">72</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">call </span><span class="n">global</span><span class="p">%</span><span class="n">configure</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.,</span><span class="w"> </span><span class="n">max_width</span><span class="o">=</span><span class="mi">72</span><span class="p">)</span><span class="w"></span>
 
-<span class="k">end program </span><span class="n">demo_configure</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_configure</span><span class="w"></span>
 </code></pre></div>
 
 <h3 id="log_debug-writes-the-string-message-to-self-log_units"><code>log_debug</code> - Writes the string <code>message</code> to <code>self % log_units</code></h3>
@@ -918,26 +915,26 @@ written.</p>
   <code>iomsg</code> specifier of the subroutine call or intrinsic statement
   that prompted the <code>log_io_error</code> call.</p>
 <h4 id="example_7">Example</h4>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_log_io_error</span><span class="w"></span>
-<span class="w">    </span><span class="k">use </span><span class="n">stdlib_logger</span><span class="p">,</span><span class="w"> </span><span class="n">global</span><span class="o">=&gt;</span><span class="n">global_logger</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_log_io_error</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_logger</span><span class="p">,</span><span class="w"> </span><span class="n">global</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">global_logger</span><span class="w"></span>
 
-<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dummy.txt&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">integer</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="n">lun</span><span class="w"></span>
-<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">iomsg</span><span class="w"></span>
-<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">        </span><span class="s1">&#39;Failure in opening &quot;dummy.txt&quot;.&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;nodummy.txt&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">integer</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="n">lun</span><span class="w"></span>
+<span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">iomsg</span><span class="w"></span>
+<span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="s1">&#39;Failure in opening &quot;nodummy.txt&quot;.&#39;</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">open</span><span class="p">(</span><span class="w"> </span><span class="n">newunit</span><span class="o">=</span><span class="n">lun</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">            </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="n">iomsg</span><span class="o">=</span><span class="n">iomsg</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        call </span><span class="n">global</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">log_io_error</span><span class="p">(</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="w">               </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                    </span><span class="k">procedure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;EXAMPLE&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                    </span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">,</span><span class="w">         </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                    </span><span class="n">iomsg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iomsg</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">         </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;Error on opening a file&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="k">end if</span>
+<span class="w">  </span><span class="k">open</span><span class="w"> </span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">lun</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">        </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="n">iomsg</span><span class="o">=</span><span class="n">iomsg</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">    call </span><span class="n">global</span><span class="p">%</span><span class="n">log_io_error</span><span class="p">(</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="k">procedure</span><span class="o">=</span><span class="s1">&#39;EXAMPLE&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                             </span><span class="n">iomsg</span><span class="o">=</span><span class="n">iomsg</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;Error on opening a file&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end if</span>
 
-<span class="k">end program </span><span class="n">demo_log_io_error</span><span class="w"></span>
+<span class="k">end program </span><span class="n">example_log_io_error</span><span class="w"></span>
 </code></pre></div>
 
 <h3 id="log_message-write-the-string-message-to-self-log_units"><code>log_message</code> - write the string <code>message</code> to <code>self % log_units</code></h3>
@@ -1044,30 +1041,42 @@ written below <code>line</code> at the column indicated by <code>column</code>. 
   <code>log_units</code> failed. If <code>stat</code> is absent and would not have the value
   <code>success</code> then processing will stop with an informative stop code.</p>
 <h4 id="example_9">Example</h4>
-<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">demo_log_text_error</span><span class="w"></span>
-<span class="w">    </span><span class="k">use </span><span class="n">stdlib_logger</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_log_text_error</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_logger</span><span class="w"></span>
 
-<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dummy.txt&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">integer</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">col_no</span><span class="p">,</span><span class="w"> </span><span class="n">line_no</span><span class="p">,</span><span class="w"> </span><span class="n">lun</span><span class="w"></span>
-<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span><span class="w"></span>
-<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Bad text found.&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dummy.txt&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">integer</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">col_no</span><span class="p">,</span><span class="w"> </span><span class="n">line_no</span><span class="p">,</span><span class="w"> </span><span class="n">lun</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"></span>
+<span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span><span class="w"></span>
+<span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Bad text found.&#39;</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">open</span><span class="p">(</span><span class="w"> </span><span class="n">newunit</span><span class="o">=</span><span class="n">lun</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">statu</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">            </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="n">line_no</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">    </span><span class="k">do</span>
-<span class="k">        read</span><span class="p">(</span><span class="w"> </span><span class="n">lun</span><span class="p">,</span><span class="w"> </span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">end</span><span class="o">=</span><span class="mi">900</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">line</span><span class="w"></span>
-<span class="w">        </span><span class="n">line_no</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">line_no</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">        </span><span class="k">call </span><span class="n">check_line</span><span class="p">(</span><span class="w"> </span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">col_no</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">call </span><span class="n">global_logger</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">log_text_error</span><span class="p">(</span><span class="w"> </span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                  </span><span class="n">col_no</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">line_no</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;Error in reading &#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">filename</span><span class="w"></span>
-<span class="w">        </span><span class="k">end if</span>
-<span class="k">    end do</span>
-<span class="k">    </span><span class="mi">900</span><span class="w"> </span><span class="k">continue</span>
+<span class="w">  </span><span class="k">open</span><span class="w"> </span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">lun</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">        </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">line_no</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">  </span><span class="k">do</span>
+<span class="k">    read</span><span class="w"> </span><span class="p">(</span><span class="n">lun</span><span class="p">,</span><span class="w"> </span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;(a)&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">end</span><span class="o">=</span><span class="mi">900</span><span class="p">)</span><span class="w"> </span><span class="n">line</span><span class="w"></span>
+<span class="w">    </span><span class="n">line_no</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">line_no</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="k">call </span><span class="n">check_line</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">col_no</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">      call </span><span class="n">global_logger</span><span class="p">%</span><span class="n">log_text_error</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="n">col_no</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">line_no</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;Error in reading &#39;</span><span class="o">//</span><span class="n">filename</span><span class="w"></span>
+<span class="w">    </span><span class="k">end if</span>
+<span class="k">  end do</span>
+<span class="mi">900</span><span class="w"> </span><span class="k">continue</span>
 
-<span class="k">end program </span><span class="n">demo_log_text_error</span><span class="w"></span>
+<span class="k">contains</span>
+
+<span class="k">  subroutine </span><span class="n">check_line</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">col_no</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span><span class="w"></span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">status</span><span class="w"></span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">col_no</span><span class="w"></span>
+<span class="w">    </span><span class="c">! scan the line for forbidden characters</span>
+<span class="w">    </span><span class="n">col_no</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">scan</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;.$/&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="c">! col_no &gt; 0 means there is a forbidden character</span>
+<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col_no</span><span class="w"></span>
+<span class="w">  </span><span class="k">end subroutine</span>
+
+<span class="k">end program </span><span class="n">example_log_text_error</span><span class="w"></span>
 </code></pre></div>
 
 <h3 id="log_units_assigned-returns-the-number-of-active-io-units"><code>log_units_assigned</code> - returns the number of active I/O units</h3>
@@ -1329,13 +1338,13 @@ modified.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2022 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>5a2028a</small></p>
+<br /><small>c6b54e1</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2022-07-31 19:30            </p>
+ on 2022-08-01 09:03            </p>
         </div>
       </div>
       <br>
