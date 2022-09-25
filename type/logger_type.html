@@ -304,18 +304,18 @@
    file
  *</code>open_failure<code>- the</code>open` statement failed</p>
 <h5 id="example">Example</h5>
-<div class="codehilite"><pre><span></span><code> <span class="nv">program</span> <span class="nv">main</span>
-     <span class="nv">use</span> <span class="nv">stdlib_logger</span>
-     ...
-     <span class="nv">integer</span> :: <span class="nv">unit</span>, <span class="nv">stat</span>
-     ...
-     <span class="k">call</span> <span class="nl">global_logger</span> <span class="o">%</span> <span class="nv">add_log_file</span><span class="ss">(</span> <span class="s1">&#39;</span><span class="s">error_log.txt</span><span class="s1">&#39;</span>, <span class="nv">unit</span>,      <span class="o">&amp;</span>
-                                        <span class="nv">position</span><span class="o">=</span><span class="s1">&#39;</span><span class="s">asis</span><span class="s1">&#39;</span>, <span class="nv">stat</span><span class="o">=</span><span class="nv">stat</span> <span class="ss">)</span>
-     <span class="k">if</span> <span class="ss">(</span> <span class="nv">stat</span> <span class="o">/=</span> <span class="nv">success</span> <span class="ss">)</span> <span class="k">then</span>
-         <span class="nv">error</span> <span class="nv">stop</span> <span class="s1">&#39;</span><span class="s">Unable to open &quot;error_log.txt&quot;.</span><span class="s1">&#39;</span>
-     <span class="k">end</span> <span class="k">if</span>
-     ...
- <span class="k">end</span> <span class="nv">program</span> <span class="nv">main</span>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nv">program</span><span class="w"> </span><span class="nv">main</span><span class="w"></span>
+<span class="w">     </span><span class="nv">use</span><span class="w"> </span><span class="nv">stdlib_logger</span><span class="w"></span>
+<span class="w">     </span>...<span class="w"></span>
+<span class="w">     </span><span class="nv">integer</span><span class="w"> </span>::<span class="w"> </span><span class="nv">unit</span>,<span class="w"> </span><span class="nv">stat</span><span class="w"></span>
+<span class="w">     </span>...<span class="w"></span>
+<span class="w">     </span><span class="k">call</span><span class="w"> </span><span class="nl">global_logger</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="nv">add_log_file</span><span class="ss">(</span><span class="w"> </span><span class="s1">&#39;error_log.txt&#39;</span>,<span class="w"> </span><span class="nv">unit</span>,<span class="w">      </span><span class="o">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="nv">position</span><span class="o">=</span><span class="s1">&#39;asis&#39;</span>,<span class="w"> </span><span class="nv">stat</span><span class="o">=</span><span class="nv">stat</span><span class="w"> </span><span class="ss">)</span><span class="w"></span>
+<span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="ss">(</span><span class="w"> </span><span class="nv">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="nv">success</span><span class="w"> </span><span class="ss">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+<span class="w">         </span><span class="nv">error</span><span class="w"> </span><span class="nv">stop</span><span class="w"> </span><span class="s1">&#39;Unable to open &quot;error_log.txt&quot;.&#39;</span><span class="w"></span>
+<span class="w">     </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w"></span>
+<span class="w">     </span>...<span class="w"></span>
+<span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="nv">program</span><span class="w"> </span><span class="nv">main</span><span class="w"></span>
 </code></pre></div></td>
 </tr>
 </tbody>
@@ -363,27 +363,27 @@
  * <code>unformatted_in_error</code> - <code>unit</code> was an <code>'unformatted'</code> file
  * <code>unopened_in_error</code> - <code>unit</code> was not opened</p>
 <h5 id="example">Example</h5>
-<div class="codehilite"><pre><span></span><code> <span class="nv">program</span> <span class="nv">main</span>
-     <span class="nv">use</span> <span class="nv">stdlib_logger</span>
-     ...
-     <span class="nv">character</span><span class="ss">(</span><span class="mi">256</span><span class="ss">)</span> :: <span class="nv">iomsg</span>
-     <span class="nv">integer</span> :: <span class="nv">iostat</span>, <span class="nv">unit</span>, <span class="nv">stat</span>
-     ...
-     <span class="nv">open</span><span class="ss">(</span> <span class="nv">newunit</span><span class="o">=</span><span class="nv">unit</span>, <span class="s1">&#39;</span><span class="s">error_log.txt</span><span class="s1">&#39;</span>, <span class="nv">form</span><span class="o">=</span><span class="s1">&#39;</span><span class="s">formatted</span><span class="s1">&#39;</span>, <span class="o">&amp;</span>
-           <span class="nv">status</span><span class="o">=</span><span class="s1">&#39;</span><span class="s">replace</span><span class="s1">&#39;</span>, <span class="nv">position</span><span class="o">=</span><span class="s1">&#39;</span><span class="s">rewind</span><span class="s1">&#39;</span>, <span class="nv">err</span><span class="o">=</span><span class="mi">999</span>,    <span class="o">&amp;</span>
-           <span class="nv">action</span><span class="o">=</span><span class="s1">&#39;</span><span class="s">read</span><span class="s1">&#39;</span>, <span class="nv">iostat</span><span class="o">=</span><span class="nv">iostat</span>, <span class="nv">iomsg</span><span class="o">=</span><span class="nv">iomsg</span> <span class="ss">)</span>
-     ...
-     <span class="k">call</span> <span class="nl">global_logger</span> <span class="o">%</span> <span class="nv">add_log_unit</span><span class="ss">(</span> <span class="nv">unit</span>, <span class="nv">stat</span> <span class="ss">)</span>
-     <span class="nv">select</span> <span class="nv">case</span> <span class="ss">(</span> <span class="nv">stat</span> <span class="ss">)</span>
-     ...
-     <span class="nv">case</span> <span class="ss">(</span> <span class="nv">read_only_error</span> <span class="ss">)</span>
-         <span class="nv">error</span> <span class="nv">stop</span> <span class="s1">&#39;</span><span class="s">Unable to write to &quot;error_log.txt&quot;.</span><span class="s1">&#39;</span>
-     ...
-     <span class="k">end</span> <span class="nv">select</span>
-     ...
- <span class="mi">999</span> <span class="nv">error</span> <span class="nv">stop</span> <span class="s1">&#39;</span><span class="s">Unable to open &quot;error_log.txt&quot;.</span>
-     ...
- <span class="k">end</span> <span class="nv">program</span> <span class="nv">main</span>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nv">program</span><span class="w"> </span><span class="nv">main</span><span class="w"></span>
+<span class="w">     </span><span class="nv">use</span><span class="w"> </span><span class="nv">stdlib_logger</span><span class="w"></span>
+<span class="w">     </span>...<span class="w"></span>
+<span class="w">     </span><span class="nv">character</span><span class="ss">(</span><span class="mi">256</span><span class="ss">)</span><span class="w"> </span>::<span class="w"> </span><span class="nv">iomsg</span><span class="w"></span>
+<span class="w">     </span><span class="nv">integer</span><span class="w"> </span>::<span class="w"> </span><span class="nv">iostat</span>,<span class="w"> </span><span class="nv">unit</span>,<span class="w"> </span><span class="nv">stat</span><span class="w"></span>
+<span class="w">     </span>...<span class="w"></span>
+<span class="w">     </span><span class="nv">open</span><span class="ss">(</span><span class="w"> </span><span class="nv">newunit</span><span class="o">=</span><span class="nv">unit</span>,<span class="w"> </span><span class="s1">&#39;error_log.txt&#39;</span>,<span class="w"> </span><span class="nv">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span>,<span class="w"> </span><span class="o">&amp;</span><span class="w"></span>
+<span class="w">           </span><span class="nv">status</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span>,<span class="w"> </span><span class="nv">position</span><span class="o">=</span><span class="s1">&#39;rewind&#39;</span>,<span class="w"> </span><span class="nv">err</span><span class="o">=</span><span class="mi">999</span>,<span class="w">    </span><span class="o">&amp;</span><span class="w"></span>
+<span class="w">           </span><span class="nv">action</span><span class="o">=</span><span class="s1">&#39;read&#39;</span>,<span class="w"> </span><span class="nv">iostat</span><span class="o">=</span><span class="nv">iostat</span>,<span class="w"> </span><span class="nv">iomsg</span><span class="o">=</span><span class="nv">iomsg</span><span class="w"> </span><span class="ss">)</span><span class="w"></span>
+<span class="w">     </span>...<span class="w"></span>
+<span class="w">     </span><span class="k">call</span><span class="w"> </span><span class="nl">global_logger</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="nv">add_log_unit</span><span class="ss">(</span><span class="w"> </span><span class="nv">unit</span>,<span class="w"> </span><span class="nv">stat</span><span class="w"> </span><span class="ss">)</span><span class="w"></span>
+<span class="w">     </span><span class="nv">select</span><span class="w"> </span><span class="nv">case</span><span class="w"> </span><span class="ss">(</span><span class="w"> </span><span class="nv">stat</span><span class="w"> </span><span class="ss">)</span><span class="w"></span>
+<span class="w">     </span>...<span class="w"></span>
+<span class="w">     </span><span class="nv">case</span><span class="w"> </span><span class="ss">(</span><span class="w"> </span><span class="nv">read_only_error</span><span class="w"> </span><span class="ss">)</span><span class="w"></span>
+<span class="w">         </span><span class="nv">error</span><span class="w"> </span><span class="nv">stop</span><span class="w"> </span><span class="s1">&#39;Unable to write to &quot;error_log.txt&quot;.&#39;</span><span class="w"></span>
+<span class="w">     </span>...<span class="w"></span>
+<span class="w">     </span><span class="k">end</span><span class="w"> </span><span class="nv">select</span><span class="w"></span>
+<span class="w">     </span>...<span class="w"></span>
+<span class="w"> </span><span class="mi">999</span><span class="w"> </span><span class="nv">error</span><span class="w"> </span><span class="nv">stop</span><span class="w"> </span><span class="err">&#39;Unable to open &quot;error_log.txt&quot;.</span>
+<span class="err">     ...</span>
+<span class="err"> end program main</span><span class="w"></span>
 </code></pre></div></td>
 </tr>
 </tbody>
@@ -1057,13 +1057,13 @@ statements has failed.</p></td>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2022 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>c6b54e1</small></p>
+<br /><small>f8e29c6</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2022-08-01 09:03            </p>
+ on 2022-09-25 07:04            </p>
         </div>
       </div>
       <br>
