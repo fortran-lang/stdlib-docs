@@ -205,7 +205,7 @@
 <li><a href="#example_9">Example</a></li>
 </ul>
 </li>
-<li><a href="#to_string">to_string</a><ul>
+<li><a href="#zfill">zfill</a><ul>
 <li><a href="#description_10">Description</a></li>
 <li><a href="#syntax_10">Syntax</a></li>
 <li><a href="#status_10">Status</a></li>
@@ -213,6 +213,16 @@
 <li><a href="#argument_10">Argument</a></li>
 <li><a href="#result-value_10">Result value</a></li>
 <li><a href="#example_10">Example</a></li>
+</ul>
+</li>
+<li><a href="#to_string">to_string</a><ul>
+<li><a href="#description_11">Description</a></li>
+<li><a href="#syntax_11">Syntax</a></li>
+<li><a href="#status_11">Status</a></li>
+<li><a href="#class_11">Class</a></li>
+<li><a href="#argument_11">Argument</a></li>
+<li><a href="#result-value_11">Result value</a></li>
+<li><a href="#example_11">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -609,17 +619,55 @@ If <code>consider_overlapping</code> is not provided or is set to <code>.true.</
 </code></pre></div>
 
 <!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
-<h3 id="to_string"><code>to_string</code></h3>
+<h3 id="zfill"><code>zfill</code></h3>
 <h4 id="description_10">Description</h4>
-<p>Format or transfer a <code>integer/real/complex/logical</code> scalar as a string.<br>
-Input a wrong <code>format</code> that cause the internal-IO to fail, the result value is a string of <code>[*]</code>.</p>
+<p>Returns a string of length <code>output_length</code> left-padded with zeros.
+If <code>output_length</code> is less than or equal to the length of <code>string</code>, padding is not performed.</p>
 <h4 id="syntax_10">Syntax</h4>
-<p><code>string = <a href="../../module/stdlib_strings.html#interface-to_string">to_string</a> (value [, format])</code></p>
+<p><code>string = <a href="../../module/stdlib_strings.html#interface-zfill">zfill</a> (string, output_length)</code></p>
 <h4 id="status_10">Status</h4>
 <p>Experimental</p>
 <h4 id="class_10">Class</h4>
-<p>Pure function.</p>
+<p>Pure function</p>
 <h4 id="argument_10">Argument</h4>
+<ul>
+<li><code>string</code>: Character scalar or <a href="../../module/stdlib_string_type.html#type-string_type">string_type</a>.
+  This argument is intent(in).</li>
+<li><code>output_length</code>: integer.
+  This argument is intent(in).</li>
+</ul>
+<h4 id="result-value_10">Result value</h4>
+<p>The result is of the same type as <code>string</code>.</p>
+<h4 id="example_10">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_zfill</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_string_type</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">string_type</span><span class="p">,</span><span class="w"> </span><span class="n">assignment</span><span class="p">(</span><span class="o">=</span><span class="p">),</span><span class="w"> </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">formatted</span><span class="p">)</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_strings</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">zfill</span>
+<span class="w">  </span><span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">string</span>
+
+<span class="w">  </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;left pad this string with zeros&quot;</span>
+<span class="c">! string &lt;-- &quot;left pad this string with zeros&quot;</span>
+
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(dt)&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">zfill</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="mi">36</span><span class="p">)</span><span class="w"> </span><span class="c">! &quot;00000left pad this string with zeros&quot;</span>
+
+<span class="w">  </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zfill</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="mi">36</span><span class="p">)</span>
+<span class="c">! string &lt;-- &quot;00000left pad this string with zeros&quot;</span>
+
+<span class="k">end program </span><span class="n">example_zfill</span>
+</code></pre></div>
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="to_string"><code>to_string</code></h3>
+<h4 id="description_11">Description</h4>
+<p>Format or transfer a <code>integer/real/complex/logical</code> scalar as a string.<br>
+Input a wrong <code>format</code> that cause the internal-IO to fail, the result value is a string of <code>[*]</code>.</p>
+<h4 id="syntax_11">Syntax</h4>
+<p><code>string = <a href="../../module/stdlib_strings.html#interface-to_string">to_string</a> (value [, format])</code></p>
+<h4 id="status_11">Status</h4>
+<p>Experimental</p>
+<h4 id="class_11">Class</h4>
+<p>Pure function.</p>
+<h4 id="argument_11">Argument</h4>
 <ul>
 <li><code>value</code>: Shall be an <code>integer/real/complex/logical</code> scalar.
   This is an <code>intent(in)</code> argument.</li>
@@ -628,9 +676,9 @@ Input a wrong <code>format</code> that cause the internal-IO to fail, the result
   Contains the edit descriptor to format <code>value</code> into a string, for example <code>'(F6.2)'</code> or <code>'(f6.2)'</code>. 
   <code>to_string</code> will automatically enclose <code>format</code> in a set of parentheses, so passing <code>F6.2</code> or <code>f6.2</code> as <code>format</code> is possible as well.</li>
 </ul>
-<h4 id="result-value_10">Result value</h4>
+<h4 id="result-value_11">Result value</h4>
 <p>The result is an <code>allocatable</code> length <code>character</code> scalar with up to <code>128</code> cached <code>character</code> length.</p>
-<h4 id="example_10">Example</h4>
+<h4 id="example_11">Example</h4>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_to_string</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_strings</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">to_string</span>
 
@@ -790,13 +838,13 @@ Input a wrong <code>format</code> that cause the internal-IO to fail, the result
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>4da9933</small></p>
+<br /><small>8f7ac8d</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-03-02 19:00            </p>
+ on 2023-03-03 21:28            </p>
         </div>
       </div>
       <br>
