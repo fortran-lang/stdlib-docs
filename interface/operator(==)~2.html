@@ -87,17 +87,16 @@
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
     <li><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a></li> 
-    <li><i class="fa fa-barcode"></i> experimental</li>
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.1% of total for procedures.</p>Including implementation: 62 statements,  1.1% of total for procedures.">7 statements</a>
+    title="<p> 0.1% of total for procedures.</p>Including implementation: 32 statements,  0.6% of total for procedures.">5 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/stdlib_stringlist_type.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/stdlib_string_type.fypp"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/stdlib_stringlist_type.f90.html'>stdlib_stringlist_type.f90</a></li>
-     <li><a href='../module/stdlib_stringlist_type.html'>stdlib_stringlist_type</a></li>
+     <li><a href='../sourcefile/stdlib_string_type.fypp.html'>stdlib_string_type.fypp</a></li>
+     <li><a href='../module/stdlib_string_type.html'>stdlib_string_type</a></li>
      <li class="active">operator(==)</li>
   </ol>
 </div>
@@ -120,11 +119,9 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-0">Module Procedures</a></h3></div>
   <div id="modprocs-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_stringlist">eq_stringlist</a>
-      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_stringlist_carray">eq_stringlist_carray</a>
-      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_stringlist_sarray">eq_stringlist_sarray</a>
-      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_carray_stringlist">eq_carray_stringlist</a>
-      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_sarray_stringlist">eq_sarray_stringlist</a>
+      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_string_string">eq_string_string</a>
+      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_string_char">eq_string_char</a>
+      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_char_string">eq_char_string</a>
     </div>
   </div>
 </div>
@@ -135,9 +132,10 @@
     
     <div class="col-md-9" id='text'>
       <h2>public interface operator(==)</h2>
-   <p>Compares stringlist for equality with the input entity
-Returns a logical
-<a href="../page/specs/stdlib_stringlist_type.html#equality-operator">Specifications</a></p>
+   <p>Compare two character sequences for equality, the left-hand side,
+the right-hand side or both character sequences can be represented by
+a string.</p>
+<p>This operator is elemental and returns a default logical scalar value.</p>
 <br>
      <section class="visible-xs visible-sm hidden-md">
        <h3>Contents</h3>
@@ -146,11 +144,9 @@ Returns a logical
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-1">Module Procedures</a></h3></div>
   <div id="modprocs-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_stringlist">eq_stringlist</a>
-      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_stringlist_carray">eq_stringlist_carray</a>
-      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_stringlist_sarray">eq_stringlist_sarray</a>
-      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_carray_stringlist">eq_carray_stringlist</a>
-      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_sarray_stringlist">eq_sarray_stringlist</a>
+      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_string_string">eq_string_string</a>
+      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_string_char">eq_string_char</a>
+      <a class="list-group-item" href="../interface/operator%28%3D%3D%29~2.html#moduleprocedure-eq_char_string">eq_char_string</a>
     </div>
   </div>
 </div>
@@ -162,138 +158,80 @@ Returns a logical
 
    <h2>Module Procedures</h2>
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-eq_stringlist"></span><h3>private pure function eq_stringlist(lhs, rhs)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-eq_string_string"></span><h3>private elemental function eq_string_string(lhs, rhs) result(is_eq)</h3></div>
   <div class="panel-body">
-       <p>Compares stringlist 'lhs' for equality with stringlist 'rhs'
-Returns a logical</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/stringlist_type.html'>stringlist_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/stringlist_type.html'>stringlist_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>logical</small></h4>  
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-eq_stringlist_carray"></span><h3>private pure function eq_stringlist_carray(lhs, rhs)</h3></div>
-  <div class="panel-body">
-       <p>Compares stringlist 'lhs' for equality with chararray 'rhs'
-Returns a logical</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/stringlist_type.html'>stringlist_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>logical</small></h4>  
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-eq_stringlist_sarray"></span><h3>private pure function eq_stringlist_sarray(lhs, rhs)</h3></div>
-  <div class="panel-body">
-       <p>Compares stringlist 'lhs' for equality with stringarray 'rhs'
-Returns a logical</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/stringlist_type.html'>stringlist_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>logical</small></h4>  
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-eq_carray_stringlist"></span><h3>private pure function eq_carray_stringlist(lhs, rhs)</h3></div>
-  <div class="panel-body">
-       <p>Compares chararray 'lhs' for equality with stringlist 'rhs'
-Returns a logical</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/stringlist_type.html'>stringlist_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>logical</small></h4>  
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-eq_sarray_stringlist"></span><h3>private pure function eq_sarray_stringlist(lhs, rhs)</h3></div>
-  <div class="panel-body">
-       <p>Compares stringarray 'lhs' for equality with stringlist 'rhs'
-Returns a logical</p>
+       <p>Compare two character sequences for equality.
+In this version both character sequences are by a string.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
   <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>lhs</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" ></span>type(<a href='../type/stringlist_type.html'>stringlist_type</a>),</td>
+  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>rhs</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>logical</small></h4>  
+
+  </div>
+  </div>
+
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-eq_string_char"></span><h3>private elemental function eq_string_char(lhs, rhs) result(is_eq)</h3></div>
+  <div class="panel-body">
+       <p>Compare two character sequences for equality.
+In this version the left-hand side character sequences is by a string.</p>
+    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>lhs</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>character(len=*),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>rhs</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>logical</small></h4>  
+
+  </div>
+  </div>
+
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-eq_char_string"></span><h3>private elemental function eq_char_string(lhs, rhs) result(is_eq)</h3></div>
+  <div class="panel-body">
+       <p>Compare two character sequences for equality.
+In this version the right-hand side character sequences is by a string.</p>
+    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>character(len=*),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>lhs</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>rhs</strong></td><td></td>
@@ -316,13 +254,13 @@ Returns a logical</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>2fdfab4</small></p>
+<br /><small>b76075a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-03-08 13:44            </p>
+ on 2023-05-04 21:17            </p>
         </div>
       </div>
       <br>
