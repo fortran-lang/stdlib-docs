@@ -111,6 +111,7 @@
 <li><a href="#the-ord_sort-subroutine">The ORD_SORT subroutine</a></li>
 <li><a href="#the-sort_index-subroutine">The SORT_INDEX subroutine</a></li>
 <li><a href="#the-sort-subroutine">The SORT subroutine</a></li>
+<li><a href="#the-radix_sort-subroutine">The RADIX_SORT subroutine</a></li>
 </ul>
 </li>
 <li><a href="#specifications-of-the-stdlib_sorting-procedures">Specifications of the stdlib_sorting procedures</a><ul>
@@ -134,13 +135,23 @@
 <li><a href="#example_1">Example</a></li>
 </ul>
 </li>
-<li><a href="#sort_index-creates-an-array-of-sorting-indices-for-an-input-array-while-also-sorting-the-array">sort_index - creates an array of sorting indices for an input array, while also sorting the array.</a><ul>
+<li><a href="#radix_sort-sorts-an-input-array">radix_sort - sorts an input array</a><ul>
 <li><a href="#status_2">Status</a></li>
 <li><a href="#description_2">Description</a></li>
 <li><a href="#syntax_2">Syntax</a></li>
 <li><a href="#class_2">Class</a></li>
 <li><a href="#arguments_2">Arguments</a></li>
 <li><a href="#notes_2">Notes</a></li>
+<li><a href="#example_2">Example</a></li>
+</ul>
+</li>
+<li><a href="#sort_index-creates-an-array-of-sorting-indices-for-an-input-array-while-also-sorting-the-array">sort_index - creates an array of sorting indices for an input array, while also sorting the array.</a><ul>
+<li><a href="#status_3">Status</a></li>
+<li><a href="#description_3">Description</a></li>
+<li><a href="#syntax_3">Syntax</a></li>
+<li><a href="#class_3">Class</a></li>
+<li><a href="#arguments_3">Arguments</a></li>
+<li><a href="#notes_3">Notes</a></li>
 <li><a href="#examples">Examples</a></li>
 </ul>
 </li>
@@ -169,9 +180,9 @@ default assumed length character, and the <code>stdlib_string_type</code>
 module's <code>string_type</code> type.</p>
 <h2 id="overview-of-the-module">Overview of the module</h2>
 <p>The module <code>stdlib_sorting</code> defines several public entities, one
-default integer parameter, <code>int_size</code>, and three overloaded
-subroutines: <code>ORD_SORT</code>, <code>SORT</code>, and <code>SORT_INDEX</code>. The
-overloaded subroutines also each have seven specific names for
+default integer parameter, <code>int_size</code>, and four overloaded
+subroutines: <code>ORD_SORT</code>, <code>SORT</code>, <code>RADIX_SORT</code> and <code>SORT_INDEX</code>. The
+overloaded subroutines also each have several specific names for
 versions corresponding to different types of array arguments.</p>
 <h3 id="the-int_size-parameter">The <code>int_size</code> parameter</h3>
 <p>The <code>int_size</code> parameter is used to specify the kind of integer used
@@ -187,9 +198,11 @@ data:
 * <code>SORT_INDEX</code> is based on <code>ORD_SORT</code>, but in addition to sorting the
   input array, it returns indices that map the original array to its
   sorted version. This enables related arrays to be re-ordered in the
-  same way; and
+  same way;
 * <code>SORT</code> is intended to sort simple arrays of intrinsic data
-  that are effectively unordered before the sort.</p>
+  that are effectively unordered before the sort;
+* <code>RADIX_SORT</code> is intended to sort fixed width intrinsic data 
+  types (integers and reals).</p>
 <h4 id="licensing">Licensing</h4>
 <p>The Fortran Standard Library is distributed under the MIT
 License. However components of the library may be based on code with
@@ -322,6 +335,15 @@ performance on partially sorted data is typically an order of
 magnitude slower than <code>ORD_SORT</code>. Its memory requirements are also
 low, being of order O(Ln(N)), while the memory requirements of
 <code>ORD_SORT</code> and <code>SORT_INDEX</code> are of order O(N).</p>
+<h4 id="the-radix_sort-subroutine">The <code>RADIX_SORT</code> subroutine</h4>
+<p><code>RADIX_SORT</code> is a implementation of LSD <a href="https://www.growingwiththeweb.com/sorting/radix-sort-lsd/">radix sort</a>,
+using <code>256</code> as the radix. It only works for fixed width data,
+thus integers and reals. <code>RADIX_SORT</code> is always of O(N) runtime performance
+for any input data. For large and random data, it is about five (or more)
+times faster than other sort subroutines.</p>
+<p>The <code>RADIX_SORT</code> needs a buffer that have same size of the input data.
+Your can provide it using <code>work</code> argument, if not the subroutine will
+allocate the buffer and deallocate before return.</p>
 <h3 id="specifications-of-the-stdlib_sorting-procedures">Specifications of the <code>stdlib_sorting</code> procedures</h3>
 <h4 id="ord_sort-sorts-an-input-array"><code>ord_sort</code> - sorts an input array</h4>
 <h5 id="status">Status</h5>
@@ -424,18 +446,75 @@ element of <code>array</code> is a <code>NaN</code>.  Sorting of <code>CHARACTER
 <span class="k">end program </span><span class="n">example_sort</span>
 </code></pre></div>
 
-<h4 id="sort_index-creates-an-array-of-sorting-indices-for-an-input-array-while-also-sorting-the-array"><code>sort_index</code> - creates an array of sorting indices for an input array, while also sorting the array.</h4>
+<h4 id="radix_sort-sorts-an-input-array"><code>radix_sort</code> - sorts an input array</h4>
 <h5 id="status_2">Status</h5>
 <p>Experimental</p>
 <h5 id="description_2">Description</h5>
-<p>Returns the input <code>array</code> sorted in the direction requested while
-retaining order stability, and an integer array whose elements would
-sort the input <code>array</code> to produce the output <code>array</code>.</p>
+<p>Returns an input array with the elements sorted in order of increasing, or
+decreasing, value.</p>
 <h5 id="syntax_2">Syntax</h5>
-<p><code>call <a href="../../module/stdlib_sorting.html#interface-sort_index">sort_index</a>( array, index[, work, iwork, reverse ] )</code></p>
+<p><code>call <a href="../../module/stdlib_sorting.html#interface-radix_sort">radix_sort</a>( array[, work, reverse] )</code></p>
 <h5 id="class_2">Class</h5>
 <p>Generic subroutine.</p>
 <h5 id="arguments_2">Arguments</h5>
+<p><code>array</code> : shall be a rank one array of any of the types:
+<code>integer(int8)</code>, <code>integer(int16)</code>, <code>integer(int32)</code>, <code>integer(int64)</code>,
+<code>real(sp)</code>, <code>real(dp)</code>. It is an <code>intent(inout)</code> argument. On return its
+input elements will be sorted in order of non-decreasing value.</p>
+<p><code>work</code> (optional): shall be a rank one array of the same type as
+array, and shall have at least <code>size(array)</code> elements. It is an
+<code>intent(inout)</code> argument, and its contents on return are undefined.</p>
+<p><code>reverse</code> (optional): shall be a scalar of type default <code>logical</code>. It
+is an <code>intent(in)</code> argument. If present with a value of <code>.true.</code> then
+<code>array</code> will be sorted in order of non-increasing values in unstable
+order. Otherwise index will sort <code>array</code> in order of non-decreasing
+values in unstable order.</p>
+<h5 id="notes_2">Notes</h5>
+<p><code>radix_sort</code> implements a LSD radix sort algorithm with a <code>256</code> radix. For any
+input data it provides <code>O(N)</code> run time performance. If <code>array</code> is of
+any type <code>real</code> the order of its elements on return undefined if any
+element of <code>array</code> is a <code>NaN</code>.</p>
+<h5 id="example_2">Example</h5>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_radix_sort</span>
+<span class="w">    </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="p">,</span><span class="w"> </span><span class="n">int16</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">real64</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_sorting</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">radix_sort</span>
+<span class="w">    </span><span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span><span class="p">(</span><span class="n">int8</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">arri8</span><span class="p">(:)</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">(</span><span class="n">int16</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">arri16</span><span class="p">(:)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w">  </span><span class="n">x</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w">  </span><span class="n">arrf64</span><span class="p">(:)</span>
+
+<span class="w">    </span><span class="n">arri8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="mi">128</span><span class="p">,</span><span class="w"> </span><span class="mi">127</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span>
+<span class="w">    </span><span class="k">call </span><span class="n">radix_sort</span><span class="p">(</span><span class="n">arri8</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">arri8</span>
+
+<span class="w">    </span><span class="n">arri16</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="mi">32767</span><span class="p">,</span><span class="w"> </span><span class="mi">32767</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+<span class="w">    </span><span class="k">call </span><span class="n">radix_sort</span><span class="p">(</span><span class="n">arri16</span><span class="p">,</span><span class="w"> </span><span class="n">reverse</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">arri16</span>
+
+<span class="w">    </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">arrf64</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="w"> </span><span class="c">! divide zero will arise compile error</span>
+<span class="w">    </span><span class="n">arrf64</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1.0_dp</span><span class="o">/</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="o">/</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span><span class="o">/</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">3.45_dp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">3.14_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">3.44_dp</span><span class="p">]</span>
+<span class="w">    </span><span class="k">call </span><span class="n">radix_sort</span><span class="p">(</span><span class="n">arrf64</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">arrf64</span>
+<span class="w">    </span><span class="c">! Expected output:</span>
+<span class="w">    </span><span class="c">! nan, -inf, -3.14, -1.0, -0.0, 0.0, 1.0, 3.44, 3.45, inf</span>
+<span class="w">    </span><span class="c">! Note: the position of nan is undefined</span>
+<span class="k">end program </span><span class="n">example_radix_sort</span>
+</code></pre></div>
+
+<h4 id="sort_index-creates-an-array-of-sorting-indices-for-an-input-array-while-also-sorting-the-array"><code>sort_index</code> - creates an array of sorting indices for an input array, while also sorting the array.</h4>
+<h5 id="status_3">Status</h5>
+<p>Experimental</p>
+<h5 id="description_3">Description</h5>
+<p>Returns the input <code>array</code> sorted in the direction requested while
+retaining order stability, and an integer array whose elements would
+sort the input <code>array</code> to produce the output <code>array</code>.</p>
+<h5 id="syntax_3">Syntax</h5>
+<p><code>call <a href="../../module/stdlib_sorting.html#interface-sort_index">sort_index</a>( array, index[, work, iwork, reverse ] )</code></p>
+<h5 id="class_3">Class</h5>
+<p>Generic subroutine.</p>
+<h5 id="arguments_3">Arguments</h5>
 <p><code>array</code>: shall be a rank one array of any of the types:
 <code>integer(int8)</code>, <code>integer(int16)</code>, <code>integer(int32)</code>, <code>integer(int64)</code>,
 <code>real(sp)</code>, <code>real(dp)</code>, <code>real(qp)</code>, <code>character(*)</code>, or
@@ -463,7 +542,7 @@ is an <code>intent(in)</code> argument. If present with a value of <code>.true.<
 <code>index</code> will sort <code>array</code> in order of non-increasing values in stable
 order. Otherwise index will sort <code>array</code> in order of non-decreasing
 values in stable order.</p>
-<h5 id="notes_2">Notes</h5>
+<h5 id="notes_3">Notes</h5>
 <p><code>SORT_INDEX</code> implements the hybrid sorting algorithm of <code>ORD_SORT</code>,
 keeping the values of <code>index</code> consistent with the elements of <code>array</code>
 as it is sorted. As a <code>merge sort</code> based algorithm, it is a stable
@@ -574,9 +653,9 @@ of size <code>16**3</code>, with characters drawn from the set "a"-"p":</p>
   random order.</li>
 </ul>
 <p>These benchmarks have been performed on two different compilers, both
-on a MacBook Pro, featuring a 2.3 GHz Quad-Core Intel Core i5, with 8
-GB 2133 MHz LPDDR3 memory. The first compiler was GNU Fortran
-(GCC) 10.2.0, with the following results:</p>
+on WSL with Ubuntu-20.04, Intel(R) Core(TM) i7-10700 CPU @ 2.9GHz, with
+32 GB DDR4 memory. The first compiler is GNU Fortran (GCC) 9.4.0, with
+the following results.</p>
 <table>
 <thead>
 <tr>
@@ -593,321 +672,391 @@ GB 2133 MHz LPDDR3 memory. The first compiler was GNU Fortran
 <td>65536</td>
 <td>Blocks</td>
 <td>Ord_Sort</td>
-<td>0.000579</td>
+<td>0.001048</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Decreasing</td>
 <td>Ord_Sort</td>
-<td>0.000212</td>
+<td>0.000204</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Identical</td>
 <td>Ord_Sort</td>
-<td>0.000165</td>
+<td>0.000097</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Increasing</td>
 <td>Ord_Sort</td>
-<td>0.000131</td>
+<td>0.000096</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random dense</td>
 <td>Ord_Sort</td>
-<td>0.009991</td>
+<td>0.006580</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random order</td>
 <td>Ord_Sort</td>
-<td>0.008574</td>
+<td>0.006886</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random sparse</td>
 <td>Ord_Sort</td>
-<td>0.010504</td>
+<td>0.006821</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random 3</td>
 <td>Ord_Sort</td>
-<td>0.000532</td>
+<td>0.000461</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random 10</td>
 <td>Ord_Sort</td>
-<td>0.000315</td>
+<td>0.000226</td>
 </tr>
 <tr>
 <td>Character</td>
 <td>65536</td>
 <td>Char. Decrease</td>
 <td>Ord_Sort</td>
-<td>0.001041</td>
+<td>0.000824</td>
 </tr>
 <tr>
 <td>Character</td>
 <td>65536</td>
 <td>Char. Increase</td>
 <td>Ord_Sort</td>
-<td>0.000584</td>
+<td>0.000370</td>
 </tr>
 <tr>
 <td>Character</td>
 <td>65536</td>
 <td>Char. Random</td>
 <td>Ord_Sort</td>
-<td>0.026273</td>
+<td>0.016020</td>
 </tr>
 <tr>
 <td>String_type</td>
 <td>4096</td>
 <td>String Decrease</td>
 <td>Ord_Sort</td>
-<td>0.001202</td>
+<td>0.000465</td>
 </tr>
 <tr>
 <td>String_type</td>
 <td>4096</td>
 <td>String Increase</td>
 <td>Ord_Sort</td>
-<td>0.000758</td>
+<td>0.000169</td>
 </tr>
 <tr>
 <td>String_type</td>
 <td>4096</td>
 <td>String Random</td>
 <td>Ord_Sort</td>
-<td>0.018180</td>
+<td>0.004194</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Blocks</td>
+<td>Radix_Sort</td>
+<td>0.001610</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Decreasing</td>
+<td>Radix_Sort</td>
+<td>0.001076</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Identical</td>
+<td>Radix_Sort</td>
+<td>0.001074</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Increasing</td>
+<td>Radix_Sort</td>
+<td>0.001060</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random dense</td>
+<td>Radix_Sort</td>
+<td>0.001161</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random order</td>
+<td>Radix_Sort</td>
+<td>0.001069</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random sparse</td>
+<td>Radix_Sort</td>
+<td>0.001005</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random 3</td>
+<td>Radix_Sort</td>
+<td>0.001057</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random 10</td>
+<td>Radix_Sort</td>
+<td>0.001046</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>rand-real32</td>
+<td>Radix_Sort</td>
+<td>0.001429</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Blocks</td>
 <td>Sort</td>
-<td>0.005073</td>
+<td>0.004269</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Decreasing</td>
 <td>Sort</td>
-<td>0.005830</td>
+<td>0.005108</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Identical</td>
 <td>Sort</td>
-<td>0.007372</td>
+<td>0.006257</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Increasing</td>
 <td>Sort</td>
-<td>0.002421</td>
+<td>0.002093</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random dense</td>
 <td>Sort</td>
-<td>0.007006</td>
+<td>0.006032</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random order</td>
 <td>Sort</td>
-<td>0.007211</td>
+<td>0.006030</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random sparse</td>
 <td>Sort</td>
-<td>0.007109</td>
+<td>0.006126</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random 3</td>
 <td>Sort</td>
-<td>0.012232</td>
+<td>0.007930</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random 10</td>
 <td>Sort</td>
-<td>0.017345</td>
+<td>0.014729</td>
 </tr>
 <tr>
 <td>Character</td>
 <td>65536</td>
 <td>Char. Decrease</td>
 <td>Sort</td>
-<td>0.031350</td>
+<td>0.020623</td>
 </tr>
 <tr>
 <td>Character</td>
 <td>65536</td>
 <td>Char. Increase</td>
 <td>Sort</td>
-<td>0.011606</td>
+<td>0.008028</td>
 </tr>
 <tr>
 <td>Character</td>
 <td>65536</td>
 <td>Char. Random</td>
 <td>Sort</td>
-<td>0.022440</td>
+<td>0.014258</td>
 </tr>
 <tr>
 <td>String_type</td>
 <td>4096</td>
 <td>String Decrease</td>
 <td>Sort</td>
-<td>0.026539</td>
+<td>0.005542</td>
 </tr>
 <tr>
 <td>String_type</td>
 <td>4096</td>
 <td>String Increase</td>
 <td>Sort</td>
-<td>0.009755</td>
+<td>0.001987</td>
 </tr>
 <tr>
 <td>String_type</td>
 <td>4096</td>
 <td>String Random</td>
 <td>Sort</td>
-<td>0.016218</td>
+<td>0.003267</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Blocks</td>
 <td>Sort_Index</td>
-<td>0.000953</td>
+<td>0.000686</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Decreasing</td>
 <td>Sort_Index</td>
-<td>0.000418</td>
+<td>0.000529</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Identical</td>
 <td>Sort_Index</td>
-<td>0.000264</td>
+<td>0.000218</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Increasing</td>
 <td>Sort_Index</td>
-<td>0.000262</td>
+<td>0.000214</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random dense</td>
 <td>Sort_Index</td>
-<td>0.009563</td>
+<td>0.008044</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random order</td>
 <td>Sort_Index</td>
-<td>0.009592</td>
+<td>0.008042</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random sparse</td>
 <td>Sort_Index</td>
-<td>0.009691</td>
+<td>0.008148</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random 3</td>
 <td>Sort_Index</td>
-<td>0.000781</td>
+<td>0.000677</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random 10</td>
 <td>Sort_Index</td>
-<td>0.000455</td>
+<td>0.000387</td>
 </tr>
 <tr>
 <td>Character</td>
 <td>65536</td>
 <td>Char. Decrease</td>
 <td>Sort_Index</td>
-<td>0.001189</td>
+<td>0.000932</td>
 </tr>
 <tr>
 <td>Character</td>
 <td>65536</td>
 <td>Char. Increase</td>
 <td>Sort_Index</td>
-<td>0.000752</td>
+<td>0.000487</td>
 </tr>
 <tr>
 <td>Character</td>
 <td>65536</td>
 <td>Char. Random</td>
 <td>Sort_Index</td>
-<td>0.025767</td>
+<td>0.017231</td>
 </tr>
 <tr>
 <td>String_type</td>
 <td>4096</td>
 <td>String Decrease</td>
 <td>Sort_Index</td>
-<td>0.001411</td>
+<td>0.000489</td>
 </tr>
 <tr>
 <td>String_type</td>
 <td>4096</td>
 <td>String Increase</td>
 <td>Sort_Index</td>
-<td>0.000761</td>
+<td>0.000183</td>
 </tr>
 <tr>
 <td>String_type</td>
 <td>4096</td>
 <td>String Random</td>
 <td>Sort_Index</td>
-<td>0.018202</td>
+<td>0.004102</td>
 </tr>
 </tbody>
 </table>
-<p>The second compiler was Intel(R) Fortran Intel(R) 64 Compiler Classic
-for applications running on Intel(R) 64, Version 2021.2.0 Build
-20210228_000000, with the following results:</p>
+<p>The second compiler is Intel(R) Fortran Intel(R) 64 Compiler Classic
+for applications running on Intel(R) 64, Version 2021.7.0 Build
+20220726_000000, with the following results:</p>
 <table>
 <thead>
 <tr>
@@ -924,315 +1073,385 @@ for applications running on Intel(R) 64, Version 2021.2.0 Build
 <td>65536</td>
 <td>Blocks</td>
 <td>Ord_Sort</td>
-<td>0.000267</td>
+<td>0.000135</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Decreasing</td>
 <td>Ord_Sort</td>
-<td>0.000068</td>
+<td>0.000053</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Identical</td>
 <td>Ord_Sort</td>
-<td>0.000056</td>
+<td>0.000033</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Increasing</td>
 <td>Ord_Sort</td>
-<td>0.000056</td>
+<td>0.000034</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random dense</td>
 <td>Ord_Sort</td>
-<td>0.004615</td>
+<td>0.003291</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random order</td>
 <td>Ord_Sort</td>
-<td>0.006325</td>
+<td>0.003546</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random sparse</td>
 <td>Ord_Sort</td>
-<td>0.004601</td>
+<td>0.003313</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random 3</td>
 <td>Ord_Sort</td>
-<td>0.000193</td>
+<td>0.000145</td>
 </tr>
 <tr>
 <td>Integer</td>
 <td>65536</td>
 <td>Random 10</td>
 <td>Ord_Sort</td>
+<td>0.000070</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>65536</td>
+<td>Char. Decrease</td>
+<td>Ord_Sort</td>
+<td>0.000696</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>65536</td>
+<td>Char. Increase</td>
+<td>Ord_Sort</td>
+<td>0.000338</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>65536</td>
+<td>Char. Random</td>
+<td>Ord_Sort</td>
+<td>0.015255</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>4096</td>
+<td>String Decrease</td>
+<td>Ord_Sort</td>
+<td>0.001276</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>4096</td>
+<td>String Increase</td>
+<td>Ord_Sort</td>
+<td>0.000153</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>4096</td>
+<td>String Random</td>
+<td>Ord_Sort</td>
+<td>0.024705</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Blocks</td>
+<td>Radix_Sort</td>
+<td>0.001038</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Decreasing</td>
+<td>Radix_Sort</td>
+<td>0.000910</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Identical</td>
+<td>Radix_Sort</td>
+<td>0.000441</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Increasing</td>
+<td>Radix_Sort</td>
+<td>0.000803</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random dense</td>
+<td>Radix_Sort</td>
+<td>0.000363</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random order</td>
+<td>Radix_Sort</td>
+<td>0.000741</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random sparse</td>
+<td>Radix_Sort</td>
+<td>0.000384</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random 3</td>
+<td>Radix_Sort</td>
+<td>0.000877</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random 10</td>
+<td>Radix_Sort</td>
+<td>0.000801</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>rand-real32</td>
+<td>Radix_Sort</td>
+<td>0.000604</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Blocks</td>
+<td>Sort</td>
+<td>0.001342</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Decreasing</td>
+<td>Sort</td>
+<td>0.001391</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Identical</td>
+<td>Sort</td>
+<td>0.001485</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Increasing</td>
+<td>Sort</td>
+<td>0.000447</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random dense</td>
+<td>Sort</td>
+<td>0.002778</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random order</td>
+<td>Sort</td>
+<td>0.002896</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random sparse</td>
+<td>Sort</td>
+<td>0.003136</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random 3</td>
+<td>Sort</td>
+<td>0.002996</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random 10</td>
+<td>Sort</td>
+<td>0.005752</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>65536</td>
+<td>Char. Decrease</td>
+<td>Sort</td>
+<td>0.021973</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>65536</td>
+<td>Char. Increase</td>
+<td>Sort</td>
+<td>0.008391</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>65536</td>
+<td>Char. Random</td>
+<td>Sort</td>
+<td>0.015155</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>4096</td>
+<td>String Decrease</td>
+<td>Sort</td>
+<td>0.034014</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>4096</td>
+<td>String Increase</td>
+<td>Sort</td>
+<td>0.010464</td>
+</tr>
+<tr>
+<td>String_type</td>
+<td>4096</td>
+<td>String Random</td>
+<td>Sort</td>
+<td>0.015748</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Blocks</td>
+<td>Sort_Index</td>
+<td>0.000381</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Decreasing</td>
+<td>Sort_Index</td>
+<td>0.000085</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Identical</td>
+<td>Sort_Index</td>
+<td>0.000046</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Increasing</td>
+<td>Sort_Index</td>
+<td>0.000046</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random dense</td>
+<td>Sort_Index</td>
+<td>0.004020</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random order</td>
+<td>Sort_Index</td>
+<td>0.004059</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random sparse</td>
+<td>Sort_Index</td>
+<td>0.004073</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random 3</td>
+<td>Sort_Index</td>
+<td>0.000215</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>65536</td>
+<td>Random 10</td>
+<td>Sort_Index</td>
 <td>0.000101</td>
 </tr>
 <tr>
 <td>Character</td>
 <td>65536</td>
 <td>Char. Decrease</td>
-<td>Ord_Sort</td>
-<td>0.001009</td>
-</tr>
-<tr>
-<td>Character</td>
-<td>65536</td>
-<td>Char. Increase</td>
-<td>Ord_Sort</td>
-<td>0.000529</td>
-</tr>
-<tr>
-<td>Character</td>
-<td>65536</td>
-<td>Char. Random</td>
-<td>Ord_Sort</td>
-<td>0.024547</td>
-</tr>
-<tr>
-<td>String_type</td>
-<td>4096</td>
-<td>String Decrease</td>
-<td>Ord_Sort</td>
-<td>0.003381</td>
-</tr>
-<tr>
-<td>String_type</td>
-<td>4096</td>
-<td>String Increase</td>
-<td>Ord_Sort</td>
-<td>0.000133</td>
-</tr>
-<tr>
-<td>String_type</td>
-<td>4096</td>
-<td>String Random</td>
-<td>Ord_Sort</td>
-<td>0.051985</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Blocks</td>
-<td>Sort</td>
-<td>0.001614</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Decreasing</td>
-<td>Sort</td>
-<td>0.001783</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Identical</td>
-<td>Sort</td>
-<td>0.002111</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Increasing</td>
-<td>Sort</td>
-<td>0.000674</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Random dense</td>
-<td>Sort</td>
-<td>0.003574</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Random order</td>
-<td>Sort</td>
-<td>0.003296</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Random sparse</td>
-<td>Sort</td>
-<td>0.003380</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Random 3</td>
-<td>Sort</td>
-<td>0.003623</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Random 10</td>
-<td>Sort</td>
-<td>0.006839</td>
-</tr>
-<tr>
-<td>Character</td>
-<td>65536</td>
-<td>Char. Decrease</td>
-<td>Sort</td>
-<td>0.032564</td>
-</tr>
-<tr>
-<td>Character</td>
-<td>65536</td>
-<td>Char. Increase</td>
-<td>Sort</td>
-<td>0.012346</td>
-</tr>
-<tr>
-<td>Character</td>
-<td>65536</td>
-<td>Char. Random</td>
-<td>Sort</td>
-<td>0.022932</td>
-</tr>
-<tr>
-<td>String_type</td>
-<td>4096</td>
-<td>String Decrease</td>
-<td>Sort</td>
-<td>0.082140</td>
-</tr>
-<tr>
-<td>String_type</td>
-<td>4096</td>
-<td>String Increase</td>
-<td>Sort</td>
-<td>0.029591</td>
-</tr>
-<tr>
-<td>String_type</td>
-<td>4096</td>
-<td>String Random</td>
-<td>Sort</td>
-<td>0.043078</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Blocks</td>
 <td>Sort_Index</td>
-<td>0.000848</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Decreasing</td>
-<td>Sort_Index</td>
-<td>0.000103</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Identical</td>
-<td>Sort_Index</td>
-<td>0.000102</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Increasing</td>
-<td>Sort_Index</td>
-<td>0.000066</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Random dense</td>
-<td>Sort_Index</td>
-<td>0.006434</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Random order</td>
-<td>Sort_Index</td>
-<td>0.005941</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Random sparse</td>
-<td>Sort_Index</td>
-<td>0.005957</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Random 3</td>
-<td>Sort_Index</td>
-<td>0.000326</td>
-</tr>
-<tr>
-<td>Integer</td>
-<td>65536</td>
-<td>Random 10</td>
-<td>Sort_Index</td>
-<td>0.000175</td>
-</tr>
-<tr>
-<td>Character</td>
-<td>65536</td>
-<td>Char. Decrease</td>
-<td>Sort_Index</td>
-<td>0.001082</td>
+<td>0.000680</td>
 </tr>
 <tr>
 <td>Character</td>
 <td>65536</td>
 <td>Char. Increase</td>
 <td>Sort_Index</td>
-<td>0.000468</td>
+<td>0.000356</td>
 </tr>
 <tr>
 <td>Character</td>
 <td>65536</td>
 <td>Char. Random</td>
 <td>Sort_Index</td>
-<td>0.023100</td>
+<td>0.016231</td>
 </tr>
 <tr>
 <td>String_type</td>
 <td>4096</td>
 <td>String Decrease</td>
 <td>Sort_Index</td>
-<td>0.003292</td>
+<td>0.001219</td>
 </tr>
 <tr>
 <td>String_type</td>
 <td>4096</td>
 <td>String Increase</td>
 <td>Sort_Index</td>
-<td>0.000122</td>
+<td>0.000125</td>
 </tr>
 <tr>
 <td>String_type</td>
 <td>4096</td>
 <td>String Random</td>
 <td>Sort_Index</td>
-<td>0.049155</td>
+<td>0.018631</td>
 </tr>
 </tbody>
 </table>
@@ -1363,13 +1582,13 @@ for applications running on Intel(R) 64, Version 2021.2.0 Build
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>0efc112</small></p>
+<br /><small>7cdecb5</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-06-08 06:58            </p>
+ on 2023-06-15 18:07            </p>
         </div>
       </div>
       <br>

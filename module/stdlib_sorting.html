@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.3% of total for modules and submodules.">150 statements</a>
+    title=" 0.4% of total for modules and submodules.">182 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/stdlib_sorting.fypp"> Source File</a></li>
   </ul>
@@ -127,6 +127,7 @@
   <div id="inters-0" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../module/stdlib_sorting.html#interface-ord_sort">ord_sort</a>
+      <a class="list-group-item" href="../module/stdlib_sorting.html#interface-radix_sort">radix_sort</a>
       <a class="list-group-item" href="../module/stdlib_sorting.html#interface-sort">sort</a>
       <a class="list-group-item" href="../module/stdlib_sorting.html#interface-sort_index">sort_index</a>
     </div>
@@ -259,6 +260,51 @@
 </code></pre></div>
 
 <p>Version: experimental</p>
+<p>The generic subroutine implementing the LSD radix sort algorithm to return
+ an input array with its elements sorted in order of (non-)decreasing
+ value. Its use has the syntax:</p>
+<div class="codehilite"><pre><span></span><code> call radix_sort( array[, work, reverse] )
+</code></pre></div>
+
+<p>with the arguments:</p>
+<ul>
+<li>
+<p>array: the rank 1 array to be sorted. It is an <code>intent(inout)</code>
+   argument of any of the types <code>integer(int8)</code>, <code>integer(int16)</code>,
+   <code>integer(int32)</code>, <code>integer(int64)</code>, <code>real(real32)</code>, <code>real(real64)</code>.
+   If both the type of <code>array</code> is real and at least one of the
+   elements is a <code>NaN</code>, then the ordering of the result is undefined.
+   Otherwise it is defined to be the original elements in
+   non-decreasing order. Especially, -0.0 is lesser than 0.0.</p>
+</li>
+<li>
+<p>work (optional): shall be a rank 1 array of the same type as
+   <code>array</code>, and shall have at least <code>size(array)</code> elements. It is an
+   <code>intent(inout)</code> argument to be used as buffer. Its value on return is
+   undefined. If it is not present, <code>radix_sort</code> will allocate a
+   buffer for use, and deallocate it before return. If you do several
+   similar <code>radix_sort</code>s, reusing the <code>work</code> array is a good parctice.
+   This argument is not present for <code>int8_radix_sort</code> because it use
+   counting sort, so no buffer is needed.</p>
+</li>
+<li>
+<p><code>reverse</code> (optional): shall be a scalar of type default logical. It
+   is an <code>intent(in)</code> argument. If present with a value of <code>.true.</code> then
+   <code>array</code> will be sorted in order of non-increasing values in stable
+   order. Otherwise index will sort <code>array</code> in order of non-decreasing
+   values in stable order.</p>
+</li>
+</ul>
+<h4 id="example_2">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="c">! Read random data from a file</span>
+<span class="w">    </span><span class="k">call </span><span class="n">read_file</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;dummy_file&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">array</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="c">! Sort the random data</span>
+<span class="w">    </span><span class="k">call </span><span class="n">radix_sort</span><span class="p">(</span><span class="w"> </span><span class="k">array</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="p">...</span>
+</code></pre></div>
+
+<p>Version: experimental</p>
 <p>The generic subroutine implementing the <code>SORT_INDEX</code> algorithm to
  return an index array whose elements would sort the input array in the
  desired direction. It is primarily intended to be used to sort a
@@ -372,9 +418,9 @@
       <ul class="list-group">
       <li class="list-group-item">
   <ul class="list-inline">
-    <li><a href='../module/stdlib_kinds.html'>stdlib_kinds</a></li>
     <li><a href='../module/stdlib_optval.html'>stdlib_optval</a></li>
     <li><a href='../module/stdlib_string_type.html'>stdlib_string_type</a></li>
+    <li><a href='../module/stdlib_kinds.html'>stdlib_kinds</a></li>
   </ul>
       </li>
       </ul>
@@ -389,6 +435,7 @@
     <ul class="list-inline">
       <li><h5>Descendants:</h5></li>
       <li><a href='../module/stdlib_sorting_ord_sort.html'>stdlib_sorting_ord_sort</a></li>
+      <li><a href='../module/stdlib_sorting_radix_sort.html'>stdlib_sorting_radix_sort</a></li>
       <li><a href='../module/stdlib_sorting_sort.html'>stdlib_sorting_sort</a></li>
       <li><a href='../module/stdlib_sorting_sort_index.html'>stdlib_sorting_sort_index</a></li>
     </ul>
@@ -414,6 +461,7 @@
   <div id="inters-1" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../module/stdlib_sorting.html#interface-ord_sort">ord_sort</a>
+      <a class="list-group-item" href="../module/stdlib_sorting.html#interface-radix_sort">radix_sort</a>
       <a class="list-group-item" href="../module/stdlib_sorting.html#interface-sort">sort</a>
       <a class="list-group-item" href="../module/stdlib_sorting.html#interface-sort_index">sort_index</a>
     </div>
@@ -683,6 +731,180 @@ using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <co
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>work</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>reverse</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+    </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-radix_sort"></span><h3>public interface <a href='../interface/radix_sort.html'>radix_sort</a>  </h3></div>
+  <div class="panel-body">
+    <p>The generic subroutine interface implementing the LSD radix sort algorithm,
+see https://en.wikipedia.org/wiki/Radix_sort for more details.
+It is always O(N) in sorting random data, but need a O(N) buffer.
+(<a href="../page/specs/stdlib_sorting.html#radix_sort-sorts-an-input-array">Specification</a>)</p>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item">
+    <h3>private module subroutine dp_radix_sort(array, work, reverse)</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+<td>intent(inout),</td>
+  <td></td>  <td>dimension(:), target</td><td>::</td>
+  <td><strong>array</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+<td>intent(inout),</td>
+  <td>optional</td>  <td>dimension(:), target</td><td>::</td>
+  <td><strong>work</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>reverse</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+    </li>
+    <li class="list-group-item">
+    <h3>private pure module subroutine int16_radix_sort(array, work, reverse)</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>integer(kind=int16),</td>
+<td>intent(inout),</td>
+  <td></td>  <td>dimension(:)</td><td>::</td>
+  <td><strong>array</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer(kind=int16),</td>
+<td>intent(inout),</td>
+  <td>optional</td>  <td>dimension(:), target</td><td>::</td>
+  <td><strong>work</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>reverse</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+    </li>
+    <li class="list-group-item">
+    <h3>private pure module subroutine int32_radix_sort(array, work, reverse)</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>integer(kind=int32),</td>
+<td>intent(inout),</td>
+  <td></td>  <td>dimension(:)</td><td>::</td>
+  <td><strong>array</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer(kind=int32),</td>
+<td>intent(inout),</td>
+  <td>optional</td>  <td>dimension(:), target</td><td>::</td>
+  <td><strong>work</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>reverse</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+    </li>
+    <li class="list-group-item">
+    <h3>private pure module subroutine int64_radix_sort(array, work, reverse)</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>integer(kind=int64),</td>
+<td>intent(inout),</td>
+  <td></td>  <td>dimension(:)</td><td>::</td>
+  <td><strong>array</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer(kind=int64),</td>
+<td>intent(inout),</td>
+  <td>optional</td>  <td>dimension(:), target</td><td>::</td>
+  <td><strong>work</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>reverse</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+    </li>
+    <li class="list-group-item">
+    <h3>private pure module subroutine int8_radix_sort(array, reverse)</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>integer(kind=int8),</td>
+<td>intent(inout),</td>
+  <td></td>  <td>dimension(:)</td><td>::</td>
+  <td><strong>array</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>reverse</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+    </li>
+    <li class="list-group-item">
+    <h3>private module subroutine sp_radix_sort(array, work, reverse)</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>real(kind=sp),</td>
+<td>intent(inout),</td>
+  <td></td>  <td>dimension(:), target</td><td>::</td>
+  <td><strong>array</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>real(kind=sp),</td>
+<td>intent(inout),</td>
+  <td>optional</td>  <td>dimension(:), target</td><td>::</td>
+  <td><strong>work</strong></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" ></span>logical,</td>
@@ -1315,13 +1537,13 @@ order that would sort the input</code>ARRAY` in the desired direction.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>0efc112</small></p>
+<br /><small>7cdecb5</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-06-08 06:58            </p>
+ on 2023-06-15 18:07            </p>
         </div>
       </div>
       <br>
