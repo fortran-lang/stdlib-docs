@@ -141,11 +141,12 @@
 <h3 id="status">Status</h3>
 <p>Experimental</p>
 <h3 id="description">Description</h3>
-<p>A normal continuous random variate distribution, also known as Gaussian, or Gauss or Laplace-Gauss distribution. The location <code>loc</code> specifies the mean or expectation ($\mu$). The <code>scale</code> specifies the standard deviation ($\sigma$).</p>
-<p>Without argument, the function returns a standard normal distributed random variate $N(0,1)$.</p>
-<p>With two arguments, the function returns a normal distributed random variate $N(\mu=\text{loc}, \sigma^2=\text{scale}^2)$. For complex arguments, the real and imaginary parts are independent of each other.</p>
+<p>A normal continuous random variate distribution, also known as Gaussian, or Gauss or Laplace-Gauss distribution.
+The location <code>loc</code> specifies the mean or expectation (<script type="math/tex">\mu</script>). The <code>scale</code> specifies the standard deviation (<script type="math/tex">\sigma</script>).</p>
+<p>Without argument, the function returns a standard normal distributed random variate <script type="math/tex">N(0,1)</script>.</p>
+<p>With two arguments, the function returns a normal distributed random variate <script type="math/tex">N(\mu=\text{loc}, \sigma^2=\text{scale}^2)</script>. For complex arguments, the real and imaginary parts are independent of each other.</p>
 <p>With three arguments, the function returns a rank-1 array of normal distributed random variates.</p>
-<p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>The algorithm used for generating exponential random variates is fundamentally limited to double precision.[^1]</p></div>
+<p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>The algorithm used for generating exponential random variates is fundamentally limited to double precision.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p></div>
 <h3 id="syntax">Syntax</h3>
 <p><code>result = <a href="../../module/stdlib_stats_distribution_normal.html#interface-rvs_normal">rvs_normal</a>([loc, scale] [[, array_size]])</code></p>
 <h3 id="class">Class</h3>
@@ -213,7 +214,7 @@
 <p>
 <script type="math/tex; mode=display">f(x) = \frac{1}{\sigma \sqrt{2}} \exp{\left[-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{2}\right]}</script>
 </p>
-<p>For a complex varible $z=(x + y i)$ with independent real $x$ and imaginary $y$ parts, the joint probability density function is the product of the the corresponding real and imaginary marginal pdfs:[^2]</p>
+<p>For a complex varible <script type="math/tex"> z=(x + y i) </script> with independent real <script type="math/tex"> x </script> and imaginary <script type="math/tex"> y </script> parts, the joint probability density function is the product of the the corresponding real and imaginary marginal pdfs:<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></p>
 <p>
 <script type="math/tex; mode=display">f(x + y \mathit{i}) = f(x) f(y) = \frac{1}{2\sigma_{x}\sigma_{y}} \exp{\left[-\frac{1}{2}\left(\left(\frac{x-\mu_x}{\sigma_{x}}\right)^{2}+\left(\frac{y-\mu_y}{\sigma_{y}}\right)^{2}\right)\right]}</script>
 </p>
@@ -298,7 +299,7 @@
 <p>
 <script type="math/tex; mode=display">F(x) = \frac{1}{2}\left [ 1+\text{erf}\left(\frac{x-\mu}{\sigma \sqrt{2}}\right) \right ]</script>
 </p>
-<p>For the complex variable $z=(x + y i)$ with independent real $x$ and imaginary $y$ parts, the joint cumulative distribution function is the product of the corresponding real and imaginary marginal cdfs:[^2]</p>
+<p>For the complex variable <script type="math/tex"> z=(x + y i) </script> with independent real <script type="math/tex"> x </script> and imaginary <script type="math/tex"> y </script> parts, the joint cumulative distribution function is the product of the corresponding real and imaginary marginal cdfs:<sup id="fnref2:2"><a class="footnote-ref" href="#fn:2">2</a></sup></p>
 <p>
 <script type="math/tex; mode=display"> F(x+y\mathit{i})=F(x)F(y)=\frac{1}{4} \
 \left[ 1+\text{erf}\left(\frac{x-\mu_x}{\sigma_x \sqrt{2}}\right) \right] \
@@ -316,11 +317,78 @@
 <h3 id="return-value_2">Return value</h3>
 <p>The result is a scalar or an array, with a shape conformable to the arguments, and the same type as the input arguments. If <code>scale</code> is non-positive, the result is <code>NaN</code>.</p>
 <h3 id="example_2">Example</h3>
-<div class="codehilite"><pre><span></span><code>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_normal_cdf</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="nb">random_seed</span>
+<span class="nb">  </span><span class="k">use </span><span class="n">stdlib_stats_distribution_normal</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">norm_cdf</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">cdf_normal</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                              </span><span class="n">norm</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">rvs_normal</span>
+
+<span class="w">  </span><span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="p">,</span><span class="w"> </span><span class="n">sigma</span>
+<span class="w">  </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xsum</span>
+<span class="w">  </span><span class="kt">complex</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">loc</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span>
+<span class="nb">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">seed_put</span><span class="p">,</span><span class="w"> </span><span class="n">seed_get</span><span class="p">,</span><span class="w"> </span><span class="n">i</span>
+
+<span class="w">  </span><span class="n">seed_put</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1234567</span>
+<span class="w">  </span><span class="k">call </span><span class="nb">random_seed</span><span class="p">(</span><span class="n">seed_put</span><span class="p">,</span><span class="w"> </span><span class="n">seed_get</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c">! standard normal cumulative probability at x=0.0</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">norm_cdf</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span>
+<span class="w">  </span><span class="c">! 0.500000000</span>
+
+<span class="w">  </span><span class="c">! cumulative probability at x=2.0 with mu=-1.0 sigma=2.0</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">norm_cdf</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">)</span>
+<span class="w">  </span><span class="c">! 0.933192849</span>
+
+<span class="w">  </span><span class="c">! cumulative probability at x=1.0 with mu=1.0 and sigma=-1.0 (out of range) </span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">norm_cdf</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="w">  </span><span class="c">! NaN</span>
+
+<span class="w">  </span><span class="c">! standard normal random variates array</span>
+<span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">])</span>
+
+<span class="w">  </span><span class="c">! standard normal cumulative array</span>
+<span class="w">  </span><span class="n">mu</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span>
+<span class="w">  </span><span class="n">sigma</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">norm_cdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="p">,</span><span class="w"> </span><span class="n">sigma</span><span class="p">)</span><span class="w">        </span>
+<span class="w">  </span><span class="c">!  0.713505626     0.207069695  0.486513376  0.424511284  0.587328553</span>
+<span class="w">  </span><span class="c">!  0.335559726     0.401470929  0.806552052  0.866687536  0.371323735</span>
+<span class="w">  </span><span class="c">!  0.866228044     0.898046613  0.198435277  0.141147852  0.681565762</span>
+<span class="w">  </span><span class="c">!  0.206268221     0.627057910  0.580759525  0.190364420  7.27325380E-02</span>
+<span class="w">  </span><span class="c">!  7.08068311E-02  0.728241026  0.522919059  0.390097380</span>
+
+<span class="w">   </span><span class="c">! cumulative probability array where sigma&lt;=0.0 for certain elements </span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">norm_cdf</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
+<span class="w">  </span><span class="c">! 0.500000000  NaN NaN</span>
+
+<span class="w">  </span><span class="c">! `cdf_normal` is pure and, thus, can be called concurrently </span>
+<span class="w">  </span><span class="n">xsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span>
+<span class="w">  </span><span class="k">do</span><span class="w"> </span><span class="k">concurrent</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="w">    </span><span class="n">xsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xsum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="n">norm_cdf</span><span class="p">(</span><span class="n">x</span><span class="p">(:,:,</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">mu</span><span class="p">(:,:,</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">sigma</span><span class="p">(:,:,</span><span class="n">i</span><span class="p">)))</span>
+<span class="w">  </span><span class="k">end do</span>
+<span class="k">  print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">xsum</span>
+<span class="w">  </span><span class="c">! 11.3751936</span>
+
+<span class="w">  </span><span class="c">! complex normal cumulative distribution at x=(0.5,-0.5) with real part of</span>
+<span class="w">  </span><span class="c">! mu=1.0, sigma=0.5 and imaginary part of mu=0.0, sigma=1.0</span>
+<span class="w">  </span><span class="nb">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span>
+<span class="w">  </span><span class="nb">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">norm_cdf</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">0.5</span><span class="p">),</span><span class="w"> </span><span class="nb">loc</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="p">)</span>
+<span class="w">  </span><span class="c">! 4.89511043E-02</span>
+
+<span class="k">end program </span><span class="n">example_normal_cdf</span>
 </code></pre></div>
 
-<p>[^1] Marsaglia, George, and Wai Wan Tsang. "The ziggurat method for generating random variables." <em>Journal of statistical software</em> 5 (2000): 1-7.</p>
-<p>[^2] Miller, Scott, and Donald Childers. <em>Probability and random processes: With applications to signal processing and communications</em>. Academic Press, 2012 (p. 197).</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Marsaglia, George, and Wai Wan Tsang. "The ziggurat method for generating random variables." <em>Journal of statistical software</em> 5 (2000): 1-7.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Miller, Scott, and Donald Childers. <em>Probability and random processes: With applications to signal processing and communications</em>. Academic Press, 2012 (p. 197).&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
     </div>
     <div class="col-md-3 col-md-pull-9">
       <hr class="visible-xs visible-sm">
@@ -448,13 +516,13 @@
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>04d8459</small></p>
+<br /><small>bb08fd9</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-06-15 19:05            </p>
+ on 2023-06-24 19:05            </p>
         </div>
       </div>
       <br>
