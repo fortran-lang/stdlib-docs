@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.4% of total for modules and submodules.">182 statements</a>
+    title=" 0.5% of total for modules and submodules.">215 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/stdlib_sorting.fypp"> Source File</a></li>
   </ul>
@@ -189,7 +189,8 @@
 <p>array: the rank 1 array to be sorted. It is an <code>intent(inout)</code>
    argument of any of the types <code>integer(int8)</code>, <code>integer(int16)</code>,
    <code>integer(int32)</code>, <code>integer(int64)</code>, <code>real(real32)</code>, <code>real(real64)</code>,
-   <code>real(real128)</code>, <code>character(*)</code>, <code>type(string_type)</code>. If both the 
+   <code>real(real128)</code>, <code>character(*)</code>, <code>type(string_type)</code>, 
+   <code>type(bitset_64)</code>, <code>type(bitset_large)</code>. If both the 
    type of <code>array</code> is real and at least one of the elements is a 
    <code>NaN</code>, then the ordering of the result is undefined. Otherwise it 
    is defined to be the original elements in non-decreasing order.</p>
@@ -238,7 +239,8 @@
 <li>array: the rank 1 array to be sorted. It is an <code>intent(inout)</code>
    argument of any of the types <code>integer(int8)</code>, <code>integer(int16)</code>,
    <code>integer(int32)</code>, <code>integer(int64)</code>, <code>real(real32)</code>, <code>real(real64)</code>,
-   <code>real(real128)</code>, <code>character(*)</code>, <code>type(string_type)</code>. If both the type
+   <code>real(real128)</code>, <code>character(*)</code>, <code>type(string_type)</code>, 
+   <code>type(bitset_64)</code>, <code>type(bitset_large)</code>. If both the type
    of <code>array</code> is real and at least one of the elements is a <code>NaN</code>, then
    the ordering of the result is undefined. Otherwise it is defined to be the
    original elements in non-decreasing order.</li>
@@ -319,7 +321,8 @@
 <p>array: the rank 1 array to be sorted. It is an <code>intent(inout)</code>
    argument of any of the types <code>integer(int8)</code>, <code>integer(int16)</code>,
    <code>integer(int32)</code>, <code>integer(int64)</code>, <code>real(real32)</code>, <code>real(real64)</code>,
-   <code>real(real128)</code>, <code>character(*)</code>, <code>type(string_type)</code>. If both the 
+   <code>real(real128)</code>, <code>character(*)</code>, <code>type(string_type)</code>, 
+   <code>type(bitset_64)</code>, <code>type(bitset_large)</code>. If both the 
    type of <code>array</code> is real and at least one of the elements is a <code>NaN</code>, 
    then the ordering of the <code>array</code> and <code>index</code> results is undefined. 
    Otherwise it is defined to be as specified by reverse.</p>
@@ -418,6 +421,7 @@
       <ul class="list-group">
       <li class="list-group-item">
   <ul class="list-inline">
+    <li><a href='../module/stdlib_bitsets.html'>stdlib_bitsets</a></li>
     <li><a href='../module/stdlib_kinds.html'>stdlib_kinds</a></li>
     <li><a href='../module/stdlib_optval.html'>stdlib_optval</a></li>
     <li><a href='../module/stdlib_string_type.html'>stdlib_string_type</a></li>
@@ -504,8 +508,68 @@ and <code>insertion sort</code>.
   </div>
   <ul class="list-group">
     <li class="list-group-item">
+    <h3>private module subroutine bitset_64_ord_sort(array, work, reverse)</h3><p><code>bitset_64_ord_sort( array )</code> sorts the input <code>ARRAY</code> of type <code>type(bitset_64)</code>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code></p>
+    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_64.html'>bitset_64</a>),</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>array</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_64.html'>bitset_64</a>),</td>
+<td>intent(out),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>work</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>reverse</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+    </li>
+    <li class="list-group-item">
+    <h3>private module subroutine bitset_large_ord_sort(array, work, reverse)</h3><p><code>bitset_large_ord_sort( array )</code> sorts the input <code>ARRAY</code> of type <code>type(bitset_large)</code>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code></p>
+    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_large.html'>bitset_large</a>),</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>array</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_large.html'>bitset_large</a>),</td>
+<td>intent(out),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>work</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>reverse</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+    </li>
+    <li class="list-group-item">
     <h3>private module subroutine char_ord_sort(array, work, reverse)</h3><p><code>char_ord_sort( array )</code> sorts the input <code>ARRAY</code> of type <code>character(len=*)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code></p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code></p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -535,7 +599,7 @@ using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <co
     </li>
     <li class="list-group-item">
     <h3>private module subroutine dp_ord_sort(array, work, reverse)</h3><p><code>dp_ord_sort( array )</code> sorts the input <code>ARRAY</code> of type <code>real(dp)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code></p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code></p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -565,7 +629,7 @@ using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <co
     </li>
     <li class="list-group-item">
     <h3>private module subroutine int16_ord_sort(array, work, reverse)</h3><p><code>int16_ord_sort( array )</code> sorts the input <code>ARRAY</code> of type <code>integer(int16)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code></p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code></p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -595,7 +659,7 @@ using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <co
     </li>
     <li class="list-group-item">
     <h3>private module subroutine int32_ord_sort(array, work, reverse)</h3><p><code>int32_ord_sort( array )</code> sorts the input <code>ARRAY</code> of type <code>integer(int32)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code></p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code></p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -625,7 +689,7 @@ using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <co
     </li>
     <li class="list-group-item">
     <h3>private module subroutine int64_ord_sort(array, work, reverse)</h3><p><code>int64_ord_sort( array )</code> sorts the input <code>ARRAY</code> of type <code>integer(int64)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code></p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code></p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -655,7 +719,7 @@ using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <co
     </li>
     <li class="list-group-item">
     <h3>private module subroutine int8_ord_sort(array, work, reverse)</h3><p><code>int8_ord_sort( array )</code> sorts the input <code>ARRAY</code> of type <code>integer(int8)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code></p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code></p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -685,7 +749,7 @@ using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <co
     </li>
     <li class="list-group-item">
     <h3>private module subroutine sp_ord_sort(array, work, reverse)</h3><p><code>sp_ord_sort( array )</code> sorts the input <code>ARRAY</code> of type <code>real(sp)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code></p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code></p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -715,7 +779,7 @@ using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <co
     </li>
     <li class="list-group-item">
     <h3>private module subroutine string_type_ord_sort(array, work, reverse)</h3><p><code>string_type_ord_sort( array )</code> sorts the input <code>ARRAY</code> of type <code>type(string_type)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code></p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code></p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -928,6 +992,60 @@ on the <code>introsort</code> of David Musser.
 (<a href="../page/specs/stdlib_sorting.html#sort-sorts-an-input-array">Specification</a>)</p>
   </div>
   <ul class="list-group">
+    <li class="list-group-item">
+    <h3>private pure module subroutine bitset_64_sort(array, reverse)</h3><p><code>bitset_64_sort( array[, reverse] )</code> sorts the input <code>ARRAY</code> of type <code>type(bitset_64)</code>
+using a hybrid sort based on the <code>introsort</code> of David Musser.
+The algorithm is of order O(N Ln(N)) for all inputs.
+Because it relies on <code>quicksort</code>, the coefficient of the O(N Ln(N))
+behavior is small for random data compared to other sorting algorithms.</p>
+    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_64.html'>bitset_64</a>),</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>array</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>reverse</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+    </li>
+    <li class="list-group-item">
+    <h3>private pure module subroutine bitset_large_sort(array, reverse)</h3><p><code>bitset_large_sort( array[, reverse] )</code> sorts the input <code>ARRAY</code> of type <code>type(bitset_large)</code>
+using a hybrid sort based on the <code>introsort</code> of David Musser.
+The algorithm is of order O(N Ln(N)) for all inputs.
+Because it relies on <code>quicksort</code>, the coefficient of the O(N Ln(N))
+behavior is small for random data compared to other sorting algorithms.</p>
+    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_large.html'>bitset_large</a>),</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>array</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>reverse</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+    </li>
     <li class="list-group-item">
     <h3>private pure module subroutine char_sort(array, reverse)</h3><p><code>char_sort( array[, reverse] )</code> sorts the input <code>ARRAY</code> of type <code>character(len=*)</code>
 using a hybrid sort based on the <code>introsort</code> of David Musser.
@@ -1159,11 +1277,101 @@ sort of the rank one <code>ARRAY</code> input.
   </div>
   <ul class="list-group">
     <li class="list-group-item">
+    <h3>private module subroutine bitset_64_sort_index(array, index, work, iwork, reverse)</h3><p><code>bitset_64_sort_index( array, index[, work, iwork, reverse] )</code> sorts
+an input <code>ARRAY</code> of type <code>type(bitset_64)</code>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code>
+and returns the sorted <code>ARRAY</code> and an array <code>INDEX</code> of indices in the
+order that would sort the input <code>ARRAY</code> in the desired direction.</p>
+    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_64.html'>bitset_64</a>),</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>array</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer(kind=int_size),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>index</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_64.html'>bitset_64</a>),</td>
+<td>intent(out),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>work</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer(kind=int_size),</td>
+<td>intent(out),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>iwork</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>reverse</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+    </li>
+    <li class="list-group-item">
+    <h3>private module subroutine bitset_large_sort_index(array, index, work, iwork, reverse)</h3><p><code>bitset_large_sort_index( array, index[, work, iwork, reverse] )</code> sorts
+an input <code>ARRAY</code> of type <code>type(bitset_large)</code>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code>
+and returns the sorted <code>ARRAY</code> and an array <code>INDEX</code> of indices in the
+order that would sort the input <code>ARRAY</code> in the desired direction.</p>
+    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_large.html'>bitset_large</a>),</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>array</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer(kind=int_size),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>index</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_large.html'>bitset_large</a>),</td>
+<td>intent(out),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>work</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer(kind=int_size),</td>
+<td>intent(out),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>iwork</strong>(0:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>logical,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>reverse</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+    </li>
+    <li class="list-group-item">
     <h3>private module subroutine char_sort_index(array, index, work, iwork, reverse)</h3><p><code>char_sort_index( array, index[, work, iwork, reverse] )</code> sorts
 an input <code>ARRAY</code> of type <code>character(len=*)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code>
-and returns the sorted <code>ARRAY</code> and an array <code>INDEX of indices in the
-order that would sort the input</code>ARRAY` in the desired direction.</p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code>
+and returns the sorted <code>ARRAY</code> and an array <code>INDEX</code> of indices in the
+order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -1206,9 +1414,9 @@ order that would sort the input</code>ARRAY` in the desired direction.</p>
     <li class="list-group-item">
     <h3>private module subroutine dp_sort_index(array, index, work, iwork, reverse)</h3><p><code>dp_sort_index( array, index[, work, iwork, reverse] )</code> sorts
 an input <code>ARRAY</code> of type <code>real(dp)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code>
-and returns the sorted <code>ARRAY</code> and an array <code>INDEX of indices in the
-order that would sort the input</code>ARRAY` in the desired direction.</p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code>
+and returns the sorted <code>ARRAY</code> and an array <code>INDEX</code> of indices in the
+order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -1251,9 +1459,9 @@ order that would sort the input</code>ARRAY` in the desired direction.</p>
     <li class="list-group-item">
     <h3>private module subroutine int16_sort_index(array, index, work, iwork, reverse)</h3><p><code>int16_sort_index( array, index[, work, iwork, reverse] )</code> sorts
 an input <code>ARRAY</code> of type <code>integer(int16)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code>
-and returns the sorted <code>ARRAY</code> and an array <code>INDEX of indices in the
-order that would sort the input</code>ARRAY` in the desired direction.</p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code>
+and returns the sorted <code>ARRAY</code> and an array <code>INDEX</code> of indices in the
+order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -1296,9 +1504,9 @@ order that would sort the input</code>ARRAY` in the desired direction.</p>
     <li class="list-group-item">
     <h3>private module subroutine int32_sort_index(array, index, work, iwork, reverse)</h3><p><code>int32_sort_index( array, index[, work, iwork, reverse] )</code> sorts
 an input <code>ARRAY</code> of type <code>integer(int32)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code>
-and returns the sorted <code>ARRAY</code> and an array <code>INDEX of indices in the
-order that would sort the input</code>ARRAY` in the desired direction.</p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code>
+and returns the sorted <code>ARRAY</code> and an array <code>INDEX</code> of indices in the
+order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -1341,9 +1549,9 @@ order that would sort the input</code>ARRAY` in the desired direction.</p>
     <li class="list-group-item">
     <h3>private module subroutine int64_sort_index(array, index, work, iwork, reverse)</h3><p><code>int64_sort_index( array, index[, work, iwork, reverse] )</code> sorts
 an input <code>ARRAY</code> of type <code>integer(int64)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code>
-and returns the sorted <code>ARRAY</code> and an array <code>INDEX of indices in the
-order that would sort the input</code>ARRAY` in the desired direction.</p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code>
+and returns the sorted <code>ARRAY</code> and an array <code>INDEX</code> of indices in the
+order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -1386,9 +1594,9 @@ order that would sort the input</code>ARRAY` in the desired direction.</p>
     <li class="list-group-item">
     <h3>private module subroutine int8_sort_index(array, index, work, iwork, reverse)</h3><p><code>int8_sort_index( array, index[, work, iwork, reverse] )</code> sorts
 an input <code>ARRAY</code> of type <code>integer(int8)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code>
-and returns the sorted <code>ARRAY</code> and an array <code>INDEX of indices in the
-order that would sort the input</code>ARRAY` in the desired direction.</p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code>
+and returns the sorted <code>ARRAY</code> and an array <code>INDEX</code> of indices in the
+order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -1431,9 +1639,9 @@ order that would sort the input</code>ARRAY` in the desired direction.</p>
     <li class="list-group-item">
     <h3>private module subroutine sp_sort_index(array, index, work, iwork, reverse)</h3><p><code>sp_sort_index( array, index[, work, iwork, reverse] )</code> sorts
 an input <code>ARRAY</code> of type <code>real(sp)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code>
-and returns the sorted <code>ARRAY</code> and an array <code>INDEX of indices in the
-order that would sort the input</code>ARRAY` in the desired direction.</p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code>
+and returns the sorted <code>ARRAY</code> and an array <code>INDEX</code> of indices in the
+order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -1476,9 +1684,9 @@ order that would sort the input</code>ARRAY` in the desired direction.</p>
     <li class="list-group-item">
     <h3>private module subroutine string_type_sort_index(array, index, work, iwork, reverse)</h3><p><code>string_type_sort_index( array, index[, work, iwork, reverse] )</code> sorts
 an input <code>ARRAY</code> of type <code>type(string_type)</code>
-using a hybrid sort based on the <code>'Rust" sort</code> algorithm found in <code>slice.rs</code>
-and returns the sorted <code>ARRAY</code> and an array <code>INDEX of indices in the
-order that would sort the input</code>ARRAY` in the desired direction.</p>
+using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <code>slice.rs</code>
+and returns the sorted <code>ARRAY</code> and an array <code>INDEX</code> of indices in the
+order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -1537,13 +1745,13 @@ order that would sort the input</code>ARRAY` in the desired direction.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>0b00b7b</small></p>
+<br /><small>bdec191</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-08-08 00:11            </p>
+ on 2023-08-08 06:11            </p>
         </div>
       </div>
       <br>

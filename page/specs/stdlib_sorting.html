@@ -191,18 +191,20 @@ to the value of <code>int64</code> from the <code>stdlib_kinds</code> module.</p
 <h3 id="the-module-subroutines">The module subroutines</h3>
 <p>The <code>stdlib_sorting</code> module provides three different overloaded
 subroutines intended to sort three different kinds of arrays of
-data:
-* <code>ORD_SORT</code> is intended to sort simple arrays of intrinsic data
+data:</p>
+<ul>
+<li><code>ORD_SORT</code> is intended to sort simple arrays of intrinsic data
   that have significant sections that were partially ordered before
-  the sort;
-* <code>SORT_INDEX</code> is based on <code>ORD_SORT</code>, but in addition to sorting the
+  the sort;</li>
+<li><code>SORT_INDEX</code> is based on <code>ORD_SORT</code>, but in addition to sorting the
   input array, it returns indices that map the original array to its
   sorted version. This enables related arrays to be re-ordered in the
-  same way;
-* <code>SORT</code> is intended to sort simple arrays of intrinsic data
-  that are effectively unordered before the sort;
-* <code>RADIX_SORT</code> is intended to sort fixed width intrinsic data 
-  types (integers and reals).</p>
+  same way;</li>
+<li><code>SORT</code> is intended to sort simple arrays of intrinsic data
+  that are effectively unordered before the sort;</li>
+<li><code>RADIX_SORT</code> is intended to sort fixed width intrinsic data 
+  types (integers and reals).</li>
+</ul>
 <h4 id="licensing">Licensing</h4>
 <p>The Fortran Standard Library is distributed under the MIT
 License. However components of the library may be based on code with
@@ -358,8 +360,9 @@ increasing, or decreasing, value.</p>
 <h5 id="arguments">Arguments</h5>
 <p><code>array</code> : shall be a rank one array of any of the types:
 <code>integer(int8)</code>, <code>integer(int16)</code>, <code>integer(int32)</code>, <code>integer(int64)</code>,
-<code>real(sp)</code>, <code>real(dp)</code>, <code>real(qp)</code>, <code>character(*)</code>, or
-<code>type(string_type)</code>. It is an <code>intent(inout)</code> argument. On input it is
+<code>real(sp)</code>, <code>real(dp)</code>, <code>real(qp)</code>, <code>character(*)</code>, <code>type(string_type)</code>,
+<code>type(bitset_64)</code>, or <code>type(bitset_large)</code>.
+It is an <code>intent(inout)</code> argument. On input it is
 the array to be sorted. If both the type of <code>array</code> is real and at
 least one of the elements is a <code>NaN</code>, then the ordering of the result
 is undefined. Otherwise on return its elements will be sorted in order
@@ -415,8 +418,9 @@ decreasing, value.</p>
 <h5 id="arguments_1">Arguments</h5>
 <p><code>array</code> : shall be a rank one array of any of the types:
 <code>integer(int8)</code>, <code>integer(int16)</code>, <code>integer(int32)</code>, <code>integer(int64)</code>,
-<code>real(sp)</code>, <code>real(dp)</code>, <code>real(qp)</code>. <code>character(*)</code>, or
-<code>type(string_type)</code>. It is an <code>intent(inout)</code> argument. On return its
+<code>real(sp)</code>, <code>real(dp)</code>, <code>real(qp)</code>. <code>character(*)</code>, <code>type(string_type)</code>,
+<code>type(bitset_64)</code>, or <code>type(bitset_large)</code>.
+It is an <code>intent(inout)</code> argument. On return its
 input elements will be sorted in order of non-decreasing value.</p>
 <p><code>reverse</code> (optional): shall be a scalar of type default logical. It
 is an <code>intent(in)</code> argument. If present with a value of <code>.true.</code> then
@@ -517,8 +521,9 @@ sort the input <code>array</code> to produce the output <code>array</code>.</p>
 <h5 id="arguments_3">Arguments</h5>
 <p><code>array</code>: shall be a rank one array of any of the types:
 <code>integer(int8)</code>, <code>integer(int16)</code>, <code>integer(int32)</code>, <code>integer(int64)</code>,
-<code>real(sp)</code>, <code>real(dp)</code>, <code>real(qp)</code>, <code>character(*)</code>, or
-<code>type(string_type)</code>. It is an <code>intent(inout)</code> argument. On input it
+<code>real(sp)</code>, <code>real(dp)</code>, <code>real(qp)</code>, <code>character(*)</code>, <code>type(string_type)</code>,
+<code>type(bitset_64)</code>, or <code>type(bitset_large)</code>.
+It is an <code>intent(inout)</code> argument. On input it
 will be an array whose sorting indices are to be determined. On return
 it will be the sorted array.</p>
 <p><code>index</code>: shall be a rank one integer array of kind <code>int_size</code> and of
@@ -595,21 +600,21 @@ different on return</p>
 </code></pre></div>
 
 <p>Sorting an array of a derived type based on the data in one component</p>
-<div class="codehilite"><pre><span></span><code><span class="w">       </span><span class="k">subroutine </span><span class="n">sort_a_data</span><span class="p">(</span><span class="w"> </span><span class="n">a_data</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="nb">index</span><span class="p">,</span><span class="w"> </span><span class="n">iwork</span><span class="w"> </span><span class="p">)</span>
-<span class="w">           </span><span class="c">! Sort `a_data` in terms or its component `a`</span>
-<span class="w">           </span><span class="k">type</span><span class="p">(</span><span class="n">a_type</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">a_data</span><span class="p">(:)</span>
-<span class="w">               </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(:)</span>
-<span class="w">               </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">work</span><span class="p">(:)</span>
-<span class="w">               </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">index</span><span class="p">(:)</span>
-<span class="w">               </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iwork</span><span class="p">(:)</span>
-<span class="w">               </span><span class="c">! Extract a component of `a_data`</span>
-<span class="w">               </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_data</span><span class="p">(:)</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">a</span>
-<span class="w">               </span><span class="c">! Find the indices to sort the component</span>
-<span class="w">               </span><span class="k">call </span><span class="n">sort_index</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">)),</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">)),&amp;</span>
-<span class="w">                   </span><span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">iwork</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
-<span class="w">               </span><span class="c">! Sort a_data based on the sorting of that component</span>
-<span class="w">               </span><span class="n">a_data</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_data</span><span class="p">(</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">))</span><span class="w"> </span><span class="p">)</span>
-<span class="w">       </span><span class="k">end subroutine </span><span class="n">sort_a_data</span>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">subroutine </span><span class="n">sort_a_data</span><span class="p">(</span><span class="w"> </span><span class="n">a_data</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="nb">index</span><span class="p">,</span><span class="w"> </span><span class="n">iwork</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="c">! Sort `a_data` in terms or its component `a`</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">a_type</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">a_data</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">work</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">index</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iwork</span><span class="p">(:)</span>
+<span class="w">        </span><span class="c">! Extract a component of `a_data`</span>
+<span class="w">        </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_data</span><span class="p">(:)</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">a</span>
+<span class="w">        </span><span class="c">! Find the indices to sort the component</span>
+<span class="w">        </span><span class="k">call </span><span class="n">sort_index</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">)),</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">)),&amp;</span>
+<span class="w">            </span><span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">iwork</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+<span class="w">        </span><span class="c">! Sort a_data based on the sorting of that component</span>
+<span class="w">        </span><span class="n">a_data</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_data</span><span class="p">(</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">))</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">sort_a_data</span>
 </code></pre></div>
 
 <h3 id="performance-benchmarks">Performance benchmarks</h3>
@@ -1582,13 +1587,13 @@ for applications running on Intel(R) 64, Version 2021.7.0 Build
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>0b00b7b</small></p>
+<br /><small>bdec191</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-08-08 00:11            </p>
+ on 2023-08-08 06:11            </p>
         </div>
       </div>
       <br>
