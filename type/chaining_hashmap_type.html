@@ -91,7 +91,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 7.1% of total for derived types.</p>Including implementation: 94 statements,  8.7% of total for derived types.">18 statements</a>
+    title="<p> 7.5% of total for derived types.</p>Including implementation: 99 statements,  9.1% of total for derived types.">19 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/stdlib_hashmaps.f90"> Source File</a></li>
   </ul>
@@ -130,6 +130,7 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/chaining_hashmap_type.html#boundprocedure-calls">calls</a>
       <a class="list-group-item" href="../type/chaining_hashmap_type.html#boundprocedure-entries">entries</a>
+      <a class="list-group-item" href="../type/chaining_hashmap_type.html#boundprocedure-get_all_keys">get_all_keys</a>
       <a class="list-group-item" href="../type/chaining_hashmap_type.html#boundprocedure-get_other_data">get_other_data</a>
       <a class="list-group-item" href="../type/chaining_hashmap_type.html#boundprocedure-init">init</a>
       <a class="list-group-item" href="../type/chaining_hashmap_type.html#boundprocedure-key_test">key_test</a>
@@ -179,6 +180,7 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/chaining_hashmap_type.html#boundprocedure-calls">calls</a>
       <a class="list-group-item" href="../type/chaining_hashmap_type.html#boundprocedure-entries">entries</a>
+      <a class="list-group-item" href="../type/chaining_hashmap_type.html#boundprocedure-get_all_keys">get_all_keys</a>
       <a class="list-group-item" href="../type/chaining_hashmap_type.html#boundprocedure-get_other_data">get_other_data</a>
       <a class="list-group-item" href="../type/chaining_hashmap_type.html#boundprocedure-init">init</a>
       <a class="list-group-item" href="../type/chaining_hashmap_type.html#boundprocedure-key_test">key_test</a>
@@ -276,6 +278,41 @@
 </table>
 
 <h4>Return Value <small>integer(kind=int_index)</small></h4>  
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_all_keys"></span><h3>procedure, public :: <strong>get_all_keys</strong>  => get_all_chaining_keys   </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+          <h3>interface
+          </h3>
+  
+          <h3>private module module subroutine get_all_chaining_keys(map, all_keys)</h3><p>Returns all the keys contained in a hashmap
+Arguments:
+    map - an chaining hash map
+    all_keys - all the keys contained in a hash map</p>
+    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/chaining_hashmap_type.html'>chaining_hashmap_type</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>map</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/key_type.html'>key_type</a>),</td>
+<td>intent(out),</td>
+  <td></td>  <td>allocatable</td><td>::</td>
+  <td><strong>all_keys</strong>(:)</td><td></td>
+</tr>
+</tbody>
+</table>
+
 
       </li>
   </ul>
@@ -757,7 +794,8 @@ Arguments:
 <span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">chaining_map_entry_ptr</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">slots</span><span class="p">(:)</span>
 <span class="c">!! Array of bucket lists Note # slots=size(slots)</span>
 <span class="w">    </span><span class="k">contains</span>
-<span class="k">        procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">get_other_data</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">get_other_chaining_data</span>
+<span class="k">        procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">get_all_keys</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">get_all_chaining_keys</span>
+<span class="w">        </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">get_other_data</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">get_other_chaining_data</span>
 <span class="w">        </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">init_chaining_map</span>
 <span class="w">        </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">loading</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">chaining_loading</span>
 <span class="w">        </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map_entry</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">map_chain_entry</span>
@@ -781,13 +819,13 @@ Arguments:
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>4204079</small></p>
+<br /><small>b8fbb3c</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-10-13 13:20            </p>
+ on 2023-10-24 19:16            </p>
         </div>
       </div>
       <br>
