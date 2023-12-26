@@ -87,16 +87,17 @@
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
     <li><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a></li> 
+    <li><i class="fa fa-barcode"></i> experimental</li>
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.1% of total for procedures.</p>Including implementation: 32 statements,  0.5% of total for procedures.">5 statements</a>
+    title="<p> 0.2% of total for procedures.</p>Including implementation: 10 statements,  0.2% of total for procedures.">10 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/stdlib_string_type.fypp"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/stdlib_bitsets.fypp"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/stdlib_string_type.fypp.html'>stdlib_string_type.fypp</a></li>
-     <li><a href='../module/stdlib_string_type.html'>stdlib_string_type</a></li>
+     <li><a href='../sourcefile/stdlib_bitsets.fypp.html'>stdlib_bitsets.fypp</a></li>
+     <li><a href='../module/stdlib_bitsets.html'>stdlib_bitsets</a></li>
      <li class="active">operator(/=)</li>
   </ol>
 </div>
@@ -116,12 +117,11 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-0">Module Procedures</a></h3></div>
-  <div id="modprocs-0" class="panel-collapse collapse">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ne_string_string">ne_string_string</a>
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ne_string_char">ne_string_char</a>
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ne_char_string">ne_char_string</a>
+      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#proc-neqv_64">neqv_64</a>
+      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#proc-neqv_large">neqv_large</a>
     </div>
   </div>
 </div>
@@ -132,21 +132,38 @@
     
     <div class="col-md-9" id='text'>
       <h2>public interface operator(/=)</h2>
-   <p>Compare two character sequences for inequality, the left-hand side,
-the right-hand side or both character sequences can be represented by
-a string.</p>
-<p>This operator is elemental and returns a default logical scalar value.</p>
+   <p>Returns <code>.true.</code> if not all bits in <code>set1</code> and <code>set2</code> have the same value,
+ <code>.false.</code>  otherwise. The sets must have the same number of bits
+ otherwise the result is undefined.
+(<a href="../page/specs/stdlib_bitsets.html#-compare-two-bitsets-to-determine-whether-any-bits-differ-in-value">Specification</a>)</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_inequality</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span><span class="p">,</span><span class="w"> </span><span class="n">set1</span><span class="p">,</span><span class="w"> </span><span class="n">set2</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="w"> </span><span class="mi">32</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w">   </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">set2</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Passed 64 bit inequality tests.&#39;</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="k">            error stop</span><span class="w"> </span><span class="s1">&#39;Failed 64 bit inequality tests.&#39;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_inequality</span>
+</code></pre></div>
 <br>
      <section class="visible-xs visible-sm hidden-md">
        <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-1">Module Procedures</a></h3></div>
-  <div id="modprocs-1" class="panel-collapse collapse">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ne_string_string">ne_string_string</a>
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ne_string_char">ne_string_char</a>
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ne_char_string">ne_char_string</a>
+      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#proc-neqv_64">neqv_64</a>
+      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#proc-neqv_large">neqv_large</a>
     </div>
   </div>
 </div>
@@ -154,29 +171,25 @@ a string.</p>
      </section>
      <br class="visible-xs visible-sm hidden-md">
      
-
-
-   <h2>Module Procedures</h2>
+   <h2>Functions</h2>
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-ne_string_string"></span><h3>private elemental function ne_string_string(lhs, rhs) result(is_ne)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-neqv_64"></span><h3>private elemental module function neqv_64(set1, set2) result(neqv)</h3></div>
   <div class="panel-body">
-       <p>Compare two character sequences for inequality.
-In this version both character sequences are by a string.</p>
-    
+           
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_64.html'>bitset_64</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
+  <td><strong>set1</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_64.html'>bitset_64</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
+  <td><strong>set2</strong></td><td></td>
 </tr>
 </tbody>
 </table>
@@ -187,25 +200,23 @@ In this version both character sequences are by a string.</p>
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-ne_string_char"></span><h3>private elemental function ne_string_char(lhs, rhs) result(is_ne)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-neqv_large"></span><h3>private elemental module function neqv_large(set1, set2) result(neqv)</h3></div>
   <div class="panel-body">
-       <p>Compare two character sequences for inequality.
-In this version the left-hand side character sequences is by a string.</p>
-    
+           
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_large.html'>bitset_large</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
+  <td><strong>set1</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_large.html'>bitset_large</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
+  <td><strong>set2</strong></td><td></td>
 </tr>
 </tbody>
 </table>
@@ -215,34 +226,7 @@ In this version the left-hand side character sequences is by a string.</p>
   </div>
   </div>
 
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-ne_char_string"></span><h3>private elemental function ne_char_string(lhs, rhs) result(is_ne)</h3></div>
-  <div class="panel-body">
-       <p>Compare two character sequences for inequality.
-In this version the right-hand side character sequences is by a string.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
-</tr>
-</tbody>
-</table>
 
-<h4>Return Value <small>logical</small></h4>  
-
-  </div>
-  </div>
 
 
  </div>
@@ -254,13 +238,13 @@ In this version the right-hand side character sequences is by a string.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2023 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>b8fbb3c</small></p>
+<br /><small>77c10e1</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-10-24 19:16            </p>
+ on 2023-12-26 19:06            </p>
         </div>
       </div>
       <br>
