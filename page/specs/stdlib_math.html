@@ -234,6 +234,15 @@
 <li><a href="#example_6">Example</a></li>
 </ul>
 </li>
+<li><a href="#meshgrid-subroutine">meshgrid subroutine</a><ul>
+<li><a href="#description_11">Description</a></li>
+<li><a href="#syntax_11">Syntax</a></li>
+<li><a href="#status_11">Status</a></li>
+<li><a href="#class_11">Class</a></li>
+<li><a href="#arguments_11">Arguments</a></li>
+<li><a href="#example_7">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -812,6 +821,77 @@ When both <code>prepend</code> and <code>append</code> are not present, the resu
 
 <span class="k">end program </span><span class="n">example_diff</span>
 </code></pre></div>
+
+<h3 id="meshgrid-subroutine"><code>meshgrid</code> subroutine</h3>
+<h4 id="description_11">Description</h4>
+<p>Computes a list of coordinate matrices from coordinate vectors.</p>
+<p>For $n \geq 1$ coordinate vectors $(x_1, x_2, ..., x_n)$ of sizes $(s_1, s_2, ..., s_n)$, <code>meshgrid</code> computes $n$ coordinate matrices $(X_1, X_2, ..., X_n)$ with identical shape corresponding to the selected indexing:
+- Cartesian indexing (default behavior): the shape of the coordinate matrices is $(s_2, s_1, s_3, s_4, ... s_n)$.
+- matrix indexing: the shape of the coordinate matrices is $(s_1, s_2, s_3, s_4, ... s_n)$.</p>
+<h4 id="syntax_11">Syntax</h4>
+<p>For a 2D problem in Cartesian indexing:
+<code>call <a href="../../module/stdlib_math.html#interface-meshgrid">meshgrid</a>(x, y, xm, ym)</code></p>
+<p>For a 3D problem in Cartesian indexing:
+<code>call <a href="../../module/stdlib_math.html#interface-meshgrid">meshgrid</a>(x, y, z, xm, ym, zm)</code></p>
+<p>For a 3D problem in matrix indexing:
+<code>call <a href="../../module/stdlib_math.html#interface-meshgrid">meshgrid</a>(x, y, z, xm, ym, zm, indexing="ij")</code></p>
+<p>The subroutine can be called in <code>n</code>-dimensional situations, as long as <code>n</code> is inferior to the maximum allowed array rank.</p>
+<h4 id="status_11">Status</h4>
+<p>Experimental.</p>
+<h4 id="class_11">Class</h4>
+<p>Subroutine.</p>
+<h4 id="arguments_11">Arguments</h4>
+<p>For a <code>n</code>-dimensional problem, with <code>n &gt;= 1</code>:</p>
+<p><code>x1, x2, ..., xn</code>: The coordinate vectors.
+Shall be <code>real/integer</code> and <code>rank-1</code> arrays.
+These arguments are <code>intent(in)</code>.</p>
+<p><code>xm1, xm2, ..., xmn</code>: The coordinate matrices.
+Shall be arrays of type <code>real</code> or <code>integer</code> of adequate shape:
+- for Cartesian indexing, the shape of the coordinate matrices must be <code>[size(x2), size(x1), size(x3), ..., size(xn)]</code>.
+- for matrix indexing, the shape of the coordinate matrices must be <code>[size(x1), size(x2), size(x3), ..., size(xn)]</code>.</p>
+<p>These argument are <code>intent(out)</code>.</p>
+<p><code>indexing</code>: the selected indexing.
+Shall be an <code>integer</code> equal to <code>stdlib_meshgrid_xy</code> for Cartesian indexing (default), or <code>stdlib_meshgrid_ij</code> for matrix indexing. <code>stdlib_meshgrid_xy</code> and <code>stdlib_meshgrid_ij</code> are public constants defined in the module.
+This argument is <code>intent(in)</code> and <code>optional</code>, and is equal to <code>stdlib_meshgrid_xy</code> by default.</p>
+<h4 id="example_7">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_meshgrid</span>
+
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_math</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">meshgrid</span><span class="p">,</span><span class="w"> </span><span class="n">linspace</span><span class="p">,</span><span class="w"> </span><span class="n">stdlib_meshgrid_ij</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">sp</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">nx</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="n">ny</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">xm_cart</span><span class="p">(</span><span class="n">ny</span><span class="p">,</span><span class="w"> </span><span class="n">nx</span><span class="p">),</span><span class="w"> </span><span class="n">ym_cart</span><span class="p">(</span><span class="n">ny</span><span class="p">,</span><span class="w"> </span><span class="n">nx</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">xm_mat</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="p">),</span><span class="w"> </span><span class="n">ym_mat</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linspace</span><span class="p">(</span><span class="mi">0_sp</span><span class="p">,</span><span class="w"> </span><span class="mi">1_sp</span><span class="p">,</span><span class="w"> </span><span class="n">nx</span><span class="p">)</span>
+<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linspace</span><span class="p">(</span><span class="mi">0_sp</span><span class="p">,</span><span class="w"> </span><span class="mi">1_sp</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">xm_cart</span><span class="p">,</span><span class="w"> </span><span class="n">ym_cart</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;xm_cart = &quot;</span>
+<span class="w">    </span><span class="k">call </span><span class="n">print_2d_array</span><span class="p">(</span><span class="n">xm_cart</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;ym_cart = &quot;</span>
+<span class="w">    </span><span class="k">call </span><span class="n">print_2d_array</span><span class="p">(</span><span class="n">ym_cart</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">xm_mat</span><span class="p">,</span><span class="w"> </span><span class="n">ym_mat</span><span class="p">,</span><span class="w"> </span><span class="n">indexing</span><span class="o">=</span><span class="n">stdlib_meshgrid_ij</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;xm_mat = &quot;</span>
+<span class="w">    </span><span class="k">call </span><span class="n">print_2d_array</span><span class="p">(</span><span class="n">xm_mat</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;ym_mat = &quot;</span>
+<span class="w">    </span><span class="k">call </span><span class="n">print_2d_array</span><span class="p">(</span><span class="n">ym_mat</span><span class="p">)</span>
+
+<span class="k">contains</span>
+<span class="k">    subroutine </span><span class="n">print_2d_array</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">array</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+
+<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="k">array</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">    end subroutine</span>
+<span class="k">end program </span><span class="n">example_meshgrid</span>
+</code></pre></div>
     </div>
     <div class="col-md-3 col-md-pull-9">
       <hr class="visible-xs visible-sm">
@@ -942,13 +1022,13 @@ When both <code>prepend</code> and <code>append</code> are not present, the resu
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>90a3e9c</small></p>
+<br /><small>8476d65</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-02-08 13:34            </p>
+ on 2024-03-05 16:33            </p>
         </div>
       </div>
       <br>
