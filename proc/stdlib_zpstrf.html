@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="A community driven standard library for (modern) Fortran">
+    <meta name="author" content="fortran-lang/stdlib contributors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>stdlib_zpstrf &ndash; Fortran-lang/stdlib</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Fortran-lang/stdlib </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href='../page/index.html'>Contributing and specs</a></li>
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../lists/modules.html">Modules</a></li>
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+       
+            </ul>
+        
+            </li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+          </ul>
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+  <div class="row">
+    <h1>stdlib_zpstrf
+      <small>Subroutine</small>
+    </h1>
+    <div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+    <li><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a></li> 
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.1% of total for procedures.">164 statements</a>
+     </li> 
+    <li><i class="fa fa-code"></i><a href="../src/stdlib_linalg_lapack_z.fypp"> Source File</a></li>
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+     <li><a href='../sourcefile/stdlib_linalg_lapack_z.fypp.html'>stdlib_linalg_lapack_z.fypp</a></li>
+     <li><a href='../module/stdlib_linalg_lapack_z.html'>stdlib_linalg_lapack_z</a></li>
+     <li class="active">stdlib_zpstrf</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div id="sidebar">
+  <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/stdlib_zpstrf.html#src">stdlib_zpstrf</a>
+  </div>
+</div>
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public pure subroutine stdlib_zpstrf(uplo, n, a, lda, piv, rank, tol, work, info)</h2>
+    
+
+    <p>pivoting of a complex Hermitian positive semidefinite matrix A.
+The factorization has the form
+P<strong>T * A * P = U</strong>H * U ,  if UPLO = 'U',
+P<strong>T * A * P = L  * L</strong>H,  if UPLO = 'L',
+where U is an upper triangular matrix and L is lower triangular, and
+P is stored as vector PIV.
+This algorithm does not attempt to check that A is positive
+semidefinite. This version of the algorithm calls level 3 BLAS.</p>
+
+    <h3>Arguments</h3>
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-uplo~686"></span>character,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>uplo</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-n~1644"></span>integer(kind=ilp),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>n</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-a~975"></span>complex(kind=dp),</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>a</strong>(lda,*)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-lda~927"></span>integer(kind=ilp),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>lda</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-piv~8"></span>integer(kind=ilp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>piv</strong>(n)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-rank~24"></span>integer(kind=ilp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>rank</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-tol~20"></span>real(kind=dp),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>tol</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-work~956"></span>real(kind=dp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>work</strong>(2*n)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-info~1292"></span>integer(kind=ilp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>info</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/stdlib_zpstrf.html#src">stdlib_zpstrf</a>
+  </div>
+</div>
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_zpstrf</span><span class="p">(</span><span class="w"> </span><span class="n">uplo</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">piv</span><span class="p">,</span><span class="w"> </span><span class="n">rank</span><span class="p">,</span><span class="w"> </span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="c">! -- lapack computational routine --</span>
+<span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
+<span class="w">        </span><span class="c">! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--</span>
+<span class="w">           </span><span class="c">! Scalar Arguments </span>
+<span class="w">           </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tol</span>
+<span class="w">           </span><span class="kt">integer</span><span class="p">(</span><span class="n">ilp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="n">rank</span>
+<span class="w">           </span><span class="kt">integer</span><span class="p">(</span><span class="n">ilp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
+<span class="w">           </span><span class="kt">character</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">uplo</span>
+<span class="w">           </span><span class="c">! Array Arguments </span>
+<span class="w">           </span><span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="n">lda</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<span class="w">           </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+<span class="w">           </span><span class="kt">integer</span><span class="p">(</span><span class="n">ilp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">piv</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="w">        </span><span class="c">! =====================================================================</span>
+<span class="w">           </span>
+<span class="w">           </span>
+<span class="w">           </span><span class="c">! Local Scalars </span>
+<span class="w">           </span><span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ztemp</span>
+<span class="w">           </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ajj</span><span class="p">,</span><span class="w"> </span><span class="n">dstop</span><span class="p">,</span><span class="w"> </span><span class="n">dtemp</span>
+<span class="w">           </span><span class="kt">integer</span><span class="p">(</span><span class="n">ilp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">itemp</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">jb</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">nb</span><span class="p">,</span><span class="w"> </span><span class="n">pvt</span>
+<span class="w">           </span><span class="kt">logical</span><span class="p">(</span><span class="n">lk</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upper</span>
+<span class="w">           </span><span class="c">! Intrinsic Functions </span>
+<span class="w">           </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="kt">real</span><span class="p">,</span><span class="nb">conjg</span><span class="p">,</span><span class="nb">max</span><span class="p">,</span><span class="nb">min</span><span class="p">,</span><span class="nb">sqrt</span><span class="p">,</span><span class="nb">maxloc</span>
+<span class="w">           </span><span class="c">! Executable Statements </span>
+<span class="w">           </span><span class="c">! test the input parameters.</span>
+<span class="w">           </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">           </span><span class="n">upper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="w"> </span><span class="n">uplo</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;U&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">           </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="n">upper</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="w"> </span><span class="n">uplo</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">              </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">           </span><span class="k">else if</span><span class="p">(</span><span class="w"> </span><span class="n">n</span><span class="o">&lt;</span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">              </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">2</span>
+<span class="w">           </span><span class="k">else if</span><span class="p">(</span><span class="w"> </span><span class="n">lda</span><span class="o">&lt;</span><span class="nb">max</span><span class="p">(</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">              </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">4</span>
+<span class="w">           </span><span class="k">end if</span>
+<span class="k">           if</span><span class="p">(</span><span class="w"> </span><span class="n">info</span><span class="o">/=</span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">              call </span><span class="n">stdlib_xerbla</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;ZPSTRF&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
+<span class="w">              </span><span class="k">return</span>
+<span class="k">           end if</span>
+<span class="w">           </span><span class="c">! quick return if possible</span>
+<span class="w">           </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="k">return</span>
+<span class="w">           </span><span class="c">! get block size</span>
+<span class="w">           </span><span class="n">nb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stdlib_ilaenv</span><span class="p">(</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;ZPOTRF&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">uplo</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">           </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">nb</span><span class="o">&lt;=</span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">nb</span><span class="o">&gt;=</span><span class="n">n</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">              </span><span class="c">! use unblocked code</span>
+<span class="w">              </span><span class="k">call </span><span class="n">stdlib_zpstf2</span><span class="p">(</span><span class="w"> </span><span class="n">uplo</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">piv</span><span class="p">,</span><span class="w"> </span><span class="n">rank</span><span class="p">,</span><span class="w"> </span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
+<span class="w">              </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">230</span>
+<span class="w">           </span><span class="k">else</span>
+<span class="w">           </span><span class="c">! initialize piv</span>
+<span class="w">              </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
+<span class="w">                 </span><span class="n">piv</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span>
+<span class="w">              </span><span class="k">end do</span>
+<span class="w">           </span><span class="c">! compute stopping value</span>
+<span class="w">              </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
+<span class="w">                 </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
+<span class="w">              </span><span class="k">end do</span>
+<span class="k">              </span><span class="n">pvt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">maxloc</span><span class="p">(</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">              </span><span class="n">ajj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="p">,</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
+<span class="w">              </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">ajj</span><span class="o">&lt;=</span><span class="n">zero</span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="n">stdlib_disnan</span><span class="p">(</span><span class="w"> </span><span class="n">ajj</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                 </span><span class="n">rank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">                 </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                 </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">230</span>
+<span class="w">              </span><span class="k">end if</span>
+<span class="w">           </span><span class="c">! compute stopping value if not supplied</span>
+<span class="w">              </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">tol</span><span class="o">&lt;</span><span class="n">zero</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                 </span><span class="n">dstop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">stdlib_dlamch</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;EPSILON&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">ajj</span>
+<span class="w">              </span><span class="k">else</span>
+<span class="k">                 </span><span class="n">dstop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tol</span>
+<span class="w">              </span><span class="k">end if</span>
+<span class="k">              if</span><span class="p">(</span><span class="w"> </span><span class="n">upper</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                 </span><span class="c">! compute the cholesky factorization p**t * a * p = u**h * u</span>
+<span class="w">                 </span><span class="n">loop_160</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">nb</span>
+<span class="w">                    </span><span class="c">! account for last block not being nb wide</span>
+<span class="w">                    </span><span class="n">jb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="w"> </span><span class="n">nb</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                    </span><span class="c">! set relevant part of first chalf of work to zero,</span>
+<span class="w">                    </span><span class="c">! holds dot products</span>
+<span class="w">                    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
+<span class="w">                       </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">                    </span><span class="k">end do</span>
+<span class="k">                    </span><span class="n">loop_150</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">jb</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                    </span><span class="c">! find pivot, test for exit, else swap rows and columns</span>
+<span class="w">                    </span><span class="c">! update dot products, compute possible pivots which are</span>
+<span class="w">                    </span><span class="c">! stored in the second chalf of work</span>
+<span class="w">                       </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
+<span class="w">                          </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">&gt;</span><span class="n">k</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                             </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="kt">real</span><span class="p">(</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">),&amp;</span>
+<span class="w">                                       </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
+<span class="w">                          </span><span class="k">end if</span>
+<span class="k">                          </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">n</span><span class="o">+</span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                       </span><span class="k">end do</span>
+<span class="k">                       if</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                          </span><span class="n">itemp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">maxloc</span><span class="p">(</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="n">j</span><span class="p">):(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="n">pvt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">itemp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                          </span><span class="n">ajj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">n</span><span class="o">+</span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">ajj</span><span class="o">&lt;=</span><span class="n">dstop</span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="n">stdlib_disnan</span><span class="p">(</span><span class="w"> </span><span class="n">ajj</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                             </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ajj</span>
+<span class="w">                             </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">220</span>
+<span class="w">                          </span><span class="k">end if</span>
+<span class="k">                       end if</span>
+<span class="k">                       if</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">/=</span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                          </span><span class="c">! pivot ok, so can now swap pivot rows and columns</span>
+<span class="w">                          </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="p">,</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="k">call </span><span class="n">stdlib_zswap</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="o">&lt;</span><span class="n">n</span><span class="w"> </span><span class="p">)</span><span class="k">call </span><span class="n">stdlib_zswap</span><span class="p">(</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="n">pvt</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">pvt</span><span class="o">+</span><span class="mi">1</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="p">,</span><span class="w"> </span><span class="n">pvt</span><span class="o">+</span><span class="mi">1</span><span class="w"> </span><span class="p">),&amp;</span>
+<span class="w">                                     </span><span class="n">lda</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                             </span><span class="n">ztemp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                             </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                             </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ztemp</span>
+<span class="w">                          </span><span class="k">end do</span>
+<span class="k">                          </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="c">! swap dot products and piv</span>
+<span class="w">                          </span><span class="n">dtemp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dtemp</span>
+<span class="w">                          </span><span class="n">itemp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">piv</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="n">piv</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">piv</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="n">piv</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">itemp</span>
+<span class="w">                       </span><span class="k">end if</span>
+<span class="k">                       </span><span class="n">ajj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="w"> </span><span class="n">ajj</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                       </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ajj</span>
+<span class="w">                       </span><span class="c">! compute elements j+1:n of row j.</span>
+<span class="w">                       </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                          call </span><span class="n">stdlib_zlacgv</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="k">call </span><span class="n">stdlib_zgemv</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;TRANS&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">-</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">cone</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="w"> </span><span class="p">),</span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">),&amp;</span>
+<span class="w">                                     </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">cone</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="w"> </span><span class="p">),</span><span class="n">lda</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="k">call </span><span class="n">stdlib_zlacgv</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="k">call </span><span class="n">stdlib_zdscal</span><span class="p">(</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">ajj</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">lda</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                       </span><span class="k">end if</span>
+<span class="k">                    end do </span><span class="n">loop_150</span>
+<span class="w">                    </span><span class="c">! update trailing matrix, j already incremented</span>
+<span class="w">                    </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">k</span><span class="o">+</span><span class="n">jb</span><span class="o">&lt;=</span><span class="n">n</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                       call </span><span class="n">stdlib_zherk</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;UPPER&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;CONJ TRANS&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">jb</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">one</span><span class="p">,</span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                 </span><span class="n">one</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">lda</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                    </span><span class="k">end if</span>
+<span class="k">                 end do </span><span class="n">loop_160</span>
+<span class="w">              </span><span class="k">else</span>
+<span class="w">              </span><span class="c">! compute the cholesky factorization p**t * a * p = l * l**h</span>
+<span class="w">                 </span><span class="n">loop_210</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">nb</span>
+<span class="w">                    </span><span class="c">! account for last block not being nb wide</span>
+<span class="w">                    </span><span class="n">jb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="w"> </span><span class="n">nb</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                    </span><span class="c">! set relevant part of first chalf of work to zero,</span>
+<span class="w">                    </span><span class="c">! holds dot products</span>
+<span class="w">                    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
+<span class="w">                       </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">                    </span><span class="k">end do</span>
+<span class="k">                    </span><span class="n">loop_200</span><span class="p">:</span><span class="w"> </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">jb</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                    </span><span class="c">! find pivot, test for exit, else swap rows and columns</span>
+<span class="w">                    </span><span class="c">! update dot products, compute possible pivots which are</span>
+<span class="w">                    </span><span class="c">! stored in the second chalf of work</span>
+<span class="w">                       </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
+<span class="w">                          </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">&gt;</span><span class="n">k</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                             </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="kt">real</span><span class="p">(</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="p">),&amp;</span>
+<span class="w">                                       </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
+<span class="w">                          </span><span class="k">end if</span>
+<span class="k">                          </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">n</span><span class="o">+</span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                       </span><span class="k">end do</span>
+<span class="k">                       if</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                          </span><span class="n">itemp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">maxloc</span><span class="p">(</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="n">j</span><span class="p">):(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="n">pvt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">itemp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                          </span><span class="n">ajj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">n</span><span class="o">+</span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">ajj</span><span class="o">&lt;=</span><span class="n">dstop</span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="n">stdlib_disnan</span><span class="p">(</span><span class="w"> </span><span class="n">ajj</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                             </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ajj</span>
+<span class="w">                             </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">220</span>
+<span class="w">                          </span><span class="k">end if</span>
+<span class="k">                       end if</span>
+<span class="k">                       if</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">/=</span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">                          </span><span class="c">! pivot ok, so can now swap pivot rows and columns</span>
+<span class="w">                          </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="p">,</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="k">call </span><span class="n">stdlib_zswap</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">lda</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="o">&lt;</span><span class="n">n</span><span class="w"> </span><span class="p">)</span><span class="k">call </span><span class="n">stdlib_zswap</span><span class="p">(</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="n">pvt</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                    </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                             </span><span class="n">ztemp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                             </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                             </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ztemp</span>
+<span class="w">                          </span><span class="k">end do</span>
+<span class="k">                          </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="c">! swap dot products and piv</span>
+<span class="w">                          </span><span class="n">dtemp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="n">work</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dtemp</span>
+<span class="w">                          </span><span class="n">itemp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">piv</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="n">piv</span><span class="p">(</span><span class="w"> </span><span class="n">pvt</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">piv</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="n">piv</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">itemp</span>
+<span class="w">                       </span><span class="k">end if</span>
+<span class="k">                       </span><span class="n">ajj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="w"> </span><span class="n">ajj</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                       </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ajj</span>
+<span class="w">                       </span><span class="c">! compute elements j+1:n of column j.</span>
+<span class="w">                       </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                          call </span><span class="n">stdlib_zlacgv</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">lda</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="k">call </span><span class="n">stdlib_zgemv</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;NO TRANS&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">-</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">cone</span><span class="p">,</span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                    </span><span class="n">k</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">cone</span><span class="p">,</span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="k">call </span><span class="n">stdlib_zlacgv</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">lda</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                          </span><span class="k">call </span><span class="n">stdlib_zdscal</span><span class="p">(</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">ajj</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                       </span><span class="k">end if</span>
+<span class="k">                    end do </span><span class="n">loop_200</span>
+<span class="w">                    </span><span class="c">! update trailing matrix, j already incremented</span>
+<span class="w">                    </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">k</span><span class="o">+</span><span class="n">jb</span><span class="o">&lt;=</span><span class="n">n</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                       call </span><span class="n">stdlib_zherk</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;LOWER&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;NO TRANS&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">jb</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">one</span><span class="p">,</span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                 </span><span class="n">one</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">lda</span><span class="w"> </span><span class="p">)</span>
+<span class="w">                    </span><span class="k">end if</span>
+<span class="k">                 end do </span><span class="n">loop_210</span>
+<span class="w">              </span><span class="k">end if</span>
+<span class="k">           end if</span>
+<span class="w">           </span><span class="c">! ran to completion, a has full rank</span>
+<span class="w">           </span><span class="n">rank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span>
+<span class="w">           </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="mi">230</span>
+<span class="w">           </span><span class="mi">220</span><span class="w"> </span><span class="k">continue</span>
+<span class="w">           </span><span class="c">! rank is the number of steps completed.  set info = 1 to signal</span>
+<span class="w">           </span><span class="c">! that the factorization cannot be used to solve a system.</span>
+<span class="w">           </span><span class="n">rank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">           </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">           </span><span class="mi">230</span><span class="w"> </span><span class="k">continue</span>
+<span class="k">           return</span>
+<span class="k">     end subroutine </span><span class="n">stdlib_zpstrf</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+<br /><small>e88daa3</small></p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2024-04-02 08:24            </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </body>
+</html>
