@@ -130,7 +130,8 @@
     <h2>public subroutine stdlib_zgeevx(balanc, jobvl, jobvr, sense, n, a, lda, w, vl, ldvl, vr, ldvr, ilo, ihi, scale, abnrm, rconde, rcondv, work, lwork, rwork, info)</h2>
     
 
-    <p>eigenvalues and, optionally, the left and/or right eigenvectors.
+    <p>ZGEEVX computes for an N-by-N complex nonsymmetric matrix A, the
+eigenvalues and, optionally, the left and/or right eigenvectors.
 Optionally also, it computes a balancing transformation to improve
 the conditioning of the eigenvalues and eigenvectors (ILO, IHI,
 SCALE, and ABNRM), reciprocal condition numbers for the eigenvalues
@@ -321,6 +322,31 @@ Users' Guide.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">subroutine </span><span class="n">stdlib_zgeevx</span><span class="p">(</span><span class="w"> </span><span class="n">balanc</span><span class="p">,</span><span class="w"> </span><span class="n">jobvl</span><span class="p">,</span><span class="w"> </span><span class="n">jobvr</span><span class="p">,</span><span class="w"> </span><span class="n">sense</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">vl</span><span class="p">,</span><span class="n">ldvl</span><span class="p">,</span><span class="w"> </span><span class="n">vr</span><span class="p">,</span><span class="w"> </span><span class="n">ldvr</span><span class="p">,</span><span class="w"> </span><span class="n">ilo</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! ZGEEVX computes for an N-by-N complex nonsymmetric matrix A, the</span>
+<span class="w">     </span><span class="c">!! eigenvalues and, optionally, the left and/or right eigenvectors.</span>
+<span class="w">     </span><span class="c">!! Optionally also, it computes a balancing transformation to improve</span>
+<span class="w">     </span><span class="c">!! the conditioning of the eigenvalues and eigenvectors (ILO, IHI,</span>
+<span class="w">     </span><span class="c">!! SCALE, and ABNRM), reciprocal condition numbers for the eigenvalues</span>
+<span class="w">     </span><span class="c">!! (RCONDE), and reciprocal condition numbers for the right</span>
+<span class="w">     </span><span class="c">!! eigenvectors (RCONDV).</span>
+<span class="w">     </span><span class="c">!! The right eigenvector v(j) of A satisfies</span>
+<span class="w">     </span><span class="c">!! A * v(j) = lambda(j) * v(j)</span>
+<span class="w">     </span><span class="c">!! where lambda(j) is its eigenvalue.</span>
+<span class="w">     </span><span class="c">!! The left eigenvector u(j) of A satisfies</span>
+<span class="w">     </span><span class="c">!! u(j)**H * A = lambda(j) * u(j)**H</span>
+<span class="w">     </span><span class="c">!! where u(j)**H denotes the conjugate transpose of u(j).</span>
+<span class="w">     </span><span class="c">!! The computed eigenvectors are normalized to have Euclidean norm</span>
+<span class="w">     </span><span class="c">!! equal to 1 and largest component real.</span>
+<span class="w">     </span><span class="c">!! Balancing a matrix means permuting the rows and columns to make it</span>
+<span class="w">     </span><span class="c">!! more nearly upper triangular, and applying a diagonal similarity</span>
+<span class="w">     </span><span class="c">!! transformation D * A * D**(-1), where D is a diagonal matrix, to</span>
+<span class="w">     </span><span class="c">!! make its rows and columns closer in norm and the condition numbers</span>
+<span class="w">     </span><span class="c">!! of its eigenvalues and eigenvectors smaller.  The computed</span>
+<span class="w">     </span><span class="c">!! reciprocal condition numbers correspond to the balanced matrix.</span>
+<span class="w">     </span><span class="c">!! Permuting rows and columns will not change the condition numbers</span>
+<span class="w">     </span><span class="c">!! (in exact arithmetic) but diagonal scaling will.  For further</span>
+<span class="w">     </span><span class="c">!! explanation of balancing, see section 4.10.2_dp of the LAPACK</span>
+<span class="w">     </span><span class="c">!! Users&#39; Guide.</span>
 <span class="w">               </span><span class="n">ihi</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="p">,</span><span class="w"> </span><span class="n">abnrm</span><span class="p">,</span><span class="w"> </span><span class="n">rconde</span><span class="p">,</span><span class="n">rcondv</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">lwork</span><span class="p">,</span><span class="w"> </span><span class="n">rwork</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack driver routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
@@ -609,13 +635,13 @@ Users' Guide.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

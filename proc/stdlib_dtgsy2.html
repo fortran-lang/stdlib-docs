@@ -130,7 +130,8 @@
     <h2>public pure subroutine stdlib_dtgsy2(trans, ijob, m, n, a, lda, b, ldb, c, ldc, d, ldd, e, lde, f, ldf, scale, rdsum, rdscal, iwork, pq, info)</h2>
     
 
-    <p>A * R - L * B = scale * C                (1)
+    <p>DTGSY2 solves the generalized Sylvester equation:
+A * R - L * B = scale * C                (1)
 D * R - L * E = scale * F,
 using Level 1 and 2 BLAS. where R and L are unknown M-by-N matrices,
 (A, D), (B, E) and (C, F) are given matrix pairs of size M-by-M,
@@ -324,6 +325,34 @@ DTGSYL. See DTGSYL for details.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_dtgsy2</span><span class="p">(</span><span class="w"> </span><span class="n">trans</span><span class="p">,</span><span class="w"> </span><span class="n">ijob</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">ldb</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">ldc</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="n">ldd</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">lde</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! DTGSY2 solves the generalized Sylvester equation:</span>
+<span class="w">     </span><span class="c">!! A * R - L * B = scale * C                (1)</span>
+<span class="w">     </span><span class="c">!! D * R - L * E = scale * F,</span>
+<span class="w">     </span><span class="c">!! using Level 1 and 2 BLAS. where R and L are unknown M-by-N matrices,</span>
+<span class="w">     </span><span class="c">!! (A, D), (B, E) and (C, F) are given matrix pairs of size M-by-M,</span>
+<span class="w">     </span><span class="c">!! N-by-N and M-by-N, respectively, with real entries. (A, D) and (B, E)</span>
+<span class="w">     </span><span class="c">!! must be in generalized Schur canonical form, i.e. A, B are upper</span>
+<span class="w">     </span><span class="c">!! quasi triangular and D, E are upper triangular. The solution (R, L)</span>
+<span class="w">     </span><span class="c">!! overwrites (C, F). 0 &lt;= SCALE &lt;= 1 is an output scaling factor</span>
+<span class="w">     </span><span class="c">!! chosen to avoid overflow.</span>
+<span class="w">     </span><span class="c">!! In matrix notation solving equation (1) corresponds to solve</span>
+<span class="w">     </span><span class="c">!! Z*x = scale*b, where Z is defined as</span>
+<span class="w">     </span><span class="c">!! Z = [ kron(In, A)  -kron(B**T, Im) ]             (2)</span>
+<span class="w">     </span><span class="c">!! [ kron(In, D)  -kron(E**T, Im) ],</span>
+<span class="w">     </span><span class="c">!! Ik is the identity matrix of size k and X**T is the transpose of X.</span>
+<span class="w">     </span><span class="c">!! kron(X, Y) is the Kronecker product between the matrices X and Y.</span>
+<span class="w">     </span><span class="c">!! In the process of solving (1), we solve a number of such systems</span>
+<span class="w">     </span><span class="c">!! where Dim(In), Dim(In) = 1 or 2.</span>
+<span class="w">     </span><span class="c">!! If TRANS = &#39;T&#39;, solve the transposed system Z**T*y = scale*b for y,</span>
+<span class="w">     </span><span class="c">!! which is equivalent to solve for R and L in</span>
+<span class="w">     </span><span class="c">!! A**T * R  + D**T * L   = scale * C           (3)</span>
+<span class="w">     </span><span class="c">!! R  * B**T + L  * E**T  = scale * -F</span>
+<span class="w">     </span><span class="c">!! This case is used to compute an estimate of Dif[(A, D), (B, E)] =</span>
+<span class="w">     </span><span class="c">!! sigma_min(Z) using reverse communication with DLACON.</span>
+<span class="w">     </span><span class="c">!! DTGSY2 also (IJOB &gt;= 1) contributes to the computation in DTGSYL</span>
+<span class="w">     </span><span class="c">!! of an upper bound on the separation between to matrix pairs. Then</span>
+<span class="w">     </span><span class="c">!! the input (A, D), (B, E) are sub-pencils of the matrix pair in</span>
+<span class="w">     </span><span class="c">!! DTGSYL. See DTGSYL for details.</span>
 <span class="w">               </span><span class="n">ldf</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="p">,</span><span class="w"> </span><span class="n">rdsum</span><span class="p">,</span><span class="w"> </span><span class="n">rdscal</span><span class="p">,</span><span class="n">iwork</span><span class="p">,</span><span class="w"> </span><span class="n">pq</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack auxiliary routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
@@ -947,13 +976,13 @@ DTGSYL. See DTGSYL for details.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

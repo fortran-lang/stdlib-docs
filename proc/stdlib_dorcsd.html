@@ -130,7 +130,8 @@
     <h2>public recursive subroutine stdlib_dorcsd(jobu1, jobu2, jobv1t, jobv2t, trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, ldx22, theta, u1, ldu1, u2, ldu2, v1t, ldv1t, v2t, ldv2t, work, lwork, iwork, info)</h2>
     
 
-    <p>orthogonal matrix X:
+    <p>DORCSD computes the CS decomposition of an M-by-M partitioned
+orthogonal matrix X:
 [  I  0  0 |  0  0  0 ]
 [  0  C  0 |  0 -S  0 ]
 [ X11 | X12 ]   [ U1 |    ] [  0  0  0 |  0  0 -I ] [ V1 |    ]**T
@@ -357,6 +358,19 @@ which R = MIN(P,M-P,Q,M-Q).</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">recursive subroutine </span><span class="n">stdlib_dorcsd</span><span class="p">(</span><span class="w"> </span><span class="n">jobu1</span><span class="p">,</span><span class="w"> </span><span class="n">jobu2</span><span class="p">,</span><span class="w"> </span><span class="n">jobv1t</span><span class="p">,</span><span class="w"> </span><span class="n">jobv2t</span><span class="p">,</span><span class="w"> </span><span class="n">trans</span><span class="p">,</span><span class="n">signs</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">x11</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! DORCSD computes the CS decomposition of an M-by-M partitioned</span>
+<span class="w">     </span><span class="c">!! orthogonal matrix X:</span>
+<span class="w">     </span><span class="c">!! [  I  0  0 |  0  0  0 ]</span>
+<span class="w">     </span><span class="c">!! [  0  C  0 |  0 -S  0 ]</span>
+<span class="w">     </span><span class="c">!! [ X11 | X12 ]   [ U1 |    ] [  0  0  0 |  0  0 -I ] [ V1 |    ]**T</span>
+<span class="w">     </span><span class="c">!! X = [-----------] = [---------] [---------------------] [---------]   .</span>
+<span class="w">     </span><span class="c">!! [ X21 | X22 ]   [    | U2 ] [  0  0  0 |  I  0  0 ] [    | V2 ]</span>
+<span class="w">     </span><span class="c">!! [  0  S  0 |  0  C  0 ]</span>
+<span class="w">     </span><span class="c">!! [  0  0  I |  0  0  0 ]</span>
+<span class="w">     </span><span class="c">!! X11 is P-by-Q. The orthogonal matrices U1, U2, V1, and V2 are P-by-P,</span>
+<span class="w">     </span><span class="c">!! (M-P)-by-(M-P), Q-by-Q, and (M-Q)-by-(M-Q), respectively. C and S are</span>
+<span class="w">     </span><span class="c">!! R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in</span>
+<span class="w">     </span><span class="c">!! which R = MIN(P,M-P,Q,M-Q).</span>
 <span class="w">     </span><span class="n">ldx11</span><span class="p">,</span><span class="w"> </span><span class="n">x12</span><span class="p">,</span><span class="n">ldx12</span><span class="p">,</span><span class="w"> </span><span class="n">x21</span><span class="p">,</span><span class="w"> </span><span class="n">ldx21</span><span class="p">,</span><span class="w"> </span><span class="n">x22</span><span class="p">,</span><span class="w"> </span><span class="n">ldx22</span><span class="p">,</span><span class="w"> </span><span class="n">theta</span><span class="p">,</span><span class="n">u1</span><span class="p">,</span><span class="w"> </span><span class="n">ldu1</span><span class="p">,</span><span class="w"> </span><span class="n">u2</span><span class="p">,</span><span class="w"> </span><span class="n">ldu2</span><span class="p">,</span><span class="w"> </span><span class="n">v1t</span><span class="p">,</span><span class="w"> </span><span class="n">ldv1t</span><span class="p">,</span><span class="w"> </span><span class="n">v2t</span><span class="p">,</span><span class="n">ldv2t</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">               </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">lwork</span><span class="p">,</span><span class="w"> </span><span class="n">iwork</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack computational routine --</span>
@@ -630,13 +644,13 @@ which R = MIN(P,M-P,Q,M-Q).</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

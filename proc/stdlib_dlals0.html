@@ -130,7 +130,8 @@
     <h2>public pure subroutine stdlib_dlals0(icompq, nl, nr, sqre, nrhs, b, ldb, bx, ldbx, perm, givptr, givcol, ldgcol, givnum, ldgnum, poles, difl, difr, z, k, c, s, work, info)</h2>
     
 
-    <p>right singular vector matrix of a diagonal matrix appended by a row
+    <p>DLALS0 applies back the multiplying factors of either the left or the
+right singular vector matrix of a diagonal matrix appended by a row
 to the right hand side matrix B in solving the least squares problem
 using the divide-and-conquer SVD approach.
 For the left singular vector matrix, three types of orthogonal
@@ -328,6 +329,26 @@ null space.
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_dlals0</span><span class="p">(</span><span class="w"> </span><span class="n">icompq</span><span class="p">,</span><span class="w"> </span><span class="n">nl</span><span class="p">,</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="n">sqre</span><span class="p">,</span><span class="w"> </span><span class="n">nrhs</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">ldb</span><span class="p">,</span><span class="w"> </span><span class="n">bx</span><span class="p">,</span><span class="w"> </span><span class="n">ldbx</span><span class="p">,</span><span class="n">perm</span><span class="p">,</span><span class="w"> </span><span class="n">givptr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! DLALS0 applies back the multiplying factors of either the left or the</span>
+<span class="w">     </span><span class="c">!! right singular vector matrix of a diagonal matrix appended by a row</span>
+<span class="w">     </span><span class="c">!! to the right hand side matrix B in solving the least squares problem</span>
+<span class="w">     </span><span class="c">!! using the divide-and-conquer SVD approach.</span>
+<span class="w">     </span><span class="c">!! For the left singular vector matrix, three types of orthogonal</span>
+<span class="w">     </span><span class="c">!! matrices are involved:</span>
+<span class="w">     </span><span class="c">!! (1L) Givens rotations: the number of such rotations is GIVPTR; the</span>
+<span class="w">     </span><span class="c">!! pairs of columns/rows they were applied to are stored in GIVCOL;</span>
+<span class="w">     </span><span class="c">!! and the C- and S-values of these rotations are stored in GIVNUM.</span>
+<span class="w">     </span><span class="c">!! (2L) Permutation. The (NL+1)-st row of B is to be moved to the first</span>
+<span class="w">     </span><span class="c">!! row, and for J=2:N, PERM(J)-th row of B is to be moved to the</span>
+<span class="w">     </span><span class="c">!! J-th row.</span>
+<span class="w">     </span><span class="c">!! (3L) The left singular vector matrix of the remaining matrix.</span>
+<span class="w">     </span><span class="c">!! For the right singular vector matrix, four types of orthogonal</span>
+<span class="w">     </span><span class="c">!! matrices are involved:</span>
+<span class="w">     </span><span class="c">!! (1R) The right singular vector matrix of the remaining matrix.</span>
+<span class="w">     </span><span class="c">!! (2R) If SQRE = 1, one extra Givens rotation to generate the right</span>
+<span class="w">     </span><span class="c">!! null space.</span>
+<span class="w">     </span><span class="c">!! (3R) The inverse transformation of (2L).</span>
+<span class="w">     </span><span class="c">!! (4R) The inverse transformation of (1L).</span>
 <span class="w">               </span><span class="n">givcol</span><span class="p">,</span><span class="w"> </span><span class="n">ldgcol</span><span class="p">,</span><span class="w"> </span><span class="n">givnum</span><span class="p">,</span><span class="w"> </span><span class="n">ldgnum</span><span class="p">,</span><span class="n">poles</span><span class="p">,</span><span class="w"> </span><span class="n">difl</span><span class="p">,</span><span class="w"> </span><span class="n">difr</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack computational routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
@@ -516,13 +537,13 @@ null space.
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

@@ -130,7 +130,8 @@
     <h2>public pure subroutine stdlib_zbbcsd(jobu1, jobu2, jobv1t, jobv2t, trans, m, p, q, theta, phi, u1, ldu1, u2, ldu2, v1t, ldv1t, v2t, ldv2t, b11d, b11e, b12d, b12e, b21d, b21e, b22d, b22e, rwork, lrwork, info)</h2>
     
 
-    <p>bidiagonal-block form,
+    <p>ZBBCSD computes the CS decomposition of a unitary matrix in
+bidiagonal-block form,
 [ B11 | B12 0  0 ]
 [  0  |  0 -I  0 ]
 X = [----------------]
@@ -359,6 +360,27 @@ singular vector matrices.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_zbbcsd</span><span class="p">(</span><span class="w"> </span><span class="n">jobu1</span><span class="p">,</span><span class="w"> </span><span class="n">jobu2</span><span class="p">,</span><span class="w"> </span><span class="n">jobv1t</span><span class="p">,</span><span class="w"> </span><span class="n">jobv2t</span><span class="p">,</span><span class="w"> </span><span class="n">trans</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="n">theta</span><span class="p">,</span><span class="w"> </span><span class="n">phi</span><span class="p">,</span><span class="w"> </span><span class="n">u1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! ZBBCSD computes the CS decomposition of a unitary matrix in</span>
+<span class="w">     </span><span class="c">!! bidiagonal-block form,</span>
+<span class="w">     </span><span class="c">!! [ B11 | B12 0  0 ]</span>
+<span class="w">     </span><span class="c">!! [  0  |  0 -I  0 ]</span>
+<span class="w">     </span><span class="c">!! X = [----------------]</span>
+<span class="w">     </span><span class="c">!! [ B21 | B22 0  0 ]</span>
+<span class="w">     </span><span class="c">!! [  0  |  0  0  I ]</span>
+<span class="w">     </span><span class="c">!! [  C | -S  0  0 ]</span>
+<span class="w">     </span><span class="c">!! [ U1 |    ] [  0 |  0 -I  0 ] [ V1 |    ]**H</span>
+<span class="w">     </span><span class="c">!! = [---------] [---------------] [---------]   .</span>
+<span class="w">     </span><span class="c">!! [    | U2 ] [  S |  C  0  0 ] [    | V2 ]</span>
+<span class="w">     </span><span class="c">!! [  0 |  0  0  I ]</span>
+<span class="w">     </span><span class="c">!! X is M-by-M, its top-left block is P-by-Q, and Q must be no larger</span>
+<span class="w">     </span><span class="c">!! than P, M-P, or M-Q. (If Q is not the smallest index, then X must be</span>
+<span class="w">     </span><span class="c">!! transposed and/or permuted. This can be done in constant time using</span>
+<span class="w">     </span><span class="c">!! the TRANS and SIGNS options. See ZUNCSD for details.)</span>
+<span class="w">     </span><span class="c">!! The bidiagonal matrices B11, B12, B21, and B22 are represented</span>
+<span class="w">     </span><span class="c">!! implicitly by angles THETA(1:Q) and PHI(1:Q-1).</span>
+<span class="w">     </span><span class="c">!! The unitary matrices U1, U2, V1T, and V2T are input/output.</span>
+<span class="w">     </span><span class="c">!! The input matrices are pre- or post-multiplied by the appropriate</span>
+<span class="w">     </span><span class="c">!! singular vector matrices.</span>
 <span class="w">     </span><span class="n">ldu1</span><span class="p">,</span><span class="w"> </span><span class="n">u2</span><span class="p">,</span><span class="w"> </span><span class="n">ldu2</span><span class="p">,</span><span class="w"> </span><span class="n">v1t</span><span class="p">,</span><span class="w"> </span><span class="n">ldv1t</span><span class="p">,</span><span class="n">v2t</span><span class="p">,</span><span class="w"> </span><span class="n">ldv2t</span><span class="p">,</span><span class="w"> </span><span class="n">b11d</span><span class="p">,</span><span class="w"> </span><span class="n">b11e</span><span class="p">,</span><span class="w"> </span><span class="n">b12d</span><span class="p">,</span><span class="w"> </span><span class="n">b12e</span><span class="p">,</span><span class="w"> </span><span class="n">b21d</span><span class="p">,</span><span class="w"> </span><span class="n">b21e</span><span class="p">,</span><span class="n">b22d</span><span class="p">,</span><span class="w"> </span><span class="n">b22e</span><span class="p">,</span><span class="w"> </span><span class="n">rwork</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">               </span><span class="n">lrwork</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack computational routine --</span>
@@ -962,13 +984,13 @@ singular vector matrices.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

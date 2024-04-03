@@ -130,7 +130,8 @@
     <h2>public pure subroutine stdlib_zlasr(side, pivot, direct, m, n, c, s, a, lda)</h2>
     
 
-    <p>A, from either the left or the right.
+    <p>ZLASR applies a sequence of real plane rotations to a complex matrix
+A, from either the left or the right.
 When SIDE = 'L', the transformation takes the form
 A := P<em>A
 and when SIDE = 'R', the transformation takes the form
@@ -269,6 +270,57 @@ performed without ever forming P(k) explicitly.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_zlasr</span><span class="p">(</span><span class="w"> </span><span class="n">side</span><span class="p">,</span><span class="w"> </span><span class="n">pivot</span><span class="p">,</span><span class="w"> </span><span class="n">direct</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="w"> </span><span class="p">)</span>
+<span class="w">     </span><span class="c">!! ZLASR applies a sequence of real plane rotations to a complex matrix</span>
+<span class="w">     </span><span class="c">!! A, from either the left or the right.</span>
+<span class="w">     </span><span class="c">!! When SIDE = &#39;L&#39;, the transformation takes the form</span>
+<span class="w">     </span><span class="c">!! A := P*A</span>
+<span class="w">     </span><span class="c">!! and when SIDE = &#39;R&#39;, the transformation takes the form</span>
+<span class="w">     </span><span class="c">!! A := A*P**T</span>
+<span class="w">     </span><span class="c">!! where P is an orthogonal matrix consisting of a sequence of z plane</span>
+<span class="w">     </span><span class="c">!! rotations, with z = M when SIDE = &#39;L&#39; and z = N when SIDE = &#39;R&#39;,</span>
+<span class="w">     </span><span class="c">!! and P**T is the transpose of P.</span>
+<span class="w">     </span><span class="c">!! When DIRECT = &#39;F&#39; (Forward sequence), then</span>
+<span class="w">     </span><span class="c">!! P = P(z-1) * ... * P(2) * P(1)</span>
+<span class="w">     </span><span class="c">!! and when DIRECT = &#39;B&#39; (Backward sequence), then</span>
+<span class="w">     </span><span class="c">!! P = P(1) * P(2) * ... * P(z-1)</span>
+<span class="w">     </span><span class="c">!! where P(k) is a plane rotation matrix defined by the 2-by-2 rotation</span>
+<span class="w">     </span><span class="c">!! R(k) = (  c(k)  s(k) )</span>
+<span class="w">     </span><span class="c">!! = ( -s(k)  c(k) ).</span>
+<span class="w">     </span><span class="c">!! When PIVOT = &#39;V&#39; (Variable pivot), the rotation is performed</span>
+<span class="w">     </span><span class="c">!! for the plane (k,k+1), i.e., P(k) has the form</span>
+<span class="w">     </span><span class="c">!! P(k) = (  1                                            )</span>
+<span class="w">     </span><span class="c">!! (       ...                                     )</span>
+<span class="w">     </span><span class="c">!! (              1                                )</span>
+<span class="w">     </span><span class="c">!! (                   c(k)  s(k)                  )</span>
+<span class="w">     </span><span class="c">!! (                  -s(k)  c(k)                  )</span>
+<span class="w">     </span><span class="c">!! (                                1              )</span>
+<span class="w">     </span><span class="c">!! (                                     ...       )</span>
+<span class="w">     </span><span class="c">!! (                                            1  )</span>
+<span class="w">     </span><span class="c">!! where R(k) appears as a rank-2 modification to the identity matrix in</span>
+<span class="w">     </span><span class="c">!! rows and columns k and k+1.</span>
+<span class="w">     </span><span class="c">!! When PIVOT = &#39;T&#39; (Top pivot), the rotation is performed for the</span>
+<span class="w">     </span><span class="c">!! plane (1,k+1), so P(k) has the form</span>
+<span class="w">     </span><span class="c">!! P(k) = (  c(k)                    s(k)                 )</span>
+<span class="w">     </span><span class="c">!! (         1                                     )</span>
+<span class="w">     </span><span class="c">!! (              ...                              )</span>
+<span class="w">     </span><span class="c">!! (                     1                         )</span>
+<span class="w">     </span><span class="c">!! ( -s(k)                    c(k)                 )</span>
+<span class="w">     </span><span class="c">!! (                                 1             )</span>
+<span class="w">     </span><span class="c">!! (                                      ...      )</span>
+<span class="w">     </span><span class="c">!! (                                             1 )</span>
+<span class="w">     </span><span class="c">!! where R(k) appears in rows and columns 1 and k+1.</span>
+<span class="w">     </span><span class="c">!! Similarly, when PIVOT = &#39;B&#39; (Bottom pivot), the rotation is</span>
+<span class="w">     </span><span class="c">!! performed for the plane (k,z), giving P(k) the form</span>
+<span class="w">     </span><span class="c">!! P(k) = ( 1                                             )</span>
+<span class="w">     </span><span class="c">!! (      ...                                      )</span>
+<span class="w">     </span><span class="c">!! (             1                                 )</span>
+<span class="w">     </span><span class="c">!! (                  c(k)                    s(k) )</span>
+<span class="w">     </span><span class="c">!! (                         1                     )</span>
+<span class="w">     </span><span class="c">!! (                              ...              )</span>
+<span class="w">     </span><span class="c">!! (                                     1         )</span>
+<span class="w">     </span><span class="c">!! (                 -s(k)                    c(k) )</span>
+<span class="w">     </span><span class="c">!! where R(k) appears in rows and columns k and z.  The rotations are</span>
+<span class="w">     </span><span class="c">!! performed without ever forming P(k) explicitly.</span>
 <span class="w">        </span><span class="c">! -- lapack auxiliary routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
 <span class="w">        </span><span class="c">! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--</span>
@@ -489,13 +541,13 @@ performed without ever forming P(k) explicitly.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

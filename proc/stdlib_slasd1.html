@@ -130,7 +130,8 @@
     <h2>public pure subroutine stdlib_slasd1(nl, nr, sqre, d, alpha, beta, u, ldu, vt, ldvt, idxq, iwork, work, info)</h2>
     
 
-    <p>where N = NL + NR + 1 and M = N + SQRE. SLASD1 is called from SLASD0.
+    <p>SLASD1 computes the SVD of an upper bidiagonal N-by-M matrix B,
+where N = NL + NR + 1 and M = N + SQRE. SLASD1 is called from SLASD0.
 A related subroutine SLASD7 handles the case in which the singular
 values (and the singular vectors in factored form) are desired.
 SLASD1 computes the SVD as follows:
@@ -277,6 +278,35 @@ from the overall problem.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_slasd1</span><span class="p">(</span><span class="w"> </span><span class="n">nl</span><span class="p">,</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="n">sqre</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">ldu</span><span class="p">,</span><span class="w"> </span><span class="n">vt</span><span class="p">,</span><span class="w"> </span><span class="n">ldvt</span><span class="p">,</span><span class="n">idxq</span><span class="p">,</span><span class="w"> </span><span class="n">iwork</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! SLASD1 computes the SVD of an upper bidiagonal N-by-M matrix B,</span>
+<span class="w">     </span><span class="c">!! where N = NL + NR + 1 and M = N + SQRE. SLASD1 is called from SLASD0.</span>
+<span class="w">     </span><span class="c">!! A related subroutine SLASD7 handles the case in which the singular</span>
+<span class="w">     </span><span class="c">!! values (and the singular vectors in factored form) are desired.</span>
+<span class="w">     </span><span class="c">!! SLASD1 computes the SVD as follows:</span>
+<span class="w">     </span><span class="c">!! ( D1(in)    0    0       0 )</span>
+<span class="w">     </span><span class="c">!! B = U(in) * (   Z1**T   a   Z2**T    b ) * VT(in)</span>
+<span class="w">     </span><span class="c">!! (   0       0   D2(in)   0 )</span>
+<span class="w">     </span><span class="c">!! = U(out) * ( D(out) 0) * VT(out)</span>
+<span class="w">     </span><span class="c">!! where Z**T = (Z1**T a Z2**T b) = u**T VT**T, and u is a vector of dimension M</span>
+<span class="w">     </span><span class="c">!! with ALPHA and BETA in the NL+1 and NL+2 th entries and zeros</span>
+<span class="w">     </span><span class="c">!! elsewhere; and the entry b is empty if SQRE = 0.</span>
+<span class="w">     </span><span class="c">!! The left singular vectors of the original matrix are stored in U, and</span>
+<span class="w">     </span><span class="c">!! the transpose of the right singular vectors are stored in VT, and the</span>
+<span class="w">     </span><span class="c">!! singular values are in D.  The algorithm consists of three stages:</span>
+<span class="w">     </span><span class="c">!! The first stage consists of deflating the size of the problem</span>
+<span class="w">     </span><span class="c">!! when there are multiple singular values or when there are zeros in</span>
+<span class="w">     </span><span class="c">!! the Z vector.  For each such occurrence the dimension of the</span>
+<span class="w">     </span><span class="c">!! secular equation problem is reduced by one.  This stage is</span>
+<span class="w">     </span><span class="c">!! performed by the routine SLASD2.</span>
+<span class="w">     </span><span class="c">!! The second stage consists of calculating the updated</span>
+<span class="w">     </span><span class="c">!! singular values. This is done by finding the square roots of the</span>
+<span class="w">     </span><span class="c">!! roots of the secular equation via the routine SLASD4 (as called</span>
+<span class="w">     </span><span class="c">!! by SLASD3). This routine also calculates the singular vectors of</span>
+<span class="w">     </span><span class="c">!! the current problem.</span>
+<span class="w">     </span><span class="c">!! The final stage consists of computing the updated singular vectors</span>
+<span class="w">     </span><span class="c">!! directly using the updated singular values.  The singular vectors</span>
+<span class="w">     </span><span class="c">!! for the current problem are multiplied with the singular vectors</span>
+<span class="w">     </span><span class="c">!! from the overall problem.</span>
 <span class="w">               </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack auxiliary routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
@@ -374,13 +404,13 @@ from the overall problem.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

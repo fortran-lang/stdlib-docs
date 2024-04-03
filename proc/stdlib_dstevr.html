@@ -130,7 +130,8 @@
     <h2>public pure subroutine stdlib_dstevr(jobz, range, n, d, e, vl, vu, il, iu, abstol, m, w, z, ldz, isuppz, work, lwork, iwork, liwork, info)</h2>
     
 
-    <p>of a real symmetric tridiagonal matrix T.  Eigenvalues and
+    <p>DSTEVR computes selected eigenvalues and, optionally, eigenvectors
+of a real symmetric tridiagonal matrix T.  Eigenvalues and
 eigenvectors can be selected by specifying either a range of values
 or a range of indices for the desired eigenvalues.
 Whenever possible, DSTEVR calls DSTEMR to compute the
@@ -319,6 +320,41 @@ manner.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_dstevr</span><span class="p">(</span><span class="w"> </span><span class="n">jobz</span><span class="p">,</span><span class="w"> </span><span class="nb">range</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">vl</span><span class="p">,</span><span class="w"> </span><span class="n">vu</span><span class="p">,</span><span class="w"> </span><span class="n">il</span><span class="p">,</span><span class="w"> </span><span class="n">iu</span><span class="p">,</span><span class="w"> </span><span class="n">abstol</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">ldz</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! DSTEVR computes selected eigenvalues and, optionally, eigenvectors</span>
+<span class="w">     </span><span class="c">!! of a real symmetric tridiagonal matrix T.  Eigenvalues and</span>
+<span class="w">     </span><span class="c">!! eigenvectors can be selected by specifying either a range of values</span>
+<span class="w">     </span><span class="c">!! or a range of indices for the desired eigenvalues.</span>
+<span class="w">     </span><span class="c">!! Whenever possible, DSTEVR calls DSTEMR to compute the</span>
+<span class="w">     </span><span class="c">!! eigenspectrum using Relatively Robust Representations.  DSTEMR</span>
+<span class="w">     </span><span class="c">!! computes eigenvalues by the dqds algorithm, while orthogonal</span>
+<span class="w">     </span><span class="c">!! eigenvectors are computed from various &quot;good&quot; L D L^T representations</span>
+<span class="w">     </span><span class="c">!! (also known as Relatively Robust Representations). Gram-Schmidt</span>
+<span class="w">     </span><span class="c">!! orthogonalization is avoided as far as possible. More specifically,</span>
+<span class="w">     </span><span class="c">!! the various steps of the algorithm are as follows. For the i-th</span>
+<span class="w">     </span><span class="c">!! unreduced block of T,</span>
+<span class="w">     </span><span class="c">!! (a) Compute T - sigma_i = L_i D_i L_i^T, such that L_i D_i L_i^T</span>
+<span class="w">     </span><span class="c">!! is a relatively robust representation,</span>
+<span class="w">     </span><span class="c">!! (b) Compute the eigenvalues, lambda_j, of L_i D_i L_i^T to high</span>
+<span class="w">     </span><span class="c">!! relative accuracy by the dqds algorithm,</span>
+<span class="w">     </span><span class="c">!! (c) If there is a cluster of close eigenvalues, &quot;choose&quot; sigma_i</span>
+<span class="w">     </span><span class="c">!! close to the cluster, and go to step (a),</span>
+<span class="w">     </span><span class="c">!! (d) Given the approximate eigenvalue lambda_j of L_i D_i L_i^T,</span>
+<span class="w">     </span><span class="c">!! compute the corresponding eigenvector by forming a</span>
+<span class="w">     </span><span class="c">!! rank-revealing twisted factorization.</span>
+<span class="w">     </span><span class="c">!! The desired accuracy of the output can be specified by the input</span>
+<span class="w">     </span><span class="c">!! parameter ABSTOL.</span>
+<span class="w">     </span><span class="c">!! For more details, see &quot;A new O(n^2) algorithm for the symmetric</span>
+<span class="w">     </span><span class="c">!! tridiagonal eigenvalue/eigenvector problem&quot;, by Inderjit Dhillon,</span>
+<span class="w">     </span><span class="c">!! Computer Science Division Technical Report No. UCB//CSD-97-971,</span>
+<span class="w">     </span><span class="c">!! UC Berkeley, May 1997.</span>
+<span class="w">     </span><span class="c">!! Note 1 : DSTEVR calls DSTEMR when the full spectrum is requested</span>
+<span class="w">     </span><span class="c">!! on machines which conform to the ieee-754 floating point standard.</span>
+<span class="w">     </span><span class="c">!! DSTEVR calls DSTEBZ and DSTEIN on non-ieee machines and</span>
+<span class="w">     </span><span class="c">!! when partial spectrum requests are made.</span>
+<span class="w">     </span><span class="c">!! Normal execution of DSTEMR may create NaNs and infinities and</span>
+<span class="w">     </span><span class="c">!! hence may abort due to a floating point exception in environments</span>
+<span class="w">     </span><span class="c">!! which do not handle NaNs and infinities in the ieee standard default</span>
+<span class="w">     </span><span class="c">!! manner.</span>
 <span class="w">               </span><span class="n">isuppz</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">lwork</span><span class="p">,</span><span class="w"> </span><span class="n">iwork</span><span class="p">,</span><span class="n">liwork</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack driver routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
@@ -545,13 +581,13 @@ manner.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

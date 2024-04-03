@@ -130,7 +130,8 @@
     <h2>public subroutine stdlib_zgges(jobvsl, jobvsr, sort, selctg, n, a, lda, b, ldb, sdim, alpha, beta, vsl, ldvsl, vsr, ldvsr, work, lwork, rwork, bwork, info)</h2>
     
 
-    <p>(A,B), the generalized eigenvalues, the generalized complex Schur
+    <p>ZGGES computes for a pair of N-by-N complex nonsymmetric matrices
+(A,B), the generalized eigenvalues, the generalized complex Schur
 form (S, T), and optionally left and/or right Schur vectors (VSL
 and VSR). This gives the generalized Schur factorization
 (A,B) = ( (VSL)<em>S</em>(VSR)<strong>H, (VSL)<em>T</em>(VSR)</strong>H )
@@ -310,6 +311,26 @@ of T are non-negative real numbers.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">subroutine </span><span class="n">stdlib_zgges</span><span class="p">(</span><span class="w"> </span><span class="n">jobvsl</span><span class="p">,</span><span class="w"> </span><span class="n">jobvsr</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="p">,</span><span class="w"> </span><span class="n">selctg</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">ldb</span><span class="p">,</span><span class="n">sdim</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! ZGGES computes for a pair of N-by-N complex nonsymmetric matrices</span>
+<span class="w">     </span><span class="c">!! (A,B), the generalized eigenvalues, the generalized complex Schur</span>
+<span class="w">     </span><span class="c">!! form (S, T), and optionally left and/or right Schur vectors (VSL</span>
+<span class="w">     </span><span class="c">!! and VSR). This gives the generalized Schur factorization</span>
+<span class="w">     </span><span class="c">!! (A,B) = ( (VSL)*S*(VSR)**H, (VSL)*T*(VSR)**H )</span>
+<span class="w">     </span><span class="c">!! where (VSR)**H is the conjugate-transpose of VSR.</span>
+<span class="w">     </span><span class="c">!! Optionally, it also orders the eigenvalues so that a selected cluster</span>
+<span class="w">     </span><span class="c">!! of eigenvalues appears in the leading diagonal blocks of the upper</span>
+<span class="w">     </span><span class="c">!! triangular matrix S and the upper triangular matrix T. The leading</span>
+<span class="w">     </span><span class="c">!! columns of VSL and VSR then form an unitary basis for the</span>
+<span class="w">     </span><span class="c">!! corresponding left and right eigenspaces (deflating subspaces).</span>
+<span class="w">     </span><span class="c">!! (If only the generalized eigenvalues are needed, use the driver</span>
+<span class="w">     </span><span class="c">!! ZGGEV instead, which is faster.)</span>
+<span class="w">     </span><span class="c">!! A generalized eigenvalue for a pair of matrices (A,B) is a scalar w</span>
+<span class="w">     </span><span class="c">!! or a ratio alpha/beta = w, such that  A - w*B is singular.  It is</span>
+<span class="w">     </span><span class="c">!! usually represented as the pair (alpha,beta), as there is a</span>
+<span class="w">     </span><span class="c">!! reasonable interpretation for beta=0, and even for both being zero.</span>
+<span class="w">     </span><span class="c">!! A pair of matrices (S,T) is in generalized complex Schur form if S</span>
+<span class="w">     </span><span class="c">!! and T are upper triangular and, in addition, the diagonal elements</span>
+<span class="w">     </span><span class="c">!! of T are non-negative real numbers.</span>
 <span class="w">               </span><span class="n">vsl</span><span class="p">,</span><span class="w"> </span><span class="n">ldvsl</span><span class="p">,</span><span class="w"> </span><span class="n">vsr</span><span class="p">,</span><span class="w"> </span><span class="n">ldvsr</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="n">lwork</span><span class="p">,</span><span class="w"> </span><span class="n">rwork</span><span class="p">,</span><span class="w"> </span><span class="n">bwork</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack driver routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
@@ -553,13 +574,13 @@ of T are non-negative real numbers.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

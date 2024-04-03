@@ -130,7 +130,8 @@
     <h2>public pure subroutine stdlib_dlasd6(icompq, nl, nr, sqre, d, vf, vl, alpha, beta, idxq, perm, givptr, givcol, ldgcol, givnum, ldgnum, poles, difl, difr, z, k, c, s, work, iwork, info)</h2>
     
 
-    <p>obtained by merging two smaller ones by appending a row. This
+    <p>DLASD6 computes the SVD of an updated upper bidiagonal matrix B
+obtained by merging two smaller ones by appending a row. This
 routine is used only for the problem which requires all singular
 values and optionally singular vector matrices in factored form.
 B is an N-by-M matrix with N = NL + NR + 1 and M = N + SQRE.
@@ -355,6 +356,41 @@ DLASD6 is called from DLASDA.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_dlasd6</span><span class="p">(</span><span class="w"> </span><span class="n">icompq</span><span class="p">,</span><span class="w"> </span><span class="n">nl</span><span class="p">,</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="n">sqre</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">vf</span><span class="p">,</span><span class="w"> </span><span class="n">vl</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="n">idxq</span><span class="p">,</span><span class="w"> </span><span class="n">perm</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! DLASD6 computes the SVD of an updated upper bidiagonal matrix B</span>
+<span class="w">     </span><span class="c">!! obtained by merging two smaller ones by appending a row. This</span>
+<span class="w">     </span><span class="c">!! routine is used only for the problem which requires all singular</span>
+<span class="w">     </span><span class="c">!! values and optionally singular vector matrices in factored form.</span>
+<span class="w">     </span><span class="c">!! B is an N-by-M matrix with N = NL + NR + 1 and M = N + SQRE.</span>
+<span class="w">     </span><span class="c">!! A related subroutine, DLASD1, handles the case in which all singular</span>
+<span class="w">     </span><span class="c">!! values and singular vectors of the bidiagonal matrix are desired.</span>
+<span class="w">     </span><span class="c">!! DLASD6 computes the SVD as follows:</span>
+<span class="w">     </span><span class="c">!! ( D1(in)    0    0       0 )</span>
+<span class="w">     </span><span class="c">!! B = U(in) * (   Z1**T   a   Z2**T    b ) * VT(in)</span>
+<span class="w">     </span><span class="c">!! (   0       0   D2(in)   0 )</span>
+<span class="w">     </span><span class="c">!! = U(out) * ( D(out) 0) * VT(out)</span>
+<span class="w">     </span><span class="c">!! where Z**T = (Z1**T a Z2**T b) = u**T VT**T, and u is a vector of dimension M</span>
+<span class="w">     </span><span class="c">!! with ALPHA and BETA in the NL+1 and NL+2 th entries and zeros</span>
+<span class="w">     </span><span class="c">!! elsewhere; and the entry b is empty if SQRE = 0.</span>
+<span class="w">     </span><span class="c">!! The singular values of B can be computed using D1, D2, the first</span>
+<span class="w">     </span><span class="c">!! components of all the right singular vectors of the lower block, and</span>
+<span class="w">     </span><span class="c">!! the last components of all the right singular vectors of the upper</span>
+<span class="w">     </span><span class="c">!! block. These components are stored and updated in VF and VL,</span>
+<span class="w">     </span><span class="c">!! respectively, in DLASD6. Hence U and VT are not explicitly</span>
+<span class="w">     </span><span class="c">!! referenced.</span>
+<span class="w">     </span><span class="c">!! The singular values are stored in D. The algorithm consists of two</span>
+<span class="w">     </span><span class="c">!! stages:</span>
+<span class="w">     </span><span class="c">!! The first stage consists of deflating the size of the problem</span>
+<span class="w">     </span><span class="c">!! when there are multiple singular values or if there is a zero</span>
+<span class="w">     </span><span class="c">!! in the Z vector. For each such occurrence the dimension of the</span>
+<span class="w">     </span><span class="c">!! secular equation problem is reduced by one. This stage is</span>
+<span class="w">     </span><span class="c">!! performed by the routine DLASD7.</span>
+<span class="w">     </span><span class="c">!! The second stage consists of calculating the updated</span>
+<span class="w">     </span><span class="c">!! singular values. This is done by finding the roots of the</span>
+<span class="w">     </span><span class="c">!! secular equation via the routine DLASD4 (as called by DLASD8).</span>
+<span class="w">     </span><span class="c">!! This routine also updates VF and VL and computes the distances</span>
+<span class="w">     </span><span class="c">!! between the updated singular values and the old singular</span>
+<span class="w">     </span><span class="c">!! values.</span>
+<span class="w">     </span><span class="c">!! DLASD6 is called from DLASDA.</span>
 <span class="w">     </span><span class="n">givptr</span><span class="p">,</span><span class="w"> </span><span class="n">givcol</span><span class="p">,</span><span class="w"> </span><span class="n">ldgcol</span><span class="p">,</span><span class="w"> </span><span class="n">givnum</span><span class="p">,</span><span class="n">ldgnum</span><span class="p">,</span><span class="w"> </span><span class="n">poles</span><span class="p">,</span><span class="w"> </span><span class="n">difl</span><span class="p">,</span><span class="w"> </span><span class="n">difr</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="n">iwork</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">               </span>
 <span class="w">        </span><span class="c">! -- lapack auxiliary routine --</span>
@@ -459,13 +495,13 @@ DLASD6 is called from DLASDA.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

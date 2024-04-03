@@ -130,8 +130,9 @@
     <h2>public pure subroutine stdlib_zungbr(vect, m, n, k, a, lda, tau, work, lwork, info)</h2>
     
 
-    <p>determined by ZGEBRD when reducing a complex matrix A to bidiagonal
-form: A = Q * B * P<strong>H.  Q and P</strong>H are defined as products of
+    <p>ZUNGBR generates one of the complex unitary matrices Q or P<strong>H
+determined by ZGEBRD when reducing a complex matrix A to bidiagonal
+form: A = Q * B * P</strong>H.  Q and P<strong>H are defined as products of
 elementary reflectors H(i) or G(i) respectively.
 If VECT = 'Q', A is assumed to have been an M-by-K matrix, and Q
 is of order M:
@@ -139,11 +140,11 @@ if m &gt;= k, Q = H(1) H(2) . . . H(k) and ZUNGBR returns the first n
 columns of Q, where m &gt;= n &gt;= k;
 if m &lt; k, Q = H(1) H(2) . . . H(m-1) and ZUNGBR returns Q as an
 M-by-M matrix.
-If VECT = 'P', A is assumed to have been a K-by-N matrix, and P<strong>H
+If VECT = 'P', A is assumed to have been a K-by-N matrix, and P</strong>H
 is of order N:
-if k &lt; n, P</strong>H = G(k) . . . G(2) G(1) and ZUNGBR returns the first m
-rows of P<strong>H, where n &gt;= m &gt;= k;
-if k &gt;= n, P</strong>H = G(n-1) . . . G(2) G(1) and ZUNGBR returns P**H as
+if k &lt; n, P<strong>H = G(k) . . . G(2) G(1) and ZUNGBR returns the first m
+rows of P</strong>H, where n &gt;= m &gt;= k;
+if k &gt;= n, P<strong>H = G(n-1) . . . G(2) G(1) and ZUNGBR returns P</strong>H as
 an N-by-N matrix.</p>
 
     <h3>Arguments</h3>
@@ -240,6 +241,22 @@ an N-by-N matrix.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_zungbr</span><span class="p">(</span><span class="w"> </span><span class="n">vect</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">lwork</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
+<span class="w">     </span><span class="c">!! ZUNGBR generates one of the complex unitary matrices Q or P**H</span>
+<span class="w">     </span><span class="c">!! determined by ZGEBRD when reducing a complex matrix A to bidiagonal</span>
+<span class="w">     </span><span class="c">!! form: A = Q * B * P**H.  Q and P**H are defined as products of</span>
+<span class="w">     </span><span class="c">!! elementary reflectors H(i) or G(i) respectively.</span>
+<span class="w">     </span><span class="c">!! If VECT = &#39;Q&#39;, A is assumed to have been an M-by-K matrix, and Q</span>
+<span class="w">     </span><span class="c">!! is of order M:</span>
+<span class="w">     </span><span class="c">!! if m &gt;= k, Q = H(1) H(2) . . . H(k) and ZUNGBR returns the first n</span>
+<span class="w">     </span><span class="c">!! columns of Q, where m &gt;= n &gt;= k;</span>
+<span class="w">     </span><span class="c">!! if m &lt; k, Q = H(1) H(2) . . . H(m-1) and ZUNGBR returns Q as an</span>
+<span class="w">     </span><span class="c">!! M-by-M matrix.</span>
+<span class="w">     </span><span class="c">!! If VECT = &#39;P&#39;, A is assumed to have been a K-by-N matrix, and P**H</span>
+<span class="w">     </span><span class="c">!! is of order N:</span>
+<span class="w">     </span><span class="c">!! if k &lt; n, P**H = G(k) . . . G(2) G(1) and ZUNGBR returns the first m</span>
+<span class="w">     </span><span class="c">!! rows of P**H, where n &gt;= m &gt;= k;</span>
+<span class="w">     </span><span class="c">!! if k &gt;= n, P**H = G(n-1) . . . G(2) G(1) and ZUNGBR returns P**H as</span>
+<span class="w">     </span><span class="c">!! an N-by-N matrix.</span>
 <span class="w">        </span><span class="c">! -- lapack computational routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
 <span class="w">        </span><span class="c">! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--</span>
@@ -384,13 +401,13 @@ an N-by-N matrix.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

@@ -130,7 +130,8 @@
     <h2>public pure recursive subroutine stdlib_claunhr_col_getrfnp2(m, n, a, lda, d, info)</h2>
     
 
-    <p>pivoting of a complex general M-by-N matrix A. The factorization has
+    <p>CLAUNHR_COL_GETRFNP2 computes the modified LU factorization without
+pivoting of a complex general M-by-N matrix A. The factorization has
 the form:
 A - S = L * U,
 where:
@@ -248,6 +249,54 @@ vol. 41, no. 6, pp. 737-755, 1997.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure recursive subroutine </span><span class="n">stdlib_claunhr_col_getrfnp2</span><span class="p">(</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
+<span class="w">     </span><span class="c">!! CLAUNHR_COL_GETRFNP2 computes the modified LU factorization without</span>
+<span class="w">     </span><span class="c">!! pivoting of a complex general M-by-N matrix A. The factorization has</span>
+<span class="w">     </span><span class="c">!! the form:</span>
+<span class="w">     </span><span class="c">!! A - S = L * U,</span>
+<span class="w">     </span><span class="c">!! where:</span>
+<span class="w">     </span><span class="c">!! S is a m-by-n diagonal sign matrix with the diagonal D, so that</span>
+<span class="w">     </span><span class="c">!! D(i) = S(i,i), 1 &lt;= i &lt;= min(M,N). The diagonal D is constructed</span>
+<span class="w">     </span><span class="c">!! as D(i)=-SIGN(A(i,i)), where A(i,i) is the value after performing</span>
+<span class="w">     </span><span class="c">!! i-1 steps of Gaussian elimination. This means that the diagonal</span>
+<span class="w">     </span><span class="c">!! element at each step of &quot;modified&quot; Gaussian elimination is at</span>
+<span class="w">     </span><span class="c">!! least one in absolute value (so that division-by-zero not</span>
+<span class="w">     </span><span class="c">!! possible during the division by the diagonal element);</span>
+<span class="w">     </span><span class="c">!! L is a M-by-N lower triangular matrix with unit diagonal elements</span>
+<span class="w">     </span><span class="c">!! (lower trapezoidal if M &gt; N);</span>
+<span class="w">     </span><span class="c">!! and U is a M-by-N upper triangular matrix</span>
+<span class="w">     </span><span class="c">!! (upper trapezoidal if M &lt; N).</span>
+<span class="w">     </span><span class="c">!! This routine is an auxiliary routine used in the Householder</span>
+<span class="w">     </span><span class="c">!! reconstruction routine CUNHR_COL. In CUNHR_COL, this routine is</span>
+<span class="w">     </span><span class="c">!! applied to an M-by-N matrix A with orthonormal columns, where each</span>
+<span class="w">     </span><span class="c">!! element is bounded by one in absolute value. With the choice of</span>
+<span class="w">     </span><span class="c">!! the matrix S above, one can show that the diagonal element at each</span>
+<span class="w">     </span><span class="c">!! step of Gaussian elimination is the largest (in absolute value) in</span>
+<span class="w">     </span><span class="c">!! the column on or below the diagonal, so that no pivoting is required</span>
+<span class="w">     </span><span class="c">!! for numerical stability [1].</span>
+<span class="w">     </span><span class="c">!! For more details on the Householder reconstruction algorithm,</span>
+<span class="w">     </span><span class="c">!! including the modified LU factorization, see [1].</span>
+<span class="w">     </span><span class="c">!! This is the recursive version of the LU factorization algorithm.</span>
+<span class="w">     </span><span class="c">!! Denote A - S by B. The algorithm divides the matrix B into four</span>
+<span class="w">     </span><span class="c">!! submatrices:</span>
+<span class="w">     </span><span class="c">!! [  B11 | B12  ]  where B11 is n1 by n1,</span>
+<span class="w">     </span><span class="c">!! B = [ -----|----- ]        B21 is (m-n1) by n1,</span>
+<span class="w">     </span><span class="c">!! [  B21 | B22  ]        B12 is n1 by n2,</span>
+<span class="w">     </span><span class="c">!! B22 is (m-n1) by n2,</span>
+<span class="w">     </span><span class="c">!! with n1 = min(m,n)/2, n2 = n-n1.</span>
+<span class="w">     </span><span class="c">!! The subroutine calls itself to factor B11, solves for B21,</span>
+<span class="w">     </span><span class="c">!! solves for B12, updates B22, then calls itself to factor B22.</span>
+<span class="w">     </span><span class="c">!! For more details on the recursive LU algorithm, see [2].</span>
+<span class="w">     </span><span class="c">!! CLAUNHR_COL_GETRFNP2 is called to factorize a block by the blocked</span>
+<span class="w">     </span><span class="c">!! routine CLAUNHR_COL_GETRFNP, which uses blocked code calling</span>
+<span class="w">     </span><span class="c">!! Level 3 BLAS to update the submatrix. However, CLAUNHR_COL_GETRFNP2</span>
+<span class="w">     </span><span class="c">!! is self-sufficient and can be used without CLAUNHR_COL_GETRFNP.</span>
+<span class="w">     </span><span class="c">!! [1] &quot;Reconstructing Householder vectors from tall-skinny QR&quot;,</span>
+<span class="w">     </span><span class="c">!! G. Ballard, J. Demmel, L. Grigori, M. Jacquelin, H.D. Nguyen,</span>
+<span class="w">     </span><span class="c">!! E. Solomonik, J. Parallel Distrib. Comput.,</span>
+<span class="w">     </span><span class="c">!! vol. 85, pp. 3-31, 2015.</span>
+<span class="w">     </span><span class="c">!! [2] &quot;Recursion leads to automatic variable blocking for dense linear</span>
+<span class="w">     </span><span class="c">!! algebra algorithms&quot;, F. Gustavson, IBM J. of Res. and Dev.,</span>
+<span class="w">     </span><span class="c">!! vol. 41, no. 6, pp. 737-755, 1997.</span>
 <span class="w">        </span><span class="c">! -- lapack computational routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
 <span class="w">        </span><span class="c">! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--</span>
@@ -347,13 +396,13 @@ vol. 41, no. 6, pp. 737-755, 1997.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

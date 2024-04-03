@@ -144,8 +144,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>public interface lartg</h2>
-   <p>!</p>
-<p>LARTG: generates a plane rotation so that
+   <p>LARTG generates a plane rotation so that
 [  C         S  ] . [ F ]  =  [ R ]
 [ -conjg(S)  C  ]   [ G ]     [ 0 ]
 where C is real and C<strong>2 + |S|</strong>2 = 1.
@@ -381,7 +380,28 @@ Below, wp=&gt;sp stands for single precision from LA_CONSTANTS module.</p>
   <div class="panel-heading codesum"><span class="anchor" id="proc-stdlib_clartg"></span><h3>public pure subroutine <a href='../proc/stdlib_clartg.html'>stdlib_clartg</a>(f, g, c, s, r)</h3></div>
   <div class="panel-body">
        
-<p>!</p><a href="../proc/stdlib_clartg.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+<p>CLARTG generates a plane rotation so that
+[  C         S  ] . [ F ]  =  [ R ]
+[ -conjg(S)  C  ]   [ G ]     [ 0 ]
+where C is real and C<strong>2 + |S|</strong>2 = 1.
+The mathematical formulas used for C and S are
+sgn(x) = {  x / |x|,   x != 0
+{  1,         x = 0
+R = sgn(F) * sqrt(|F|<strong>2 + |G|</strong>2)
+C = |F| / sqrt(|F|<strong>2 + |G|</strong>2)
+S = sgn(F) * conjg(G) / sqrt(|F|<strong>2 + |G|</strong>2)
+When F and G are real, the formulas simplify to C = F/R and
+S = G/R, and the returned values of C, S, and R should be
+identical to those returned by CLARTG.
+The algorithm used to compute these quantities incorporates scaling
+to avoid overflow or underflow in computing the square root of the
+sum of squares.
+This is a faster version of the BLAS1 routine CROTG, except for
+the following differences:
+F and G are unchanged on return.
+If G=0, then C=1 and S=0.
+If F=0, then C=0 and S is chosen so that R is real.
+Below, wp=&gt;sp stands for single precision from LA_CONSTANTS module.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -427,7 +447,28 @@ Below, wp=&gt;sp stands for single precision from LA_CONSTANTS module.</p>
   <div class="panel-heading codesum"><span class="anchor" id="proc-stdlib_dlartg"></span><h3>public pure subroutine <a href='../proc/stdlib_dlartg.html'>stdlib_dlartg</a>(f, g, c, s, r)</h3></div>
   <div class="panel-body">
        
-<p>!</p><a href="../proc/stdlib_dlartg.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+<p>DLARTG generates a plane rotation so that
+[  C  S  ]  .  [ F ]  =  [ R ]
+[ -S  C  ]     [ G ]     [ 0 ]
+where C<strong>2 + S</strong>2 = 1.
+The mathematical formulas used for C and S are
+R = sign(F) * sqrt(F<strong>2 + G</strong>2)
+C = F / R
+S = G / R
+Hence C &gt;= 0. The algorithm used to compute these quantities
+incorporates scaling to avoid overflow or underflow in computing the
+square root of the sum of squares.
+This version is discontinuous in R at F = 0 but it returns the same
+C and S as ZLARTG for complex inputs (F,0) and (G,0).
+This is a more accurate version of the BLAS1 routine DROTG,
+with the following other differences:
+F and G are unchanged on return.
+If G=0, then C=1 and S=0.
+If F=0 and (G .ne. 0), then C=0 and S=sign(1,G) without doing any
+floating point operations (saves work in DBDSQR when
+there are zeros on the diagonal).
+If F exceeds G in magnitude, C will be positive.
+Below, wp=&gt;dp stands for double precision from LA_CONSTANTS module.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -473,7 +514,28 @@ Below, wp=&gt;sp stands for single precision from LA_CONSTANTS module.</p>
   <div class="panel-heading codesum"><span class="anchor" id="proc-stdlib_slartg"></span><h3>public pure subroutine <a href='../proc/stdlib_slartg.html'>stdlib_slartg</a>(f, g, c, s, r)</h3></div>
   <div class="panel-body">
        
-<p>!</p><a href="../proc/stdlib_slartg.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+<p>SLARTG generates a plane rotation so that
+[  C  S  ]  .  [ F ]  =  [ R ]
+[ -S  C  ]     [ G ]     [ 0 ]
+where C<strong>2 + S</strong>2 = 1.
+The mathematical formulas used for C and S are
+R = sign(F) * sqrt(F<strong>2 + G</strong>2)
+C = F / R
+S = G / R
+Hence C &gt;= 0. The algorithm used to compute these quantities
+incorporates scaling to avoid overflow or underflow in computing the
+square root of the sum of squares.
+This version is discontinuous in R at F = 0 but it returns the same
+C and S as SLARTG for complex inputs (F,0) and (G,0).
+This is a more accurate version of the BLAS1 routine SROTG,
+with the following other differences:
+F and G are unchanged on return.
+If G=0, then C=1 and S=0.
+If F=0 and (G .ne. 0), then C=0 and S=sign(1,G) without doing any
+floating point operations (saves work in SBDSQR when
+there are zeros on the diagonal).
+If F exceeds G in magnitude, C will be positive.
+Below, wp=&gt;sp stands for single precision from LA_CONSTANTS module.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -519,7 +581,28 @@ Below, wp=&gt;sp stands for single precision from LA_CONSTANTS module.</p>
   <div class="panel-heading codesum"><span class="anchor" id="proc-stdlib_zlartg"></span><h3>public pure subroutine <a href='../proc/stdlib_zlartg.html'>stdlib_zlartg</a>(f, g, c, s, r)</h3></div>
   <div class="panel-body">
        
-<p>!</p><a href="../proc/stdlib_zlartg.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+<p>ZLARTG generates a plane rotation so that
+[  C         S  ] . [ F ]  =  [ R ]
+[ -conjg(S)  C  ]   [ G ]     [ 0 ]
+where C is real and C<strong>2 + |S|</strong>2 = 1.
+The mathematical formulas used for C and S are
+sgn(x) = {  x / |x|,   x != 0
+{  1,         x = 0
+R = sgn(F) * sqrt(|F|<strong>2 + |G|</strong>2)
+C = |F| / sqrt(|F|<strong>2 + |G|</strong>2)
+S = sgn(F) * conjg(G) / sqrt(|F|<strong>2 + |G|</strong>2)
+When F and G are real, the formulas simplify to C = F/R and
+S = G/R, and the returned values of C, S, and R should be
+identical to those returned by DLARTG.
+The algorithm used to compute these quantities incorporates scaling
+to avoid overflow or underflow in computing the square root of the
+sum of squares.
+This is a faster version of the BLAS1 routine ZROTG, except for
+the following differences:
+F and G are unchanged on return.
+If G=0, then C=1 and S=0.
+If F=0, then C=0 and S is chosen so that R is real.
+Below, wp=&gt;dp stands for double precision from LA_CONSTANTS module.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -571,13 +654,13 @@ Below, wp=&gt;sp stands for single precision from LA_CONSTANTS module.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

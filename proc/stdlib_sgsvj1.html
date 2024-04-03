@@ -130,7 +130,8 @@
     <h2>public pure subroutine stdlib_sgsvj1(jobv, m, n, n1, a, lda, d, sva, mv, v, ldv, eps, sfmin, tol, nsweep, work, lwork, info)</h2>
     
 
-    <p>purpose. It applies Jacobi rotations in the same way as SGESVJ does, but
+    <p>SGSVJ1 is called from SGESVJ as a pre-processor and that is its main
+purpose. It applies Jacobi rotations in the same way as SGESVJ does, but
 it targets only particular pivots and it does not check convergence
 (stopping criterion). Few tuning parameters (marked by [TP]) are
 available for the implementer.
@@ -296,6 +297,30 @@ is given in TOL.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_sgsvj1</span><span class="p">(</span><span class="w"> </span><span class="n">jobv</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n1</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">sva</span><span class="p">,</span><span class="w"> </span><span class="n">mv</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">ldv</span><span class="p">,</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="n">sfmin</span><span class="p">,</span><span class="w"> </span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! SGSVJ1 is called from SGESVJ as a pre-processor and that is its main</span>
+<span class="w">     </span><span class="c">!! purpose. It applies Jacobi rotations in the same way as SGESVJ does, but</span>
+<span class="w">     </span><span class="c">!! it targets only particular pivots and it does not check convergence</span>
+<span class="w">     </span><span class="c">!! (stopping criterion). Few tuning parameters (marked by [TP]) are</span>
+<span class="w">     </span><span class="c">!! available for the implementer.</span>
+<span class="w">     </span><span class="c">!! Further Details</span>
+<span class="w">     </span><span class="c">!! ~~~~~~~~~~~~~~~</span>
+<span class="w">     </span><span class="c">!! SGSVJ1 applies few sweeps of Jacobi rotations in the column space of</span>
+<span class="w">     </span><span class="c">!! the input M-by-N matrix A. The pivot pairs are taken from the (1,2)</span>
+<span class="w">     </span><span class="c">!! off-diagonal block in the corresponding N-by-N Gram matrix A^T * A. The</span>
+<span class="w">     </span><span class="c">!! block-entries (tiles) of the (1,2) off-diagonal block are marked by the</span>
+<span class="w">     </span><span class="c">!! [x]&#39;s in the following scheme:</span>
+<span class="w">     </span><span class="c">!! | *  *  * [x] [x] [x]|</span>
+<span class="w">     </span><span class="c">!! | *  *  * [x] [x] [x]|    Row-cycling in the nblr-by-nblc [x] blocks.</span>
+<span class="w">     </span><span class="c">!! | *  *  * [x] [x] [x]|    Row-cyclic pivoting inside each [x] block.</span>
+<span class="w">     </span><span class="c">!! |[x] [x] [x] *  *  * |</span>
+<span class="w">     </span><span class="c">!! |[x] [x] [x] *  *  * |</span>
+<span class="w">     </span><span class="c">!! |[x] [x] [x] *  *  * |</span>
+<span class="w">     </span><span class="c">!! In terms of the columns of A, the first N1 columns are rotated &#39;against&#39;</span>
+<span class="w">     </span><span class="c">!! the remaining N-N1 columns, trying to increase the angle between the</span>
+<span class="w">     </span><span class="c">!! corresponding subspaces. The off-diagonal block is N1-by(N-N1) and it is</span>
+<span class="w">     </span><span class="c">!! tiled using quadratic tiles of side KBL. Here, KBL is a tuning parameter.</span>
+<span class="w">     </span><span class="c">!! The number of sweeps is given in NSWEEP and the orthogonality threshold</span>
+<span class="w">     </span><span class="c">!! is given in TOL.</span>
 <span class="w">               </span><span class="n">nsweep</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">lwork</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack computational routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
@@ -714,13 +739,13 @@ is given in TOL.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

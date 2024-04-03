@@ -130,7 +130,8 @@
     <h2>public pure subroutine stdlib_dgghrd(compq, compz, n, ilo, ihi, a, lda, b, ldb, q, ldq, z, ldz, info)</h2>
     
 
-    <p>Hessenberg form using orthogonal transformations, where A is a
+    <p>DGGHRD reduces a pair of real matrices (A,B) to generalized upper
+Hessenberg form using orthogonal transformations, where A is a
 general matrix and B is upper triangular.  The form of the
 generalized eigenvalue problem is
 A<em>x = lambda</em>B<em>x,
@@ -271,6 +272,29 @@ problem to generalized Hessenberg form.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_dgghrd</span><span class="p">(</span><span class="w"> </span><span class="n">compq</span><span class="p">,</span><span class="w"> </span><span class="n">compz</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">ilo</span><span class="p">,</span><span class="w"> </span><span class="n">ihi</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">ldb</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="n">ldq</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">ldz</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! DGGHRD reduces a pair of real matrices (A,B) to generalized upper</span>
+<span class="w">     </span><span class="c">!! Hessenberg form using orthogonal transformations, where A is a</span>
+<span class="w">     </span><span class="c">!! general matrix and B is upper triangular.  The form of the</span>
+<span class="w">     </span><span class="c">!! generalized eigenvalue problem is</span>
+<span class="w">     </span><span class="c">!! A*x = lambda*B*x,</span>
+<span class="w">     </span><span class="c">!! and B is typically made upper triangular by computing its QR</span>
+<span class="w">     </span><span class="c">!! factorization and moving the orthogonal matrix Q to the left side</span>
+<span class="w">     </span><span class="c">!! of the equation.</span>
+<span class="w">     </span><span class="c">!! This subroutine simultaneously reduces A to a Hessenberg matrix H:</span>
+<span class="w">     </span><span class="c">!! Q**T*A*Z = H</span>
+<span class="w">     </span><span class="c">!! and transforms B to another upper triangular matrix T:</span>
+<span class="w">     </span><span class="c">!! Q**T*B*Z = T</span>
+<span class="w">     </span><span class="c">!! in order to reduce the problem to its standard form</span>
+<span class="w">     </span><span class="c">!! H*y = lambda*T*y</span>
+<span class="w">     </span><span class="c">!! where y = Z**T*x.</span>
+<span class="w">     </span><span class="c">!! The orthogonal matrices Q and Z are determined as products of Givens</span>
+<span class="w">     </span><span class="c">!! rotations.  They may either be formed explicitly, or they may be</span>
+<span class="w">     </span><span class="c">!! postmultiplied into input matrices Q1 and Z1, so that</span>
+<span class="w">     </span><span class="c">!! Q1 * A * Z1**T = (Q1*Q) * H * (Z1*Z)**T</span>
+<span class="w">     </span><span class="c">!! Q1 * B * Z1**T = (Q1*Q) * T * (Z1*Z)**T</span>
+<span class="w">     </span><span class="c">!! If Q1 is the orthogonal matrix from the QR factorization of B in the</span>
+<span class="w">     </span><span class="c">!! original equation A*x = lambda*B*x, then DGGHRD reduces the original</span>
+<span class="w">     </span><span class="c">!! problem to generalized Hessenberg form.</span>
 <span class="w">               </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack computational routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
@@ -389,13 +413,13 @@ problem to generalized Hessenberg form.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

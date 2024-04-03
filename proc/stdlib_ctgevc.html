@@ -130,7 +130,8 @@
     <h2>public pure subroutine stdlib_ctgevc(side, howmny, select, n, s, lds, p, ldp, vl, ldvl, vr, ldvr, mm, m, work, rwork, info)</h2>
     
 
-    <p>a pair of complex matrices (S,P), where S and P are upper triangular.
+    <p>CTGEVC computes some or all of the right and/or left eigenvectors of
+a pair of complex matrices (S,P), where S and P are upper triangular.
 Matrix pairs of this type are produced by the generalized Schur
 factorization of a complex matrix pair (A,B):
 A = Q<em>S</em>Z<strong>H,  B = Q<em>P</em>Z</strong>H
@@ -284,6 +285,24 @@ are the matrices of right and left eigenvectors of (A,B).</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_ctgevc</span><span class="p">(</span><span class="w"> </span><span class="n">side</span><span class="p">,</span><span class="w"> </span><span class="n">howmny</span><span class="p">,</span><span class="w"> </span><span class="k">select</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">lds</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">ldp</span><span class="p">,</span><span class="w"> </span><span class="n">vl</span><span class="p">,</span><span class="n">ldvl</span><span class="p">,</span><span class="w"> </span><span class="n">vr</span><span class="p">,</span><span class="w"> </span><span class="n">ldvr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! CTGEVC computes some or all of the right and/or left eigenvectors of</span>
+<span class="w">     </span><span class="c">!! a pair of complex matrices (S,P), where S and P are upper triangular.</span>
+<span class="w">     </span><span class="c">!! Matrix pairs of this type are produced by the generalized Schur</span>
+<span class="w">     </span><span class="c">!! factorization of a complex matrix pair (A,B):</span>
+<span class="w">     </span><span class="c">!! A = Q*S*Z**H,  B = Q*P*Z**H</span>
+<span class="w">     </span><span class="c">!! as computed by CGGHRD + CHGEQZ.</span>
+<span class="w">     </span><span class="c">!! The right eigenvector x and the left eigenvector y of (S,P)</span>
+<span class="w">     </span><span class="c">!! corresponding to an eigenvalue w are defined by:</span>
+<span class="w">     </span><span class="c">!! S*x = w*P*x,  (y**H)*S = w*(y**H)*P,</span>
+<span class="w">     </span><span class="c">!! where y**H denotes the conjugate tranpose of y.</span>
+<span class="w">     </span><span class="c">!! The eigenvalues are not input to this routine, but are computed</span>
+<span class="w">     </span><span class="c">!! directly from the diagonal elements of S and P.</span>
+<span class="w">     </span><span class="c">!! This routine returns the matrices X and/or Y of right and left</span>
+<span class="w">     </span><span class="c">!! eigenvectors of (S,P), or the products Z*X and/or Q*Y,</span>
+<span class="w">     </span><span class="c">!! where Z and Q are input matrices.</span>
+<span class="w">     </span><span class="c">!! If Q and Z are the unitary factors from the generalized Schur</span>
+<span class="w">     </span><span class="c">!! factorization of a matrix pair (A,B), then Z*X and Q*Y</span>
+<span class="w">     </span><span class="c">!! are the matrices of right and left eigenvectors of (A,B).</span>
 <span class="w">               </span><span class="n">mm</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">rwork</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack computational routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
@@ -690,13 +709,13 @@ are the matrices of right and left eigenvectors of (A,B).</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

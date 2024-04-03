@@ -130,7 +130,8 @@
     <h2>public pure subroutine stdlib_dlaln2(ltrans, na, nw, smin, ca, a, lda, d1, d2, b, ldb, wr, wi, x, ldx, scale, xnorm, info)</h2>
     
 
-    <p>or (ca A<strong>T - w D) X = s B   with possible scaling ("s") and
+    <p>DLALN2 solves a system of the form  (ca A - w D ) X = s B
+or (ca A<strong>T - w D) X = s B   with possible scaling ("s") and
 perturbation of A.  (A</strong>T means A-transpose.)
 A is an NA x NA real matrix, ca is a real scalar, D is an NA x NA
 real diagonal matrix, w is a real or complex value, and X and B are
@@ -297,6 +298,31 @@ by a reasonable factor.  (See BIGNUM.)</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_dlaln2</span><span class="p">(</span><span class="w"> </span><span class="n">ltrans</span><span class="p">,</span><span class="w"> </span><span class="n">na</span><span class="p">,</span><span class="w"> </span><span class="n">nw</span><span class="p">,</span><span class="w"> </span><span class="n">smin</span><span class="p">,</span><span class="w"> </span><span class="n">ca</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">d1</span><span class="p">,</span><span class="w"> </span><span class="n">d2</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="n">ldb</span><span class="p">,</span><span class="w"> </span><span class="n">wr</span><span class="p">,</span><span class="w"> </span><span class="n">wi</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! DLALN2 solves a system of the form  (ca A - w D ) X = s B</span>
+<span class="w">     </span><span class="c">!! or (ca A**T - w D) X = s B   with possible scaling (&quot;s&quot;) and</span>
+<span class="w">     </span><span class="c">!! perturbation of A.  (A**T means A-transpose.)</span>
+<span class="w">     </span><span class="c">!! A is an NA x NA real matrix, ca is a real scalar, D is an NA x NA</span>
+<span class="w">     </span><span class="c">!! real diagonal matrix, w is a real or complex value, and X and B are</span>
+<span class="w">     </span><span class="c">!! NA x 1 matrices -- real if w is real, complex if w is complex.  NA</span>
+<span class="w">     </span><span class="c">!! may be 1 or 2.</span>
+<span class="w">     </span><span class="c">!! If w is complex, X and B are represented as NA x 2 matrices,</span>
+<span class="w">     </span><span class="c">!! the first column of each being the real part and the second</span>
+<span class="w">     </span><span class="c">!! being the imaginary part.</span>
+<span class="w">     </span><span class="c">!! &quot;s&quot; is a scaling factor (&lt;= 1), computed by DLALN2, which is</span>
+<span class="w">     </span><span class="c">!! so chosen that X can be computed without overflow.  X is further</span>
+<span class="w">     </span><span class="c">!! scaled if necessary to assure that norm(ca A - w D)*norm(X) is less</span>
+<span class="w">     </span><span class="c">!! than overflow.</span>
+<span class="w">     </span><span class="c">!! If both singular values of (ca A - w D) are less than SMIN,</span>
+<span class="w">     </span><span class="c">!! SMIN*identity will be used instead of (ca A - w D).  If only one</span>
+<span class="w">     </span><span class="c">!! singular value is less than SMIN, one element of (ca A - w D) will be</span>
+<span class="w">     </span><span class="c">!! perturbed enough to make the smallest singular value roughly SMIN.</span>
+<span class="w">     </span><span class="c">!! If both singular values are at least SMIN, (ca A - w D) will not be</span>
+<span class="w">     </span><span class="c">!! perturbed.  In any case, the perturbation will be at most some small</span>
+<span class="w">     </span><span class="c">!! multiple of max( SMIN, ulp*norm(ca A - w D) ).  The singular values</span>
+<span class="w">     </span><span class="c">!! are computed by infinity-norm approximations, and thus will only be</span>
+<span class="w">     </span><span class="c">!! correct to a factor of 2 or so.</span>
+<span class="w">     </span><span class="c">!! Note: all input quantities are assumed to be smaller than overflow</span>
+<span class="w">     </span><span class="c">!! by a reasonable factor.  (See BIGNUM.)</span>
 <span class="w">               </span><span class="n">ldx</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="p">,</span><span class="w"> </span><span class="n">xnorm</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack auxiliary routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
@@ -608,13 +634,13 @@ by a reasonable factor.  (See BIGNUM.)</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

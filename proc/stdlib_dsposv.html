@@ -130,7 +130,8 @@
     <h2>public subroutine stdlib_dsposv(uplo, n, nrhs, a, lda, b, ldb, x, ldx, work, swork, iter, info)</h2>
     
 
-    <p>A * X = B,
+    <p>DSPOSV computes the solution to a real system of linear equations
+A * X = B,
 where A is an N-by-N symmetric positive definite matrix and X and B
 are N-by-NRHS matrices.
 DSPOSV first attempts to factorize the matrix in SINGLE PRECISION
@@ -270,6 +271,34 @@ respectively.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">subroutine </span><span class="n">stdlib_dsposv</span><span class="p">(</span><span class="w"> </span><span class="n">uplo</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">nrhs</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">ldb</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">ldx</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="n">swork</span><span class="p">,</span><span class="w"> </span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
+<span class="w">     </span><span class="c">!! DSPOSV computes the solution to a real system of linear equations</span>
+<span class="w">     </span><span class="c">!! A * X = B,</span>
+<span class="w">     </span><span class="c">!! where A is an N-by-N symmetric positive definite matrix and X and B</span>
+<span class="w">     </span><span class="c">!! are N-by-NRHS matrices.</span>
+<span class="w">     </span><span class="c">!! DSPOSV first attempts to factorize the matrix in SINGLE PRECISION</span>
+<span class="w">     </span><span class="c">!! and use this factorization within an iterative refinement procedure</span>
+<span class="w">     </span><span class="c">!! to produce a solution with DOUBLE PRECISION normwise backward error</span>
+<span class="w">     </span><span class="c">!! quality (see below). If the approach fails the method switches to a</span>
+<span class="w">     </span><span class="c">!! DOUBLE PRECISION factorization and solve.</span>
+<span class="w">     </span><span class="c">!! The iterative refinement is not going to be a winning strategy if</span>
+<span class="w">     </span><span class="c">!! the ratio SINGLE PRECISION performance over DOUBLE PRECISION</span>
+<span class="w">     </span><span class="c">!! performance is too small. A reasonable strategy should take the</span>
+<span class="w">     </span><span class="c">!! number of right-hand sides and the size of the matrix into account.</span>
+<span class="w">     </span><span class="c">!! This might be done with a call to ILAENV in the future. Up to now, we</span>
+<span class="w">     </span><span class="c">!! always try iterative refinement.</span>
+<span class="w">     </span><span class="c">!! The iterative refinement process is stopped if</span>
+<span class="w">     </span><span class="c">!! ITER &gt; ITERMAX</span>
+<span class="w">     </span><span class="c">!! or for all the RHS we have:</span>
+<span class="w">     </span><span class="c">!! RNRM &lt; SQRT(N)*XNRM*ANRM*EPS*BWDMAX</span>
+<span class="w">     </span><span class="c">!! where</span>
+<span class="w">     </span><span class="c">!! o ITER is the number of the current iteration in the iterative</span>
+<span class="w">     </span><span class="c">!! refinement process</span>
+<span class="w">     </span><span class="c">!! o RNRM is the infinity-norm of the residual</span>
+<span class="w">     </span><span class="c">!! o XNRM is the infinity-norm of the solution</span>
+<span class="w">     </span><span class="c">!! o ANRM is the infinity-operator-norm of the matrix A</span>
+<span class="w">     </span><span class="c">!! o EPS is the machine epsilon returned by DLAMCH(&#39;Epsilon&#39;)</span>
+<span class="w">     </span><span class="c">!! The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00</span>
+<span class="w">     </span><span class="c">!! respectively.</span>
 <span class="w">               </span>
 <span class="w">        </span><span class="c">! -- lapack driver routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
@@ -432,13 +461,13 @@ respectively.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

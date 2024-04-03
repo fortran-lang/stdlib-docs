@@ -130,7 +130,8 @@
     <h2>public pure subroutine stdlib_slaebz(ijob, nitmax, n, mmax, minp, nbmin, abstol, reltol, pivmin, d, e, e2, nval, ab, c, mout, nab, work, iwork, info)</h2>
     
 
-    <p>function N(w), which is the count of eigenvalues of a symmetric
+    <p>SLAEBZ contains the iteration loops which compute and use the
+function N(w), which is the count of eigenvalues of a symmetric
 tridiagonal matrix T less than or equal to its argument  w.  It
 performs a choice of two types of loops:
 IJOB=1, followed by
@@ -315,6 +316,37 @@ values.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_slaebz</span><span class="p">(</span><span class="w"> </span><span class="n">ijob</span><span class="p">,</span><span class="w"> </span><span class="n">nitmax</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">mmax</span><span class="p">,</span><span class="w"> </span><span class="n">minp</span><span class="p">,</span><span class="w"> </span><span class="n">nbmin</span><span class="p">,</span><span class="w"> </span><span class="n">abstol</span><span class="p">,</span><span class="n">reltol</span><span class="p">,</span><span class="w"> </span><span class="n">pivmin</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! SLAEBZ contains the iteration loops which compute and use the</span>
+<span class="w">     </span><span class="c">!! function N(w), which is the count of eigenvalues of a symmetric</span>
+<span class="w">     </span><span class="c">!! tridiagonal matrix T less than or equal to its argument  w.  It</span>
+<span class="w">     </span><span class="c">!! performs a choice of two types of loops:</span>
+<span class="w">     </span><span class="c">!! IJOB=1, followed by</span>
+<span class="w">     </span><span class="c">!! IJOB=2: It takes as input a list of intervals and returns a list of</span>
+<span class="w">     </span><span class="c">!! sufficiently small intervals whose union contains the same</span>
+<span class="w">     </span><span class="c">!! eigenvalues as the union of the original intervals.</span>
+<span class="w">     </span><span class="c">!! The input intervals are (AB(j,1),AB(j,2)], j=1,...,MINP.</span>
+<span class="w">     </span><span class="c">!! The output interval (AB(j,1),AB(j,2)] will contain</span>
+<span class="w">     </span><span class="c">!! eigenvalues NAB(j,1)+1,...,NAB(j,2), where 1 &lt;= j &lt;= MOUT.</span>
+<span class="w">     </span><span class="c">!! IJOB=3: It performs a binary search in each input interval</span>
+<span class="w">     </span><span class="c">!! (AB(j,1),AB(j,2)] for a point  w(j)  such that</span>
+<span class="w">     </span><span class="c">!! N(w(j))=NVAL(j), and uses  C(j)  as the starting point of</span>
+<span class="w">     </span><span class="c">!! the search.  If such a w(j) is found, then on output</span>
+<span class="w">     </span><span class="c">!! AB(j,1)=AB(j,2)=w.  If no such w(j) is found, then on output</span>
+<span class="w">     </span><span class="c">!! (AB(j,1),AB(j,2)] will be a small interval containing the</span>
+<span class="w">     </span><span class="c">!! point where N(w) jumps through NVAL(j), unless that point</span>
+<span class="w">     </span><span class="c">!! lies outside the initial interval.</span>
+<span class="w">     </span><span class="c">!! Note that the intervals are in all cases half-open intervals,</span>
+<span class="w">     </span><span class="c">!! i.e., of the form  (a,b] , which includes  b  but not  a .</span>
+<span class="w">     </span><span class="c">!! To avoid underflow, the matrix should be scaled so that its largest</span>
+<span class="w">     </span><span class="c">!! element is no greater than  overflow**(1/2) * underflow**(1/4)</span>
+<span class="w">     </span><span class="c">!! in absolute value.  To assure the most accurate computation</span>
+<span class="w">     </span><span class="c">!! of small eigenvalues, the matrix should be scaled to be</span>
+<span class="w">     </span><span class="c">!! not much smaller than that, either.</span>
+<span class="w">     </span><span class="c">!! See W. Kahan &quot;Accurate Eigenvalues of a Symmetric Tridiagonal</span>
+<span class="w">     </span><span class="c">!! Matrix&quot;, Report CS41, Computer Science Dept., Stanford</span>
+<span class="w">     </span><span class="c">!! University, July 21, 1966</span>
+<span class="w">     </span><span class="c">!! Note: the arguments are, in general, *not* checked for unreasonable</span>
+<span class="w">     </span><span class="c">!! values.</span>
 <span class="w">               </span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">e2</span><span class="p">,</span><span class="w"> </span><span class="n">nval</span><span class="p">,</span><span class="w"> </span><span class="n">ab</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">mout</span><span class="p">,</span><span class="n">nab</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">iwork</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack auxiliary routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
@@ -566,13 +598,13 @@ values.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

@@ -144,8 +144,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>public interface rotg</h2>
-   <p>!</p>
-<p>The computation uses the formulas
+   <p>The computation uses the formulas
 |x| = sqrt( Re(x)<strong>2 + Im(x)</strong>2 )
 sgn(x) = x / |x|  if x /= 0
 = 1        if x  = 0
@@ -348,7 +347,19 @@ if the signs of a and b are not the same.</p>
   <div class="panel-heading codesum"><span class="anchor" id="proc-stdlib_crotg"></span><h3>public pure subroutine <a href='../proc/stdlib_crotg.html'>stdlib_crotg</a>(a, b, c, s)</h3></div>
   <div class="panel-body">
        
-<p>!</p><a href="../proc/stdlib_crotg.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+<p>The computation uses the formulas
+|x| = sqrt( Re(x)<strong>2 + Im(x)</strong>2 )
+sgn(x) = x / |x|  if x /= 0
+= 1        if x  = 0
+c = |a| / sqrt(|a|<strong>2 + |b|</strong>2)
+s = sgn(a) * conjg(b) / sqrt(|a|<strong>2 + |b|</strong>2)
+When a and b are real and r /= 0, the formulas simplify to
+r = sgn(a)<em>sqrt(|a|</em><em>2 + |b|</em>*2)
+c = a / r
+s = b / r
+the same as in SROTG when |a| &gt; |b|.  When |b| &gt;= |a|, the
+sign of c and s will be different from those computed by SROTG
+if the signs of a and b are not the same.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -388,7 +399,20 @@ if the signs of a and b are not the same.</p>
   <div class="panel-heading codesum"><span class="anchor" id="proc-stdlib_drotg"></span><h3>public pure subroutine <a href='../proc/stdlib_drotg.html'>stdlib_drotg</a>(a, b, c, s)</h3></div>
   <div class="panel-body">
        
-<p>!</p><a href="../proc/stdlib_drotg.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+<p>The computation uses the formulas
+sigma = sgn(a)    if |a| &gt;  |b|
+= sgn(b)    if |b| &gt;= |a|
+r = sigma<em>sqrt( a</em><em>2 + b</em><em>2 )
+c = 1; s = 0      if r = 0
+c = a/r; s = b/r  if r != 0
+The subroutine also computes
+z = s    if |a| &gt; |b|,
+= 1/c  if |b| &gt;= |a| and c != 0
+= 1    if c = 0
+This allows c and s to be reconstructed from z as follows:
+If z = 1, set c = 0, s = 1.
+If |z| &lt; 1, set c = sqrt(1 - z</em><em>2) and s = z.
+If |z| &gt; 1, set c = 1/z and s = sqrt( 1 - c</em>*2).</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -428,7 +452,20 @@ if the signs of a and b are not the same.</p>
   <div class="panel-heading codesum"><span class="anchor" id="proc-stdlib_srotg"></span><h3>public pure subroutine <a href='../proc/stdlib_srotg.html'>stdlib_srotg</a>(a, b, c, s)</h3></div>
   <div class="panel-body">
        
-<p>!</p><a href="../proc/stdlib_srotg.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+<p>The computation uses the formulas
+sigma = sgn(a)    if |a| &gt;  |b|
+= sgn(b)    if |b| &gt;= |a|
+r = sigma<em>sqrt( a</em><em>2 + b</em><em>2 )
+c = 1; s = 0      if r = 0
+c = a/r; s = b/r  if r != 0
+The subroutine also computes
+z = s    if |a| &gt; |b|,
+= 1/c  if |b| &gt;= |a| and c != 0
+= 1    if c = 0
+This allows c and s to be reconstructed from z as follows:
+If z = 1, set c = 0, s = 1.
+If |z| &lt; 1, set c = sqrt(1 - z</em><em>2) and s = z.
+If |z| &gt; 1, set c = 1/z and s = sqrt( 1 - c</em>*2).</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -468,7 +505,19 @@ if the signs of a and b are not the same.</p>
   <div class="panel-heading codesum"><span class="anchor" id="proc-stdlib_zrotg"></span><h3>public pure subroutine <a href='../proc/stdlib_zrotg.html'>stdlib_zrotg</a>(a, b, c, s)</h3></div>
   <div class="panel-body">
        
-<p>!</p><a href="../proc/stdlib_zrotg.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+<p>The computation uses the formulas
+|x| = sqrt( Re(x)<strong>2 + Im(x)</strong>2 )
+sgn(x) = x / |x|  if x /= 0
+= 1        if x  = 0
+c = |a| / sqrt(|a|<strong>2 + |b|</strong>2)
+s = sgn(a) * conjg(b) / sqrt(|a|<strong>2 + |b|</strong>2)
+When a and b are real and r /= 0, the formulas simplify to
+r = sgn(a)<em>sqrt(|a|</em><em>2 + |b|</em>*2)
+c = a / r
+s = b / r
+the same as in DROTG when |a| &gt; |b|.  When |b| &gt;= |a|, the
+sign of c and s will be different from those computed by DROTG
+if the signs of a and b are not the same.</p>
     
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -514,13 +563,13 @@ if the signs of a and b are not the same.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

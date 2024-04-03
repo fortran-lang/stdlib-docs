@@ -130,7 +130,8 @@
     <h2>public subroutine stdlib_cggevx(balanc, jobvl, jobvr, sense, n, a, lda, b, ldb, alpha, beta, vl, ldvl, vr, ldvr, ilo, ihi, lscale, rscale, abnrm, bbnrm, rconde, rcondv, work, lwork, rwork, iwork, bwork, info)</h2>
     
 
-    <p>(A,B) the generalized eigenvalues, and optionally, the left and/or
+    <p>CGGEVX computes for a pair of N-by-N complex nonsymmetric matrices
+(A,B) the generalized eigenvalues, and optionally, the left and/or
 right generalized eigenvectors.
 Optionally, it also computes a balancing transformation to improve
 the conditioning of the eigenvalues and eigenvectors (ILO, IHI,
@@ -358,6 +359,26 @@ where u(j)</em>*H is the conjugate-transpose of u(j).</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">subroutine </span><span class="n">stdlib_cggevx</span><span class="p">(</span><span class="w"> </span><span class="n">balanc</span><span class="p">,</span><span class="w"> </span><span class="n">jobvl</span><span class="p">,</span><span class="w"> </span><span class="n">jobvr</span><span class="p">,</span><span class="w"> </span><span class="n">sense</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">ldb</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">vl</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! CGGEVX computes for a pair of N-by-N complex nonsymmetric matrices</span>
+<span class="w">     </span><span class="c">!! (A,B) the generalized eigenvalues, and optionally, the left and/or</span>
+<span class="w">     </span><span class="c">!! right generalized eigenvectors.</span>
+<span class="w">     </span><span class="c">!! Optionally, it also computes a balancing transformation to improve</span>
+<span class="w">     </span><span class="c">!! the conditioning of the eigenvalues and eigenvectors (ILO, IHI,</span>
+<span class="w">     </span><span class="c">!! LSCALE, RSCALE, ABNRM, and BBNRM), reciprocal condition numbers for</span>
+<span class="w">     </span><span class="c">!! the eigenvalues (RCONDE), and reciprocal condition numbers for the</span>
+<span class="w">     </span><span class="c">!! right eigenvectors (RCONDV).</span>
+<span class="w">     </span><span class="c">!! A generalized eigenvalue for a pair of matrices (A,B) is a scalar</span>
+<span class="w">     </span><span class="c">!! lambda or a ratio alpha/beta = lambda, such that A - lambda*B is</span>
+<span class="w">     </span><span class="c">!! singular. It is usually represented as the pair (alpha,beta), as</span>
+<span class="w">     </span><span class="c">!! there is a reasonable interpretation for beta=0, and even for both</span>
+<span class="w">     </span><span class="c">!! being zero.</span>
+<span class="w">     </span><span class="c">!! The right eigenvector v(j) corresponding to the eigenvalue lambda(j)</span>
+<span class="w">     </span><span class="c">!! of (A,B) satisfies</span>
+<span class="w">     </span><span class="c">!! A * v(j) = lambda(j) * B * v(j) .</span>
+<span class="w">     </span><span class="c">!! The left eigenvector u(j) corresponding to the eigenvalue lambda(j)</span>
+<span class="w">     </span><span class="c">!! of (A,B) satisfies</span>
+<span class="w">     </span><span class="c">!! u(j)**H * A  = lambda(j) * u(j)**H * B.</span>
+<span class="w">     </span><span class="c">!! where u(j)**H is the conjugate-transpose of u(j).</span>
 <span class="w">     </span><span class="n">ldvl</span><span class="p">,</span><span class="w"> </span><span class="n">vr</span><span class="p">,</span><span class="w"> </span><span class="n">ldvr</span><span class="p">,</span><span class="w"> </span><span class="n">ilo</span><span class="p">,</span><span class="w"> </span><span class="n">ihi</span><span class="p">,</span><span class="n">lscale</span><span class="p">,</span><span class="w"> </span><span class="n">rscale</span><span class="p">,</span><span class="w"> </span><span class="n">abnrm</span><span class="p">,</span><span class="w"> </span><span class="n">bbnrm</span><span class="p">,</span><span class="w"> </span><span class="n">rconde</span><span class="p">,</span><span class="w"> </span><span class="n">rcondv</span><span class="p">,</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">lwork</span><span class="p">,</span><span class="w"> </span><span class="n">rwork</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">               </span><span class="n">iwork</span><span class="p">,</span><span class="w"> </span><span class="n">bwork</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack driver routine --</span>
@@ -697,13 +718,13 @@ where u(j)</em>*H is the conjugate-transpose of u(j).</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

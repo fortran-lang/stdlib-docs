@@ -130,7 +130,8 @@
     <h2>public pure subroutine stdlib_slaed1(n, d, q, ldq, indxq, rho, cutpnt, work, iwork, info)</h2>
     
 
-    <p>matrix after modification by a rank-one symmetric matrix.  This
+    <p>SLAED1 computes the updated eigensystem of a diagonal
+matrix after modification by a rank-one symmetric matrix.  This
 routine is used only for the eigenproblem which requires all
 eigenvalues and eigenvectors of a tridiagonal matrix.  SLAED7 handles
 the case in which eigenvalues only or eigenvalues and eigenvectors
@@ -250,6 +251,32 @@ the overall problem.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_slaed1</span><span class="p">(</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">ldq</span><span class="p">,</span><span class="w"> </span><span class="n">indxq</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="n">cutpnt</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">iwork</span><span class="p">,</span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
+<span class="w">     </span><span class="c">!! SLAED1 computes the updated eigensystem of a diagonal</span>
+<span class="w">     </span><span class="c">!! matrix after modification by a rank-one symmetric matrix.  This</span>
+<span class="w">     </span><span class="c">!! routine is used only for the eigenproblem which requires all</span>
+<span class="w">     </span><span class="c">!! eigenvalues and eigenvectors of a tridiagonal matrix.  SLAED7 handles</span>
+<span class="w">     </span><span class="c">!! the case in which eigenvalues only or eigenvalues and eigenvectors</span>
+<span class="w">     </span><span class="c">!! of a full symmetric matrix (which was reduced to tridiagonal form)</span>
+<span class="w">     </span><span class="c">!! are desired.</span>
+<span class="w">     </span><span class="c">!! T = Q(in) ( D(in) + RHO * Z*Z**T ) Q**T(in) = Q(out) * D(out) * Q**T(out)</span>
+<span class="w">     </span><span class="c">!! where Z = Q**T*u, u is a vector of length N with ones in the</span>
+<span class="w">     </span><span class="c">!! CUTPNT and CUTPNT + 1 th elements and zeros elsewhere.</span>
+<span class="w">     </span><span class="c">!! The eigenvectors of the original matrix are stored in Q, and the</span>
+<span class="w">     </span><span class="c">!! eigenvalues are in D.  The algorithm consists of three stages:</span>
+<span class="w">     </span><span class="c">!! The first stage consists of deflating the size of the problem</span>
+<span class="w">     </span><span class="c">!! when there are multiple eigenvalues or if there is a zero in</span>
+<span class="w">     </span><span class="c">!! the Z vector.  For each such occurrence the dimension of the</span>
+<span class="w">     </span><span class="c">!! secular equation problem is reduced by one.  This stage is</span>
+<span class="w">     </span><span class="c">!! performed by the routine SLAED2.</span>
+<span class="w">     </span><span class="c">!! The second stage consists of calculating the updated</span>
+<span class="w">     </span><span class="c">!! eigenvalues. This is done by finding the roots of the secular</span>
+<span class="w">     </span><span class="c">!! equation via the routine SLAED4 (as called by SLAED3).</span>
+<span class="w">     </span><span class="c">!! This routine also calculates the eigenvectors of the current</span>
+<span class="w">     </span><span class="c">!! problem.</span>
+<span class="w">     </span><span class="c">!! The final stage consists of computing the updated eigenvectors</span>
+<span class="w">     </span><span class="c">!! directly using the updated eigenvalues.  The eigenvectors for</span>
+<span class="w">     </span><span class="c">!! the current problem are multiplied with the eigenvectors from</span>
+<span class="w">     </span><span class="c">!! the overall problem.</span>
 <span class="w">        </span><span class="c">! -- lapack computational routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
 <span class="w">        </span><span class="c">! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--</span>
@@ -338,13 +365,13 @@ the overall problem.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

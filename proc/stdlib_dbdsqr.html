@@ -130,7 +130,8 @@
     <h2>public pure subroutine stdlib_dbdsqr(uplo, n, ncvt, nru, ncc, d, e, vt, ldvt, u, ldu, c, ldc, work, info)</h2>
     
 
-    <p>left singular vectors from the singular value decomposition (SVD) of
+    <p>DBDSQR computes the singular values and, optionally, the right and/or
+left singular vectors from the singular value decomposition (SVD) of
 a real N-by-N (upper or lower) bidiagonal matrix B using the implicit
 zero-shift QR algorithm.  The SVD of B has the form
 B = Q * S * P<strong>T
@@ -278,6 +279,30 @@ for a detailed description of the algorithm.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_dbdsqr</span><span class="p">(</span><span class="w"> </span><span class="n">uplo</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">ncvt</span><span class="p">,</span><span class="w"> </span><span class="n">nru</span><span class="p">,</span><span class="w"> </span><span class="n">ncc</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">vt</span><span class="p">,</span><span class="w"> </span><span class="n">ldvt</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="n">ldu</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">ldc</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! DBDSQR computes the singular values and, optionally, the right and/or</span>
+<span class="w">     </span><span class="c">!! left singular vectors from the singular value decomposition (SVD) of</span>
+<span class="w">     </span><span class="c">!! a real N-by-N (upper or lower) bidiagonal matrix B using the implicit</span>
+<span class="w">     </span><span class="c">!! zero-shift QR algorithm.  The SVD of B has the form</span>
+<span class="w">     </span><span class="c">!! B = Q * S * P**T</span>
+<span class="w">     </span><span class="c">!! where S is the diagonal matrix of singular values, Q is an orthogonal</span>
+<span class="w">     </span><span class="c">!! matrix of left singular vectors, and P is an orthogonal matrix of</span>
+<span class="w">     </span><span class="c">!! right singular vectors.  If left singular vectors are requested, this</span>
+<span class="w">     </span><span class="c">!! subroutine actually returns U*Q instead of Q, and, if right singular</span>
+<span class="w">     </span><span class="c">!! vectors are requested, this subroutine returns P**T*VT instead of</span>
+<span class="w">     </span><span class="c">!! P**T, for given real input matrices U and VT.  When U and VT are the</span>
+<span class="w">     </span><span class="c">!! orthogonal matrices that reduce a general matrix A to bidiagonal</span>
+<span class="w">     </span><span class="c">!! form:  A = U*B*VT, as computed by DGEBRD, then</span>
+<span class="w">     </span><span class="c">!! A = (U*Q) * S * (P**T*VT)</span>
+<span class="w">     </span><span class="c">!! is the SVD of A.  Optionally, the subroutine may also compute Q**T*C</span>
+<span class="w">     </span><span class="c">!! for a given real input matrix C.</span>
+<span class="w">     </span><span class="c">!! See &quot;Computing  Small Singular Values of Bidiagonal Matrices With</span>
+<span class="w">     </span><span class="c">!! Guaranteed High Relative Accuracy,&quot; by J. Demmel and W. Kahan,</span>
+<span class="w">     </span><span class="c">!! LAPACK Working Note #3 (or SIAM J. Sci. Statist. Comput. vol. 11,</span>
+<span class="w">     </span><span class="c">!! no. 5, pp. 873-912, Sept 1990) and</span>
+<span class="w">     </span><span class="c">!! &quot;Accurate singular values and differential qd algorithms,&quot; by</span>
+<span class="w">     </span><span class="c">!! B. Parlett and V. Fernando, Technical Report CPAM-554, Mathematics</span>
+<span class="w">     </span><span class="c">!! Department, University of California at Berkeley, July 1992</span>
+<span class="w">     </span><span class="c">!! for a detailed description of the algorithm.</span>
 <span class="w">               </span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="c">! -- lapack computational routine --</span>
 <span class="w">        </span><span class="c">! -- lapack is a software package provided by univ. of tennessee,    --</span>
@@ -731,13 +756,13 @@ for a detailed description of the algorithm.</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>

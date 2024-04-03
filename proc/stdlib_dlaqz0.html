@@ -130,7 +130,8 @@
     <h2>public recursive subroutine stdlib_dlaqz0(wants, wantq, wantz, n, ilo, ihi, a, lda, b, ldb, alphar, alphai, beta, q, ldq, z, ldz, work, lwork, rec, info)</h2>
     
 
-    <p>where H is an upper Hessenberg matrix and T is upper triangular,
+    <p>DLAQZ0 computes the eigenvalues of a real matrix pair (H,T),
+where H is an upper Hessenberg matrix and T is upper triangular,
 using the double-shift QZ method.
 Matrix pairs of this type are produced by the reduction to
 generalized upper Hessenberg form of a real matrix pair (A,B):
@@ -338,6 +339,54 @@ multipole rational QZ method with agressive early deflation"</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span><span class="w">     </span><span class="k">recursive subroutine </span><span class="n">stdlib_dlaqz0</span><span class="p">(</span><span class="w"> </span><span class="n">wants</span><span class="p">,</span><span class="w"> </span><span class="n">wantq</span><span class="p">,</span><span class="w"> </span><span class="n">wantz</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">ilo</span><span class="p">,</span><span class="w"> </span><span class="n">ihi</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">ldb</span><span class="p">,</span><span class="w"> </span><span class="n">alphar</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">     </span><span class="c">!! DLAQZ0 computes the eigenvalues of a real matrix pair (H,T),</span>
+<span class="w">     </span><span class="c">!! where H is an upper Hessenberg matrix and T is upper triangular,</span>
+<span class="w">     </span><span class="c">!! using the double-shift QZ method.</span>
+<span class="w">     </span><span class="c">!! Matrix pairs of this type are produced by the reduction to</span>
+<span class="w">     </span><span class="c">!! generalized upper Hessenberg form of a real matrix pair (A,B):</span>
+<span class="w">     </span><span class="c">!! A = Q1*H*Z1**T,  B = Q1*T*Z1**T,</span>
+<span class="w">     </span><span class="c">!! as computed by DGGHRD.</span>
+<span class="w">     </span><span class="c">!! If JOB=&#39;S&#39;, then the Hessenberg-triangular pair (H,T) is</span>
+<span class="w">     </span><span class="c">!! also reduced to generalized Schur form,</span>
+<span class="w">     </span><span class="c">!! H = Q*S*Z**T,  T = Q*P*Z**T,</span>
+<span class="w">     </span><span class="c">!! where Q and Z are orthogonal matrices, P is an upper triangular</span>
+<span class="w">     </span><span class="c">!! matrix, and S is a quasi-triangular matrix with 1-by-1 and 2-by-2</span>
+<span class="w">     </span><span class="c">!! diagonal blocks.</span>
+<span class="w">     </span><span class="c">!! The 1-by-1 blocks correspond to real eigenvalues of the matrix pair</span>
+<span class="w">     </span><span class="c">!! (H,T) and the 2-by-2 blocks correspond to complex conjugate pairs of</span>
+<span class="w">     </span><span class="c">!! eigenvalues.</span>
+<span class="w">     </span><span class="c">!! Additionally, the 2-by-2 upper triangular diagonal blocks of P</span>
+<span class="w">     </span><span class="c">!! corresponding to 2-by-2 blocks of S are reduced to positive diagonal</span>
+<span class="w">     </span><span class="c">!! form, i.e., if S(j+1,j) is non-zero, then P(j+1,j) = P(j,j+1) = 0,</span>
+<span class="w">     </span><span class="c">!! P(j,j) &gt; 0, and P(j+1,j+1) &gt; 0.</span>
+<span class="w">     </span><span class="c">!! Optionally, the orthogonal matrix Q from the generalized Schur</span>
+<span class="w">     </span><span class="c">!! factorization may be postmultiplied into an input matrix Q1, and the</span>
+<span class="w">     </span><span class="c">!! orthogonal matrix Z may be postmultiplied into an input matrix Z1.</span>
+<span class="w">     </span><span class="c">!! If Q1 and Z1 are the orthogonal matrices from DGGHRD that reduced</span>
+<span class="w">     </span><span class="c">!! the matrix pair (A,B) to generalized upper Hessenberg form, then the</span>
+<span class="w">     </span><span class="c">!! output matrices Q1*Q and Z1*Z are the orthogonal factors from the</span>
+<span class="w">     </span><span class="c">!! generalized Schur factorization of (A,B):</span>
+<span class="w">     </span><span class="c">!! A = (Q1*Q)*S*(Z1*Z)**T,  B = (Q1*Q)*P*(Z1*Z)**T.</span>
+<span class="w">     </span><span class="c">!! To avoid overflow, eigenvalues of the matrix pair (H,T) (equivalently,</span>
+<span class="w">     </span><span class="c">!! of (A,B)) are computed as a pair of values (alpha,beta), where alpha is</span>
+<span class="w">     </span><span class="c">!! complex and beta real.</span>
+<span class="w">     </span><span class="c">!! If beta is nonzero, lambda = alpha / beta is an eigenvalue of the</span>
+<span class="w">     </span><span class="c">!! generalized nonsymmetric eigenvalue problem (GNEP)</span>
+<span class="w">     </span><span class="c">!! A*x = lambda*B*x</span>
+<span class="w">     </span><span class="c">!! and if alpha is nonzero, mu = beta / alpha is an eigenvalue of the</span>
+<span class="w">     </span><span class="c">!! alternate form of the GNEP</span>
+<span class="w">     </span><span class="c">!! mu*A*y = B*y.</span>
+<span class="w">     </span><span class="c">!! Real eigenvalues can be read directly from the generalized Schur</span>
+<span class="w">     </span><span class="c">!! form:</span>
+<span class="w">     </span><span class="c">!! alpha = S(i,i), beta = P(i,i).</span>
+<span class="w">     </span><span class="c">!! Ref: C.B. Moler</span>
+<span class="w">     </span><span class="c">!! Eigenvalue Problems&quot;, SIAM J. Numer. Anal., 10(1973),</span>
+<span class="w">     </span><span class="c">!! pp. 241--256.</span>
+<span class="w">     </span><span class="c">!! Ref: B. Kagstrom, D. Kressner, &quot;Multishift Variants of the QZ</span>
+<span class="w">     </span><span class="c">!! Algorithm with Aggressive Early Deflation&quot;, SIAM J. Numer.</span>
+<span class="w">     </span><span class="c">!! Anal., 29(2006), pp. 199--227.</span>
+<span class="w">     </span><span class="c">!! Ref: T. Steel, D. Camps, K. Meerbergen, R. Vandebril &quot;A multishift,</span>
+<span class="w">     </span><span class="c">!! multipole rational QZ method with agressive early deflation&quot;</span>
 <span class="w">               </span><span class="n">alphai</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">ldq</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">ldz</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">lwork</span><span class="p">,</span><span class="w"> </span><span class="n">rec</span><span class="p">,</span><span class="n">info</span><span class="w"> </span><span class="p">)</span>
 <span class="w">           </span><span class="c">! arguments</span>
 <span class="w">           </span><span class="kt">character</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">wants</span><span class="p">,</span><span class="w"> </span><span class="n">wantq</span><span class="p">,</span><span class="w"> </span><span class="n">wantz</span>
@@ -693,13 +742,13 @@ multipole rational QZ method with agressive early deflation"</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e88daa3</small></p>
+<br /><small>693986a</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-02 08:24            </p>
+ on 2024-04-03 09:57            </p>
         </div>
       </div>
       <br>
