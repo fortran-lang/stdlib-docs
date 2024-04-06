@@ -91,13 +91,13 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.0% of total for procedures.</p>Including implementation: 32 statements,  0.0% of total for procedures.">7 statements</a>
+    title="<p> 0.0% of total for procedures.</p>Including implementation: 10 statements,  0.0% of total for procedures.">10 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/stdlib_stringlist_type.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/stdlib_bitsets.fypp"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/stdlib_stringlist_type.f90.html'>stdlib_stringlist_type.f90</a></li>
-     <li><a href='../module/stdlib_stringlist_type.html'>stdlib_stringlist_type</a></li>
+     <li><a href='../sourcefile/stdlib_bitsets.fypp.html'>stdlib_bitsets.fypp</a></li>
+     <li><a href='../module/stdlib_bitsets.html'>stdlib_bitsets</a></li>
      <li class="active">operator(/=)</li>
   </ol>
 </div>
@@ -117,14 +117,11 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-0">Module Procedures</a></h3></div>
-  <div id="modprocs-0" class="panel-collapse collapse">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ineq_stringlist">ineq_stringlist</a>
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ineq_stringlist_carray">ineq_stringlist_carray</a>
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ineq_stringlist_sarray">ineq_stringlist_sarray</a>
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ineq_carray_stringlist">ineq_carray_stringlist</a>
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ineq_sarray_stringlist">ineq_sarray_stringlist</a>
+      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#proc-neqv_64">neqv_64</a>
+      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#proc-neqv_large">neqv_large</a>
     </div>
   </div>
 </div>
@@ -135,22 +132,38 @@
     
     <div class="col-md-9" id='text'>
       <h2>public interface operator(/=)</h2>
-   <p>Compares stringlist for inequality with the input entity
-Returns a logical
-<a href="../page/specs/stdlib_stringlist_type.html#inequality-operator">Specifications</a></p>
+   <p>Returns <code>.true.</code> if not all bits in <code>set1</code> and <code>set2</code> have the same value,
+ <code>.false.</code>  otherwise. The sets must have the same number of bits
+ otherwise the result is undefined.
+(<a href="../page/specs/stdlib_bitsets.html#-compare-two-bitsets-to-determine-whether-any-bits-differ-in-value">Specification</a>)</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_inequality</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span><span class="p">,</span><span class="w"> </span><span class="n">set1</span><span class="p">,</span><span class="w"> </span><span class="n">set2</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="w"> </span><span class="mi">32</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w">   </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">set2</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Passed 64 bit inequality tests.&#39;</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="k">            error stop</span><span class="w"> </span><span class="s1">&#39;Failed 64 bit inequality tests.&#39;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_inequality</span>
+</code></pre></div>
 <br>
      <section class="visible-xs visible-sm hidden-md">
        <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-1">Module Procedures</a></h3></div>
-  <div id="modprocs-1" class="panel-collapse collapse">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ineq_stringlist">ineq_stringlist</a>
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ineq_stringlist_carray">ineq_stringlist_carray</a>
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ineq_stringlist_sarray">ineq_stringlist_sarray</a>
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ineq_carray_stringlist">ineq_carray_stringlist</a>
-      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#moduleprocedure-ineq_sarray_stringlist">ineq_sarray_stringlist</a>
+      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#proc-neqv_64">neqv_64</a>
+      <a class="list-group-item" href="../interface/operator%28SLASH%3D%29~3.html#proc-neqv_large">neqv_large</a>
     </div>
   </div>
 </div>
@@ -158,29 +171,25 @@ Returns a logical
      </section>
      <br class="visible-xs visible-sm hidden-md">
      
-
-
-   <h2>Module Procedures</h2>
+   <h2>Functions</h2>
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-ineq_stringlist"></span><h3>private pure function ineq_stringlist(lhs, rhs)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-neqv_64"></span><h3>private elemental module function neqv_64(set1, set2) result(neqv)</h3></div>
   <div class="panel-body">
-       <p>Compares stringlist 'lhs' for inequality with stringlist 'rhs'
-Returns a logical</p>
-    
+           
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" ></span>type(<a href='../type/stringlist_type.html'>stringlist_type</a>),</td>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_64.html'>bitset_64</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
+  <td><strong>set1</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" ></span>type(<a href='../type/stringlist_type.html'>stringlist_type</a>),</td>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_64.html'>bitset_64</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
+  <td><strong>set2</strong></td><td></td>
 </tr>
 </tbody>
 </table>
@@ -191,25 +200,23 @@ Returns a logical</p>
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-ineq_stringlist_carray"></span><h3>private pure function ineq_stringlist_carray(lhs, rhs)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-neqv_large"></span><h3>private elemental module function neqv_large(set1, set2) result(neqv)</h3></div>
   <div class="panel-body">
-       <p>Compares stringlist 'lhs' for inequality with chararray 'rhs'
-Returns a logical</p>
-    
+           
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" ></span>type(<a href='../type/stringlist_type.html'>stringlist_type</a>),</td>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_large.html'>bitset_large</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
+  <td><strong>set1</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
+  <td><span class="anchor" ></span>type(<a href='../type/bitset_large.html'>bitset_large</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>set2</strong></td><td></td>
 </tr>
 </tbody>
 </table>
@@ -219,92 +226,7 @@ Returns a logical</p>
   </div>
   </div>
 
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-ineq_stringlist_sarray"></span><h3>private pure function ineq_stringlist_sarray(lhs, rhs)</h3></div>
-  <div class="panel-body">
-       <p>Compares stringlist 'lhs' for inequality with stringarray 'rhs'
-Returns a logical</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/stringlist_type.html'>stringlist_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
-</tr>
-</tbody>
-</table>
 
-<h4>Return Value <small>logical</small></h4>  
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-ineq_carray_stringlist"></span><h3>private pure function ineq_carray_stringlist(lhs, rhs)</h3></div>
-  <div class="panel-body">
-       <p>Compares chararray 'lhs' for inequality with stringlist 'rhs'
-Returns a logical</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/stringlist_type.html'>stringlist_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>logical</small></h4>  
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-ineq_sarray_stringlist"></span><h3>private pure function ineq_sarray_stringlist(lhs, rhs)</h3></div>
-  <div class="panel-body">
-       <p>Compares stringarray 'lhs' for inequality with stringlist 'rhs'
-Returns a logical</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/string_type.html'>string_type</a>),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/stringlist_type.html'>stringlist_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>logical</small></h4>  
-
-  </div>
-  </div>
 
 
  </div>
@@ -316,13 +238,13 @@ Returns a logical</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>f53ad6b</small></p>
+<br /><small>df45374</small></p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-04 11:23            </p>
+ on 2024-04-06 10:42            </p>
         </div>
       </div>
       <br>
