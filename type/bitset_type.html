@@ -1,594 +1,1147 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="A community driven standard library for (modern) Fortran">
+      <meta name="description" content="A community driven standard library for (modern) Fortran">
     <meta name="author" content="fortran-lang/stdlib contributors" >
     <link rel="icon" href="../favicon.png">
 
     <title>bitset_type &ndash; Fortran-lang/stdlib </title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="../js/svg-pan-zoom.min.js"></script>
-
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">Fortran-lang/stdlib </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href='../page/index.html'>Contributing and specs</a></li>
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Contributing and specs</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-          </ul>
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
         </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
     <h1>bitset_type
-    <small>Derived Type</small>
+      <small>Derived Type</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-    <li><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a></li> 
-    <li><i class="fa fa-barcode"></i> experimental</li>
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title="<p>13.3% of total for derived types.</p>Including implementation: 40 statements,  3.7% of total for derived types.">34 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/stdlib_bitsets.fypp"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/stdlib_bitsets.fypp.html'>stdlib_bitsets.fypp</a></li>
-     <li><a href='../module/stdlib_bitsets.html'>stdlib_bitsets</a></li>
-     <li class="active">bitset_type</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a></li>
+            <li class="list-inline-item" id="meta-version"><i class="fa fa-barcode"></i> experimental</li>
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title="<p>13.3% of total for derived types.</p>Including implementation: 40 statements,  4.0% of total for derived types.">34 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/stdlib_bitsets.fypp"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_bitsets.fypp.html'>stdlib_bitsets.fypp</a></li>
+                <li class="breadcrumb-item"><a href='../module/stdlib_bitsets.html'>stdlib_bitsets</a></li>
+            <li class="breadcrumb-item active" aria-current="page">bitset_type</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-0">Type-Bound Procedures</a></h3></div>
-  <div id="boundprocs-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-all~3">all</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-any~3">any</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-bit_count~3">bit_count</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-bits">bits</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-clear~4">clear</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-clear_bit~3">clear_bit</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-clear_range~3">clear_range</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-flip~3">flip</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-flip_bit~3">flip_bit</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-flip_range~3">flip_range</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-from_string~3">from_string</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-init~6">init</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-init_zero~3">init_zero</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-input~3">input</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-none~3">none</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-not~3">not</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-output~3">output</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-read_bitset~3">read_bitset</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-read_bitset_string~3">read_bitset_string</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-read_bitset_unit~3">read_bitset_unit</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-set~3">set</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-set_bit~3">set_bit</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-set_range~3">set_range</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-test~3">test</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-to_string~3">to_string</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-value~3">value</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-write_bitset~3">write_bitset</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-write_bitset_string~3">write_bitset_string</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-write_bitset_unit~3">write_bitset_unit</a>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#boundprocs-0"
+         aria-expanded="false" aria-controls="boundprocs-0">
+         <h4 class="card-header bg-primary text-white">Type-Bound Procedures</h4>
+      </a>
+      <div id="boundprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-all~2">all</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-any~2">any</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-bit_count~4">bit_count</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-bits~9">bits</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-clear~2">clear</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-clear_bit">clear_bit</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-clear_range">clear_range</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-flip">flip</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-flip_bit">flip_bit</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-flip_range">flip_range</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-from_string">from_string</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-init">init</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-init_zero">init_zero</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-input~6">input</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-none~2">none</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-not">not</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-output">output</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-read_bitset">read_bitset</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-read_bitset_string">read_bitset_string</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-read_bitset_unit">read_bitset_unit</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-set~11">set</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-set_bit">set_bit</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-set_range">set_range</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-test~23">test</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-to_string">to_string</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-value~10">value</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-write_bitset">write_bitset</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-write_bitset_string">write_bitset_string</a>
+            <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-write_bitset_unit">write_bitset_unit</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../type/bitset_type.html#src">bitset_type</a>
-  </div>
-</div>
 
-</div>
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../type/bitset_type.html#src">bitset_type</a>
+      </div>
+    </div>
+
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public, abstract :: bitset_type</h2>
+      <h2>
+        type, public :: bitset_type</h2>
     <p>Parent type for bitset_64 and bitset_large (<a href="../page/specs/stdlib_bitsets.html#the-stdlib_bitsets-derived-types">Specification</a>)</p>
     <br>
 
-    <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-1">Type-Bound Procedures</a></h3></div>
-  <div id="boundprocs-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-all~3">all</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-any~3">any</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-bit_count~3">bit_count</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-bits">bits</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-clear~4">clear</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-clear_bit~3">clear_bit</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-clear_range~3">clear_range</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-flip~3">flip</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-flip_bit~3">flip_bit</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-flip_range~3">flip_range</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-from_string~3">from_string</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-init~6">init</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-init_zero~3">init_zero</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-input~3">input</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-none~3">none</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-not~3">not</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-output~3">output</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-read_bitset~3">read_bitset</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-read_bitset_string~3">read_bitset_string</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-read_bitset_unit~3">read_bitset_unit</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-set~3">set</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-set_bit~3">set_bit</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-set_range~3">set_range</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-test~3">test</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-to_string~3">to_string</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-value~3">value</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-write_bitset~3">write_bitset</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-write_bitset_string~3">write_bitset_string</a>
-      <a class="list-group-item" href="../type/bitset_type.html#boundprocedure-write_bitset_unit~3">write_bitset_unit</a>
+    
+
+
+      <section>
+        <h2>Type-Bound Procedures</h2>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-all~2"></span>
+      <h3>
+          procedure(all_abstract), public, deferred, pass(self) ::
+  <strong>all</strong>
+        
+      </h3>
     </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    elemental function all_abstract(self) result(all)  
+<small>Prototype</small></h3>
+
+  <p>Returns <code>.true.</code> if all bits in <code>self</code> are 1, <code>.false.</code> otherwise.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_all</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;111111111111111111111111111111111&#39;</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">from_string</span><span class="p">(</span><span class="w"> </span><span class="n">bits_all</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">bits</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            error stop</span><span class="w"> </span><span class="s2">&quot;FROM_STRING failed to interpret &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                </span><span class="s1">&#39;BITS_ALL&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="n">properly</span><span class="p">.</span><span class="s2">&quot;</span>
+<span class="s2">        else if ( .not. set0 % all() ) then</span>
+<span class="s2">            error stop &quot;</span><span class="n">FROM_STRING</span><span class="w"> </span><span class="n">failed</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">interpret</span><span class="s2">&quot; // &amp;</span>
+<span class="s2">                &quot;</span><span class="n">BITS_ALL</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="k">value </span><span class="n">properly</span><span class="p">.</span><span class="s2">&quot;</span>
+<span class="s2">        else</span>
+<span class="s2">            write(*,*) &quot;</span><span class="n">FROM_STRING</span><span class="w"> </span><span class="n">transferred</span><span class="w"> </span><span class="n">BITS_ALL</span><span class="w"> </span><span class="n">properly</span><span class="s2">&quot; // &amp;</span>
+<span class="s2">                &quot;</span><span class="w"> </span><span class="n">into</span><span class="w"> </span><span class="n">set0</span><span class="p">.</span><span class="err">&quot;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_all</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
   </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../type/bitset_type.html#src">bitset_type</a>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-any~2"></span>
+      <h3>
+          procedure(any_abstract), public, deferred, pass(self) ::
+  <strong>any</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    elemental function any_abstract(self) result(any)  
+<small>Prototype</small></h3>
+
+  <p>Returns <code>.true.</code> if any bit in <code>self</code> is 1, <code>.false.</code> otherwise.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_any</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;0000000000000000000&#39;</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">from_string</span><span class="p">(</span><span class="w"> </span><span class="n">bits_0</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="nb">any</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;FROM_STRING interpreted &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                </span><span class="s2">&quot;BITS_0&#39;s value properly.&quot;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">        call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="nb">any</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;ANY interpreted SET0&#39;s value properly.&quot;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_any</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
   </div>
-</div>
 
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-bit_count~4"></span>
+      <h3>
+          procedure(bit_count_abstract), public, deferred, pass(self) ::
+  <strong>bit_count</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    elemental function bit_count_abstract(self) result(bit_count)  
+<small>Prototype</small></h3>
 
-    
-    
-    
- 
-    <section>
-    <h2>Type-Bound Procedures</h2>
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-all~3"></span><h3>procedure(all_abstract), public, deferred, pass(self) :: <strong>all</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>elemental function all_abstract(self) result(all)<small>Prototype</small></h3><p>Returns <code>.true.</code> if all bits in <code>self</code> are 1, <code>.false.</code> otherwise.</p><a href="../interface/all_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+  <p>Returns the number of non-zero bits in <code>self</code>.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_bit_count</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;0000000000000000000&#39;</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">from_string</span><span class="p">(</span><span class="w"> </span><span class="n">bits_0</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">bit_count</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;FROM_STRING interpreted &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                </span><span class="s2">&quot;BITS_0&#39;s value properly.&quot;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">        call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">bit_count</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;BIT_COUNT interpreted SET0&#39;s value properly.&quot;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_bit_count</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
-<h4>Return Value <small>logical</small></h4>  
-
-      </li>
-  </ul>
-</div>
-
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-any~3"></span><h3>procedure(any_abstract), public, deferred, pass(self) :: <strong>any</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>elemental function any_abstract(self) result(any)<small>Prototype</small></h3><p>Returns <code>.true.</code> if any bit in <code>self</code> is 1, <code>.false.</code> otherwise.</p><a href="../interface/any_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    <h4>
+    Return Value
+    <small>integer(kind=bits_kind)</small>
+    </h4>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-bits~9"></span>
+      <h3>
+          procedure, public, pass(self) ::
+  <strong>bits</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    public elemental function <a href='../proc/bits.html'>bits</a>(self)  
+</h3>
+        <dl class="dl-horizontal">
+        <dt>License</dt><dd><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a></dd>
+        <dt>Version</dt><dd>experimental</dd>
+    </dl>
+
+
+  <p>Returns the number of bit positions in <code>self</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
 
-<h4>Return Value <small>logical</small></h4>  
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
-      </li>
-  </ul>
-</div>
-
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-bit_count~3"></span><h3>procedure(bit_count_abstract), public, deferred, pass(self) :: <strong>bit_count</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>elemental function bit_count_abstract(self) result(bit_count)<small>Prototype</small></h3><p>Returns the number of non-zero bits in <code>self</code>.</p><a href="../interface/bit_count_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    <h4>
+    Return Value
+    <small>integer(kind=bits_kind)</small>
+    </h4>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
 
-<h4>Return Value <small>integer(kind=bits_kind)</small></h4>  
+        </li>
+    </ul>
+  </div>
 
-      </li>
-  </ul>
-</div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-clear~2"></span>
+      <h3>
+          generic, public ::
+  <strong>clear</strong> => <a href='/home/runner/work/stdlib/stdlib/API-doc/type/bitset_large.html#boundprocedure-clear_bit~2'>clear_bit</a>, <a href='/home/runner/work/stdlib/stdlib/API-doc/type/bitset_large.html#boundprocedure-clear_range~2'>clear_range</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface clear_bit_large()  
+</h3>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-bits"></span><h3>procedure, public, pass(self) :: <strong>bits</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-          <h3>public elemental function <a href='../proc/bits.html'>bits</a>(self)</h3>  <dl class="dl-horizontal">
-    <dt>License</dt><dd><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a></dd>
-    <dt>Version</dt><dd>experimental</dd>
-  </dl>
+  
 
-<p>Returns the number of bit positions in <code>self</code>.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+  <h4>Arguments</h4>
+    <em>None</em>
 
-<h4>Return Value <small>integer(kind=bits_kind)</small></h4>  
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface clear_range_large()  
+</h3>
 
-      </li>
-  </ul>
-</div>
+  
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-clear~4"></span><h3>generic, public :: <strong>clear</strong>  => <a href='../type/bitset_large.html#boundprocedure-clear_bit~2'>clear_bit</a>, <a href='../type/bitset_large.html#boundprocedure-clear_range~2'>clear_range</a>   </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>private interface clear_bit_large()</h3>    
-<h4>Arguments</h4>      <em>None</em>
+  <h4>Arguments</h4>
+    <em>None</em>
 
-      </li>
-      <li class="list-group-item">
-            <h3>private interface clear_range_large()</h3>    
-<h4>Arguments</h4>      <em>None</em>
+        </li>
+    </ul>
+  </div>
 
-      </li>
-  </ul>
-</div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-clear_bit"></span>
+      <h3>
+          procedure(clear_bit_abstract), public, deferred, pass(self) ::
+  <strong>clear_bit</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    elemental subroutine clear_bit_abstract(self, pos)  
+<small>Prototype</small></h3>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-clear_bit~3"></span><h3>procedure(clear_bit_abstract), public, deferred, pass(self) :: <strong>clear_bit</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>elemental subroutine clear_bit_abstract(self, pos)<small>Prototype</small></h3><p>Sets to zero the <code>pos</code> position in <code>self</code>. If <code>pos</code> is less than zero or
- greater than <code>bits(self)-1</code> it is ignored.</p><a href="../interface/clear_bit_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+  <p>Sets to zero the <code>pos</code> position in <code>self</code>. If <code>pos</code> is less than zero or
+ greater than <code>bits(self)-1</code> it is ignored.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_clear</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="nb">not</span><span class="p">()</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">all</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;SET0 is properly initialized.&#39;</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">clear</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">test</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Bit 165 is cleared.&#39;</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">clear</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">164</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">none</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;All bits are cleared.&#39;</span>
+<span class="w">    </span><span class="k">end program </span><span class="n">example_clear</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer(kind=bits_kind),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=bits_kind),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>pos</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-clear_range~3"></span><h3>procedure(clear_range_abstract), public, deferred, pass(self) :: <strong>clear_range</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>pure subroutine clear_range_abstract(self, start_pos, stop_pos)<small>Prototype</small></h3><p>Sets to zero all bits from the <code>start_pos</code> to <code>stop_pos</code> positions in <code>set</code>.
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-clear_range"></span>
+      <h3>
+          procedure(clear_range_abstract), public, deferred, pass(self) ::
+  <strong>clear_range</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    pure subroutine clear_range_abstract(self, start_pos, stop_pos)  
+<small>Prototype</small></h3>
+
+  <p>Sets to zero all bits from the <code>start_pos</code> to <code>stop_pos</code> positions in <code>set</code>.
 If <code>stop_pos &lt; start_pos</code> then no bits are modified. Positions outside
 the range 0 to <code>bits(self)-1</code> are ignored.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer(kind=bits_kind),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=bits_kind),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>start_pos</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer(kind=bits_kind),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>start_pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=bits_kind),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>stop_pos</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stop_pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-flip~3"></span><h3>generic, public :: <strong>flip</strong>  => <a href='../type/bitset_large.html#boundprocedure-flip_bit~2'>flip_bit</a>, <a href='../type/bitset_large.html#boundprocedure-flip_range~2'>flip_range</a>   </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>private interface flip_bit_large()</h3>    
-<h4>Arguments</h4>      <em>None</em>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-flip"></span>
+      <h3>
+          generic, public ::
+  <strong>flip</strong> => <a href='/home/runner/work/stdlib/stdlib/API-doc/type/bitset_large.html#boundprocedure-flip_bit~2'>flip_bit</a>, <a href='/home/runner/work/stdlib/stdlib/API-doc/type/bitset_large.html#boundprocedure-flip_range~2'>flip_range</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface flip_bit_large()  
+</h3>
 
-      </li>
-      <li class="list-group-item">
-            <h3>private interface flip_range_large()</h3>    
-<h4>Arguments</h4>      <em>None</em>
+  
 
-      </li>
-  </ul>
-</div>
+  <h4>Arguments</h4>
+    <em>None</em>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-flip_bit~3"></span><h3>procedure(flip_bit_abstract), public, deferred, pass(self) :: <strong>flip_bit</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>elemental subroutine flip_bit_abstract(self, pos)<small>Prototype</small></h3><p>Flips the value at the <code>pos</code> position in <code>self</code>, provided the position is
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface flip_range_large()  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-flip_bit"></span>
+      <h3>
+          procedure(flip_bit_abstract), public, deferred, pass(self) ::
+  <strong>flip_bit</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    elemental subroutine flip_bit_abstract(self, pos)  
+<small>Prototype</small></h3>
+
+  <p>Flips the value at the <code>pos</code> position in <code>self</code>, provided the position is
  valid. If <code>pos</code> is less than 0 or greater than <code>bits(self)-1</code>, no value is
- changed.</p><a href="../interface/flip_bit_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+ changed.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_flip</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">none</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;SET0 is properly initialized.&#39;</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">flip</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">test</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Bit 165 is flipped.&#39;</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">flip</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">164</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">all</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;All bits are flipped.&#39;</span>
+<span class="w">    </span><span class="k">end program </span><span class="n">example_flip</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer(kind=bits_kind),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=bits_kind),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>pos</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-flip_range~3"></span><h3>procedure(flip_range_abstract), public, deferred, pass(self) :: <strong>flip_range</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>pure subroutine flip_range_abstract(self, start_pos, stop_pos)<small>Prototype</small></h3><p>Flips all valid bits from the <code>start_pos</code> to the <code>stop_pos</code> positions in
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-flip_range"></span>
+      <h3>
+          procedure(flip_range_abstract), public, deferred, pass(self) ::
+  <strong>flip_range</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    pure subroutine flip_range_abstract(self, start_pos, stop_pos)  
+<small>Prototype</small></h3>
+
+  <p>Flips all valid bits from the <code>start_pos</code> to the <code>stop_pos</code> positions in
 <code>self</code>. If <code>stop_pos &lt; start_pos</code> no bits are flipped. Positions less than
 0 or greater than <code>bits(self)-1</code> are ignored.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer(kind=bits_kind),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=bits_kind),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>start_pos</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer(kind=bits_kind),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>start_pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=bits_kind),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>stop_pos</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stop_pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-from_string~3"></span><h3>procedure(from_string_abstract), public, deferred, pass(self) :: <strong>from_string</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>subroutine from_string_abstract(self, string, status)<small>Prototype</small></h3><p>Initializes the bitset <code>self</code> treating <code>string</code> as a binary literal
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-from_string"></span>
+      <h3>
+          procedure(from_string_abstract), public, deferred, pass(self) ::
+  <strong>from_string</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+     subroutine from_string_abstract(self, string, status)  
+<small>Prototype</small></h3>
+
+  <p>Initializes the bitset <code>self</code> treating <code>string</code> as a binary literal
  <code>status</code> may have the values:
  * <code>success</code> - if no problems were found,
  * <code>alloc_fault</code> - if allocation of the bitset failed
  * <code>char_string_too_large_error</code> - if <code>string</code> was too large, or
- * <code>char_string_invalid_error</code> - if string had an invalid character.</p><a href="../interface/from_string_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+ * <code>char_string_invalid_error</code> - if string had an invalid character.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_from_string</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;111111111111111111111111111111111&#39;</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">from_string</span><span class="p">(</span><span class="w"> </span><span class="n">bits_all</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">bits</span><span class="p">(</span><span class="n">set0</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            error stop</span><span class="w"> </span><span class="s2">&quot;FROM_STRING failed to interpret &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                </span><span class="s1">&#39;BITS_ALL&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="n">properly</span><span class="p">.</span><span class="s2">&quot;</span>
+<span class="s2">        else if ( .not. set0 % all() ) then</span>
+<span class="s2">            error stop &quot;</span><span class="n">FROM_STRING</span><span class="w"> </span><span class="n">failed</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">interpret</span><span class="s2">&quot; // &amp;</span>
+<span class="s2">                &quot;</span><span class="n">BITS_ALL</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="k">value </span><span class="n">properly</span><span class="p">.</span><span class="s2">&quot;</span>
+<span class="s2">        else</span>
+<span class="s2">            write(*,*) &quot;</span><span class="n">FROM_STRING</span><span class="w"> </span><span class="n">transferred</span><span class="w"> </span><span class="n">BITS_ALL</span><span class="w"> </span><span class="n">properly</span><span class="s2">&quot; // &amp;</span>
+<span class="s2">                &quot;</span><span class="w"> </span><span class="n">into</span><span class="w"> </span><span class="n">set0</span><span class="p">.</span><span class="err">&quot;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_from_string</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>character,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              character(len=*),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>string</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>status</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-init~6"></span><h3>generic, public :: <strong>init</strong>  => <a href='../type/bitset_large.html#boundprocedure-init_zero~2'>init_zero</a>   </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>private interface init_zero_large()</h3>    
-<h4>Arguments</h4>      <em>None</em>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-init"></span>
+      <h3>
+          generic, public ::
+  <strong>init</strong> => <a href='/home/runner/work/stdlib/stdlib/API-doc/type/bitset_large.html#boundprocedure-init_zero~2'>init_zero</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface init_zero_large()  
+</h3>
 
-      </li>
-  </ul>
-</div>
+  
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-init_zero~3"></span><h3>procedure(init_zero_abstract), public, deferred, pass(self) :: <strong>init_zero</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>subroutine init_zero_abstract(self, bits, status)<small>Prototype</small></h3><p>Creates the bitset, <code>self</code>, of size <code>bits</code>, with all bits initialized to
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-init_zero"></span>
+      <h3>
+          procedure(init_zero_abstract), public, deferred, pass(self) ::
+  <strong>init_zero</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+     subroutine init_zero_abstract(self, bits, status)  
+<small>Prototype</small></h3>
+
+  <p>Creates the bitset, <code>self</code>, of size <code>bits</code>, with all bits initialized to
  zero. <code>bits</code> must be non-negative.  If an error occurs and <code>status</code> is
  absent then processing stops with an informative stop code. <code>status</code>
  will have one of the values;
  * <code>success</code> -  if no problems were found,
  * <code>alloc_fault</code> - if memory allocation failed
  * <code>array_size_invalid_error</code> - if <code>bits</code> is either negative or larger
-   than 64 with <code>self</code> of class <code>bitset_64</code>, or</p><a href="../interface/init_zero_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+   than 64 with <code>self</code> of class <code>bitset_64</code>, or</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_init</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">bits</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">166</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="err">`</span><span class="n">SET0</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">proper</span><span class="w"> </span><span class="n">size</span><span class="p">.</span><span class="s1">&#39;</span>
+<span class="s1">        if ( set0 % none() ) write(*,*) &#39;</span><span class="n">SET0</span><span class="w"> </span><span class="k">is </span><span class="n">properly</span><span class="w"> </span><span class="n">initialized</span><span class="p">.</span><span class="err">&#39;</span>
+<span class="w">    </span><span class="k">end program </span><span class="n">example_init</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer(kind=bits_kind),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=bits_kind),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>bits</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>bits</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>status</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-input~3"></span><h3>procedure(input_abstract), public, deferred, pass(self) :: <strong>input</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>subroutine input_abstract(self, unit, status)<small>Prototype</small></h3><p>Reads the components of the bitset, <code>self</code>, from the unformatted I/O
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-input~6"></span>
+      <h3>
+          procedure(input_abstract), public, deferred, pass(self) ::
+  <strong>input</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+     subroutine input_abstract(self, unit, status)  
+<small>Prototype</small></h3>
+
+  <p>Reads the components of the bitset, <code>self</code>, from the unformatted I/O
  unit, <code>unit</code>, assuming that the components were written using <code>output</code>.
  If an error occurs and <code>status</code> is absent then processing stops with
  an informative stop code. <code>status</code> has one of the values:
@@ -596,144 +1149,421 @@ the range 0 to <code>bits(self)-1</code> are ignored.</p>
  * <code>alloc_fault</code> - if it failed allocating memory for <code>self</code>, or
  * <code>array_size_invalid_error</code> if the <code>bits(self)</code> in <code>unit</code> is negative
    or greater than 64 for a <code>bitset_64</code> input.
- * <code>read_failure</code> - if it failed during the reads from <code>unit</code></p><a href="../interface/input_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+ * <code>read_failure</code> - if it failed during the reads from <code>unit</code></p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_input</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_0</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;000000000000000000000000000000000&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_1</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;000000000000000000000000000000001&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_33</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;100000000000000000000000000000000&#39;</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">unit</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span><span class="p">,</span><span class="w"> </span><span class="n">set1</span><span class="p">,</span><span class="w"> </span><span class="n">set2</span><span class="p">,</span><span class="w"> </span><span class="n">set3</span><span class="p">,</span><span class="w"> </span><span class="n">set4</span><span class="p">,</span><span class="w"> </span><span class="n">set5</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">from_string</span><span class="p">(</span><span class="w"> </span><span class="n">bits_0</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">from_string</span><span class="p">(</span><span class="w"> </span><span class="n">bits_1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">from_string</span><span class="p">(</span><span class="w"> </span><span class="n">bits_33</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">open</span><span class="p">(</span><span class="w"> </span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.bin&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;unformatted&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;write&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">output</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">output</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">output</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">close</span><span class="p">(</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">open</span><span class="p">(</span><span class="w"> </span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.bin&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;unformatted&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;read&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set5</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">input</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set4</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">input</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set3</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">input</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">close</span><span class="p">(</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set3</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">set4</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">set5</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            error stop</span><span class="w"> </span><span class="s1">&#39;Transfer to and from units using &#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                </span><span class="s1">&#39; output and input failed.&#39;</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Transfer to and from units using &#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                </span><span class="s1">&#39;output and input succeeded.&#39;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_input</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>unit</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>unit</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>status</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-none~3"></span><h3>procedure(none_abstract), public, deferred, pass(self) :: <strong>none</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>elemental function none_abstract(self) result(none)<small>Prototype</small></h3><p>Returns <code>.true.</code> if none of the bits in <code>self</code> have the value 1.</p><a href="../interface/none_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-none~2"></span>
+      <h3>
+          procedure(none_abstract), public, deferred, pass(self) ::
+  <strong>none</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    elemental function none_abstract(self) result(none)  
+<small>Prototype</small></h3>
+
+  <p>Returns <code>.true.</code> if none of the bits in <code>self</code> have the value 1.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_none</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;0000000000000000000&#39;</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">from_string</span><span class="p">(</span><span class="w"> </span><span class="n">bits_0</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">none</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;FROM_STRING interpreted &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                </span><span class="s2">&quot;BITS_0&#39;s value properly.&quot;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">        call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">none</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;NONE interpreted SET0&#39;s value properly.&quot;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_none</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
-<h4>Return Value <small>logical</small></h4>  
-
-      </li>
-  </ul>
-</div>
-
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-not~3"></span><h3>procedure(not_abstract), public, deferred, pass(self) :: <strong>not</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>elemental subroutine not_abstract(self)<small>Prototype</small></h3><p>Sets the bits in <code>self</code> to their logical complement</p><a href="../interface/not_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-not"></span>
+      <h3>
+          procedure(not_abstract), public, deferred, pass(self) ::
+  <strong>not</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    elemental subroutine not_abstract(self)  
+<small>Prototype</small></h3>
+
+  <p>Sets the bits in <code>self</code> to their logical complement</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_not</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="mi">155</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">none</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;FROM_STRING interpreted &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                </span><span class="s2">&quot;BITS_0&#39;s value properly.&quot;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">        call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="nb">not</span><span class="p">()</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">all</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;ALL interpreted SET0&#39;s value properly.&quot;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_not</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-output~3"></span><h3>procedure(output_abstract), public, deferred, pass(self) :: <strong>output</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>subroutine output_abstract(self, unit, status)<small>Prototype</small></h3><p>Writes the components of the bitset, <code>self</code>, to the unformatted I/O
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-output"></span>
+      <h3>
+          procedure(output_abstract), public, deferred, pass(self) ::
+  <strong>output</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+     subroutine output_abstract(self, unit, status)  
+<small>Prototype</small></h3>
+
+  <p>Writes the components of the bitset, <code>self</code>, to the unformatted I/O
  unit, <code>unit</code>, in a unformatted sequence compatible with <code>input</code>. If
  <code>status</code> is absent an error results in an error stop with an
  informative stop code. If <code>status</code> is present it has the default
- value of <code>success</code>, or the value <code>write_failure</code> if the write failed.</p><a href="../interface/output_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+ value of <code>success</code>, or the value <code>write_failure</code> if the write failed.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_output</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_0</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;000000000000000000000000000000000&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_1</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;000000000000000000000000000000001&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_33</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;100000000000000000000000000000000&#39;</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">unit</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span><span class="p">,</span><span class="w"> </span><span class="n">set1</span><span class="p">,</span><span class="w"> </span><span class="n">set2</span><span class="p">,</span><span class="w"> </span><span class="n">set3</span><span class="p">,</span><span class="w"> </span><span class="n">set4</span><span class="p">,</span><span class="w"> </span><span class="n">set5</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">from_string</span><span class="p">(</span><span class="w"> </span><span class="n">bits_0</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">from_string</span><span class="p">(</span><span class="w"> </span><span class="n">bits_1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">from_string</span><span class="p">(</span><span class="w"> </span><span class="n">bits_33</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">open</span><span class="p">(</span><span class="w"> </span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.bin&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;unformatted&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;write&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">output</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">output</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">output</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">close</span><span class="p">(</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">open</span><span class="p">(</span><span class="w"> </span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.bin&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;unformatted&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;read&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set5</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">input</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set4</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">input</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set3</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">input</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">close</span><span class="p">(</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set3</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">set4</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">set5</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            error stop</span><span class="w"> </span><span class="s1">&#39;Transfer to and from units using &#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                </span><span class="s1">&#39; output and input failed.&#39;</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Transfer to and from units using &#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                </span><span class="s1">&#39;output and input succeeded.&#39;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_output</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>unit</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>unit</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>status</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-read_bitset~3"></span><h3>generic, public :: <strong>read_bitset</strong>  => <a href='../type/bitset_large.html#boundprocedure-read_bitset_string~2'>read_bitset_string</a>, <a href='../type/bitset_large.html#boundprocedure-read_bitset_unit~2'>read_bitset_unit</a>   </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>private interface read_bitset_string_large()</h3>    
-<h4>Arguments</h4>      <em>None</em>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-read_bitset"></span>
+      <h3>
+          generic, public ::
+  <strong>read_bitset</strong> => <a href='/home/runner/work/stdlib/stdlib/API-doc/type/bitset_large.html#boundprocedure-read_bitset_string~2'>read_bitset_string</a>, <a href='/home/runner/work/stdlib/stdlib/API-doc/type/bitset_large.html#boundprocedure-read_bitset_unit~2'>read_bitset_unit</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface read_bitset_string_large()  
+</h3>
 
-      </li>
-      <li class="list-group-item">
-            <h3>private interface read_bitset_unit_large()</h3>    
-<h4>Arguments</h4>      <em>None</em>
+  
 
-      </li>
-  </ul>
-</div>
+  <h4>Arguments</h4>
+    <em>None</em>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-read_bitset_string~3"></span><h3>procedure(read_bitset_string_abstract), public, deferred, pass(self) :: <strong>read_bitset_string</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>subroutine read_bitset_string_abstract(self, string, status)<small>Prototype</small></h3><p>Uses the bitset literal in the default character <code>string</code>, to define
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface read_bitset_unit_large()  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-read_bitset_string"></span>
+      <h3>
+          procedure(read_bitset_string_abstract), public, deferred, pass(self) ::
+  <strong>read_bitset_string</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+     subroutine read_bitset_string_abstract(self, string, status)  
+<small>Prototype</small></h3>
+
+  <p>Uses the bitset literal in the default character <code>string</code>, to define
  the bitset, <code>self</code>. The literal may be preceded by an an arbitrary
  sequence of blank characters. If <code>status</code> is absent an error results
  in an error stop with an informative stop code. If <code>status</code>
@@ -747,42 +1577,125 @@ the range 0 to <code>bits(self)-1</code> are ignored.</p>
  *</code>char_string_too_small_error - if the string ends before all the bits
    are read.
  * <code>integer_overflow_error</code> - if the bitset literal has a <code>bits(self)</code>
-   value too large to be represented,</p><a href="../interface/read_bitset_string_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+   value too large to be represented,</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_read_bitset</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_0</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;S33B000000000000000000000000000000000&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_1</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;S33B000000000000000000000000000000001&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_33</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;S33B100000000000000000000000000000000&#39;</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_0</span><span class="p">,</span><span class="w"> </span><span class="n">test_1</span><span class="p">,</span><span class="w"> </span><span class="n">test_2</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">unit</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span><span class="p">,</span><span class="w"> </span><span class="n">set1</span><span class="p">,</span><span class="w"> </span><span class="n">set2</span><span class="p">,</span><span class="w"> </span><span class="n">set3</span><span class="p">,</span><span class="w"> </span><span class="n">set4</span><span class="p">,</span><span class="w"> </span><span class="n">set5</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">read_bitset</span><span class="p">(</span><span class="w"> </span><span class="n">bits_0</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">read_bitset</span><span class="p">(</span><span class="w"> </span><span class="n">bits_1</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">read_bitset</span><span class="p">(</span><span class="w"> </span><span class="n">bits_2</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">write_bitset</span><span class="p">(</span><span class="w"> </span><span class="n">test_0</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">write_bitset</span><span class="p">(</span><span class="w"> </span><span class="n">test_1</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">write_bitset</span><span class="p">(</span><span class="w"> </span><span class="n">test_2</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">bits_0</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">test_0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">bits_1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">test_1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">test_2</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;READ_BITSET to WRITE_BITSET strings worked.&#39;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">        open</span><span class="p">(</span><span class="w"> </span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;write&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">write_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">write_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">write_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">close</span><span class="p">(</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">open</span><span class="p">(</span><span class="w"> </span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;read&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set3</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">read_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set4</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">read_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set5</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">read_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set3</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">set4</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">set5</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">WRITE_BITSET</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">READ_BITSET</span><span class="w"> </span><span class="n">through</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="n">worked</span><span class="p">.</span><span class="err">&#39;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_read_bitset</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              character(len=*),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>string</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>status</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-read_bitset_unit~3"></span><h3>procedure(read_bitset_unit_abstract), public, deferred, pass(self) :: <strong>read_bitset_unit</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>subroutine read_bitset_unit_abstract(self, unit, advance, status)<small>Prototype</small></h3><p>Uses the bitset literal at the current position in the formatted
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-read_bitset_unit"></span>
+      <h3>
+          procedure(read_bitset_unit_abstract), public, deferred, pass(self) ::
+  <strong>read_bitset_unit</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+     subroutine read_bitset_unit_abstract(self, unit, advance, status)  
+<small>Prototype</small></h3>
+
+  <p>Uses the bitset literal at the current position in the formatted
 file with I/O unit, <code>unit</code>, to define the bitset, <code>self</code>. The literal
 may be preceded by an an arbitrary sequence of blank characters.
 If <code>advance</code> is present it must be either 'YES' or 'NO'. If absent
@@ -801,285 +1714,742 @@ the values:
 * <code>integer_overflow_error</code> - if the bitset literal has a <code>bits(self)</code>
   value too large to be represented,
 * <code>read_failure</code> - if a <code>read</code> statement fails,</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>unit</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>character,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>unit</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              character(len=*),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>advance</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>advance</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>status</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set~3"></span><h3>generic, public :: <strong>set</strong>  => <a href='../type/bitset_large.html#boundprocedure-set_bit~2'>set_bit</a>, <a href='../type/bitset_large.html#boundprocedure-set_range~2'>set_range</a>   </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>private interface set_bit_large()</h3>    
-<h4>Arguments</h4>      <em>None</em>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set~11"></span>
+      <h3>
+          generic, public ::
+  <strong>set</strong> => <a href='/home/runner/work/stdlib/stdlib/API-doc/type/bitset_large.html#boundprocedure-set_bit~2'>set_bit</a>, <a href='/home/runner/work/stdlib/stdlib/API-doc/type/bitset_large.html#boundprocedure-set_range~2'>set_range</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface set_bit_large()  
+</h3>
 
-      </li>
-      <li class="list-group-item">
-            <h3>private interface set_range_large()</h3>    
-<h4>Arguments</h4>      <em>None</em>
+  
 
-      </li>
-  </ul>
-</div>
+  <h4>Arguments</h4>
+    <em>None</em>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_bit~3"></span><h3>procedure(set_bit_abstract), public, deferred, pass(self) :: <strong>set_bit</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>elemental subroutine set_bit_abstract(self, pos)<small>Prototype</small></h3><p>Sets the value at the <code>pos</code> position in <code>self</code>, provided the position is
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface set_range_large()  
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_bit"></span>
+      <h3>
+          procedure(set_bit_abstract), public, deferred, pass(self) ::
+  <strong>set_bit</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    elemental subroutine set_bit_abstract(self, pos)  
+<small>Prototype</small></h3>
+
+  <p>Sets the value at the <code>pos</code> position in <code>self</code>, provided the position is
  valid. If the position is less than 0 or greater than <code>bits(self)-1</code>
- then <code>self</code> is unchanged.</p><a href="../interface/set_bit_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+ then <code>self</code> is unchanged.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_set</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">none</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;SET0 is properly initialized.&#39;</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">test</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Bit 165 is set.&#39;</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">164</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">all</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;All bits are set.&#39;</span>
+<span class="w">    </span><span class="k">end program </span><span class="n">example_set</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer(kind=bits_kind),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=bits_kind),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>pos</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_range~3"></span><h3>procedure(set_range_abstract), public, deferred, pass(self) :: <strong>set_range</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>pure subroutine set_range_abstract(self, start_pos, stop_pos)<small>Prototype</small></h3><p>Sets all valid bits to 1 from the <code>start_pos</code> to the <code>stop_pos</code> positions
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-set_range"></span>
+      <h3>
+          procedure(set_range_abstract), public, deferred, pass(self) ::
+  <strong>set_range</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    pure subroutine set_range_abstract(self, start_pos, stop_pos)  
+<small>Prototype</small></h3>
+
+  <p>Sets all valid bits to 1 from the <code>start_pos</code> to the <code>stop_pos</code> positions
 in <code>self</code>. If <code>stop_pos &lt; start_pos</code> no bits are changed. Positions outside
 the range 0 to <code>bits(self)-1</code> are ignored.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer(kind=bits_kind),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=bits_kind),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>start_pos</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer(kind=bits_kind),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>start_pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=bits_kind),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>stop_pos</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stop_pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-test~3"></span><h3>procedure(test_abstract), public, deferred, pass(self) :: <strong>test</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>elemental function test_abstract(self, pos) result(test)<small>Prototype</small></h3><p>Returns <code>.true.</code> if the <code>pos</code> position is set, <code>.false.</code> otherwise. If <code>pos</code>
- is negative or greater than <code>bits(self) - 1</code> the result is <code>.false.</code>.</p><a href="../interface/test_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-test~23"></span>
+      <h3>
+          procedure(test_abstract), public, deferred, pass(self) ::
+  <strong>test</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    elemental function test_abstract(self, pos) result(test)  
+<small>Prototype</small></h3>
+
+  <p>Returns <code>.true.</code> if the <code>pos</code> position is set, <code>.false.</code> otherwise. If <code>pos</code>
+ is negative or greater than <code>bits(self) - 1</code> the result is <code>.false.</code>.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_test</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="nb">not</span><span class="p">()</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">all</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;SET0 is properly initialized.&#39;</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">clear</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">test</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Bit 165 is cleared.&#39;</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">test</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Bit 165 is set.&#39;</span>
+<span class="w">    </span><span class="k">end program </span><span class="n">example_test</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=bits_kind),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer(kind=bits_kind),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>pos</strong></td><td></td>
-</tr>
-</tbody>
-</table>
 
-<h4>Return Value <small>logical</small></h4>  
+        </li>
+    </ul>
+  </div>
 
-      </li>
-  </ul>
-</div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-to_string"></span>
+      <h3>
+          procedure(to_string_abstract), public, deferred, pass(self) ::
+  <strong>to_string</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+     subroutine to_string_abstract(self, string, status)  
+<small>Prototype</small></h3>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-to_string~3"></span><h3>procedure(to_string_abstract), public, deferred, pass(self) :: <strong>to_string</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>subroutine to_string_abstract(self, string, status)<small>Prototype</small></h3><p>Represents the value of <code>self</code> as a binary literal in <code>string</code>
- Status may have the values <code>success</code> or <code>alloc_fault</code>.</p><a href="../interface/to_string_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+  <p>Represents the value of <code>self</code> as a binary literal in <code>string</code>
+ Status may have the values <code>success</code> or <code>alloc_fault</code>.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_to_string</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;111111111111111111111111111111111&#39;</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">new_string</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">33</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="nb">not</span><span class="p">()</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">to_string</span><span class="p">(</span><span class="w"> </span><span class="n">new_string</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">new_string</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">bits_all</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;TO_STRING transferred BITS0 properly&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                </span><span class="s2">&quot; into NEW_STRING.&quot;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_to_string</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>character,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              character(len=:),
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>allocatable</td><td>::</td>
-  <td><strong>string</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>status</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-value~3"></span><h3>procedure(value_abstract), public, deferred, pass(self) :: <strong>value</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>elemental function value_abstract(self, pos) result(value)<small>Prototype</small></h3><p>Returns 1 if the <code>pos</code> position is set, 0 otherwise. If <code>pos</code> is negative
- or greater than <code>bits(set) - 1</code> the result is 0.</p><a href="../interface/value_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-value~10"></span>
+      <h3>
+          procedure(value_abstract), public, deferred, pass(self) ::
+  <strong>value</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    elemental function value_abstract(self, pos) result(value)  
+<small>Prototype</small></h3>
+
+  <p>Returns 1 if the <code>pos</code> position is set, 0 otherwise. If <code>pos</code> is negative
+ or greater than <code>bits(set) - 1</code> the result is 0.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_value</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_large</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="mi">166</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="nb">not</span><span class="p">()</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">all</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;SET0 is properly initialized.&#39;</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">clear</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">value</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Bit 165 is cleared.&#39;</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="k">value</span><span class="p">(</span><span class="mi">165</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Bit 165 is set.&#39;</span>
+<span class="w">    </span><span class="k">end program </span><span class="n">example_value</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer(kind=bits_kind),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer(kind=bits_kind),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>pos</strong></td><td></td>
-</tr>
-</tbody>
-</table>
 
-<h4>Return Value <small>integer</small></h4>  
+        </li>
+    </ul>
+  </div>
 
-      </li>
-  </ul>
-</div>
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-write_bitset"></span>
+      <h3>
+          generic, public ::
+  <strong>write_bitset</strong> => <a href='/home/runner/work/stdlib/stdlib/API-doc/type/bitset_large.html#boundprocedure-write_bitset_string~2'>write_bitset_string</a>, <a href='/home/runner/work/stdlib/stdlib/API-doc/type/bitset_large.html#boundprocedure-write_bitset_unit~2'>write_bitset_unit</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface write_bitset_string_large()  
+</h3>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-write_bitset~3"></span><h3>generic, public :: <strong>write_bitset</strong>  => <a href='../type/bitset_large.html#boundprocedure-write_bitset_string~2'>write_bitset_string</a>, <a href='../type/bitset_large.html#boundprocedure-write_bitset_unit~2'>write_bitset_unit</a>   </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>private interface write_bitset_string_large()</h3>    
-<h4>Arguments</h4>      <em>None</em>
+  
 
-      </li>
-      <li class="list-group-item">
-            <h3>private interface write_bitset_unit_large()</h3>    
-<h4>Arguments</h4>      <em>None</em>
+  <h4>Arguments</h4>
+    <em>None</em>
 
-      </li>
-  </ul>
-</div>
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface write_bitset_unit_large()  
+</h3>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-write_bitset_string~3"></span><h3>procedure(write_bitset_string_abstract), public, deferred, pass(self) :: <strong>write_bitset_string</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>subroutine write_bitset_string_abstract(self, string, status)<small>Prototype</small></h3><p>Writes a bitset literal to the allocatable default character <code>string</code>,
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-write_bitset_string"></span>
+      <h3>
+          procedure(write_bitset_string_abstract), public, deferred, pass(self) ::
+  <strong>write_bitset_string</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+     subroutine write_bitset_string_abstract(self, string, status)  
+<small>Prototype</small></h3>
+
+  <p>Writes a bitset literal to the allocatable default character <code>string</code>,
  representing the individual bit values in the <code>bitset_type</code>, <code>self</code>.
  If <code>status</code> is absent an error results in an error stop with an
  informative stop code. If <code>status</code> is present it has the default
  value of <code>success</code>, or the value <code>alloc_fault</code> if allocation of
- the output string failed.</p><a href="../interface/write_bitset_string_abstract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+ the output string failed.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_write_bitset</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_0</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;S33B000000000000000000000000000000000&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_1</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;S33B000000000000000000000000000000001&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_33</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;S33B100000000000000000000000000000000&#39;</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test_0</span><span class="p">,</span><span class="w"> </span><span class="n">test_1</span><span class="p">,</span><span class="w"> </span><span class="n">test_2</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">unit</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span><span class="p">,</span><span class="w"> </span><span class="n">set1</span><span class="p">,</span><span class="w"> </span><span class="n">set2</span><span class="p">,</span><span class="w"> </span><span class="n">set3</span><span class="p">,</span><span class="w"> </span><span class="n">set4</span><span class="p">,</span><span class="w"> </span><span class="n">set5</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">read_bitset</span><span class="p">(</span><span class="w"> </span><span class="n">bits_0</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">read_bitset</span><span class="p">(</span><span class="w"> </span><span class="n">bits_1</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">read_bitset</span><span class="p">(</span><span class="w"> </span><span class="n">bits_2</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">write_bitset</span><span class="p">(</span><span class="w"> </span><span class="n">test_0</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">write_bitset</span><span class="p">(</span><span class="w"> </span><span class="n">test_1</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">write_bitset</span><span class="p">(</span><span class="w"> </span><span class="n">test_2</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">bits_0</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">test_0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">bits_1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">test_1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">bits_2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">test_2</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;READ_BITSET to WRITE_BITSET strings worked.&#39;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">        open</span><span class="p">(</span><span class="w"> </span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;write&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">write_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">write_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">write_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">close</span><span class="p">(</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">open</span><span class="p">(</span><span class="w"> </span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;formatted&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;read&#39;</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set3</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">read_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set4</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">read_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set5</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">read_bitset</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set3</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">set4</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">set5</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">WRITE_BITSET</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">READ_BITSET</span><span class="w"> </span><span class="n">through</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="n">worked</span><span class="p">.</span><span class="err">&#39;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_write_bitset</span>
+</code></pre></div>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>character(len=:),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              character(len=:),
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>allocatable</td><td>::</td>
-  <td><strong>string</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>status</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-write_bitset_unit~3"></span><h3>procedure(write_bitset_unit_abstract), public, deferred, pass(self) :: <strong>write_bitset_unit</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>subroutine write_bitset_unit_abstract(self, unit, advance, status)<small>Prototype</small></h3><p>Writes a bitset literal to the I/O unit, <code>unit</code>, representing the
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-write_bitset_unit"></span>
+      <h3>
+          procedure(write_bitset_unit_abstract), public, deferred, pass(self) ::
+  <strong>write_bitset_unit</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+     subroutine write_bitset_unit_abstract(self, unit, advance, status)  
+<small>Prototype</small></h3>
+
+  <p>Writes a bitset literal to the I/O unit, <code>unit</code>, representing the
 individual bit values in the <code>bitset_t</code>, <code>self</code>. If an error occurs then
 processing stops with a message to <code>error_unit</code>. By default or if
 <code>advance</code> is present with the value 'YES', advancing output is used.
@@ -1089,47 +2459,92 @@ in an error stop with an informative stop code. If <code>status</code> is
 present it has the default value of <code>success</code>, the value
 <code>alloc_fault</code> if allocation of the output string failed,
 <code>write_failure</code> if the <code>write</code> statement outputting the literal failed.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/bitset_type.html'>bitset_type</a>),</td>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='bitset_type.html'>bitset_type</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>unit</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>unit</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              character(len=*),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>advance</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>advance</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
 <td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>status</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-      </li>
-  </ul>
-</div>
+        </li>
+    </ul>
+  </div>
 
-    </section>
-    
+          </div>
+      </section>
+
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">abstract</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bitset_type</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">abstract</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bitset_type</span>
 <span class="c">!! version: experimental</span>
 <span class="c">!!</span>
 <span class="c">!! Parent type for bitset_64 and bitset_large ([Specification](../page/specs/stdlib_bitsets.html#the-stdlib_bitsets-derived-types))</span>
@@ -1181,50 +2596,45 @@ present it has the default value of <code>success</code>, the value
     </div>
   </div>
 
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>df45374</small></p>
+        <div class="row justify-content-between">
+          <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+<br /><small>4ed4c52</small></p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2024-04-08 10:34              </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-06 10:42            </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>
