@@ -605,13 +605,15 @@ equality. </p>
 </li>
 <li>
 <p><code>get( key, value )</code> - extracts the contents of <code>key</code> into <code>value</code>,
-  an <code>int8</code> array or character string.</p>
+  an <code>int8</code> array, 'int32' array, or character string.</p>
 </li>
 <li>
 <p><code>free_key( key )</code> - frees the memory in <code>key</code>.</p>
 </li>
 <li>
-<p><code>set( key, value )</code> - sets the content of <code>key</code> to <code>value</code>.</p>
+<p><code>set( key, value )</code> - sets the content of <code>key</code> to <code>value</code>.<br>
+  Supported key types are <code>int8</code> array, <code>int32</code> array, and character
+  string.</p>
 </li>
 </ul>
 <p>Procedures to manipulate <code>other_type</code> data:</p>
@@ -901,9 +903,9 @@ is an <code>intent(in)</code> argument.</p>
 is an <code>intent(in)</code> argument.</p>
 <p><code>value</code>: if the the first argument is of <code>key_type</code> <code>value</code> shall be
 an allocatable default character string variable, or 
-an allocatable vector variable of type integer and kind <code>int8</code>,
-otherwise the first argument is of <code>other_type</code> and <code>value</code> shall be
-an allocatable of <code>class(*)</code>. It is an <code>intent(out)</code> argument.</p>
+an allocatable vector variable of type integer and kind <code>int8</code> or 
+<code>int32</code>, otherwise the first argument is of <code>other_type</code> and <code>value</code> 
+shall be an allocatable of <code>class(*)</code>. It is an <code>intent(out)</code> argument.</p>
 <h5 id="example_6">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_get</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span>
@@ -1139,11 +1141,12 @@ is an <code>intent(out)</code> argument.</p>
 is an <code>intent(out)</code> argument.</p>
 <p><code>value</code>: if the first argument is <code>key</code> <code>value</code> shall be a default
 character string scalar expression, or a vector expression of type integer
-and kind <code>int8</code>, while for a first argument of type <code>other</code> <code>value</code>
-shall be of type <code>class(*)</code>. It is an <code>intent(in)</code> argument.</p>
+and kind <code>int8</code> or <code>int32</code>, while for a first argument of type 
+<code>other</code> <code>value</code> shall be of type <code>class(*)</code>. It is an <code>intent(in)</code> 
+argument.</p>
 <h5 id="note_6">Note</h5>
-<p>Values of types other than a scalar default character or an
-<code>int8</code> vector can be used as the basis of a <code>key</code> by transferring the
+<p>Values of types other than a scalar default character or and
+<code>int8</code> or <code>int32</code> vector can be used as the basis of a <code>key</code> by transferring the
 value to an <code>int8</code> vector.</p>
 <h5 id="example_12">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_set</span>
@@ -1786,7 +1789,7 @@ undefined.</p>
 <h5 id="description_18">Description</h5>
 <p>Initializes a <code>hashmap_type</code> object.</p>
 <h5 id="syntax_17">Syntax</h5>
-<p><code>call map %</code> <a href="../../type/hashmap_type.html#boundprocedure-init~2">init</a> <code>( hasher [, slots_bits, status ] )</code></p>
+<p><code>call map %</code> <a href="../../type/hashmap_type.html#boundprocedure-init">init</a> <code>( hasher [, slots_bits, status ] )</code></p>
 <h5 id="class_17">Class</h5>
 <p>Subroutine</p>
 <h5 id="arguments_5">Arguments</h5>
@@ -2159,7 +2162,7 @@ not exist and nothing was done.</p>
 <h5 id="description_27">Description</h5>
 <p>Returns the total number of bits used to address the hash map slots.</p>
 <h5 id="syntax_26">Syntax</h5>
-<p><code>result = map %</code> <a href="../../type/hashmap_type.html#boundprocedure-slots_bits~2">slots_bits</a> <code>( )</code></p>
+<p><code>result = map %</code> <a href="../../type/hashmap_type.html#boundprocedure-slots_bits~3">slots_bits</a> <code>( )</code></p>
 <h5 id="class_26">Class</h5>
 <p>Pure function</p>
 <h5 id="argument_15">Argument</h5>
@@ -2190,7 +2193,7 @@ hash map of interest.</p>
 <p>Returns the total number of one's based offsets of slot entries from
 their slot index for a hash map</p>
 <h5 id="syntax_27">Syntax</h5>
-<p><code>result = map %</code> <a href="../../type/hashmap_type.html#boundprocedure-total_depth~2">total_depth</a> <code>( )</code></p>
+<p><code>result = map %</code> <a href="../../type/hashmap_type.html#boundprocedure-total_depth~3">total_depth</a> <code>( )</code></p>
 <h5 id="class_27">Class</h5>
 <p>Pure function</p>
 <h5 id="argument_16">Argument</h5>
@@ -2222,13 +2225,13 @@ from their slot index the map.</p>
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>19f84ce</small></p>
+<br /><small>f44133b</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-13 10:37              </p>
+ on 2024-04-25 16:47              </p>
           </div>
         </div>
         <br>
