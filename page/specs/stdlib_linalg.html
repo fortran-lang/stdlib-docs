@@ -276,7 +276,7 @@
 <li><a href="#example_13">Example</a></li>
 </ul>
 </li>
-<li><a href="#lstsq-computes-the-least-squares-solution-to-a-linear-matrix-equation">lstsq - Computes the least squares solution to a linear matrix equation.</a><ul>
+<li><a href="#solve-solves-a-linear-matrix-equation-or-a-linear-system-of-equations">solve - Solves a linear matrix equation or a linear system of equations.</a><ul>
 <li><a href="#status_14">Status</a></li>
 <li><a href="#description_14">Description</a></li>
 <li><a href="#syntax_14">Syntax</a></li>
@@ -285,7 +285,7 @@
 <li><a href="#example_14">Example</a></li>
 </ul>
 </li>
-<li><a href="#solve_lstsq-compute-the-least-squares-solution-to-a-linear-matrix-equation-subroutine-interface">solve_lstsq - Compute the least squares solution to a linear matrix equation (subroutine interface).</a><ul>
+<li><a href="#solve_lu-solves-a-linear-matrix-equation-or-a-linear-system-of-equations-subroutine-interface">solve_lu - Solves a linear matrix equation or a linear system of equations (subroutine interface).</a><ul>
 <li><a href="#status_15">Status</a></li>
 <li><a href="#description_15">Description</a></li>
 <li><a href="#syntax_15">Syntax</a></li>
@@ -294,29 +294,47 @@
 <li><a href="#example_15">Example</a></li>
 </ul>
 </li>
-<li><a href="#lstsq_space-compute-internal-working-space-requirements-for-the-least-squares-solver">lstsq_space - Compute internal working space requirements for the least squares solver.</a><ul>
+<li><a href="#lstsq-computes-the-least-squares-solution-to-a-linear-matrix-equation">lstsq - Computes the least squares solution to a linear matrix equation.</a><ul>
 <li><a href="#status_16">Status</a></li>
 <li><a href="#description_16">Description</a></li>
 <li><a href="#syntax_16">Syntax</a></li>
 <li><a href="#arguments_15">Arguments</a></li>
-</ul>
-</li>
-<li><a href="#det-computes-the-determinant-of-a-square-matrix">det - Computes the determinant of a square matrix</a><ul>
-<li><a href="#status_17">Status</a></li>
-<li><a href="#description_17">Description</a></li>
-<li><a href="#syntax_17">Syntax</a></li>
-<li><a href="#arguments_16">Arguments</a></li>
 <li><a href="#return-value_15">Return value</a></li>
 <li><a href="#example_16">Example</a></li>
 </ul>
 </li>
-<li><a href="#det-determinant-operator-of-a-square-matrix">.det. - Determinant operator of a square matrix</a><ul>
+<li><a href="#solve_lstsq-compute-the-least-squares-solution-to-a-linear-matrix-equation-subroutine-interface">solve_lstsq - Compute the least squares solution to a linear matrix equation (subroutine interface).</a><ul>
+<li><a href="#status_17">Status</a></li>
+<li><a href="#description_17">Description</a></li>
+<li><a href="#syntax_17">Syntax</a></li>
+<li><a href="#arguments_16">Arguments</a></li>
+<li><a href="#return-value_16">Return value</a></li>
+<li><a href="#example_17">Example</a></li>
+</ul>
+</li>
+<li><a href="#lstsq_space-compute-internal-working-space-requirements-for-the-least-squares-solver">lstsq_space - Compute internal working space requirements for the least squares solver.</a><ul>
 <li><a href="#status_18">Status</a></li>
 <li><a href="#description_18">Description</a></li>
 <li><a href="#syntax_18">Syntax</a></li>
 <li><a href="#arguments_17">Arguments</a></li>
-<li><a href="#return-value_16">Return value</a></li>
-<li><a href="#example_17">Example</a></li>
+</ul>
+</li>
+<li><a href="#det-computes-the-determinant-of-a-square-matrix">det - Computes the determinant of a square matrix</a><ul>
+<li><a href="#status_19">Status</a></li>
+<li><a href="#description_19">Description</a></li>
+<li><a href="#syntax_19">Syntax</a></li>
+<li><a href="#arguments_18">Arguments</a></li>
+<li><a href="#return-value_17">Return value</a></li>
+<li><a href="#example_18">Example</a></li>
+</ul>
+</li>
+<li><a href="#det-determinant-operator-of-a-square-matrix">.det. - Determinant operator of a square matrix</a><ul>
+<li><a href="#status_20">Status</a></li>
+<li><a href="#description_20">Description</a></li>
+<li><a href="#syntax_20">Syntax</a></li>
+<li><a href="#arguments_19">Arguments</a></li>
+<li><a href="#return-value_18">Return value</a></li>
+<li><a href="#example_19">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -901,27 +919,164 @@ Specifically, upper Hessenberg matrices satisfy <code>a_ij = 0</code> when <code
 <span class="k">end program </span><span class="n">example_is_hessenberg</span>
 </code></pre></div>
 
-<h2 id="lstsq-computes-the-least-squares-solution-to-a-linear-matrix-equation"><code>lstsq</code> - Computes the least squares solution to a linear matrix equation.</h2>
+<h2 id="solve-solves-a-linear-matrix-equation-or-a-linear-system-of-equations"><code>solve</code> - Solves a linear matrix equation or a linear system of equations.</h2>
 <h3 id="status_14">Status</h3>
 <p>Experimental</p>
 <h3 id="description_14">Description</h3>
+<p>This function computes the solution to a linear matrix equation <script type="math/tex"> A \cdot x = b </script>, where <script type="math/tex"> A </script> is a square, full-rank, <code>real</code> or <code>complex</code> matrix.</p>
+<p>Result vector or array <code>x</code> returns the exact solution to within numerical precision, provided that the matrix is not ill-conditioned. 
+An error is returned if the matrix is rank-deficient or singular to working precision. 
+The solver is based on LAPACK's <code>*GESV</code> backends.</p>
+<h3 id="syntax_14">Syntax</h3>
+<p><code>Pure</code> interface:</p>
+<p><code>x =</code> <a href="../../interface/solve.html">solve</a> <code>(a, b)</code></p>
+<p>Expert interface:</p>
+<p><code>x =</code> <a href="../../interface/solve.html">solve</a> <code>(a, b [, overwrite_a], err)</code></p>
+<h3 id="arguments_13">Arguments</h3>
+<p><code>a</code>: Shall be a rank-2 <code>real</code> or <code>complex</code> square array containing the coefficient matrix. It is normally an <code>intent(in)</code> argument. If <code>overwrite_a=.true.</code>, it is an <code>intent(inout)</code> argument and is destroyed by the call. </p>
+<p><code>b</code>: Shall be a rank-1 or rank-2 array of the same kind as <code>a</code>, containing the right-hand-side vector(s). It is an <code>intent(in)</code> argument.</p>
+<p><code>overwrite_a</code> (optional): Shall be an input logical flag. if <code>.true.</code>, input matrix <code>a</code> will be used as temporary storage and overwritten. This avoids internal data allocation. This is an <code>intent(in)</code> argument.</p>
+<p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument. The function is not <code>pure</code> if this argument is provided.</p>
+<h3 id="return-value_13">Return value</h3>
+<p>For a full-rank matrix, returns an array value that represents the solution to the linear system of equations.</p>
+<p>Raises <code>LINALG_ERROR</code> if the matrix is singular to working precision.
+Raises <code>LINALG_VALUE_ERROR</code> if the matrix and rhs vectors have invalid/incompatible sizes.
+If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
+<h3 id="example_14">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_solve1</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">sp</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">solve</span><span class="p">,</span><span class="w"> </span><span class="n">linalg_state_type</span><span class="w"> </span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">real</span><span class="p">(</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(:,:),</span><span class="n">b</span><span class="p">(:),</span><span class="n">x</span><span class="p">(:)</span>
+
+<span class="w">  </span><span class="c">! Solve a system of 3 linear equations: </span>
+<span class="w">  </span><span class="c">!  4x + 3y + 2z =  25</span>
+<span class="w">  </span><span class="c">! -2x + 2y + 3z = -10</span>
+<span class="w">  </span><span class="c">!  3x - 5y + 2z =  -4</span>
+
+<span class="w">  </span><span class="c">! Note: Fortran is column-major! -&gt; transpose </span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">transpose</span><span class="p">(</span><span class="nb">reshape</span><span class="p">([</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                         </span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                          </span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]))</span><span class="w"> </span>
+<span class="w">  </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">25</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+
+<span class="w">  </span><span class="c">! Get coefficients of y = coef(1) + x*coef(2) + x^2*coef(3)</span>
+<span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">b</span><span class="p">)</span><span class="w"> </span>
+
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;solution: &#39;</span><span class="p">,</span><span class="n">x</span>
+<span class="w">  </span><span class="c">! 5.0, 3.0, -2.0</span>
+
+<span class="k">end program </span><span class="n">example_solve1</span>
+
+
+<span class="k">program </span><span class="n">example_solve2</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">sp</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">solve</span><span class="p">,</span><span class="w"> </span><span class="n">linalg_state_type</span><span class="w"> </span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">complex</span><span class="p">(</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(:,:),</span><span class="n">b</span><span class="p">(:),</span><span class="n">x</span><span class="p">(:)</span>
+
+<span class="w">  </span><span class="c">! Solve a system of 3 complex linear equations: </span>
+<span class="w">  </span><span class="c">!  2x +      iy + 2z = (5-i)</span>
+<span class="w">  </span><span class="c">! -ix + (4-3i)y + 6z = i</span>
+<span class="w">  </span><span class="c">!  4x +      3y +  z = 1</span>
+
+<span class="w">  </span><span class="c">! Note: Fortran is column-major! -&gt; transpose </span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">transpose</span><span class="p">(</span><span class="nb">reshape</span><span class="p">([(</span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">),(</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">),(</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                         </span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">),(</span><span class="mf">4.0</span><span class="p">,</span><span class="o">-</span><span class="mf">3.0</span><span class="p">),(</span><span class="mf">6.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                         </span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">),(</span><span class="mf">3.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">),(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)]</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]))</span><span class="w"> </span>
+<span class="w">  </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[(</span><span class="mf">5.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">),(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)]</span>
+
+<span class="w">  </span><span class="c">! Get coefficients of y = coef(1) + x*coef(2) + x^2*coef(3)</span>
+<span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">b</span><span class="p">)</span><span class="w"> </span>
+
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;solution: &#39;</span><span class="p">,</span><span class="n">x</span>
+<span class="w">  </span><span class="c">!   (1.0947,0.3674) (-1.519,-0.4539) (1.1784,-0.1078)</span>
+
+<span class="k">end program </span><span class="n">example_solve2</span>
+</code></pre></div>
+
+<h2 id="solve_lu-solves-a-linear-matrix-equation-or-a-linear-system-of-equations-subroutine-interface"><code>solve_lu</code> - Solves a linear matrix equation or a linear system of equations (subroutine interface).</h2>
+<h3 id="status_15">Status</h3>
+<p>Experimental</p>
+<h3 id="description_15">Description</h3>
+<p>This subroutine computes the solution to a linear matrix equation <script type="math/tex"> A \cdot x = b </script>, where <script type="math/tex"> A </script> is a square, full-rank, <code>real</code> or <code>complex</code> matrix.</p>
+<p>Result vector or array <code>x</code> returns the exact solution to within numerical precision, provided that the matrix is not ill-conditioned. 
+An error is returned if the matrix is rank-deficient or singular to working precision. 
+If all optional arrays are provided by the user, no internal allocations take place.
+The solver is based on LAPACK's <code>*GESV</code> backends.</p>
+<h3 id="syntax_15">Syntax</h3>
+<p>Simple (<code>Pure</code>) interface:</p>
+<p><code>call</code> <a href="../../interface/solve_lu.html">solve_lu</a> <code>(a, b, x)</code></p>
+<p>Expert (<code>Pure</code>) interface:</p>
+<p><code>call</code> <a href="../../interface/solve_lu.html">solve_lu</a> <code>(a, b, x [, pivot, overwrite_a, err])</code></p>
+<h3 id="arguments_14">Arguments</h3>
+<p><code>a</code>: Shall be a rank-2 <code>real</code> or <code>complex</code> square array containing the coefficient matrix. It is normally an <code>intent(in)</code> argument. If <code>overwrite_a=.true.</code>, it is an <code>intent(inout)</code> argument and is destroyed by the call. </p>
+<p><code>b</code>: Shall be a rank-1 or rank-2 array of the same kind as <code>a</code>, containing the right-hand-side vector(s). It is an <code>intent(in)</code> argument.</p>
+<p><code>x</code>: Shall be a rank-1 or rank-2 array of the same kind and size as <code>b</code>, that returns the solution(s) to the system. It is an <code>intent(inout)</code> argument, and must have the <code>contiguous</code> property. </p>
+<p><code>pivot</code> (optional): Shall be a rank-1 array of the same kind and matrix dimension as <code>a</code>, providing storage for the diagonal pivot indices. It is an <code>intent(inout)</code> arguments, and returns the diagonal pivot indices. </p>
+<p><code>overwrite_a</code> (optional): Shall be an input logical flag. if <code>.true.</code>, input matrix <code>a</code> will be used as temporary storage and overwritten. This avoids internal data allocation. This is an <code>intent(in)</code> argument.</p>
+<h3 id="return-value_14">Return value</h3>
+<p>For a full-rank matrix, returns an array value that represents the solution to the linear system of equations.</p>
+<p>Raises <code>LINALG_ERROR</code> if the matrix is singular to working precision.
+Raises <code>LINALG_VALUE_ERROR</code> if the matrix and rhs vectors have invalid/incompatible sizes.
+If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
+<h3 id="example_15">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_solve3</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="n">ilp</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">solve_lu</span><span class="p">,</span><span class="w"> </span><span class="n">linalg_state_type</span><span class="w"> </span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">ilp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">test</span>
+<span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">ilp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pivot</span><span class="p">(:)</span>
+<span class="w">  </span><span class="kt">complex</span><span class="p">(</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(:,:),</span><span class="n">b</span><span class="p">(:),</span><span class="n">x</span><span class="p">(:)</span>
+
+<span class="w">  </span><span class="c">! Solve a system of 3 complex linear equations: </span>
+<span class="w">  </span><span class="c">!  2x +      iy + 2z = (5-i)</span>
+<span class="w">  </span><span class="c">! -ix + (4-3i)y + 6z = i</span>
+<span class="w">  </span><span class="c">!  4x +      3y +  z = 1</span>
+
+<span class="w">  </span><span class="c">! Note: Fortran is column-major! -&gt; transpose </span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">transpose</span><span class="p">(</span><span class="nb">reshape</span><span class="p">([(</span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">),(</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">),(</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                         </span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">),(</span><span class="mf">4.0</span><span class="p">,</span><span class="o">-</span><span class="mf">3.0</span><span class="p">),(</span><span class="mf">6.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                         </span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">),(</span><span class="mf">3.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">),(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)]</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]))</span><span class="w"> </span>
+
+<span class="w">  </span><span class="c">! Pre-allocate x</span>
+<span class="w">  </span><span class="k">allocate</span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">2</span><span class="p">)),</span><span class="n">pivot</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">2</span><span class="p">)))</span>
+<span class="w">  </span><span class="k">allocate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">mold</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c">! Call system many times avoiding reallocation </span>
+<span class="w">  </span><span class="k">do </span><span class="n">test</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span>
+<span class="w">     </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test</span><span class="o">*</span><span class="p">[(</span><span class="mf">5.0</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">),(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)]</span>
+<span class="w">     </span><span class="k">call </span><span class="n">solve_lu</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">pivot</span><span class="p">)</span>
+<span class="w">     </span><span class="k">print</span><span class="w"> </span><span class="s2">&quot;(i3,&#39;-th solution: &#39;,*(1x,f12.6))&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">test</span><span class="p">,</span><span class="n">x</span>
+<span class="w">  </span><span class="k">end do</span>
+
+<span class="k">end program </span><span class="n">example_solve3</span>
+</code></pre></div>
+
+<h2 id="lstsq-computes-the-least-squares-solution-to-a-linear-matrix-equation"><code>lstsq</code> - Computes the least squares solution to a linear matrix equation.</h2>
+<h3 id="status_16">Status</h3>
+<p>Experimental</p>
+<h3 id="description_16">Description</h3>
 <p>This function computes the least-squares solution to a linear matrix equation <script type="math/tex"> A \cdot x = b </script>.</p>
 <p>Result vector <code>x</code> returns the approximate solution that minimizes the 2-norm <script type="math/tex"> || A \cdot x - b ||_2 </script>, i.e., it contains the least-squares solution to the problem. Matrix <code>A</code> may be full-rank, over-determined, or under-determined. The solver is based on LAPACK's <code>*GELSD</code> backends.</p>
-<h3 id="syntax_14">Syntax</h3>
+<h3 id="syntax_16">Syntax</h3>
 <p><code>x =</code> <a href="../../interface/lstsq.html">lstsq</a> <code>(a, b, [, cond, overwrite_a, rank, err])</code></p>
-<h3 id="arguments_13">Arguments</h3>
+<h3 id="arguments_15">Arguments</h3>
 <p><code>a</code>: Shall be a rank-2 <code>real</code> or <code>complex</code> array containing the coefficient matrix. It is an <code>intent(inout)</code> argument.</p>
 <p><code>b</code>: Shall be a rank-1 or rank-2 array of the same kind as <code>a</code>, containing one or more right-hand-side vector(s), each in its leading dimension. It is an <code>intent(in)</code> argument. </p>
 <p><code>cond</code> (optional): Shall be a scalar <code>real</code> value cut-off threshold for rank evaluation: <code>s_i &gt;= cond*maxval(s), i=1:rank</code>. Shall be a scalar, <code>intent(in)</code> argument.</p>
 <p><code>overwrite_a</code> (optional): Shall be an input <code>logical</code> flag. If <code>.true.</code>, input matrix <code>A</code> will be used as temporary storage and overwritten. This avoids internal data allocation. This is an <code>intent(in)</code> argument.</p>
 <p><code>rank</code> (optional): Shall be an <code>integer</code> scalar value, that contains the rank of input matrix <code>A</code>. This is an <code>intent(out)</code> argument.</p>
 <p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument.</p>
-<h3 id="return-value_13">Return value</h3>
+<h3 id="return-value_15">Return value</h3>
 <p>Returns an array value of the same kind and rank as <code>b</code>, containing the solution(s) to the least squares system. </p>
 <p>Raises <code>LINALG_ERROR</code> if the underlying Singular Value Decomposition process did not converge.
 Raises <code>LINALG_VALUE_ERROR</code> if the matrix and right-hand-side vector have invalid/incompatible sizes.
 Exceptions trigger an <code>error stop</code>.</p>
-<h3 id="example_14">Example</h3>
+<h3 id="example_16">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">! Least-squares solver: functional interface</span>
 <span class="k">program </span><span class="n">example_lstsq1</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
@@ -951,14 +1106,14 @@ Exceptions trigger an <code>error stop</code>.</p>
 </code></pre></div>
 
 <h2 id="solve_lstsq-compute-the-least-squares-solution-to-a-linear-matrix-equation-subroutine-interface"><code>solve_lstsq</code> - Compute the least squares solution to a linear matrix equation (subroutine interface).</h2>
-<h3 id="status_15">Status</h3>
+<h3 id="status_17">Status</h3>
 <p>Experimental</p>
-<h3 id="description_15">Description</h3>
+<h3 id="description_17">Description</h3>
 <p>This subroutine computes the least-squares solution to a linear matrix equation <script type="math/tex"> A \cdot x = b </script>.</p>
 <p>Result vector <code>x</code> returns the approximate solution that minimizes the 2-norm <script type="math/tex"> || A \cdot x - b ||_2 </script>, i.e., it contains the least-squares solution to the problem. Matrix <code>A</code> may be full-rank, over-determined, or under-determined. The solver is based on LAPACK's <code>*GELSD</code> backends.</p>
-<h3 id="syntax_15">Syntax</h3>
+<h3 id="syntax_17">Syntax</h3>
 <p><code>call</code> <a href="../../interface/solve_lstsq.html">solve_lstsq</a> <code>(a, b, x, [, real_storage, int_storage, [cmpl_storage, ] cond, singvals, overwrite_a, rank, err])</code></p>
-<h3 id="arguments_14">Arguments</h3>
+<h3 id="arguments_16">Arguments</h3>
 <p><code>a</code>: Shall be a rank-2 <code>real</code> or <code>complex</code> array containing the coefficient matrix. It is an <code>intent(inout)</code> argument.</p>
 <p><code>b</code>: Shall be a rank-1 or rank-2 array of the same kind as <code>a</code>, containing one or more right-hand-side vector(s), each in its leading dimension. It is an <code>intent(in)</code> argument. </p>
 <p><code>x</code>: Shall be an array of same kind and rank as <code>b</code>, containing the solution(s) to the least squares system. It is an <code>intent(inout)</code> argument.</p>
@@ -970,12 +1125,12 @@ Exceptions trigger an <code>error stop</code>.</p>
 <p><code>overwrite_a</code> (optional): Shall be an input <code>logical</code> flag. If <code>.true.</code>, input matrix <code>A</code> will be used as temporary storage and overwritten. This avoids internal data allocation. This is an <code>intent(in)</code> argument.</p>
 <p><code>rank</code> (optional): Shall be an <code>integer</code> scalar value, that contains the rank of input matrix <code>A</code>. This is an <code>intent(out)</code> argument.</p>
 <p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument.</p>
-<h3 id="return-value_14">Return value</h3>
+<h3 id="return-value_16">Return value</h3>
 <p>Returns an array value that represents the solution to the least squares system.</p>
 <p>Raises <code>LINALG_ERROR</code> if the underlying Singular Value Decomposition process did not converge.
 Raises <code>LINALG_VALUE_ERROR</code> if the matrix and right-hand-side vector have invalid/incompatible sizes.
 Exceptions trigger an <code>error stop</code>.</p>
-<h3 id="example_15">Example</h3>
+<h3 id="example_17">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">! Demonstrate expert subroutine interface with pre-allocated arrays</span>
 <span class="k">program </span><span class="n">example_lstsq2</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="p">,</span><span class="n">ilp</span>
@@ -1019,38 +1174,38 @@ Exceptions trigger an <code>error stop</code>.</p>
 </code></pre></div>
 
 <h2 id="lstsq_space-compute-internal-working-space-requirements-for-the-least-squares-solver"><code>lstsq_space</code> - Compute internal working space requirements for the least squares solver.</h2>
-<h3 id="status_16">Status</h3>
+<h3 id="status_18">Status</h3>
 <p>Experimental</p>
-<h3 id="description_16">Description</h3>
+<h3 id="description_18">Description</h3>
 <p>This subroutine computes the internal working space requirements for the least-squares solver, <a href="../../interface/solve_lstsq.html">solve_lstsq</a> .</p>
-<h3 id="syntax_16">Syntax</h3>
+<h3 id="syntax_18">Syntax</h3>
 <p><code>call</code> <a href="../../interface/lstsq_space.html">lstsq_space</a> <code>(a, b, lrwork, liwork [, lcwork])</code></p>
-<h3 id="arguments_15">Arguments</h3>
+<h3 id="arguments_17">Arguments</h3>
 <p><code>a</code>: Shall be a rank-2 <code>real</code> or <code>complex</code> array containing the linear system coefficient matrix. It is an <code>intent(in)</code> argument.</p>
 <p><code>b</code>: Shall be a rank-1 or rank-2 array of the same kind as <code>a</code>, containing the system's right-hand-side vector(s). It is an <code>intent(in)</code> argument. </p>
 <p><code>lrwork</code>: Shall be an <code>integer</code> scalar, that returns the minimum array size required for the <code>real</code> working storage to this system.</p>
 <p><code>liwork</code>: Shall be an <code>integer</code> scalar, that returns the minimum array size required for the <code>integer</code> working storage to this system.</p>
 <p><code>lcwork</code> (<code>complex</code> <code>a</code>, <code>b</code>): For a <code>complex</code> system, shall be an <code>integer</code> scalar, that returns the minimum array size required for the <code>complex</code> working storage to this system.</p>
 <h2 id="det-computes-the-determinant-of-a-square-matrix"><code>det</code> - Computes the determinant of a square matrix</h2>
-<h3 id="status_17">Status</h3>
+<h3 id="status_19">Status</h3>
 <p>Experimental</p>
-<h3 id="description_17">Description</h3>
+<h3 id="description_19">Description</h3>
 <p>This function computes the determinant of a <code>real</code> or <code>complex</code> square matrix.</p>
 <p>This interface comes with a <code>pure</code> version <code>det(a)</code>, and a non-pure version <code>det(a,overwrite_a,err)</code> that
 allows for more expert control.</p>
-<h3 id="syntax_17">Syntax</h3>
+<h3 id="syntax_19">Syntax</h3>
 <p><code>c =</code> <a href="../../interface/det.html">det</a> <code>(a [, overwrite_a, err])</code></p>
-<h3 id="arguments_16">Arguments</h3>
+<h3 id="arguments_18">Arguments</h3>
 <p><code>a</code>: Shall be a rank-2 square array</p>
 <p><code>overwrite_a</code> (optional): Shall be an input <code>logical</code> flag. if <code>.true.</code>, input matrix <code>a</code> will be used as temporary storage and overwritten. This avoids internal data allocation.
  This is an <code>intent(in)</code> argument.</p>
 <p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value.  This is an <code>intent(out)</code> argument.</p>
-<h3 id="return-value_15">Return value</h3>
+<h3 id="return-value_17">Return value</h3>
 <p>Returns a <code>real</code> scalar value of the same kind of <code>a</code> that represents the determinant of the matrix.</p>
 <p>Raises <code>LINALG_ERROR</code> if the matrix is singular.
 Raises <code>LINALG_VALUE_ERROR</code> if the matrix is non-square.
 Exceptions are returned to the <code>err</code> argument if provided; an <code>error stop</code> is triggered otherwise.</p>
-<h3 id="example_16">Example</h3>
+<h3 id="example_18">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_determinant</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">det</span><span class="p">,</span><span class="w"> </span><span class="n">linalg_state_type</span>
@@ -1068,21 +1223,21 @@ Exceptions are returned to the <code>err</code> argument if provided; an <code>e
 </code></pre></div>
 
 <h2 id="det-determinant-operator-of-a-square-matrix"><code>.det.</code> - Determinant operator of a square matrix</h2>
-<h3 id="status_18">Status</h3>
+<h3 id="status_20">Status</h3>
 <p>Experimental</p>
-<h3 id="description_18">Description</h3>
+<h3 id="description_20">Description</h3>
 <p>This operator returns the determinant of a real square matrix.</p>
 <p>This interface is equivalent to the <code>pure</code> version of determinant <a href="../../interface/det.html">det</a>. </p>
-<h3 id="syntax_18">Syntax</h3>
+<h3 id="syntax_20">Syntax</h3>
 <p><code>c =</code> [[stdlib_linalg(module):operator(.det.)(interface)]] <code>(a)</code></p>
-<h3 id="arguments_17">Arguments</h3>
+<h3 id="arguments_19">Arguments</h3>
 <p><code>a</code>: Shall be a rank-2 square array of any <code>real</code> or <code>complex</code> kinds. It is an <code>intent(in)</code> argument.</p>
-<h3 id="return-value_16">Return value</h3>
+<h3 id="return-value_18">Return value</h3>
 <p>Returns a real scalar value that represents the determinnt of the matrix.</p>
 <p>Raises <code>LINALG_ERROR</code> if the matrix is singular.
 Raises <code>LINALG_VALUE_ERROR</code> if the matrix is non-square.
 Exceptions trigger an <code>error stop</code>.</p>
-<h3 id="example_17">Example</h3>
+<h3 id="example_19">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_determinant2</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(.</span><span class="n">det</span><span class="p">.)</span>
@@ -1105,13 +1260,13 @@ Exceptions trigger an <code>error stop</code>.</p>
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>60ce18f</small></p>
+<br /><small>3bdcc82</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-05-11 06:00              </p>
+ on 2024-05-11 06:03              </p>
           </div>
         </div>
         <br>
