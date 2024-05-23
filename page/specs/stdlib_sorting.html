@@ -149,7 +149,7 @@
 <li><a href="#the-stdlib_sorting-module">The stdlib_sorting module</a><ul>
 <li><a href="#overview-of-sorting">Overview of sorting</a></li>
 <li><a href="#overview-of-the-module">Overview of the module</a><ul>
-<li><a href="#the-int_size-parameter">The int_size parameter</a></li>
+<li><a href="#the-int_index-parameter">The int_index parameter</a></li>
 <li><a href="#the-module-subroutines">The module subroutines</a><ul>
 <li><a href="#licensing">Licensing</a></li>
 <li><a href="#the-ord_sort-subroutine">The ORD_SORT subroutine</a></li>
@@ -224,13 +224,13 @@ default assumed length character, and the <code>stdlib_string_type</code>
 module's <code>string_type</code> type.</p>
 <h2 id="overview-of-the-module">Overview of the module</h2>
 <p>The module <code>stdlib_sorting</code> defines several public entities, one
-default integer parameter, <code>int_size</code>, and four overloaded
+default integer parameter, <code>int_index</code>, and four overloaded
 subroutines: <code>ORD_SORT</code>, <code>SORT</code>, <code>RADIX_SORT</code> and <code>SORT_INDEX</code>. The
 overloaded subroutines also each have several specific names for
 versions corresponding to different types of array arguments.</p>
-<h3 id="the-int_size-parameter">The <code>int_size</code> parameter</h3>
-<p>The <code>int_size</code> parameter is used to specify the kind of integer used
-in indexing the various arrays. Currently the module sets <code>int_size</code>
+<h3 id="the-int_index-parameter">The <code>int_index</code> parameter</h3>
+<p>The <code>int_index</code> parameter is used to specify the kind of integer used
+in indexing the various arrays. Currently the module sets <code>int_index</code>
 to the value of <code>int64</code> from the <code>stdlib_kinds</code> module.</p>
 <h3 id="the-module-subroutines">The module subroutines</h3>
 <p>The <code>stdlib_sorting</code> module provides three different overloaded
@@ -570,7 +570,7 @@ sort the input <code>array</code> to produce the output <code>array</code>.</p>
 It is an <code>intent(inout)</code> argument. On input it
 will be an array whose sorting indices are to be determined. On return
 it will be the sorted array.</p>
-<p><code>index</code>: shall be a rank one integer array of kind <code>int_size</code> and of
+<p><code>index</code>: shall be a rank one integer array of kind <code>int_index</code> and of
 the size of <code>array</code>. It is an <code>intent(out)</code> argument. On return it
 shall have values that are the indices needed to sort the original
 array in the desired direction.</p>
@@ -581,7 +581,7 @@ memory for internal record keeping. If associated with an array in
 static storage, its use can significantly reduce the stack memory
 requirements for the code. Its contents on return are undefined.</p>
 <p><code>iwork</code> (optional): shall be a rank one integer array of kind
-<code>int_size</code>, and shall have at least <code>size(array)/2</code> elements. It
+<code>int_index</code>, and shall have at least <code>size(array)/2</code> elements. It
 is an <code>intent(out)</code> argument.  It is intended to be used as "scratch"
 memory for internal record keeping. If associated with an array in
 static storage, its use can significantly reduce the stack memory
@@ -610,8 +610,8 @@ different on return</p>
 <span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(:)</span>
 <span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(:)</span><span class="w"> </span><span class="c">! The same size as a</span>
 <span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">work</span><span class="p">(:)</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">index</span><span class="p">(:)</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iwork</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_index</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">index</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_index</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iwork</span><span class="p">(:)</span>
 <span class="w">        </span><span class="c">! Find the indices to sort a</span>
 <span class="w">        </span><span class="k">call </span><span class="n">sort_index</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a</span><span class="p">)),&amp;</span>
 <span class="w">            </span><span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">iwork</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
@@ -626,8 +626,8 @@ different on return</p>
 <span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="k">array</span><span class="p">(:,:)</span>
 <span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">column</span>
 <span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">work</span><span class="p">(:)</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">index</span><span class="p">(:)</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iwork</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_index</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">index</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_index</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iwork</span><span class="p">(:)</span>
 <span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">dummy</span><span class="p">(:)</span>
 <span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
 <span class="w">        </span><span class="k">allocate</span><span class="p">(</span><span class="n">dummy</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
@@ -649,8 +649,8 @@ different on return</p>
 <span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">a_type</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">a_data</span><span class="p">(:)</span>
 <span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(:)</span>
 <span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">work</span><span class="p">(:)</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">index</span><span class="p">(:)</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_size</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iwork</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_index</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">index</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_index</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iwork</span><span class="p">(:)</span>
 <span class="w">        </span><span class="c">! Extract a component of `a_data`</span>
 <span class="w">        </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_data</span><span class="p">(:)</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">a</span>
 <span class="w">        </span><span class="c">! Find the indices to sort the component</span>
@@ -1512,13 +1512,13 @@ for applications running on Intel(R) 64, Version 2021.7.0 Build
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>32018f2</small></p>
+<br /><small>3d283a7</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-05-22 06:22              </p>
+ on 2024-05-23 07:25              </p>
           </div>
         </div>
         <br>
