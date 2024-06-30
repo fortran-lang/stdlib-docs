@@ -338,23 +338,59 @@
 <li><a href="#example_19">Example</a></li>
 </ul>
 </li>
-<li><a href="#svd-compute-the-singular-value-decomposition-of-a-rank-2-array-matrix">svd - Compute the singular value decomposition of a rank-2 array (matrix).</a><ul>
+<li><a href="#eig-eigenvalues-and-eigenvectors-of-a-square-matrix">eig - Eigenvalues and Eigenvectors of a Square Matrix</a><ul>
 <li><a href="#status_21">Status</a></li>
 <li><a href="#description_21">Description</a></li>
 <li><a href="#syntax_21">Syntax</a></li>
-<li><a href="#class_1">Class</a></li>
 <li><a href="#arguments_20">Arguments</a></li>
-<li><a href="#return-values">Return values</a></li>
+<li><a href="#return-value_19">Return value</a></li>
 <li><a href="#example_20">Example</a></li>
 </ul>
 </li>
-<li><a href="#svdvals-compute-the-singular-values-of-a-rank-2-array-matrix">svdvals - Compute the singular values of a rank-2 array (matrix).</a><ul>
+<li><a href="#eigh-eigenvalues-and-eigenvectors-of-a-real-symmetric-or-complex-hermitian-square-matrix">eigh - Eigenvalues and Eigenvectors of a Real symmetric or Complex Hermitian Square Matrix</a><ul>
 <li><a href="#status_22">Status</a></li>
 <li><a href="#description_22">Description</a></li>
 <li><a href="#syntax_22">Syntax</a></li>
 <li><a href="#arguments_21">Arguments</a></li>
-<li><a href="#return-values_1">Return values</a></li>
+<li><a href="#return-value_20">Return value</a></li>
 <li><a href="#example_21">Example</a></li>
+</ul>
+</li>
+<li><a href="#eigvals-eigenvalues-of-a-square-matrix">eigvals - Eigenvalues of a Square Matrix</a><ul>
+<li><a href="#status_23">Status</a></li>
+<li><a href="#description_23">Description</a></li>
+<li><a href="#syntax_23">Syntax</a></li>
+<li><a href="#arguments_22">Arguments</a></li>
+<li><a href="#return-value_21">Return value</a></li>
+<li><a href="#example_22">Example</a></li>
+</ul>
+</li>
+<li><a href="#eigvalsh-eigenvalues-of-a-real-symmetric-or-complex-hermitian-square-matrix">eigvalsh - Eigenvalues of a Real Symmetric or Complex Hermitian Square Matrix</a><ul>
+<li><a href="#status_24">Status</a></li>
+<li><a href="#description_24">Description</a></li>
+<li><a href="#syntax_24">Syntax</a></li>
+<li><a href="#arguments_23">Arguments</a></li>
+<li><a href="#return-value_22">Return value</a></li>
+<li><a href="#example_23">Example</a></li>
+</ul>
+</li>
+<li><a href="#svd-compute-the-singular-value-decomposition-of-a-rank-2-array-matrix">svd - Compute the singular value decomposition of a rank-2 array (matrix).</a><ul>
+<li><a href="#status_25">Status</a></li>
+<li><a href="#description_25">Description</a></li>
+<li><a href="#syntax_25">Syntax</a></li>
+<li><a href="#class_1">Class</a></li>
+<li><a href="#arguments_24">Arguments</a></li>
+<li><a href="#return-values">Return values</a></li>
+<li><a href="#example_24">Example</a></li>
+</ul>
+</li>
+<li><a href="#svdvals-compute-the-singular-values-of-a-rank-2-array-matrix">svdvals - Compute the singular values of a rank-2 array (matrix).</a><ul>
+<li><a href="#status_26">Status</a></li>
+<li><a href="#description_26">Description</a></li>
+<li><a href="#syntax_26">Syntax</a></li>
+<li><a href="#arguments_25">Arguments</a></li>
+<li><a href="#return-values_1">Return values</a></li>
+<li><a href="#example_25">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -1037,6 +1073,7 @@ The solver is based on LAPACK's <code>*GESV</code> backends.</p>
 <p><code>x</code>: Shall be a rank-1 or rank-2 array of the same kind and size as <code>b</code>, that returns the solution(s) to the system. It is an <code>intent(inout)</code> argument, and must have the <code>contiguous</code> property. </p>
 <p><code>pivot</code> (optional): Shall be a rank-1 array of the same kind and matrix dimension as <code>a</code>, providing storage for the diagonal pivot indices. It is an <code>intent(inout)</code> arguments, and returns the diagonal pivot indices. </p>
 <p><code>overwrite_a</code> (optional): Shall be an input logical flag. if <code>.true.</code>, input matrix <code>a</code> will be used as temporary storage and overwritten. This avoids internal data allocation. This is an <code>intent(in)</code> argument.</p>
+<p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument.</p>
 <h3 id="return-value_14">Return value</h3>
 <p>For a full-rank matrix, returns an array value that represents the solution to the linear system of equations.</p>
 <p>Raises <code>LINALG_ERROR</code> if the matrix is singular to working precision.
@@ -1273,20 +1310,229 @@ Exceptions trigger an <code>error stop</code>.</p>
 <span class="k">end program </span><span class="n">example_determinant2</span>
 </code></pre></div>
 
-<h2 id="svd-compute-the-singular-value-decomposition-of-a-rank-2-array-matrix"><code>svd</code> - Compute the singular value decomposition of a rank-2 array (matrix).</h2>
+<h2 id="eig-eigenvalues-and-eigenvectors-of-a-square-matrix"><code>eig</code> - Eigenvalues and Eigenvectors of a Square Matrix</h2>
 <h3 id="status_21">Status</h3>
 <p>Experimental</p>
 <h3 id="description_21">Description</h3>
+<p>This subroutine computes the solution to the eigenproblem <script type="math/tex"> A \cdot \bar{v} - \lambda \cdot \bar{v} </script>, where <script type="math/tex"> A </script> is a square, full-rank, <code>real</code> or <code>complex</code> matrix.</p>
+<p>Result array <code>lambda</code> returns the eigenvalues of <script type="math/tex"> A </script>. The user can request eigenvectors to be returned: if provided, on output <code>left</code> will contain the left eigenvectors, <code>right</code> the right eigenvectors of <script type="math/tex"> A </script>.
+Both <code>left</code> and <code>right</code> are rank-2 arrays, where eigenvectors are stored as columns.
+The solver is based on LAPACK's <code>*GEEV</code> backends.</p>
+<h3 id="syntax_21">Syntax</h3>
+<p><code>call</code> <a href="../../interface/eig.html">eig</a> <code>(a, lambda [, right] [,left] [,overwrite_a] [,err])</code></p>
+<h3 id="arguments_20">Arguments</h3>
+<p><code>a</code> : <code>real</code> or <code>complex</code> square array containing the coefficient matrix. If <code>overwrite_a=.false.</code>, it is an <code>intent(in)</code> argument. Otherwise, it is an <code>intent(inout)</code> argument and is destroyed by the call. </p>
+<p><code>lambda</code>: Shall be a <code>complex</code> or <code>real</code> rank-1 array of the same kind as <code>a</code>, containing the eigenvalues, or their <code>real</code> component only. It is an <code>intent(out)</code> argument.</p>
+<p><code>right</code> (optional): Shall be a <code>complex</code> rank-2 array of the same size and kind as <code>a</code>, containing the right eigenvectors of <code>a</code>. It is an <code>intent(out)</code> argument.</p>
+<p><code>left</code> (optional): Shall be a <code>complex</code> rank-2 array of the same size and kind as <code>a</code>, containing the left eigenvectors of <code>a</code>. It is an <code>intent(out)</code> argument.</p>
+<p><code>overwrite_a</code> (optional): Shall be an input logical flag. if <code>.true.</code>, input matrix <code>a</code> will be used as temporary storage and overwritten. This avoids internal data allocation. This is an <code>intent(in)</code> argument.</p>
+<p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument.</p>
+<h3 id="return-value_19">Return value</h3>
+<p>Raises <code>LINALG_ERROR</code> if the calculation did not converge.
+Raises <code>LINALG_VALUE_ERROR</code> if any matrix or arrays have invalid/incompatible sizes.
+Raises <code>LINALG_VALUE_ERROR</code> if the <code>real</code> component is only requested, but the eigenvalues have non-trivial imaginary parts.
+If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
+<h3 id="example_20">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Eigendecomposition of a real square matrix </span>
+<span class="k">program </span><span class="n">example_eig</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">eig</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(:,:)</span>
+<span class="w">  </span><span class="kt">complex</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lambda</span><span class="p">(:),</span><span class="n">vectors</span><span class="p">(:,:)</span>
+
+<span class="w">  </span><span class="c">! Decomposition of this square matrix</span>
+<span class="w">  </span><span class="c">! NB Fortran is column-major -&gt; transpose input</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">transpose</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                           </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                           </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="p">))</span><span class="w"> </span>
+
+<span class="w">  </span><span class="c">! Get eigenvalues and right eigenvectors</span>
+<span class="w">  </span><span class="k">allocate</span><span class="p">(</span><span class="n">lambda</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">vectors</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="w">  </span><span class="k">call </span><span class="n">eig</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="o">=</span><span class="n">vectors</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span>
+<span class="w">     </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;eigenvalue  &#39;</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="s1">&#39;: &#39;</span><span class="p">,</span><span class="n">lambda</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">     </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;eigenvector &#39;</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="s1">&#39;: &#39;</span><span class="p">,</span><span class="n">vectors</span><span class="p">(:,</span><span class="n">i</span><span class="p">)</span>
+<span class="w">  </span><span class="k">end do</span>
+
+<span class="k">end program </span><span class="n">example_eig</span>
+</code></pre></div>
+
+<h2 id="eigh-eigenvalues-and-eigenvectors-of-a-real-symmetric-or-complex-hermitian-square-matrix"><code>eigh</code> - Eigenvalues and Eigenvectors of a Real symmetric or Complex Hermitian Square Matrix</h2>
+<h3 id="status_22">Status</h3>
+<p>Experimental</p>
+<h3 id="description_22">Description</h3>
+<p>This subroutine computes the solution to the eigendecomposition <script type="math/tex"> A \cdot \bar{v} - \lambda \cdot \bar{v} </script>,
+where <script type="math/tex"> A </script> is a square, full-rank, <code>real</code> symmetric <script type="math/tex"> A = A^T </script> or <code>complex</code> Hermitian <script type="math/tex"> A = A^H </script> matrix.</p>
+<p>Result array <code>lambda</code> returns the <code>real</code> eigenvalues of <script type="math/tex"> A </script>. The user can request the orthogonal eigenvectors 
+to be returned: on output <code>vectors</code> may contain the matrix of eigenvectors, returned as a column.</p>
+<p>Normally, only the lower triangular part of <script type="math/tex"> A </script> is accessed. On input, <code>logical</code> flag <code>upper_a</code> 
+allows the user to request what triangular part of the matrix should be used.</p>
+<p>The solver is based on LAPACK's <code>*SYEV</code> and <code>*HEEV</code> backends.</p>
+<h3 id="syntax_22">Syntax</h3>
+<p><code>call</code> <a href="../../interface/eigh.html">eigh</a> <code>(a, lambda [, vectors] [, upper_a] [, overwrite_a] [,err])</code></p>
+<h3 id="arguments_21">Arguments</h3>
+<p><code>a</code> : <code>real</code> or <code>complex</code> square array containing the coefficient matrix. It is an <code>intent(in)</code> argument. If <code>overwrite_a=.true.</code>, it is an <code>intent(inout)</code> argument and is destroyed by the call. </p>
+<p><code>lambda</code>: Shall be a <code>complex</code> rank-1 array of the same precision as <code>a</code>, containing the eigenvalues. It is an <code>intent(out)</code> argument. </p>
+<p><code>vectors</code> (optional): Shall be a rank-2 array of the same type, size and kind as <code>a</code>, containing the eigenvectors of <code>a</code>. It is an <code>intent(out)</code> argument.</p>
+<p><code>upper_a</code> (optional): Shall be an input <code>logical</code> flag. If <code>.true.</code>, the upper triangular part of <code>a</code> will be accessed. Otherwise, the lower triangular part will be accessed. It is an <code>intent(in)</code> argument.</p>
+<p><code>overwrite_a</code> (optional): Shall be an input <code>logical</code> flag. If <code>.true.</code>, input matrix <code>a</code> will be used as temporary storage and overwritten. This avoids internal data allocation. This is an <code>intent(in)</code> argument.</p>
+<p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument.</p>
+<h3 id="return-value_20">Return value</h3>
+<p>Raises <code>LINALG_ERROR</code> if the calculation did not converge.
+Raises <code>LINALG_VALUE_ERROR</code> if any matrix or arrays have invalid/incompatible sizes.
+If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
+<h3 id="example_21">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Eigendecomposition of a real symmetric matrix </span>
+<span class="k">program </span><span class="n">example_eigh</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">eigh</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(:,:),</span><span class="n">lambda</span><span class="p">(:),</span><span class="n">vectors</span><span class="p">(:,:)</span>
+<span class="w">  </span><span class="kt">complex</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cA</span><span class="p">(:,:),</span><span class="n">cvectors</span><span class="p">(:,:)</span>
+
+<span class="w">  </span><span class="c">! Decomposition of this symmetric matrix</span>
+<span class="w">  </span><span class="c">! NB Fortran is column-major -&gt; transpose input</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">transpose</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                           </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                           </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="p">))</span><span class="w"> </span>
+
+<span class="w">  </span><span class="c">! Note: real symmetric matrices have real (orthogonal) eigenvalues and eigenvectors</span>
+<span class="w">  </span><span class="k">allocate</span><span class="p">(</span><span class="n">lambda</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">vectors</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span><span class="w">  </span>
+<span class="w">  </span><span class="k">call </span><span class="n">eigh</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="p">,</span><span class="w"> </span><span class="n">vectors</span><span class="o">=</span><span class="n">vectors</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Real matrix&#39;</span>
+<span class="w">  </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span>
+<span class="w">     </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;eigenvalue  &#39;</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="s1">&#39;: &#39;</span><span class="p">,</span><span class="n">lambda</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">     </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;eigenvector &#39;</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="s1">&#39;: &#39;</span><span class="p">,</span><span class="n">vectors</span><span class="p">(:,</span><span class="n">i</span><span class="p">)</span>
+<span class="w">  </span><span class="k">end do</span>
+
+<span class="w">  </span><span class="c">! Complex hermitian matrices have real (orthogonal) eigenvalues and complex eigenvectors</span>
+<span class="w">  </span><span class="n">cA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span>
+
+<span class="w">  </span><span class="k">allocate</span><span class="p">(</span><span class="n">cvectors</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span><span class="w">  </span>
+<span class="w">  </span><span class="k">call </span><span class="n">eigh</span><span class="p">(</span><span class="n">cA</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="p">,</span><span class="w"> </span><span class="n">vectors</span><span class="o">=</span><span class="n">cvectors</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Complex matrix&#39;</span>
+<span class="w">  </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span>
+<span class="w">     </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;eigenvalue  &#39;</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="s1">&#39;: &#39;</span><span class="p">,</span><span class="n">lambda</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">     </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;eigenvector &#39;</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="s1">&#39;: &#39;</span><span class="p">,</span><span class="n">cvectors</span><span class="p">(:,</span><span class="n">i</span><span class="p">)</span>
+<span class="w">  </span><span class="k">end do  </span>
+
+<span class="k">end program </span><span class="n">example_eigh</span>
+</code></pre></div>
+
+<h2 id="eigvals-eigenvalues-of-a-square-matrix"><code>eigvals</code> - Eigenvalues of a Square Matrix</h2>
+<h3 id="status_23">Status</h3>
+<p>Experimental</p>
+<h3 id="description_23">Description</h3>
+<p>This function returns the eigenvalues to matrix <script type="math/tex"> A </script>: a square, full-rank, <code>real</code> or <code>complex</code> matrix.
+The eigenvalues are solutions to the eigenproblem <script type="math/tex"> A \cdot \bar{v} - \lambda \cdot \bar{v} </script>.</p>
+<p>Result array <code>lambda</code> is <code>complex</code>, and returns the eigenvalues of <script type="math/tex"> A </script>. 
+The solver is based on LAPACK's <code>*GEEV</code> backends.</p>
+<h3 id="syntax_23">Syntax</h3>
+<p><code>lambda =</code> <a href="../../interface/eigvals.html">eigvals</a> <code>(a, [,err])</code></p>
+<h3 id="arguments_22">Arguments</h3>
+<p><code>a</code> : <code>real</code> or <code>complex</code> square array containing the coefficient matrix. It is an <code>intent(in)</code> argument.</p>
+<p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument.</p>
+<h3 id="return-value_21">Return value</h3>
+<p>Returns a <code>complex</code> array containing the eigenvalues of <code>a</code>. </p>
+<p>Raises <code>LINALG_ERROR</code> if the calculation did not converge.
+Raises <code>LINALG_VALUE_ERROR</code> if any matrix or arrays have invalid/incompatible sizes.
+If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
+<h3 id="example_22">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Eigenvalues of a general real / complex matrix </span>
+<span class="k">program </span><span class="n">example_eigvals</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">eigvals</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(:,:),</span><span class="n">lambda</span><span class="p">(:)</span>
+<span class="w">  </span><span class="kt">complex</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cA</span><span class="p">(:,:),</span><span class="n">clambda</span><span class="p">(:)</span>
+
+<span class="w">  </span><span class="c">! NB Fortran is column-major -&gt; transpose input</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">transpose</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                           </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                           </span><span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="p">))</span><span class="w"> </span>
+
+<span class="w">  </span><span class="c">! Note: real symmetric matrix</span>
+<span class="w">  </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eigvals</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Real    matrix eigenvalues: &#39;</span><span class="p">,</span><span class="n">lambda</span>
+
+<span class="w">  </span><span class="c">! Complex general matrix</span>
+<span class="w">  </span><span class="n">cA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cmplx</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+<span class="w">  </span><span class="n">clambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eigvals</span><span class="p">(</span><span class="n">cA</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Complex matrix eigenvalues: &#39;</span><span class="p">,</span><span class="n">clambda</span>
+
+<span class="k">end program </span><span class="n">example_eigvals</span>
+</code></pre></div>
+
+<h2 id="eigvalsh-eigenvalues-of-a-real-symmetric-or-complex-hermitian-square-matrix"><code>eigvalsh</code> - Eigenvalues of a Real Symmetric or Complex Hermitian Square Matrix</h2>
+<h3 id="status_24">Status</h3>
+<p>Experimental</p>
+<h3 id="description_24">Description</h3>
+<p>This function returns the eigenvalues to matrix <script type="math/tex"> A </script>: a where <script type="math/tex"> A </script> is a square, full-rank, 
+<code>real</code> symmetric <script type="math/tex"> A = A^T </script> or <code>complex</code> Hermitian <script type="math/tex"> A = A^H </script> matrix.
+The eigenvalues are solutions to the eigenproblem <script type="math/tex"> A \cdot \bar{v} - \lambda \cdot \bar{v} </script>.</p>
+<p>Result array <code>lambda</code> is <code>real</code>, and returns the eigenvalues of <script type="math/tex"> A </script>. 
+The solver is based on LAPACK's <code>*SYEV</code> and <code>*HEEV</code> backends.</p>
+<h3 id="syntax_24">Syntax</h3>
+<p><code>lambda =</code> <a href="../../interface/eigvalsh.html">eigvalsh</a> <code>(a, [, upper_a] [,err])</code></p>
+<h3 id="arguments_23">Arguments</h3>
+<p><code>a</code> : <code>real</code> or <code>complex</code> square array containing the coefficient matrix. It is an <code>intent(in)</code> argument.</p>
+<p><code>upper_a</code> (optional): Shall be an input logical flag. If <code>.true.</code>, the upper triangular part of <code>a</code> will be used accessed. Otherwise, the lower triangular part will be accessed (default). It is an <code>intent(in)</code> argument.</p>
+<p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument.</p>
+<h3 id="return-value_22">Return value</h3>
+<p>Returns a <code>real</code> array containing the eigenvalues of <code>a</code>. </p>
+<p>Raises <code>LINALG_ERROR</code> if the calculation did not converge.
+Raises <code>LINALG_VALUE_ERROR</code> if any matrix or arrays have invalid/incompatible sizes.
+If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
+<h3 id="example_23">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Eigenvalues of a real symmetric / complex hermitian matrix </span>
+<span class="k">program </span><span class="n">example_eigvalsh</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">eigvalsh</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(:,:),</span><span class="n">lambda</span><span class="p">(:)</span>
+<span class="w">  </span><span class="kt">complex</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cA</span><span class="p">(:,:)</span>
+
+<span class="w">  </span><span class="c">! Decomposition of this symmetric matrix</span>
+<span class="w">  </span><span class="c">! NB Fortran is column-major -&gt; transpose input</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">transpose</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                           </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                           </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="p">))</span><span class="w"> </span>
+
+<span class="w">  </span><span class="c">! Note: real symmetric matrices have real (orthogonal) eigenvalues and eigenvectors</span>
+<span class="w">  </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Symmetric matrix eigenvalues: &#39;</span><span class="p">,</span><span class="n">lambda</span>
+
+<span class="w">  </span><span class="c">! Complex hermitian matrices have real (orthogonal) eigenvalues and complex eigenvectors</span>
+<span class="w">  </span><span class="n">cA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span>
+<span class="w">  </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">cA</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Hermitian matrix eigenvalues: &#39;</span><span class="p">,</span><span class="n">lambda</span>
+
+<span class="k">end program </span><span class="n">example_eigvalsh</span>
+</code></pre></div>
+
+<h2 id="svd-compute-the-singular-value-decomposition-of-a-rank-2-array-matrix"><code>svd</code> - Compute the singular value decomposition of a rank-2 array (matrix).</h2>
+<h3 id="status_25">Status</h3>
+<p>Experimental</p>
+<h3 id="description_25">Description</h3>
 <p>This subroutine computes the singular value decomposition of a <code>real</code> or <code>complex</code> rank-2 array (matrix) <script type="math/tex"> A = U \cdot S \cdot \V^T </script>.
 The solver is based on LAPACK's <code>*GESDD</code> backends.</p>
 <p>Result vector <code>s</code> returns the array of singular values on the diagonal of <script type="math/tex"> S </script>. 
 If requested, <code>u</code> contains the left singular vectors, as columns of <script type="math/tex"> U </script>.
 If requested, <code>vt</code> contains the right singular vectors, as rows of <script type="math/tex"> V^T </script>.</p>
-<h3 id="syntax_21">Syntax</h3>
+<h3 id="syntax_25">Syntax</h3>
 <p><code>call</code> <a href="../../interface/svd.html">svd</a> <code>(a, s, [, u, vt, overwrite_a, full_matrices, err])</code></p>
 <h3 id="class_1">Class</h3>
 <p>Subroutine</p>
-<h3 id="arguments_20">Arguments</h3>
+<h3 id="arguments_24">Arguments</h3>
 <p><code>a</code>: Shall be a rank-2 <code>real</code> or <code>complex</code> array containing the coefficient matrix of size <code>[m,n]</code>. It is an <code>intent(inout)</code> argument, but returns unchanged unless <code>overwrite_a=.true.</code>.</p>
 <p><code>s</code>: Shall be a rank-1 <code>real</code> array, returning the list of <code>k = min(m,n)</code> singular values. It is an <code>intent(out)</code> argument. </p>
 <p><code>u</code> (optional): Shall be a rank-2 array of same kind as <code>a</code>, returning the left singular vectors of <code>a</code> as columns. Its size should be <code>[m,m]</code> unless <code>full_matrices=.false.</code>, in which case, it can be <code>[m,min(m,n)]</code>. It is an <code>intent(out)</code> argument.</p>
@@ -1301,20 +1547,20 @@ If requested, returns a rank-2 array <code>vt</code> that contains the right sin
 <p>Raises <code>LINALG_ERROR</code> if the underlying Singular Value Decomposition process did not converge.
 Raises <code>LINALG_VALUE_ERROR</code> if the matrix or any of the output arrays invalid/incompatible sizes.
 Exceptions trigger an <code>error stop</code>, unless argument <code>err</code> is present.</p>
-<h3 id="example_20">Example</h3>
+<h3 id="example_24">Example</h3>
 <div class="codehilite"><pre><span></span><code>
 </code></pre></div>
 
 <h2 id="svdvals-compute-the-singular-values-of-a-rank-2-array-matrix"><code>svdvals</code> - Compute the singular values of a rank-2 array (matrix).</h2>
-<h3 id="status_22">Status</h3>
+<h3 id="status_26">Status</h3>
 <p>Experimental</p>
-<h3 id="description_22">Description</h3>
+<h3 id="description_26">Description</h3>
 <p>This subroutine computes the singular values of a <code>real</code> or <code>complex</code> rank-2 array (matrix) from its singular 
 value decomposition <script type="math/tex"> A = U \cdot S \cdot \V^T </script>. The solver is based on LAPACK's <code>*GESDD</code> backends.</p>
 <p>Result vector <code>s</code> returns the array of singular values on the diagonal of <script type="math/tex"> S </script>. </p>
-<h3 id="syntax_22">Syntax</h3>
+<h3 id="syntax_26">Syntax</h3>
 <p><code>s =</code> <a href="../../interface/svdvals.html">svdvals</a> <code>(a [, err])</code></p>
-<h3 id="arguments_21">Arguments</h3>
+<h3 id="arguments_25">Arguments</h3>
 <p><code>a</code>: Shall be a rank-2 <code>real</code> or <code>complex</code> array containing the coefficient matrix of size <code>[m,n]</code>. It is an <code>intent(in)</code> argument.</p>
 <p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument.</p>
 <h3 id="return-values_1">Return values</h3>
@@ -1322,7 +1568,7 @@ value decomposition <script type="math/tex"> A = U \cdot S \cdot \V^T </script>.
 <p>Raises <code>LINALG_ERROR</code> if the underlying Singular Value Decomposition process did not converge.
 Raises <code>LINALG_VALUE_ERROR</code> if the matrix or any of the output arrays invalid/incompatible sizes.
 Exceptions trigger an <code>error stop</code>, unless argument <code>err</code> is present.</p>
-<h3 id="example_21">Example</h3>
+<h3 id="example_25">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">! Singular Values</span>
 <span class="k">program </span><span class="n">example_svdvals</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
@@ -1358,13 +1604,13 @@ Exceptions trigger an <code>error stop</code>, unless argument <code>err</code> 
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>d996e43</small></p>
+<br /><small>cc129c6</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-06-19 12:42              </p>
+ on 2024-06-30 08:42              </p>
           </div>
         </div>
         <br>
