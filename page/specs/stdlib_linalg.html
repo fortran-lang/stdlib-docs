@@ -393,6 +393,33 @@
 <li><a href="#example_25">Example</a></li>
 </ul>
 </li>
+<li><a href="#inv-inverse-operator-of-a-square-matrix">.inv. - Inverse operator of a square matrix</a><ul>
+<li><a href="#status_27">Status</a></li>
+<li><a href="#description_27">Description</a></li>
+<li><a href="#syntax_27">Syntax</a></li>
+<li><a href="#arguments_26">Arguments</a></li>
+<li><a href="#return-value_23">Return value</a></li>
+<li><a href="#example_26">Example</a></li>
+</ul>
+</li>
+<li><a href="#invert-inversion-of-a-square-matrix">invert - Inversion of a square matrix</a><ul>
+<li><a href="#status_28">Status</a></li>
+<li><a href="#description_28">Description</a></li>
+<li><a href="#syntax_28">Syntax</a></li>
+<li><a href="#arguments_27">Arguments</a></li>
+<li><a href="#return-value_24">Return value</a></li>
+<li><a href="#example_27">Example</a></li>
+</ul>
+</li>
+<li><a href="#inv-inverse-of-a-square-matrix">inv - Inverse of a square matrix.</a><ul>
+<li><a href="#status_29">Status</a></li>
+<li><a href="#description_29">Description</a></li>
+<li><a href="#syntax_29">Syntax</a></li>
+<li><a href="#arguments_28">Arguments</a></li>
+<li><a href="#return-value_25">Return value</a></li>
+<li><a href="#example_28">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -479,7 +506,8 @@ for example: </p>
 <p>Note that the 128-bit functions are only provided by <code>stdlib</code> and always point to the internal implementation. 
 Because 128-bit precision is identified as [stdlib_kinds(module):qp], initials for 128-bit procedures were 
 labelled as <code>q</code> (quadruple-precision reals) and <code>w</code> ("wide" or quadruple-precision complex numbers). 
-Extended precision ([stdlib_kinds(module):xdp]) calculations are currently not supported.</p>
+Extended precision ([stdlib_kinds(module):xdp]) calculations are labelled as <code>x</code> (extended-precision reals).
+and <code>y</code> (extended-precision complex numbers).</p>
 <h3 id="example">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_gemv</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">eye</span>
@@ -1178,7 +1206,7 @@ Exceptions trigger an <code>error stop</code>.</p>
 <p><code>int_storage</code> (optional): Shall be an <code>integer</code> rank-1 array, providing working storage for the solver. It minimum size can be determined with a call to <a href="../../interface/lstsq_space.html">lstsq_space</a>. It is an <code>intent(inout)</code> argument.</p>
 <p><code>cmpl_storage</code> (optional): For <code>complex</code> systems, it shall be a <code>complex</code> rank-1 array, providing working storage for the solver. It minimum size can be determined with a call to <a href="../../interface/lstsq_space.html">lstsq_space</a>. It is an <code>intent(inout)</code> argument.</p>
 <p><code>cond</code> (optional): Shall be a scalar <code>real</code> value cut-off threshold for rank evaluation: <code>s_i &gt;= cond*maxval(s), i=1:rank</code>. Shall be a scalar, <code>intent(in)</code> argument.</p>
-<p><code>singvals</code> (optional): Shall be a <code>real</code> rank-1 array of the same kind <code>a</code> and size at least <code>minval(shape(a))</code>, returning the list of singular values <code>s(i)&gt;=cond*maxval(s)</code>, in descending order of magnitude. It is an <code>intent(out)</code> argument.</p>
+<p><code>singvals</code> (optional): Shall be a <code>real</code> rank-1 array of the same kind <code>a</code> and size at least <code>min(m,n)</code>, returning the list of singular values <code>s(i)&gt;=cond*maxval(s)</code> from the internal SVD, in descending order of magnitude. It is an <code>intent(out)</code> argument.</p>
 <p><code>overwrite_a</code> (optional): Shall be an input <code>logical</code> flag. If <code>.true.</code>, input matrix <code>A</code> will be used as temporary storage and overwritten. This avoids internal data allocation. This is an <code>intent(in)</code> argument.</p>
 <p><code>rank</code> (optional): Shall be an <code>integer</code> scalar value, that contains the rank of input matrix <code>A</code>. This is an <code>intent(out)</code> argument.</p>
 <p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument.</p>
@@ -1286,11 +1314,11 @@ Exceptions are returned to the <code>err</code> argument if provided; an <code>e
 <p>This operator returns the determinant of a real square matrix.</p>
 <p>This interface is equivalent to the <code>pure</code> version of determinant <a href="../../interface/det.html">det</a>. </p>
 <h3 id="syntax_20">Syntax</h3>
-<p><code>c =</code> [[stdlib_linalg(module):operator(.det.)(interface)]] <code>(a)</code></p>
+<p><code>c =</code> [[stdlib_linalg(module):operator(.det.)(interface)]] <code>a</code></p>
 <h3 id="arguments_19">Arguments</h3>
 <p><code>a</code>: Shall be a rank-2 square array of any <code>real</code> or <code>complex</code> kinds. It is an <code>intent(in)</code> argument.</p>
 <h3 id="return-value_18">Return value</h3>
-<p>Returns a real scalar value that represents the determinnt of the matrix.</p>
+<p>Returns a real scalar value that represents the determinant of the matrix.</p>
 <p>Raises <code>LINALG_ERROR</code> if the matrix is singular.
 Raises <code>LINALG_VALUE_ERROR</code> if the matrix is non-square.
 Exceptions trigger an <code>error stop</code>.</p>
@@ -1596,6 +1624,161 @@ Exceptions trigger an <code>error stop</code>, unless argument <code>err</code> 
 
 <span class="k">end program </span><span class="n">example_svdvals</span>
 </code></pre></div>
+
+<h2 id="inv-inverse-operator-of-a-square-matrix"><code>.inv.</code> - Inverse operator of a square matrix</h2>
+<h3 id="status_27">Status</h3>
+<p>Experimental</p>
+<h3 id="description_27">Description</h3>
+<p>This operator returns the inverse of a <code>real</code> or <code>complex</code> square matrix <script type="math/tex"> A </script>.
+The inverse <script type="math/tex"> A^{-1} </script> is defined such that <script type="math/tex"> A \cdot A^{-1} = A^{-1} \cdot A = I_n </script>.</p>
+<p>This interface is equivalent to the function  <a href="../../interface/inv.html">inv</a>. </p>
+<h3 id="syntax_27">Syntax</h3>
+<p><code>b =</code> [[stdlib_linalg(module):operator(.inv.)(interface)]] <code>a</code></p>
+<h3 id="arguments_26">Arguments</h3>
+<p><code>a</code>: Shall be a rank-2 square array of any <code>real</code> or <code>complex</code> kinds. It is an <code>intent(in)</code> argument.</p>
+<h3 id="return-value_23">Return value</h3>
+<p>Returns a rank-2 square array with the same type, kind and rank as <code>a</code>, that contains the inverse of <code>a</code>.</p>
+<p>If an exception occurred on input errors, or singular matrix, <code>NaN</code>s will be returned.
+For fine-grained error control in case of singular matrices prefer the <code>subroutine</code> and the <code>function</code>
+interfaces.</p>
+<h3 id="example_26">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Matrix inversion example: operator interface</span>
+<span class="k">program </span><span class="n">example_inverse_operator</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">operator</span><span class="p">(.</span><span class="n">inv</span><span class="p">.),</span><span class="n">eye</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">Am1</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c">! Input matrix (NB Fortran is column major! input columns then transpose)</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">transpose</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                          </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="p">))</span>
+
+<span class="w">  </span><span class="c">! Invert matrix</span>
+<span class="w">  </span><span class="n">Am1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">inv</span><span class="p">.</span><span class="n">A</span>
+
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;         |&#39;</span><span class="p">,</span><span class="n">Am1</span><span class="p">(</span><span class="mi">1</span><span class="p">,:),</span><span class="s1">&#39;|&#39;</span><span class="w"> </span><span class="c">! | -2  3 |</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; inv(A)= |&#39;</span><span class="p">,</span><span class="n">Am1</span><span class="p">(</span><span class="mi">2</span><span class="p">,:),</span><span class="s1">&#39;|&#39;</span><span class="w"> </span><span class="c">! |  3 -4 |</span>
+
+<span class="w">  </span><span class="c">! Final check </span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;CHECK passed? &#39;</span><span class="p">,</span><span class="nb">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">Am1</span><span class="p">)</span><span class="o">==</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">end program </span><span class="n">example_inverse_operator</span>
+</code></pre></div>
+
+<h2 id="invert-inversion-of-a-square-matrix"><code>invert</code> - Inversion of a square matrix</h2>
+<h3 id="status_28">Status</h3>
+<p>Experimental</p>
+<h3 id="description_28">Description</h3>
+<p>This subroutine inverts a square <code>real</code> or <code>complex</code> matrix in-place.
+The inverse <script type="math/tex"> A^{-1} </script> is defined such that <script type="math/tex"> A \cdot A^{-1} = A^{-1} \cdot A = I_n </script>.</p>
+<p>On return, the input matrix <code>a</code> is replaced by its inverse.
+The solver is based on LAPACK's <code>*GETRF</code> and <code>*GETRI</code> backends.</p>
+<h3 id="syntax_28">Syntax</h3>
+<p><code>call</code> <a href="../../interface/invert.html">invert</a> <code>(a, [,inva] [, pivot] [, err])</code></p>
+<h3 id="arguments_27">Arguments</h3>
+<p><code>a</code>: Shall be a rank-2, square, <code>real</code> or <code>complex</code> array containing the coefficient matrix. 
+If <code>inva</code> is provided, it is an <code>intent(in)</code> argument.
+If <code>inva</code> is not provided, it is an <code>intent(inout)</code> argument: on output, it is replaced by the inverse of <code>a</code>. </p>
+<p><code>inva</code> (optional): Shall be a rank-2, square, <code>real</code> or <code>complex</code> array with the same size, and kind as <code>a</code>. 
+On output, it contains the inverse of <code>a</code>.</p>
+<p><code>pivot</code> (optional): Shall be a rank-1 array of the same kind and matrix dimension as <code>a</code>, that contains the diagonal pivot indices on return. It is an <code>intent(inout)</code> argument. </p>
+<p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument.</p>
+<h3 id="return-value_24">Return value</h3>
+<p>Computes the inverse of the matrix <script type="math/tex"> A </script>, <script type="math/tex">A^{-1}\, and returns it either in \( A </script> or in another matrix.</p>
+<p>Raises <code>LINALG_ERROR</code> if the matrix is singular or has invalid size.
+Raises <code>LINALG_VALUE_ERROR</code> if <code>inva</code> and <code>a</code> do not have the same size.
+If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
+<h3 id="example_27">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Matrix inversion example: in-place inversion</span>
+<span class="k">program </span><span class="n">example_inverse_inplace</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">invert</span><span class="p">,</span><span class="n">eye</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">Am1</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c">! Input matrix (NB Fortran is column major! input columns then transpose)</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">transpose</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                          </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="p">))</span>
+<span class="w">  </span><span class="n">Am1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span>
+
+<span class="w">  </span><span class="c">! Invert matrix</span>
+<span class="w">  </span><span class="k">call </span><span class="n">invert</span><span class="p">(</span><span class="n">Am1</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;         |&#39;</span><span class="p">,</span><span class="n">Am1</span><span class="p">(</span><span class="mi">1</span><span class="p">,:),</span><span class="s1">&#39;|&#39;</span><span class="w"> </span><span class="c">! | -2  3 |</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; inv(A)= |&#39;</span><span class="p">,</span><span class="n">Am1</span><span class="p">(</span><span class="mi">2</span><span class="p">,:),</span><span class="s1">&#39;|&#39;</span><span class="w"> </span><span class="c">! |  3 -4 |</span>
+
+<span class="w">  </span><span class="c">! Final check </span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;CHECK passed? &#39;</span><span class="p">,</span><span class="nb">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">Am1</span><span class="p">)</span><span class="o">==</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">end program </span><span class="n">example_inverse_inplace</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c">! Matrix inversion example: subroutine interface</span>
+<span class="k">program </span><span class="n">example_inverse_subroutine</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">invert</span><span class="p">,</span><span class="n">eye</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">Am1</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c">! Input matrix (NB Fortran is column major! input columns then transpose)</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">transpose</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                          </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="p">))</span>
+
+<span class="w">  </span><span class="c">! Invert matrix</span>
+<span class="w">  </span><span class="k">call </span><span class="n">invert</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">Am1</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;         |&#39;</span><span class="p">,</span><span class="n">Am1</span><span class="p">(</span><span class="mi">1</span><span class="p">,:),</span><span class="s1">&#39;|&#39;</span><span class="w"> </span><span class="c">! | -2  3 |</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; inv(A)= |&#39;</span><span class="p">,</span><span class="n">Am1</span><span class="p">(</span><span class="mi">2</span><span class="p">,:),</span><span class="s1">&#39;|&#39;</span><span class="w"> </span><span class="c">! |  3 -4 |</span>
+
+<span class="w">  </span><span class="c">! Final check </span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;CHECK passed? &#39;</span><span class="p">,</span><span class="nb">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">Am1</span><span class="p">)</span><span class="o">==</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">end program </span><span class="n">example_inverse_subroutine</span>
+</code></pre></div>
+
+<h2 id="inv-inverse-of-a-square-matrix"><code>inv</code> - Inverse of a square matrix.</h2>
+<h3 id="status_29">Status</h3>
+<p>Experimental</p>
+<h3 id="description_29">Description</h3>
+<p>This function returns the inverse of a square <code>real</code> or <code>complex</code> matrix in-place.
+The inverse, <script type="math/tex"> A^{-1} </script>, is defined such that <script type="math/tex"> A \cdot A^{-1} = A^{-1} \cdot A = I_n </script>.</p>
+<p>The solver is based on LAPACK's <code>*GETRF</code> and <code>*GETRI</code> backends.</p>
+<h3 id="syntax_29">Syntax</h3>
+<p><code>b</code> <a href="../../interface/inv.html">inv</a> <code>(a, [, err])</code></p>
+<h3 id="arguments_28">Arguments</h3>
+<p><code>a</code>: Shall be a rank-2, square, <code>real</code> or <code>complex</code> array containing the coefficient matrix. It is an <code>intent(inout)</code> argument.</p>
+<p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. It is an <code>intent(out)</code> argument.</p>
+<h3 id="return-value_25">Return value</h3>
+<p>Returns an array value of the same type, kind and rank as <code>a</code>, that contains the inverse matrix <script type="math/tex">A^{-1}</script>.</p>
+<p>Raises <code>LINALG_ERROR</code> if the matrix is singular or has invalid size.
+If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
+<h3 id="example_28">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Matrix inversion example: function interface</span>
+<span class="k">program </span><span class="n">example_inverse_function</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">inv</span><span class="p">,</span><span class="n">eye</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">Am1</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c">! Input matrix (NB Fortran is column major! input columns then transpose)</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">transpose</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                          </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="p">))</span>
+
+<span class="w">  </span><span class="c">! Invert matrix</span>
+<span class="w">  </span><span class="n">Am1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;         |&#39;</span><span class="p">,</span><span class="n">Am1</span><span class="p">(</span><span class="mi">1</span><span class="p">,:),</span><span class="s1">&#39;|&#39;</span><span class="w"> </span><span class="c">! | -2  3 |</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; inv(A)= |&#39;</span><span class="p">,</span><span class="n">Am1</span><span class="p">(</span><span class="mi">2</span><span class="p">,:),</span><span class="s1">&#39;|&#39;</span><span class="w"> </span><span class="c">! |  3 -4 |</span>
+
+<span class="w">  </span><span class="c">! Final check </span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;CHECK passed? &#39;</span><span class="p">,</span><span class="nb">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">Am1</span><span class="p">)</span><span class="o">==</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">end program </span><span class="n">example_inverse_function</span>
+</code></pre></div>
     </div>
   </div>
       <hr>
@@ -1604,13 +1787,13 @@ Exceptions trigger an <code>error stop</code>, unless argument <code>err</code> 
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e01b3a31</small></p>
+<br /><small>c8fa301e</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-07-07 11:00              </p>
+ on 2024-07-08 06:55              </p>
           </div>
         </div>
         <br>
