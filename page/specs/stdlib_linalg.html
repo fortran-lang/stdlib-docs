@@ -393,31 +393,50 @@
 <li><a href="#example_25">Example</a></li>
 </ul>
 </li>
-<li><a href="#inv-inverse-operator-of-a-square-matrix">.inv. - Inverse operator of a square matrix</a><ul>
+<li><a href="#cholesky-compute-the-cholesky-factorization-of-a-rank-2-square-array-matrix">cholesky - Compute the Cholesky factorization of a rank-2 square array (matrix)</a><ul>
 <li><a href="#status_27">Status</a></li>
 <li><a href="#description_27">Description</a></li>
 <li><a href="#syntax_27">Syntax</a></li>
+<li><a href="#class_2">Class</a></li>
 <li><a href="#arguments_26">Arguments</a></li>
-<li><a href="#return-value_23">Return value</a></li>
+<li><a href="#return-values_2">Return values</a></li>
 <li><a href="#example_26">Example</a></li>
 </ul>
 </li>
-<li><a href="#invert-inversion-of-a-square-matrix">invert - Inversion of a square matrix</a><ul>
+<li><a href="#chol-compute-the-cholesky-factorization-of-a-rank-2-square-array-matrix">chol - Compute the Cholesky factorization of a rank-2 square array (matrix)</a><ul>
 <li><a href="#status_28">Status</a></li>
 <li><a href="#description_28">Description</a></li>
 <li><a href="#syntax_28">Syntax</a></li>
 <li><a href="#arguments_27">Arguments</a></li>
-<li><a href="#return-value_24">Return value</a></li>
+<li><a href="#return-values_3">Return values</a></li>
 <li><a href="#example_27">Example</a></li>
 </ul>
 </li>
-<li><a href="#inv-inverse-of-a-square-matrix">inv - Inverse of a square matrix.</a><ul>
+<li><a href="#inv-inverse-operator-of-a-square-matrix">.inv. - Inverse operator of a square matrix</a><ul>
 <li><a href="#status_29">Status</a></li>
 <li><a href="#description_29">Description</a></li>
 <li><a href="#syntax_29">Syntax</a></li>
 <li><a href="#arguments_28">Arguments</a></li>
-<li><a href="#return-value_25">Return value</a></li>
+<li><a href="#return-value_23">Return value</a></li>
 <li><a href="#example_28">Example</a></li>
+</ul>
+</li>
+<li><a href="#invert-inversion-of-a-square-matrix">invert - Inversion of a square matrix</a><ul>
+<li><a href="#status_30">Status</a></li>
+<li><a href="#description_30">Description</a></li>
+<li><a href="#syntax_30">Syntax</a></li>
+<li><a href="#arguments_29">Arguments</a></li>
+<li><a href="#return-value_24">Return value</a></li>
+<li><a href="#example_29">Example</a></li>
+</ul>
+</li>
+<li><a href="#inv-inverse-of-a-square-matrix">inv - Inverse of a square matrix.</a><ul>
+<li><a href="#status_31">Status</a></li>
+<li><a href="#description_31">Description</a></li>
+<li><a href="#syntax_31">Syntax</a></li>
+<li><a href="#arguments_30">Arguments</a></li>
+<li><a href="#return-value_25">Return value</a></li>
+<li><a href="#example_30">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -1625,23 +1644,127 @@ Exceptions trigger an <code>error stop</code>, unless argument <code>err</code> 
 <span class="k">end program </span><span class="n">example_svdvals</span>
 </code></pre></div>
 
-<h2 id="inv-inverse-operator-of-a-square-matrix"><code>.inv.</code> - Inverse operator of a square matrix</h2>
+<h2 id="cholesky-compute-the-cholesky-factorization-of-a-rank-2-square-array-matrix"><code>cholesky</code> - Compute the Cholesky factorization of a rank-2 square array (matrix)</h2>
 <h3 id="status_27">Status</h3>
 <p>Experimental</p>
 <h3 id="description_27">Description</h3>
+<p>This subroutine computes the Cholesky factorization of a <code>real</code> or <code>complex</code> rank-2 square array (matrix), 
+<script type="math/tex"> A = L \cdot L^T </script>, or <script type="math/tex"> A = U^T \cdot U </script>. <script type="math/tex"> A </script> is symmetric or complex Hermitian, and <script type="math/tex"> L </script>, 
+<script type="math/tex"> U </script> are lower- or upper-triangular, respectively. 
+The solver is based on LAPACK's <code>*POTRF</code> backends.</p>
+<h3 id="syntax_27">Syntax</h3>
+<p><code>call</code> <a href="../../interface/cholesky.html">cholesky</a> <code>(a, c, lower [, other_zeroed] [, err])</code></p>
+<h3 id="class_2">Class</h3>
+<p>Subroutine</p>
+<h3 id="arguments_26">Arguments</h3>
+<p><code>a</code>: Shall be a rank-2 square <code>real</code> or <code>complex</code> array containing the coefficient matrix of size <code>[n,n]</code>. It is an <code>intent(inout)</code> argument, but returns unchanged if the argument <code>c</code> is present.</p>
+<p><code>c</code> (optional): Shall be a rank-2 square <code>real</code> or <code>complex</code> of the same size and kind as <code>a</code>. It is an <code>intent(out)</code> argument, that returns the triangular Cholesky matrix <code>L</code> or <code>U</code>.</p>
+<p><code>lower</code>: Shall be an input <code>logical</code> flag. If <code>.true.</code>, the lower triangular decomposition <script type="math/tex"> A = L \cdot L^T </script> will be performed. If <code>.false.</code>, the upper decomposition <script type="math/tex"> A = U^T \cdot U </script> will be performed.</p>
+<p><code>other_zeroed</code> (optional): Shall be an input <code>logical</code> flag. If <code>.true.</code>, the unused part of the output matrix will contain zeroes. Otherwise, it will not be accessed. This saves cpu time. By default, <code>other_zeroed=.true.</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. It is an <code>intent(out)</code> argument.</p>
+<h3 id="return-values_2">Return values</h3>
+<p>The factorized matrix is returned in-place overwriting <code>a</code> if no other arguments are provided.
+Otherwise, it can be provided as a second argument <code>c</code>. In this case, <code>a</code> is not overwritten.
+The <code>logical</code> flag <code>lower</code> determines whether the lower- or the upper-triangular factorization should be performed. </p>
+<p>Results are returned on the applicable triangular region of the output matrix, while the unused triangular region 
+is filled by zeroes by default. Optional argument <code>other_zeroed</code>, if <code>.false.</code> allows the expert user to avoid zeroing the unused part; 
+however, in this case, the unused region of the matrix is not accessed and will usually contain invalid values. </p>
+<p>Raises <code>LINALG_ERROR</code> if the underlying process did not converge.
+Raises <code>LINALG_VALUE_ERROR</code> if the matrix or any of the output arrays invalid/incompatible sizes.
+Exceptions trigger an <code>error stop</code>, unless argument <code>err</code> is present.</p>
+<h3 id="example_26">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Cholesky factorization: subroutine interface </span>
+<span class="k">program </span><span class="n">example_cholesky</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">cholesky</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">U</span><span class="w"> </span>
+
+<span class="w">  </span><span class="c">! Set real matrix</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">55</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                 </span><span class="p">[</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="mi">225</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                 </span><span class="p">[</span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="mi">225</span><span class="p">,</span><span class="w"> </span><span class="mi">979</span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">  </span><span class="c">! Decompose (lower)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">cholesky</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="n">lower</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+
+<span class="w">  </span><span class="c">! Compare decomposition </span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">maxval</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="nb">matmul</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="nb">transpose</span><span class="p">(</span><span class="n">L</span><span class="p">))))</span>
+
+<span class="w">  </span><span class="c">! Decompose (upper)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">cholesky</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">U</span><span class="p">,</span><span class="w"> </span><span class="n">lower</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span>
+
+<span class="w">  </span><span class="c">! Compare decomposition </span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">maxval</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="nb">matmul</span><span class="p">(</span><span class="nb">transpose</span><span class="p">(</span><span class="n">U</span><span class="p">),</span><span class="n">U</span><span class="p">)))</span>
+
+<span class="k">end program </span><span class="n">example_cholesky</span>
+</code></pre></div>
+
+<h2 id="chol-compute-the-cholesky-factorization-of-a-rank-2-square-array-matrix"><code>chol</code> - Compute the Cholesky factorization of a rank-2 square array (matrix)</h2>
+<h3 id="status_28">Status</h3>
+<p>Experimental</p>
+<h3 id="description_28">Description</h3>
+<p>This is a <code>pure</code> functional interface for the Cholesky factorization of a <code>real</code> or
+<code>complex</code> rank-2 square array (matrix) computed as <script type="math/tex"> A = L \cdot L^T </script>, or <script type="math/tex"> A = U^T \cdot U </script>. 
+<script type="math/tex"> A </script> is symmetric or complex Hermitian, and <script type="math/tex"> L </script>, <script type="math/tex"> U </script> are lower- or upper-triangular, respectively. 
+The solver is based on LAPACK's <code>*POTRF</code> backends.</p>
+<p>Result matrix <code>c</code> has the same size and kind as <code>a</code>, and returns the lower or upper triangular factor. </p>
+<h3 id="syntax_28">Syntax</h3>
+<p><code>c =</code> <a href="../../interface/chol.html">chol</a> <code>(a, lower [, other_zeroed])</code></p>
+<h3 id="arguments_27">Arguments</h3>
+<p><code>a</code>: Shall be a rank-2 square <code>real</code> or <code>complex</code> array containing the coefficient matrix of size <code>[n,n]</code>. It is an <code>intent(inout)</code> argument, but returns unchanged if argument <code>c</code> is present.</p>
+<p><code>lower</code>: Shall be an input <code>logical</code> flag. If <code>.true.</code>, the lower triangular decomposition <script type="math/tex"> A = L \cdot L^T </script> will be performed. If <code>.false.</code>, the upper decomposition <script type="math/tex"> A = U^T \cdot U </script> will be performed.</p>
+<p><code>other_zeroed</code> (optional): Shall be an input <code>logical</code> flag. If <code>.true.</code>, the unused part of the output matrix will contain zeroes. Otherwise, it will not be accessed. This saves cpu time. By default, <code>other_zeroed=.true.</code>. It is an <code>intent(in)</code> argument.</p>
+<h3 id="return-values_3">Return values</h3>
+<p>Returns a rank-2 array <code>c</code> of the same size and kind as <code>a</code>, that contains the triangular Cholesky matrix <code>L</code> or <code>U</code>.</p>
+<p>Raises <code>LINALG_ERROR</code> if the underlying process did not converge.
+Raises <code>LINALG_VALUE_ERROR</code> if the matrix or any of the output arrays invalid/incompatible sizes.
+Exceptions trigger an <code>error stop</code>, unless argument <code>err</code> is present.</p>
+<h3 id="example_27">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Cholesky factorization: function interface </span>
+<span class="k">program </span><span class="n">example_chol</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chol</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(:,:)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">U</span><span class="w"> </span>
+
+<span class="w">  </span><span class="c">! Set real matrix</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">55</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                 </span><span class="p">[</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="mi">225</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                 </span><span class="p">[</span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="mi">225</span><span class="p">,</span><span class="w"> </span><span class="mi">979</span><span class="p">]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">  </span><span class="c">! Decompose (lower)</span>
+<span class="w">  </span><span class="n">L</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chol</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">lower</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+
+<span class="w">  </span><span class="c">! Compare decomposition </span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">maxval</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="nb">matmul</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="nb">transpose</span><span class="p">(</span><span class="n">L</span><span class="p">))))</span>
+
+<span class="w">  </span><span class="c">! Decompose (upper)</span>
+<span class="w">  </span><span class="n">U</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chol</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">lower</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span>
+
+<span class="w">  </span><span class="c">! Compare decomposition </span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">maxval</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="nb">matmul</span><span class="p">(</span><span class="nb">transpose</span><span class="p">(</span><span class="n">U</span><span class="p">),</span><span class="n">U</span><span class="p">)))</span>
+
+<span class="k">end program </span><span class="n">example_chol</span>
+</code></pre></div>
+
+<h2 id="inv-inverse-operator-of-a-square-matrix"><code>.inv.</code> - Inverse operator of a square matrix</h2>
+<h3 id="status_29">Status</h3>
+<p>Experimental</p>
+<h3 id="description_29">Description</h3>
 <p>This operator returns the inverse of a <code>real</code> or <code>complex</code> square matrix <script type="math/tex"> A </script>.
 The inverse <script type="math/tex"> A^{-1} </script> is defined such that <script type="math/tex"> A \cdot A^{-1} = A^{-1} \cdot A = I_n </script>.</p>
 <p>This interface is equivalent to the function  <a href="../../interface/inv.html">inv</a>. </p>
-<h3 id="syntax_27">Syntax</h3>
+<h3 id="syntax_29">Syntax</h3>
 <p><code>b =</code> [[stdlib_linalg(module):operator(.inv.)(interface)]] <code>a</code></p>
-<h3 id="arguments_26">Arguments</h3>
+<h3 id="arguments_28">Arguments</h3>
 <p><code>a</code>: Shall be a rank-2 square array of any <code>real</code> or <code>complex</code> kinds. It is an <code>intent(in)</code> argument.</p>
 <h3 id="return-value_23">Return value</h3>
 <p>Returns a rank-2 square array with the same type, kind and rank as <code>a</code>, that contains the inverse of <code>a</code>.</p>
 <p>If an exception occurred on input errors, or singular matrix, <code>NaN</code>s will be returned.
 For fine-grained error control in case of singular matrices prefer the <code>subroutine</code> and the <code>function</code>
 interfaces.</p>
-<h3 id="example_26">Example</h3>
+<h3 id="example_28">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">! Matrix inversion example: operator interface</span>
 <span class="k">program </span><span class="n">example_inverse_operator</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
@@ -1667,16 +1790,16 @@ interfaces.</p>
 </code></pre></div>
 
 <h2 id="invert-inversion-of-a-square-matrix"><code>invert</code> - Inversion of a square matrix</h2>
-<h3 id="status_28">Status</h3>
+<h3 id="status_30">Status</h3>
 <p>Experimental</p>
-<h3 id="description_28">Description</h3>
+<h3 id="description_30">Description</h3>
 <p>This subroutine inverts a square <code>real</code> or <code>complex</code> matrix in-place.
 The inverse <script type="math/tex"> A^{-1} </script> is defined such that <script type="math/tex"> A \cdot A^{-1} = A^{-1} \cdot A = I_n </script>.</p>
 <p>On return, the input matrix <code>a</code> is replaced by its inverse.
 The solver is based on LAPACK's <code>*GETRF</code> and <code>*GETRI</code> backends.</p>
-<h3 id="syntax_28">Syntax</h3>
+<h3 id="syntax_30">Syntax</h3>
 <p><code>call</code> <a href="../../interface/invert.html">invert</a> <code>(a, [,inva] [, pivot] [, err])</code></p>
-<h3 id="arguments_27">Arguments</h3>
+<h3 id="arguments_29">Arguments</h3>
 <p><code>a</code>: Shall be a rank-2, square, <code>real</code> or <code>complex</code> array containing the coefficient matrix. 
 If <code>inva</code> is provided, it is an <code>intent(in)</code> argument.
 If <code>inva</code> is not provided, it is an <code>intent(inout)</code> argument: on output, it is replaced by the inverse of <code>a</code>. </p>
@@ -1689,7 +1812,7 @@ On output, it contains the inverse of <code>a</code>.</p>
 <p>Raises <code>LINALG_ERROR</code> if the matrix is singular or has invalid size.
 Raises <code>LINALG_VALUE_ERROR</code> if <code>inva</code> and <code>a</code> do not have the same size.
 If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
-<h3 id="example_27">Example</h3>
+<h3 id="example_29">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">! Matrix inversion example: in-place inversion</span>
 <span class="k">program </span><span class="n">example_inverse_inplace</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
@@ -1740,22 +1863,22 @@ If <code>err</code> is not present, exceptions trigger an <code>error stop</code
 </code></pre></div>
 
 <h2 id="inv-inverse-of-a-square-matrix"><code>inv</code> - Inverse of a square matrix.</h2>
-<h3 id="status_29">Status</h3>
+<h3 id="status_31">Status</h3>
 <p>Experimental</p>
-<h3 id="description_29">Description</h3>
+<h3 id="description_31">Description</h3>
 <p>This function returns the inverse of a square <code>real</code> or <code>complex</code> matrix in-place.
 The inverse, <script type="math/tex"> A^{-1} </script>, is defined such that <script type="math/tex"> A \cdot A^{-1} = A^{-1} \cdot A = I_n </script>.</p>
 <p>The solver is based on LAPACK's <code>*GETRF</code> and <code>*GETRI</code> backends.</p>
-<h3 id="syntax_29">Syntax</h3>
+<h3 id="syntax_31">Syntax</h3>
 <p><code>b</code> <a href="../../interface/inv.html">inv</a> <code>(a, [, err])</code></p>
-<h3 id="arguments_28">Arguments</h3>
+<h3 id="arguments_30">Arguments</h3>
 <p><code>a</code>: Shall be a rank-2, square, <code>real</code> or <code>complex</code> array containing the coefficient matrix. It is an <code>intent(inout)</code> argument.</p>
 <p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. It is an <code>intent(out)</code> argument.</p>
 <h3 id="return-value_25">Return value</h3>
 <p>Returns an array value of the same type, kind and rank as <code>a</code>, that contains the inverse matrix <script type="math/tex">A^{-1}</script>.</p>
 <p>Raises <code>LINALG_ERROR</code> if the matrix is singular or has invalid size.
 If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
-<h3 id="example_28">Example</h3>
+<h3 id="example_30">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">! Matrix inversion example: function interface</span>
 <span class="k">program </span><span class="n">example_inverse_function</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
@@ -1787,13 +1910,13 @@ If <code>err</code> is not present, exceptions trigger an <code>error stop</code
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>91dcc50c</small></p>
+<br /><small>d6852940</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-07-09 19:44              </p>
+ on 2024-08-19 09:27              </p>
           </div>
         </div>
         <br>
