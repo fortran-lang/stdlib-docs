@@ -80,20 +80,20 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 32 statements,  0.1% of total for procedures.">7 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 10 statements,  0.0% of total for procedures.">10 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/stdlib_stringlist_type.f90"> Source File</a>
+              <a href="../src/stdlib_bitsets.fypp"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_stringlist_type.f90.html'>stdlib_stringlist_type.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/stdlib_stringlist_type.html'>stdlib_stringlist_type</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_bitsets.fypp.html'>stdlib_bitsets.fypp</a></li>
+                <li class="breadcrumb-item"><a href='../module/stdlib_bitsets.html'>stdlib_bitsets</a></li>
             <li class="breadcrumb-item active" aria-current="page">operator(/=)</li>
           </ol>
         </nav>
@@ -123,29 +123,26 @@
   
   
   
-  
-  
-  
-  
-  
-  
-  
       <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#modprocs-0"
-         aria-expanded="false" aria-controls="modprocs-0">
-         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
       </a>
-      <div id="modprocs-0" class="collapse">
+      <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/operator(SLASH=)~2.html#moduleprocedure-ineq_stringlist~2">ineq_stringlist</a>
-            <a class="list-group-item" href="../interface/operator(SLASH=)~2.html#moduleprocedure-ineq_stringlist_carray~2">ineq_stringlist_carray</a>
-            <a class="list-group-item" href="../interface/operator(SLASH=)~2.html#moduleprocedure-ineq_stringlist_sarray~2">ineq_stringlist_sarray</a>
-            <a class="list-group-item" href="../interface/operator(SLASH=)~2.html#moduleprocedure-ineq_carray_stringlist~2">ineq_carray_stringlist</a>
-            <a class="list-group-item" href="../interface/operator(SLASH=)~2.html#moduleprocedure-ineq_sarray_stringlist~2">ineq_sarray_stringlist</a>
+            <a class="list-group-item" href="../interface/operator(SLASH=)~2.html#proc-neqv_64">neqv_64</a>
+            <a class="list-group-item" href="../interface/operator(SLASH=)~2.html#proc-neqv_large">neqv_large</a>
         </div>
       </div>
     </div>
 
+  
+  
+  
+  
+  
+  
+  
   
 
 
@@ -155,19 +152,35 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface operator(/=)</h2>
-      <p>Compares stringlist for inequality with the input entity
-Returns a logical
-<a href="../page/specs/stdlib_stringlist_type.html#inequality-operator">Specifications</a></p>
+      <p>Returns <code>.true.</code> if not all bits in <code>set1</code> and <code>set2</code> have the same value,
+ <code>.false.</code>  otherwise. The sets must have the same number of bits
+ otherwise the result is undefined.
+(<a href="../page/specs/stdlib_bitsets.html#-compare-two-bitsets-to-determine-whether-any-bits-differ-in-value">Specification</a>)</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_inequality</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span><span class="p">,</span><span class="w"> </span><span class="n">set1</span><span class="p">,</span><span class="w"> </span><span class="n">set2</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="w"> </span><span class="mi">32</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w">   </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">set2</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Passed 64 bit inequality tests.&#39;</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="k">            error stop</span><span class="w"> </span><span class="s1">&#39;Failed 64 bit inequality tests.&#39;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_inequality</span>
+</code></pre></div>
 <br>
-
-
-        <h2>Module Procedures</h2>
+        <h2>Functions</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ineq_stringlist"></span> <h3>private pure function ineq_stringlist(lhs, rhs)  
+    <div class="card-header codesum"><span class="anchor" id="proc-neqv_64"></span> <h3>private elemental module function neqv_64(set1, set2) result(neqv)  
 </h3></div>
     <div class="card-body">
-        <p>Compares stringlist 'lhs' for inequality with stringlist 'rhs'
-Returns a logical</p>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -182,30 +195,30 @@ Returns a logical</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~15"></span>
-              type(<a href='../type/stringlist_type.html'>stringlist_type</a>),
+              <span class="anchor" id="variable-set1~12"></span>
+              type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>lhs</strong></td>
+            <td><strong>set1</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~15"></span>
-              type(<a href='../type/stringlist_type.html'>stringlist_type</a>),
+              <span class="anchor" id="variable-set2~12"></span>
+              type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>rhs</strong></td>
+            <td><strong>set2</strong></td>
             <td>
                 
             </td>
@@ -223,11 +236,10 @@ Returns a logical</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ineq_stringlist_carray"></span> <h3>private pure function ineq_stringlist_carray(lhs, rhs)  
+    <div class="card-header codesum"><span class="anchor" id="proc-neqv_large"></span> <h3>private elemental module function neqv_large(set1, set2) result(neqv)  
 </h3></div>
     <div class="card-body">
-        <p>Compares stringlist 'lhs' for inequality with chararray 'rhs'
-Returns a logical</p>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -242,30 +254,30 @@ Returns a logical</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~16"></span>
-              type(<a href='../type/stringlist_type.html'>stringlist_type</a>),
+              <span class="anchor" id="variable-set1~11"></span>
+              type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>lhs</strong></td>
+            <td><strong>set1</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~16"></span>
-              character(len=*),
+              <span class="anchor" id="variable-set2~11"></span>
+              type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
-<td>intent(in),</td>
+<td>intent(in)</td>
               <td></td>            <td>
-              dimension(:)
+              
             </td>
             <td>::</td>
-            <td><strong>rhs</strong></td>
+            <td><strong>set2</strong></td>
             <td>
                 
             </td>
@@ -282,185 +294,7 @@ Returns a logical</p>
     </div>
   </div>
 
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ineq_stringlist_sarray"></span> <h3>private pure function ineq_stringlist_sarray(lhs, rhs)  
-</h3></div>
-    <div class="card-body">
-        <p>Compares stringlist 'lhs' for inequality with stringarray 'rhs'
-Returns a logical</p>
 
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~17"></span>
-              type(<a href='../type/stringlist_type.html'>stringlist_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~17"></span>
-              type(<a href='../type/string_type.html'>string_type</a>),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ineq_carray_stringlist"></span> <h3>private pure function ineq_carray_stringlist(lhs, rhs)  
-</h3></div>
-    <div class="card-body">
-        <p>Compares chararray 'lhs' for inequality with stringlist 'rhs'
-Returns a logical</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~18"></span>
-              character(len=*),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~18"></span>
-              type(<a href='../type/stringlist_type.html'>stringlist_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ineq_sarray_stringlist"></span> <h3>private pure function ineq_sarray_stringlist(lhs, rhs)  
-</h3></div>
-    <div class="card-body">
-        <p>Compares stringarray 'lhs' for inequality with stringlist 'rhs'
-Returns a logical</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lhs~19"></span>
-              type(<a href='../type/string_type.html'>string_type</a>),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~19"></span>
-              type(<a href='../type/stringlist_type.html'>stringlist_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-    </div>
-  </div>
 
 </div>
   </div>
@@ -470,13 +304,13 @@ Returns a logical</p>
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>2db51d18</small></p>
+<br /><small>de9b1f8f</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-10-06 06:36              </p>
+ on 2024-10-06 06:44              </p>
           </div>
         </div>
         <br>
