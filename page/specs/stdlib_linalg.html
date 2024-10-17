@@ -456,6 +456,24 @@
 <li><a href="#example_32">Example</a></li>
 </ul>
 </li>
+<li><a href="#get_norm-computes-the-vector-norm-of-a-generic-rank-array">get_norm - Computes the vector norm of a generic-rank array.</a><ul>
+<li><a href="#status_34">Status</a></li>
+<li><a href="#description_34">Description</a></li>
+<li><a href="#syntax_34">Syntax</a></li>
+<li><a href="#arguments_33">Arguments</a></li>
+<li><a href="#return-value_27">Return value</a></li>
+<li><a href="#example_33">Example</a></li>
+</ul>
+</li>
+<li><a href="#norm-computes-the-vector-norm-of-a-generic-rank-array">norm - Computes the vector norm of a generic-rank array.</a><ul>
+<li><a href="#status_35">Status</a></li>
+<li><a href="#description_35">Description</a></li>
+<li><a href="#syntax_35">Syntax</a></li>
+<li><a href="#arguments_34">Arguments</a></li>
+<li><a href="#return-value_28">Return value</a></li>
+<li><a href="#example_34">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -2001,6 +2019,223 @@ If <code>err</code> is not present, exceptions trigger an <code>error stop</code
 
 <span class="k">end program </span><span class="n">example_inverse_function</span>
 </code></pre></div>
+
+<h2 id="get_norm-computes-the-vector-norm-of-a-generic-rank-array"><code>get_norm</code> - Computes the vector norm of a generic-rank array.</h2>
+<h3 id="status_34">Status</h3>
+<p>Experimental</p>
+<h3 id="description_34">Description</h3>
+<p>This <code>pure subroutine</code> interface computes one of several vector norms of <code>real</code> or <code>complex</code> array <script type="math/tex"> A </script>, depending on 
+the value of the <code>order</code> input argument. <script type="math/tex"> A </script> may be an array of any rank. </p>
+<p>Result <code>nrm</code> returns a <code>real</code>, scalar norm value for the whole array; if <code>dim</code> is specified, <code>nrm</code> is a rank n-1 
+array with the same shape as <script type="math/tex">A </script> and dimension <code>dim</code> dropped, containing all norms evaluated along <code>dim</code>.</p>
+<h3 id="syntax_34">Syntax</h3>
+<p><code>call</code> <a href="../../interface/get_norm.html">get_norm</a> <code>(a, nrm, order, [, dim, err])</code></p>
+<h3 id="arguments_33">Arguments</h3>
+<p><code>a</code>: Shall be a rank-n <code>real</code> or <code>complex</code> array containing the data. It is an <code>intent(in)</code> argument.</p>
+<p><code>nrm</code>: if <code>dim</code> is absent, shall be a scalar with the norm evaluated over all the elements of the array. Otherwise, an array of rank <code>n-1</code>, and a shape similar
+to that of <code>a</code> with dimension <code>dim</code> dropped.</p>
+<p><code>order</code>: Shall be an <code>integer</code> value or a <code>character</code> flag that specifies the norm type, as follows. It is an <code>intent(in)</code> argument. </p>
+<table>
+<thead>
+<tr>
+<th>Integer input</th>
+<th>Character Input</th>
+<th>Norm type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-huge(0)</code></td>
+<td><code>'-inf', '-Inf'</code></td>
+<td>Minimum absolute value ( \min_i{ \left</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td><code>'1'</code></td>
+<td>1-norm ( \sum_i{ \left</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td><code>'2'</code></td>
+<td>Euclidean norm <script type="math/tex"> \sqrt{\sum_i{ a_i^2 }} </script>
+</td>
+</tr>
+<tr>
+<td><code>&gt;=3</code></td>
+<td><code>'3','4',...</code></td>
+<td>p-norm ( \left( \sum_i{ \left</td>
+</tr>
+<tr>
+<td><code>huge(0)</code></td>
+<td><code>'inf', 'Inf'</code></td>
+<td>Maximum absolute value ( \max_i{ \left</td>
+</tr>
+</tbody>
+</table>
+<p><code>dim</code> (optional): Shall be a scalar <code>integer</code> value with a value in the range from <code>1</code> to <code>n</code>, where <code>n</code> is the rank of the array. It is an <code>intent(in)</code> argument.</p>
+<p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument. If <code>err</code> is not present, the function is <code>pure</code>. </p>
+<h3 id="return-value_27">Return value</h3>
+<p>By default, the return value <code>nrm</code> is a scalar, and contains the norm as evaluated over all elements of the generic-rank array <script type="math/tex"> A </script>. 
+If the optional <code>dim</code> argument is present, <code>nrm</code> is a rank <code>n-1</code> array with the same shape as <script type="math/tex"> A </script> except 
+for dimension <code>dim</code>, that is collapsed. Each element of <code>nrm</code> contains the 1D norm of the elements of <script type="math/tex"> A </script>, 
+evaluated along dimension <code>dim</code> only.</p>
+<p>Raises <code>LINALG_ERROR</code> if the requested norm type is invalid.
+Raises <code>LINALG_VALUE_ERROR</code> if any of the arguments has an invalid size.
+If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
+<h3 id="example_33">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Vector norm: demonstrate usage of the function interface</span>
+<span class="k">program </span><span class="n">example_get_norm</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">get_norm</span><span class="p">,</span><span class="w"> </span><span class="n">linalg_state_type</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">nrm</span><span class="p">,</span><span class="w"> </span><span class="n">nrmd</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">j</span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">linalg_state_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+
+<span class="w">  </span><span class="c">! a = [   -3.00000000   0.00000000   3.00000000</span>
+<span class="w">  </span><span class="c">!         -2.00000000   1.00000000   4.00000000</span>
+<span class="w">  </span><span class="c">!         -1.00000000   2.00000000   5.00000000   ]  </span>
+<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([(</span><span class="n">j</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">)],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="s2">&quot;(&#39; a = [   &#39;,3(g0,3x),2(/9x,3(g0,3x)),&#39;]&#39;)&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">transpose</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c">! Norm with integer input</span>
+<span class="w">  </span><span class="k">call </span><span class="n">get_norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">nrm</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Euclidean norm      = &#39;</span><span class="p">,</span><span class="n">nrm</span><span class="w">   </span><span class="c">! 8.30662346</span>
+
+<span class="w">  </span><span class="c">! Norm with character input</span>
+<span class="w">  </span><span class="k">call </span><span class="n">get_norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">nrm</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Euclidean norm      = &#39;</span><span class="p">,</span><span class="n">nrm</span><span class="w">   </span><span class="c">! 8.30662346</span>
+
+<span class="w">  </span><span class="c">! Euclidean norm of row arrays, a(i,:)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">get_norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">nrmd</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Rows norms          = &#39;</span><span class="p">,</span><span class="n">nrmd</span><span class="w">  </span><span class="c">! 4.24264050       4.58257580       5.47722578  </span>
+
+<span class="w">  </span><span class="c">! Euclidean norm of columns arrays, a(:,i)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">get_norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">nrmd</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Columns norms       = &#39;</span><span class="p">,</span><span class="n">nrmd</span><span class="w">  </span><span class="c">! 3.74165750       2.23606801       7.07106781 </span>
+
+<span class="w">  </span><span class="c">! Infinity norms</span>
+<span class="w">  </span><span class="k">call </span><span class="n">get_norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">nrm</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;maxval(||a||)       = &#39;</span><span class="p">,</span><span class="n">nrm</span><span class="w">   </span><span class="c">! 5.00000000</span>
+
+<span class="w">  </span><span class="k">call </span><span class="n">get_norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">nrmd</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;inf&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;maxval(||a(i,:)||)  = &#39;</span><span class="p">,</span><span class="n">nrmd</span><span class="w">  </span><span class="c">! 3.00000000       4.00000000       5.00000000</span>
+
+<span class="w">  </span><span class="k">call </span><span class="n">get_norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">nrm</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-inf&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;minval(||a||)       = &#39;</span><span class="p">,</span><span class="n">nrm</span><span class="w">   </span><span class="c">! 0.00000000</span>
+
+<span class="w">  </span><span class="k">call </span><span class="n">get_norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">nrmd</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-inf&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;minval(||a(:,i)||)  = &#39;</span><span class="p">,</span><span class="n">nrmd</span><span class="w">  </span><span class="c">! 1.00000000       0.00000000       3.00000000 </span>
+
+<span class="w">  </span><span class="c">! Catch Error: </span>
+<span class="w">  </span><span class="c">! [norm] returned Value Error: dimension 4 is out of rank for shape(a)= [3, 3]</span>
+<span class="w">  </span><span class="k">call </span><span class="n">get_norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">nrmd</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;inf&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="o">=</span><span class="n">err</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;invalid: &#39;</span><span class="p">,</span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span><span class="w">  </span>
+
+<span class="k">end program </span><span class="n">example_get_norm</span>
+</code></pre></div>
+
+<h2 id="norm-computes-the-vector-norm-of-a-generic-rank-array"><code>norm</code> - Computes the vector norm of a generic-rank array.</h2>
+<h3 id="status_35">Status</h3>
+<p>Experimental</p>
+<h3 id="description_35">Description</h3>
+<p>This function computes one of several vector norms of <code>real</code> or <code>complex</code> array <script type="math/tex"> A </script>, depending on 
+the value of the <code>order</code> input argument. <script type="math/tex"> A </script> may be an array of any rank. </p>
+<h3 id="syntax_35">Syntax</h3>
+<p><code>x =</code> <a href="../../interface/norm.html">norm</a> <code>(a, order, [, dim, err])</code></p>
+<h3 id="arguments_34">Arguments</h3>
+<p><code>a</code>: Shall be a rank-n <code>real</code> or <code>complex</code> array containing the data. It is an <code>intent(in)</code> argument.</p>
+<p><code>order</code>: Shall be an <code>integer</code> value or a <code>character</code> flag that specifies the norm type, as follows. It is an <code>intent(in)</code> argument. </p>
+<table>
+<thead>
+<tr>
+<th>Integer input</th>
+<th>Character Input</th>
+<th>Norm type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-huge(0)</code></td>
+<td><code>'-inf', '-Inf'</code></td>
+<td>Minimum absolute value ( \min_i{ \left</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td><code>'1'</code></td>
+<td>1-norm ( \sum_i{ \left</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td><code>'2'</code></td>
+<td>Euclidean norm <script type="math/tex"> \sqrt{\sum_i{ a_i^2 }} </script>
+</td>
+</tr>
+<tr>
+<td><code>&gt;=3</code></td>
+<td><code>'3','4',...</code></td>
+<td>p-norm ( \left( \sum_i{ \left</td>
+</tr>
+<tr>
+<td><code>huge(0)</code></td>
+<td><code>'inf', 'Inf'</code></td>
+<td>Maximum absolute value ( \max_i{ \left</td>
+</tr>
+</tbody>
+</table>
+<p><code>dim</code> (optional): Shall be a scalar <code>integer</code> value with a value in the range from <code>1</code> to <code>n</code>, where <code>n</code> is the rank of the array. It is an <code>intent(in)</code> argument.</p>
+<p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument. If <code>err</code> is not present, the function is <code>pure</code>. </p>
+<h3 id="return-value_28">Return value</h3>
+<p>By default, the return value <code>x</code> is a scalar, and contains the norm as evaluated over all elements of the generic-rank array <script type="math/tex"> A </script>. 
+If the optional <code>dim</code> argument is present, <code>x</code> is a rank <code>n-1</code> array with the same shape as <script type="math/tex"> A </script> except 
+for dimension <code>dim</code>, that is dropped. Each element of <code>x</code> contains the 1D norm of the elements of <script type="math/tex"> A </script>, 
+evaluated along dimension <code>dim</code> only.</p>
+<p>Raises <code>LINALG_ERROR</code> if the requested norm type is invalid.
+Raises <code>LINALG_VALUE_ERROR</code> if any of the arguments has an invalid size.
+If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
+<h3 id="example_34">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Vector norm: demonstrate usage of the function interface</span>
+<span class="k">program </span><span class="n">example_norm</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">norm</span><span class="p">,</span><span class="w"> </span><span class="n">linalg_state_type</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="n">na</span>
+<span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">j</span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">linalg_state_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+
+<span class="w">  </span><span class="c">! a = [   -3.00000000   0.00000000   3.00000000</span>
+<span class="w">  </span><span class="c">!         -2.00000000   1.00000000   4.00000000</span>
+<span class="w">  </span><span class="c">!         -1.00000000   2.00000000   5.00000000   ]  </span>
+<span class="w">  </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([(</span><span class="n">j</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">)],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="s2">&quot;(&#39; a = [   &#39;,3(g0,3x),2(/9x,3(g0,3x)),&#39;]&#39;)&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">transpose</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c">! Norm with integer input</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Euclidean norm      = &#39;</span><span class="p">,</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">        </span><span class="c">! 8.30662346</span>
+
+<span class="w">  </span><span class="c">! Norm with character input</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Euclidean norm      = &#39;</span><span class="p">,</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2&#39;</span><span class="p">)</span><span class="w">      </span><span class="c">! 8.30662346</span>
+
+<span class="w">  </span><span class="c">! Euclidean norm of row arrays, a(i,:)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Rows norms          = &#39;</span><span class="p">,</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="c">! 4.24264050       4.58257580       5.47722578  </span>
+
+<span class="w">  </span><span class="c">! Euclidean norm of columns arrays, a(:,i)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Columns norms       = &#39;</span><span class="p">,</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c">! 3.74165750       2.23606801       7.07106781 </span>
+
+<span class="w">  </span><span class="c">! Infinity norms</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;maxval(||a||)       = &#39;</span><span class="p">,</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;inf&#39;</span><span class="p">)</span><span class="w">          </span><span class="c">! 5.00000000</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;maxval(||a(i,:)||)  = &#39;</span><span class="p">,</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;inf&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="w">   </span><span class="c">! 3.00000000       4.00000000       5.00000000</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;minval(||a||)       = &#39;</span><span class="p">,</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-inf&#39;</span><span class="p">)</span><span class="w">         </span><span class="c">! 0.00000000</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;minval(||a(:,i)||)  = &#39;</span><span class="p">,</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-inf&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w">  </span><span class="c">! 1.00000000       0.00000000       3.00000000 </span>
+
+<span class="w">  </span><span class="c">! Catch Error: </span>
+<span class="w">  </span><span class="c">! [norm] returned Value Error: dimension 4 is out of rank for shape(a)= [3, 3]</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;invalid: &#39;</span><span class="p">,</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="s1">&#39;inf&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="o">=</span><span class="n">err</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;error =  &#39;</span><span class="p">,</span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span><span class="w">  </span>
+
+<span class="k">end program </span><span class="n">example_norm</span>
+</code></pre></div>
     </div>
   </div>
       <hr>
@@ -2009,13 +2244,13 @@ If <code>err</code> is not present, exceptions trigger an <code>error stop</code
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>de9b1f8f</small></p>
+<br /><small>2736e06b</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-10-06 06:44              </p>
+ on 2024-10-17 14:55              </p>
           </div>
         </div>
         <br>
