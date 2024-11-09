@@ -1,0 +1,640 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A community driven standard library for (modern) Fortran">
+    <meta name="author" content="fortran-lang/stdlib contributors" >
+    <link rel="icon" href="../../favicon.png">
+
+    <title>sparse &ndash; Fortran-lang/stdlib</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../../css/pygments.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/local.css" rel="stylesheet">
+      <link  href="../../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../../index.html">Fortran-lang/stdlib </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../index.html">Contributing and specs</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>sparse</h1>
+    <div class="container p-2 mb-4 bg-light border rounded-3">
+      <div class="row align-items-center justify-content-between">
+        <div class="col">
+          <ul class="list-inline" style="margin-bottom:0px; display:inline">
+          </ul>
+        </div>
+        <div class="col">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../index.html'>Contributing and specs</a></li>
+                <li class="breadcrumb-item"><a href='index.html'>Specifications (specs)</a></li>
+              <li class="breadcrumb-item active" aria-current="page">sparse</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+      <div class="col-3">
+        <div class="card card-body bg-light" id="sidebar-toc">
+          <ul class="nav flex-column align-items">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">Contributing and specs</a>
+            </li>
+          </ul>
+          <hr>
+          <nav class="nav nav-pills flex-column">
+              <a class="nav-link" href="../License.html">Fortran stdlib License (MIT)</a>
+              <a class="nav-link" href="../changelog.html">Changelog</a>
+              <a class="nav-link" href="../contributing/index.html">Contributing</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../contributing/CodeOfConduct.html">Contributor Code of Conduct</a>
+              <a class="nav-link" href="../contributing/StyleGuide.html">Style Guide</a>
+              <a class="nav-link" href="../contributing/Workflow.html">Workflow for Contributors</a>
+
+                </nav>
+              <a class="nav-link" href="index.html">Specifications (specs)</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="stdlib_ansi.html">terminal colors</a>
+              <a class="nav-link" href="stdlib_array.html">array</a>
+              <a class="nav-link" href="stdlib_ascii.html">ascii</a>
+              <a class="nav-link" href="stdlib_bitsets.html">bitsets</a>
+              <a class="nav-link" href="stdlib_constants.html">constants</a>
+              <a class="nav-link" href="stdlib_error.html">error</a>
+              <a class="nav-link" href="stdlib_hash_procedures.html">hash</a>
+              <a class="nav-link" href="stdlib_hashmaps.html">Hash maps</a>
+              <a class="nav-link" href="stdlib_io.html">io</a>
+              <a class="nav-link" href="stdlib_kinds.html">kinds</a>
+              <a class="nav-link" href="stdlib_linalg.html">linalg</a>
+              <a class="nav-link" href="stdlib_linalg_state_type.html">linalg_state_type</a>
+              <a class="nav-link" href="stdlib_logger.html">logger</a>
+              <a class="nav-link" href="stdlib_math.html">math</a>
+              <a class="nav-link" href="stdlib_optval.html">optval</a>
+              <a class="nav-link" href="stdlib_quadrature.html">quadrature</a>
+              <a class="nav-link" href="stdlib_random.html">random</a>
+              <a class="nav-link" href="stdlib_selection.html">selection</a>
+              <a class="nav-link" href="stdlib_sorting.html">sorting</a>
+              <a class="nav-link active disabled" href="stdlib_sparse.html">sparse</a>
+              <a class="nav-link" href="stdlib_specialfunctions.html">specialfunctions</a>
+              <a class="nav-link" href="stdlib_specialfunctions_gamma.html">specialfunctions_gamma</a>
+              <a class="nav-link" href="stdlib_stats.html">stats</a>
+              <a class="nav-link" href="stdlib_stats_distribution_exponential.html">stats_distribution_exponential</a>
+              <a class="nav-link" href="stdlib_stats_distribution_normal.html">stats_distribution_normal</a>
+              <a class="nav-link" href="stdlib_stats_distribution_uniform.html">stats_distribution_uniform</a>
+              <a class="nav-link" href="stdlib_str2num.html">str2num</a>
+              <a class="nav-link" href="stdlib_string_type.html">string_type</a>
+              <a class="nav-link" href="stdlib_stringlist_type.html">stringlist_type</a>
+              <a class="nav-link" href="stdlib_strings.html">strings</a>
+              <a class="nav-link" href="stdlib_version.html">version</a>
+
+                </nav>
+          </nav>
+        </div>
+      </div>
+
+    <div class="col-9" id='text'>
+      <h1 id="the-stdlib_sparse-module">The <code>stdlib_sparse</code> module</h1>
+<div class="toc">
+<ul>
+<li><a href="#the-stdlib_sparse-module">The stdlib_sparse module</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#sparse-matrix-derived-types">Sparse matrix derived types</a><ul>
+<li><a href="#the-sparse_type-abstract-derived-type">The sparse_type abstract derived type</a><ul>
+<li><a href="#status">Status</a></li>
+<li><a href="#description">Description</a></li>
+</ul>
+</li>
+<li><a href="#coo-the-coordinates-compressed-sparse-format">COO: The COOrdinates compressed sparse format</a><ul>
+<li><a href="#status_1">Status</a></li>
+<li><a href="#description_1">Description</a></li>
+</ul>
+</li>
+<li><a href="#csr-the-compressed-sparse-row-or-yale-format">CSR: The Compressed Sparse Row or Yale format</a><ul>
+<li><a href="#status_2">Status</a></li>
+<li><a href="#description_2">Description</a></li>
+</ul>
+</li>
+<li><a href="#csc-the-compressed-sparse-column-format">CSC: The Compressed Sparse Column format</a><ul>
+<li><a href="#status_3">Status</a></li>
+<li><a href="#description_3">Description</a></li>
+</ul>
+</li>
+<li><a href="#ellpack-ell-pack-storage-format">ELLPACK: ELL-pack storage format</a><ul>
+<li><a href="#status_4">Status</a></li>
+<li><a href="#description_4">Description</a></li>
+</ul>
+</li>
+<li><a href="#sell-c-the-sliced-ellpack-with-constant-blocks-format">SELL-C: The Sliced ELLPACK with Constant blocks format</a><ul>
+<li><a href="#status_5">Status</a></li>
+<li><a href="#description_5">Description</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#add-sparse-matrix-data-accessors">add- sparse matrix data accessors</a><ul>
+<li><a href="#status_6">Status</a></li>
+<li><a href="#description_6">Description</a></li>
+<li><a href="#syntax">Syntax</a></li>
+<li><a href="#arguments">Arguments</a></li>
+</ul>
+</li>
+<li><a href="#at-sparse-matrix-data-accessors">at- sparse matrix data accessors</a><ul>
+<li><a href="#status_7">Status</a></li>
+<li><a href="#description_7">Description</a></li>
+<li><a href="#syntax_1">Syntax</a></li>
+<li><a href="#arguments_1">Arguments</a></li>
+</ul>
+</li>
+<li><a href="#example">Example</a></li>
+<li><a href="#spmv-sparse-matrix-vector-product">spmv - Sparse Matrix-Vector product</a><ul>
+<li><a href="#status_8">Status</a></li>
+<li><a href="#description_8">Description</a></li>
+<li><a href="#syntax_2">Syntax</a></li>
+<li><a href="#arguments_2">Arguments</a></li>
+</ul>
+</li>
+<li><a href="#sparse-matrix-to-matrix-conversions">Sparse matrix to matrix conversions</a><ul>
+<li><a href="#status_9">Status</a></li>
+<li><a href="#description_9">Description</a></li>
+<li><a href="#syntax_3">Syntax</a></li>
+<li><a href="#arguments_3">Arguments</a></li>
+<li><a href="#syntax_4">Syntax</a></li>
+<li><a href="#arguments_4">Arguments</a></li>
+</ul>
+</li>
+<li><a href="#example_1">Example</a><ul>
+<li><a href="#syntax_5">Syntax</a></li>
+<li><a href="#arguments_5">Arguments</a><ul>
+<li><a href="#note">Note</a></li>
+</ul>
+</li>
+<li><a href="#syntax_6">Syntax</a></li>
+<li><a href="#arguments_6">Arguments</a></li>
+<li><a href="#syntax_7">Syntax</a></li>
+<li><a href="#arguments_7">Arguments</a></li>
+<li><a href="#syntax_8">Syntax</a></li>
+<li><a href="#arguments_8">Arguments</a></li>
+<li><a href="#syntax_9">Syntax</a></li>
+<li><a href="#arguments_9">Arguments</a></li>
+<li><a href="#syntax_10">Syntax</a></li>
+<li><a href="#arguments_10">Arguments</a></li>
+<li><a href="#syntax_11">Syntax</a></li>
+<li><a href="#arguments_11">Arguments</a></li>
+<li><a href="#syntax_12">Syntax</a></li>
+<li><a href="#arguments_12">Arguments</a></li>
+<li><a href="#syntax_13">Syntax</a></li>
+<li><a href="#arguments_13">Arguments</a></li>
+</ul>
+</li>
+<li><a href="#example_2">Example</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="introduction">Introduction</h2>
+<p>The <code>stdlib_sparse</code> module provides derived types for standard sparse matrix data structures. It also provides math kernels such as sparse matrix-vector product and conversion between matrix types.</p>
+<h2 id="sparse-matrix-derived-types">Sparse matrix derived types</h2>
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="the-sparse_type-abstract-derived-type">The <code>sparse_type</code> abstract derived type</h3>
+<h4 id="status">Status</h4>
+<p>Experimental</p>
+<h4 id="description">Description</h4>
+<p>The parent <code>sparse_type</code> is as an abstract derived type holding the basic common meta data needed to define a sparse matrix, as well as shared APIs. All sparse matrix flavors are extended from the <code>sparse_type</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">public</span><span class="p">,</span><span class="w"> </span><span class="k">abstract</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sparse_type</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nrows</span><span class="w">   </span><span class="c">!! number of rows</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ncols</span><span class="w">   </span><span class="c">!! number of columns</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nnz</span><span class="w">     </span><span class="c">!! number of non-zero values</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">storage</span><span class="w"> </span><span class="c">!! assumed storage symmetry</span>
+<span class="k">end type</span>
+</code></pre></div>
+
+<p>The storage integer label should be assigned from the module's internal enumerator containing the following three enums:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">enum</span><span class="p">,</span><span class="w"> </span><span class="k">bind</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+<span class="w">    </span><span class="k">enumerator</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sparse_full</span><span class="w">  </span><span class="c">!! Full Sparse matrix (no symmetry considerations)</span>
+<span class="w">    </span><span class="k">enumerator</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sparse_lower</span><span class="w"> </span><span class="c">!! Symmetric Sparse matrix with triangular inferior storage</span>
+<span class="w">    </span><span class="k">enumerator</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sparse_upper</span><span class="w"> </span><span class="c">!! Symmetric Sparse matrix with triangular supperior storage</span>
+<span class="k">end enum</span>
+</code></pre></div>
+
+<p>In the following, all sparse kinds will be presented in two main flavors: a data-less type <code>&lt;matrix&gt;_type</code> useful for topological graph operations. And real/complex valued types <code>&lt;matrix&gt;_&lt;kind&gt;_type</code> containing the <code>data</code> buffer for the matrix values. The following rectangular matrix will be used to showcase how each sparse matrix holds the data internally:</p>
+<p>
+<script type="math/tex; mode=display"> M = \begin{bmatrix} 
+    9 & 0 & 0  & 0 & -3 \\
+    4 & 7 & 0  & 0 & 0 \\
+    0 & 8 & -1 & 8 & 0 \\
+    4 & 0 & 5  & 6 & 0 \\
+  \end{bmatrix} </script>
+</p>
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="coo-the-coordinates-compressed-sparse-format"><code>COO</code>: The COOrdinates compressed sparse format</h3>
+<h4 id="status_1">Status</h4>
+<p>Experimental</p>
+<h4 id="description_1">Description</h4>
+<p>The <code>COO</code>, triplet or <code>ijv</code> format defines all non-zero elements of the matrix by explicitly allocating the <code>i,j</code> index and the value of the matrix. While some implementations use separate <code>row</code> and <code>col</code> arrays for the index, here we use a 2D array in order to promote fast memory acces to <code>ij</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="n">COO_sp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">COO</span>
+<span class="k">call </span><span class="n">COO</span><span class="p">%</span><span class="n">malloc</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">COO</span><span class="p">%</span><span class="k">data</span><span class="p">(:)</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">([</span><span class="mi">9</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+<span class="n">COO</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">COO</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">COO</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">COO</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">COO</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">COO</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">COO</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">COO</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">COO</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">COO</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+</code></pre></div>
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="csr-the-compressed-sparse-row-or-yale-format"><code>CSR</code>: The Compressed Sparse Row or Yale format</h3>
+<h4 id="status_2">Status</h4>
+<p>Experimental</p>
+<h4 id="description_2">Description</h4>
+<p>The Compressed Sparse Row or Yale format <code>CSR</code> stores the matrix structure by compressing the row indices with a counter pointer <code>rowptr</code> enabling to know the first and last non-zero column index <code>col</code> of the given row. </p>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="n">CSR_sp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">CSR</span>
+<span class="k">call </span><span class="n">CSR</span><span class="p">%</span><span class="n">malloc</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">CSR</span><span class="p">%</span><span class="k">data</span><span class="p">(:)</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">([</span><span class="mi">9</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+<span class="n">CSR</span><span class="p">%</span><span class="n">col</span><span class="p">(:)</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">CSR</span><span class="p">%</span><span class="n">rowptr</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
+</code></pre></div>
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="csc-the-compressed-sparse-column-format"><code>CSC</code>: The Compressed Sparse Column format</h3>
+<h4 id="status_3">Status</h4>
+<p>Experimental</p>
+<h4 id="description_3">Description</h4>
+<p>The Compressed Sparse Colum <code>CSC</code> is similar to the <code>CSR</code> format but values are accesed first by column, thus an index counter is given by <code>colptr</code> which enables to know the first and last non-zero row index of a given colum. </p>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="n">CSC_sp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">CSC</span>
+<span class="k">call </span><span class="n">CSC</span><span class="p">%</span><span class="n">malloc</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">CSC</span><span class="p">%</span><span class="k">data</span><span class="p">(:)</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">([</span><span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">CSC</span><span class="p">%</span><span class="n">row</span><span class="p">(:)</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">CSC</span><span class="p">%</span><span class="n">colptr</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
+</code></pre></div>
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="ellpack-ell-pack-storage-format"><code>ELLPACK</code>: ELL-pack storage format</h3>
+<h4 id="status_4">Status</h4>
+<p>Experimental</p>
+<h4 id="description_4">Description</h4>
+<p>The <code>ELL</code> format stores data in a dense matrix of $nrows \times K$ in column major order. By imposing a constant number of elements per row $K$, this format will incur in additional zeros being stored, but it enables efficient vectorization as memory acces is carried out by constant sized strides. </p>
+<div class="codehilite"><pre><span></span><code><span class="k">type</span><span class="p">(</span><span class="n">ELL_sp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ELL</span>
+<span class="k">call </span><span class="n">ELL</span><span class="p">%</span><span class="n">malloc</span><span class="p">(</span><span class="n">num_rows</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">num_cols</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">num_nz_row</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ELL</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">([</span><span class="mi">9</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ELL</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ELL</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+<span class="n">ELL</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+
+<span class="n">ELL</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ELL</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ELL</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">ELL</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+</code></pre></div>
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="sell-c-the-sliced-ellpack-with-constant-blocks-format"><code>SELL-C</code>: The Sliced ELLPACK with Constant blocks format</h3>
+<h4 id="status_5">Status</h4>
+<p>Experimental</p>
+<h4 id="description_5">Description</h4>
+<p>The Sliced ELLPACK format <code>SELLC</code> is a variation of the <code>ELLPACK</code> format. This modification reduces the storage size compared to the <code>ELLPACK</code> format but maintaining its efficient data access scheme. It can be seen as an intermediate format between <code>CSR</code> and <code>ELLPACK</code>. For more details read <a href="https://arxiv.org/pdf/1307.6209v1">the reference</a></p>
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h2 id="add-sparse-matrix-data-accessors"><code>add</code>- sparse matrix data accessors</h2>
+<h3 id="status_6">Status</h3>
+<p>Experimental</p>
+<h3 id="description_6">Description</h3>
+<p>Type-bound procedures to enable adding data in a sparse matrix.</p>
+<h3 id="syntax">Syntax</h3>
+<p><code>call matrix%add(i,j,v)</code> or
+<code>call matrix%add(i(:),j(:),v(:,:))</code></p>
+<h3 id="arguments">Arguments</h3>
+<p><code>i</code>: Shall be an integer value or rank-1 array. It is an <code>intent(in)</code> argument.</p>
+<p><code>j</code>: Shall be an integer value or rank-1 array. It is an <code>intent(in)</code> argument.</p>
+<p><code>v</code>: Shall be a <code>real</code> or <code>complex</code> value or rank-2 array. The type shall be in accordance to the declared sparse matrix object. It is an <code>intent(in)</code> argument.</p>
+<h2 id="at-sparse-matrix-data-accessors"><code>at</code>- sparse matrix data accessors</h2>
+<h3 id="status_7">Status</h3>
+<p>Experimental</p>
+<h3 id="description_7">Description</h3>
+<p>Type-bound procedures to enable requesting data from a sparse matrix.</p>
+<h3 id="syntax_1">Syntax</h3>
+<p><code>v = matrix%at(i,j)</code></p>
+<h3 id="arguments_1">Arguments</h3>
+<p><code>i</code> : Shall be an integer value. It is an <code>intent(in)</code> argument.</p>
+<p><code>j</code> : Shall be an integer value. It is an <code>intent(in)</code> argument.</p>
+<p><code>v</code> : Shall be a <code>real</code> or <code>complex</code> value in accordance to the declared sparse matrix object. If the <code>ij</code> tuple is within the sparse pattern, <code>v</code> contains the value in the data buffer. If the <code>ij</code> tuple is outside the sparse pattern, <code>v</code> is equal <code>0</code>. If the <code>ij</code> tuple is outside the matrix pattern <code>(nrows,ncols)</code>, <code>v</code> is <code>NaN</code>.</p>
+<h2 id="example">Example</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_sparse_data_accessors</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_sparse</span>
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mat</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dense</span><span class="p">(:,:)</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">CSR_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">CSR</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">COO_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">COO</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">locdof</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! Initial data</span>
+<span class="w">    </span><span class="n">mat</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1._dp</span><span class="p">,</span><span class="mf">2._dp</span><span class="p">]</span>
+<span class="w">    </span><span class="n">mat</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">2._dp</span><span class="p">,</span><span class="mf">1._dp</span><span class="p">]</span>
+<span class="w">    </span><span class="k">allocate</span><span class="p">(</span><span class="n">dense</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0._dp</span><span class="p">)</span>
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">        </span><span class="n">dense</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="p">:</span><span class="mi">2</span><span class="o">+</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="p">:</span><span class="mi">2</span><span class="o">+</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dense</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="p">:</span><span class="mi">2</span><span class="o">+</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="p">:</span><span class="mi">2</span><span class="o">+</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mat</span>
+<span class="w">    </span><span class="k">end do</span>
+
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Original Matrix&#39;</span>
+<span class="w">    </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(5f8.1)&#39;</span><span class="p">,</span><span class="n">dense</span><span class="p">(</span><span class="n">j</span><span class="p">,:)</span>
+<span class="w">    </span><span class="k">end do</span>
+
+<span class="w">    </span><span class="c">! Initialize CSR data and reset dense reference matrix</span>
+<span class="w">    </span><span class="k">call </span><span class="n">dense2coo</span><span class="p">(</span><span class="n">dense</span><span class="p">,</span><span class="n">COO</span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">coo2csr</span><span class="p">(</span><span class="n">COO</span><span class="p">,</span><span class="n">CSR</span><span class="p">)</span>
+<span class="w">    </span><span class="n">CSR</span><span class="p">%</span><span class="k">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0._dp</span>
+<span class="w">    </span><span class="n">dense</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0._dp</span>
+
+<span class="w">    </span><span class="c">! Iteratively add blocks of data</span>
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">        </span><span class="n">locdof</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">i</span><span class="p">]</span><span class="w"> </span>
+<span class="w">        </span><span class="k">call </span><span class="n">CSR</span><span class="p">%</span><span class="n">add</span><span class="p">(</span><span class="n">locdof</span><span class="p">,</span><span class="n">locdof</span><span class="p">,</span><span class="n">mat</span><span class="p">)</span>
+<span class="w">        </span><span class="c">! lets print a dense view of every step</span>
+<span class="w">        </span><span class="k">call </span><span class="n">csr2dense</span><span class="p">(</span><span class="n">CSR</span><span class="p">,</span><span class="n">dense</span><span class="p">)</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,I2)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Add block :&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(5f8.1)&#39;</span><span class="p">,</span><span class="n">dense</span><span class="p">(</span><span class="n">j</span><span class="p">,:)</span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">    end do</span>
+
+<span class="w">    </span><span class="c">! Request values from the matrix</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;within sparse pattern  :&#39;</span><span class="p">,</span><span class="n">CSR</span><span class="p">%</span><span class="n">at</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;outside sparse pattern :&#39;</span><span class="p">,</span><span class="n">CSR</span><span class="p">%</span><span class="n">at</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;outside matrix pattern :&#39;</span><span class="p">,</span><span class="n">CSR</span><span class="p">%</span><span class="n">at</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="k">end program </span><span class="n">example_sparse_data_accessors</span>
+</code></pre></div>
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h2 id="spmv-sparse-matrix-vector-product"><code>spmv</code> - Sparse Matrix-Vector product</h2>
+<h3 id="status_8">Status</h3>
+<p>Experimental</p>
+<h3 id="description_8">Description</h3>
+<p>Provide sparse matrix-vector product kernels for the current supported sparse matrix types.</p>
+<p>
+<script type="math/tex; mode=display">y=\alpha*op(M)*x+\beta*y</script>
+</p>
+<h3 id="syntax_2">Syntax</h3>
+<p><code>call</code> <a href="../../interface/spmv~2.html">spmv</a> <code>(matrix,vec_x,vec_y [,alpha,beta,op])</code></p>
+<h3 id="arguments_2">Arguments</h3>
+<p><code>matrix</code>: Shall be a <code>real</code> or <code>complex</code> sparse type matrix. It is an <code>intent(in)</code> argument.</p>
+<p><code>vec_x</code>: Shall be a rank-1 or rank-2 array of <code>real</code> or <code>complex</code> type array. It is an <code>intent(in)</code> argument.</p>
+<p><code>vec_y</code>: Shall be a rank-1 or rank-2 array of <code>real</code> or <code>complex</code> type array. . It is an <code>intent(inout)</code> argument.</p>
+<p><code>alpha</code>, <code>optional</code> : Shall be a scalar value of the same type as <code>vec_x</code>. Default value <code>alpha=1</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>beta</code>, <code>optional</code> : Shall be a scalar value of the same type as <code>vec_x</code>. Default value <code>beta=0</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>op</code>, <code>optional</code>: In-place operator identifier. Shall be a <code>character(1)</code> argument. It can have any of the following values: <code>N</code>: no transpose, <code>T</code>: transpose, <code>H</code>: hermitian or complex transpose. These values are provided as constants by the <code>stdlib_sparse</code> module: <code>sparse_op_none</code>, <code>sparse_op_transpose</code>, <code>sparse_op_hermitian</code></p>
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h2 id="sparse-matrix-to-matrix-conversions">Sparse matrix to matrix conversions</h2>
+<h3 id="status_9">Status</h3>
+<p>Experimental</p>
+<h3 id="description_9">Description</h3>
+<p>This module provides facility functions for converting between storage formats.</p>
+<h3 id="syntax_3">Syntax</h3>
+<p><code>call</code> <a href="../../module/stdlib_sparse_conversion.html">stdlib_sparse_conversion</a> <code>(coo[,sort_data])</code></p>
+<h3 id="arguments_3">Arguments</h3>
+<p><code>COO</code> : Shall be any <code>COO</code> type. The same object will be returned with the arrays reallocated to the correct size after removing duplicates. It is an <code>intent(inout)</code> argument.</p>
+<p><code>sort_data</code>, <code>optional</code> : Shall be a <code>logical</code> argument to determine whether data in the COO graph should be sorted while sorting the index array, default <code>.false.</code>. It is an <code>intent(in)</code> argument.</p>
+<h3 id="syntax_4">Syntax</h3>
+<p><code>call</code> <a href="../../interface/from_ijv.html">from_ijv</a> <code>(sparse,row,col[,data,nrows,ncols,num_nz_rows,chunk])</code></p>
+<h3 id="arguments_4">Arguments</h3>
+<p><code>sparse</code> : Shall be a <code>COO</code>, <code>CSR</code>, <code>ELL</code> or <code>SELLC</code> type. The graph object will be returned with a canonical shape after sorting and removing duplicates from the <code>(row,col,data)</code> triplet. If the graph is <code>COO_type</code> no data buffer is allowed. It is an <code>intent(inout)</code> argument.</p>
+<p><code>row</code> : rows index array. It is an <code>intent(in)</code> argument.</p>
+<p><code>col</code> : columns index array. It is an <code>intent(in)</code> argument.</p>
+<p><code>data</code>, <code>optional</code>: <code>real</code> or <code>complex</code> data array. It is an <code>intent(in)</code> argument.</p>
+<p><code>nrows</code>, <code>optional</code>: number of rows, if not given it will be computed from the <code>row</code> array. It is an <code>intent(in)</code> argument.</p>
+<p><code>ncols</code>, <code>optional</code>: number of columns, if not given it will be computed from the <code>col</code> array. It is an <code>intent(in)</code> argument.</p>
+<p><code>num_nz_rows</code>, <code>optional</code>: number of non zeros per row, only valid in the case of an <code>ELL</code> matrix, by default it will computed from the largest row. It is an <code>intent(in)</code> argument.</p>
+<p><code>chunk</code>, <code>optional</code>: chunk size, only valid in the case of a <code>SELLC</code> matrix, by default it will be taken from the <code>SELLC</code> default attribute chunk size. It is an <code>intent(in)</code> argument.</p>
+<h2 id="example_1">Example</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_sparse_from_ijv</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_sparse</span>
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">row</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="w"> </span><span class="n">col</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">data</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">COO_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">COO</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">CSR_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">CSR</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">ELL_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ELL</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span>
+
+<span class="w">    </span><span class="c">! Initial data</span>
+<span class="w">    </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="w">    </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="w">    </span><span class="k">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">([</span><span class="mi">9</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dp</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! Create a COO matrix from triplet</span>
+<span class="w">    </span><span class="k">call </span><span class="n">from_ijv</span><span class="p">(</span><span class="n">COO</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">,</span><span class="k">data</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;COO&#39;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;  i,  j,    v&#39;</span>
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">COO</span><span class="p">%</span><span class="n">nnz</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(2I4,f8.1)&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">COO</span><span class="p">%</span><span class="nb">index</span><span class="p">(:,</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">COO</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end do</span>
+
+<span class="w">    </span><span class="c">! Create a CSR matrix from triplet</span>
+<span class="w">    </span><span class="k">call </span><span class="n">from_ijv</span><span class="p">(</span><span class="n">CSR</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">,</span><span class="k">data</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;CSR&#39;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,5I8)&#39;</span><span class="p">,</span><span class="w">    </span><span class="s1">&#39;rowptr :&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">CSR</span><span class="p">%</span><span class="n">rowptr</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,10I8)&#39;</span><span class="p">,</span><span class="w">   </span><span class="s1">&#39;col    :&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">CSR</span><span class="p">%</span><span class="n">col</span><span class="w"> </span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,10f8.1)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;data   :&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">CSR</span><span class="p">%</span><span class="k">data</span>
+
+<span class="w">    </span><span class="c">! Create an ELL matrix from triplet</span>
+<span class="w">    </span><span class="k">call </span><span class="n">from_ijv</span><span class="p">(</span><span class="n">ELL</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">,</span><span class="k">data</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;ELL&#39;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; index        |         data&#39;</span>
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ELL</span><span class="p">%</span><span class="n">nrows</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(3I4,x,3f8.1)&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ELL</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">i</span><span class="p">,:)</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">ELL</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="n">i</span><span class="p">,:)</span>
+<span class="w">    </span><span class="k">end do</span>
+
+<span class="k">end program </span><span class="n">example_sparse_from_ijv</span>
+</code></pre></div>
+
+<h3 id="syntax_5">Syntax</h3>
+<p><code>call</code> <a href="../../interface/diag~2.html">diag</a> <code>(matrix,diagonal)</code></p>
+<h3 id="arguments_5">Arguments</h3>
+<p><code>matrix</code> : Shall be a <code>dense</code>, <code>COO</code>, <code>CSR</code> or <code>ELL</code> type. It is an <code>intent(in)</code> argument.</p>
+<p><code>diagonal</code> : A rank-1 array of the same type as the <code>matrix</code>. It is an <code>intent(inout)</code> and <code>allocatable</code> argument.</p>
+<h4 id="note">Note</h4>
+<p>If the <code>diagonal</code> array has not been previously allocated, the <code>diag</code> subroutine will allocate it using the <code>nrows</code> of the <code>matrix</code>.</p>
+<h3 id="syntax_6">Syntax</h3>
+<p><code>call</code> <a href="../../interface/dense2coo.html">dense2coo</a> <code>(dense,coo)</code></p>
+<h3 id="arguments_6">Arguments</h3>
+<p><code>dense</code> : Shall be a rank-2 array of <code>real</code> or <code>complex</code> type. It is an <code>intent(in)</code> argument.</p>
+<p><code>coo</code> : Shall be a <code>COO</code> type of <code>real</code> or <code>complex</code> type. It is an <code>intent(out)</code> argument.</p>
+<h3 id="syntax_7">Syntax</h3>
+<p><code>call</code> <a href="../../interface/coo2dense.html">coo2dense</a> <code>(coo,dense)</code></p>
+<h3 id="arguments_7">Arguments</h3>
+<p><code>coo</code> : Shall be a <code>COO</code> type of <code>real</code> or <code>complex</code> type. It is an <code>intent(in)</code> argument.</p>
+<p><code>dense</code> : Shall be a rank-2 array of <code>real</code> or <code>complex</code> type. It is an <code>intent(out)</code> argument.</p>
+<h3 id="syntax_8">Syntax</h3>
+<p><code>call</code> <a href="../../interface/coo2csr.html">coo2csr</a> <code>(coo,csr)</code></p>
+<h3 id="arguments_8">Arguments</h3>
+<p><code>coo</code> : Shall be a <code>COO</code> type of <code>real</code> or <code>complex</code> type. It is an <code>intent(in)</code> argument.</p>
+<p><code>csr</code> : Shall be a <code>CSR</code> type of <code>real</code> or <code>complex</code> type. It is an <code>intent(out)</code> argument.</p>
+<h3 id="syntax_9">Syntax</h3>
+<p><code>call</code> <a href="../../interface/coo2csc.html">coo2csc</a> <code>(coo,csc)</code></p>
+<h3 id="arguments_9">Arguments</h3>
+<p><code>coo</code> : Shall be a <code>COO</code> type of <code>real</code> or <code>complex</code> type. It is an <code>intent(in)</code> argument.</p>
+<p><code>csc</code> : Shall be a <code>CSC</code> type of <code>real</code> or <code>complex</code> type. It is an <code>intent(out)</code> argument.</p>
+<h3 id="syntax_10">Syntax</h3>
+<p><code>call</code> <a href="../../interface/csr2coo.html">csr2coo</a> <code>(csr,coo)</code></p>
+<h3 id="arguments_10">Arguments</h3>
+<p><code>csr</code> : Shall be a <code>CSR</code> type of <code>real</code> or <code>complex</code> type. It is an <code>intent(in)</code> argument.</p>
+<p><code>coo</code> : Shall be a <code>COO</code> type of <code>real</code> or <code>complex</code> type. It is an <code>intent(out)</code> argument.</p>
+<h3 id="syntax_11">Syntax</h3>
+<p><code>call</code> <a href="../../interface/csr2sellc.html">csr2sellc</a> <code>(csr,sellc[,chunk])</code></p>
+<h3 id="arguments_11">Arguments</h3>
+<p><code>csr</code> : Shall be a <code>CSR</code> type of <code>real</code> or <code>complex</code> type. It is an <code>intent(in)</code> argument.</p>
+<p><code>sellc</code> : Shall be a <code>SELLC</code> type of <code>real</code> or <code>complex</code> type. It is an <code>intent(out)</code> argument.</p>
+<p><code>chunk</code>, <code>optional</code>: chunk size for the Sliced ELLPACK format. It is an <code>intent(in)</code> argument.</p>
+<h3 id="syntax_12">Syntax</h3>
+<p><code>call</code> <a href="../../interface/csr2sellc.html">csr2sellc</a> <code>(csr,ell[,num_nz_rows])</code></p>
+<h3 id="arguments_12">Arguments</h3>
+<p><code>csr</code> : Shall be a <code>CSR</code> type of <code>real</code> or <code>complex</code> type. It is an <code>intent(in)</code> argument.</p>
+<p><code>ell</code> : Shall be a <code>ELL</code> type of <code>real</code> or <code>complex</code> type. It is an <code>intent(out)</code> argument.</p>
+<p><code>num_nz_rows</code>, <code>optional</code>: number of non zeros per row. If not give, it will correspond to the size of the longest row in the <code>CSR</code> matrix. It is an <code>intent(in)</code> argument.</p>
+<h3 id="syntax_13">Syntax</h3>
+<p><code>call</code> <a href="../../interface/csc2coo.html">csc2coo</a> <code>(csc,coo)</code></p>
+<h3 id="arguments_13">Arguments</h3>
+<p><code>csc</code> : Shall be a <code>CSC</code> type of <code>real</code> or <code>complex</code> type. It is an <code>intent(in)</code> argument.</p>
+<p><code>coo</code> : Shall be a <code>COO</code> type of <code>real</code> or <code>complex</code> type. It is an <code>intent(out)</code> argument.</p>
+<h2 id="example_2">Example</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_sparse_spmv</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_sparse</span>
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">y_dense</span><span class="p">(</span><span class="n">m</span><span class="p">),</span><span class="w"> </span><span class="n">y_coo</span><span class="p">(</span><span class="n">m</span><span class="p">),</span><span class="w"> </span><span class="n">y_csr</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">COO_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">COO</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">CSR_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">CSR</span>
+
+<span class="w">    </span><span class="k">call </span><span class="nb">random_number</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="w">    </span><span class="c">! Convert from dense to COO and CSR matrices</span>
+<span class="w">    </span><span class="k">call </span><span class="n">dense2coo</span><span class="p">(</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">COO</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">coo2csr</span><span class="p">(</span><span class="w"> </span><span class="n">COO</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">CSR</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! Initialize vectors</span>
+<span class="w">    </span><span class="n">x</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="mf">1._dp</span>
+<span class="w">    </span><span class="n">y_dense</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2._dp</span>
+<span class="w">    </span><span class="n">y_coo</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">y_dense</span>
+<span class="w">    </span><span class="n">y_csr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">y_dense</span>
+
+<span class="w">    </span><span class="c">! Perform matrix-vector product</span>
+<span class="w">    </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3._dp</span><span class="p">;</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2._dp</span>
+<span class="w">    </span><span class="n">y_dense</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y_dense</span>
+<span class="w">    </span><span class="k">call </span><span class="n">spmv</span><span class="p">(</span><span class="w"> </span><span class="n">COO</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">y_coo</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">spmv</span><span class="p">(</span><span class="w"> </span><span class="n">CSR</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">y_csr</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;dense :&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">y_dense</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;coo   :&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">y_coo</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;csr   :&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">y_csr</span>
+
+<span class="k">end program </span><span class="n">example_sparse_spmv</span>
+</code></pre></div>
+    </div>
+  </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+<br /><small>33690135</small></p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2024-11-09 13:56              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>

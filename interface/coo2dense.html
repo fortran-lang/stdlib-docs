@@ -10,7 +10,7 @@
     <meta name="author" content="fortran-lang/stdlib contributors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>to_sentence &ndash; Fortran-lang/stdlib</title>
+    <title>coo2dense &ndash; Fortran-lang/stdlib</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -66,7 +66,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>to_sentence
+    <h1>coo2dense
       <small>Interface</small>
       
     </h1>
@@ -79,21 +79,21 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 8 statements,  0.0% of total for procedures.">3 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 42 statements,  0.2% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/stdlib_string_type.fypp"> Source File</a>
+              <a href="../src/stdlib_sparse_conversion.fypp"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_string_type.fypp.html'>stdlib_string_type.fypp</a></li>
-                <li class="breadcrumb-item"><a href='../module/stdlib_string_type.html'>stdlib_string_type</a></li>
-            <li class="breadcrumb-item active" aria-current="page">to_sentence</li>
+                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_sparse_conversion.fypp.html'>stdlib_sparse_conversion.fypp</a></li>
+                <li class="breadcrumb-item"><a href='../module/stdlib_sparse_conversion.html'>stdlib_sparse_conversion</a></li>
+            <li class="breadcrumb-item active" aria-current="page">coo2dense</li>
           </ol>
         </nav>
       </div>
@@ -136,7 +136,10 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/to_sentence~2.html#moduleprocedure-to_sentence_string">to_sentence_string</a>
+            <a class="list-group-item" href="../interface/coo2dense.html#moduleprocedure-coo2dense_sp">coo2dense_sp</a>
+            <a class="list-group-item" href="../interface/coo2dense.html#moduleprocedure-coo2dense_dp">coo2dense_dp</a>
+            <a class="list-group-item" href="../interface/coo2dense.html#moduleprocedure-coo2dense_csp">coo2dense_csp</a>
+            <a class="list-group-item" href="../interface/coo2dense.html#moduleprocedure-coo2dense_cdp">coo2dense_cdp</a>
         </div>
       </div>
     </div>
@@ -149,19 +152,17 @@
     </div>
 
     <div class="col-md-9" id='text'>
-      <h2>public interface to_sentence</h2>
-      <p>Returns the sentencecase version of the character sequence hold by the input string</p>
-<p>This method is elemental and returns a new string_type instance which holds this
-sentencecase character sequence</p>
-<br>
+      <h2>public interface coo2dense</h2>
+      
+
 
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-to_sentence_string"></span> <h3>private elemental function to_sentence_string(string) result(sentence_string)  
+    <div class="card-header codesum"><span class="anchor" id="proc-coo2dense_sp"></span> <h3>private  subroutine coo2dense_sp(COO, dense)  
 </h3></div>
     <div class="card-body">
-        <p>Convert the character sequence hold by the input string to sentence case</p>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -176,15 +177,30 @@ sentencecase character sequence</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~22"></span>
-              type(<a href='../type/string_type.html'>string_type</a>),
+              <span class="anchor" id="variable-coo~5"></span>
+              type(<a href='../type/coo_sp_type.html'>COO_sp_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>string</strong></td>
+            <td><strong>COO</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dense~5"></span>
+              real(kind=sp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>dense</strong>(:,:)</td>
             <td>
                 
             </td>
@@ -192,11 +208,168 @@ sentencecase character sequence</p>
     </tbody>
   </table>
 
-    <h4>
-    Return Value
-    <small>type(<a href='../type/string_type.html'>string_type</a>)</small>
-    </h4>
-    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-coo2dense_dp"></span> <h3>private  subroutine coo2dense_dp(COO, dense)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coo~6"></span>
+              type(<a href='../type/coo_dp_type.html'>COO_dp_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>COO</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dense~6"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>dense</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-coo2dense_csp"></span> <h3>private  subroutine coo2dense_csp(COO, dense)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coo~7"></span>
+              type(<a href='../type/coo_csp_type.html'>COO_csp_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>COO</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dense~7"></span>
+              complex(kind=sp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>dense</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-coo2dense_cdp"></span> <h3>private  subroutine coo2dense_cdp(COO, dense)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-coo~8"></span>
+              type(<a href='../type/coo_cdp_type.html'>COO_cdp_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>COO</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dense~8"></span>
+              complex(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>dense</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
 
     </div>
   </div>
@@ -209,13 +382,13 @@ sentencecase character sequence</p>
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>427bc681</small></p>
+<br /><small>33690135</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-10-30 07:16              </p>
+ on 2024-11-09 13:56              </p>
           </div>
         </div>
         <br>
