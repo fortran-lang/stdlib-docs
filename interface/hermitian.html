@@ -10,7 +10,7 @@
     <meta name="author" content="fortran-lang/stdlib contributors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>random_seed &ndash; Fortran-lang/stdlib</title>
+    <title>hermitian &ndash; Fortran-lang/stdlib</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -66,7 +66,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>random_seed
+    <h1>hermitian
       <small>Interface</small>
       
     </h1>
@@ -75,25 +75,26 @@
       <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a></li>
+            <li class="list-inline-item" id="meta-version"><i class="fa fa-barcode"></i> experimental</li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 70 statements,  0.3% of total for procedures.">6 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 34 statements,  0.1% of total for procedures.">34 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/stdlib_random.fypp"> Source File</a>
+              <a href="../src/stdlib_linalg.fypp"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_random.fypp.html'>stdlib_random.fypp</a></li>
-                <li class="breadcrumb-item"><a href='../module/stdlib_random.html'>stdlib_random</a></li>
-            <li class="breadcrumb-item active" aria-current="page">random_seed</li>
+                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_linalg.fypp.html'>stdlib_linalg.fypp</a></li>
+                <li class="breadcrumb-item"><a href='../module/stdlib_linalg.html'>stdlib_linalg</a></li>
+            <li class="breadcrumb-item active" aria-current="page">hermitian</li>
           </ol>
         </nav>
       </div>
@@ -122,28 +123,32 @@
   
   
   
-  
-  
-  
-  
-  
-  
-  
       <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#modprocs-0"
-         aria-expanded="false" aria-controls="modprocs-0">
-         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
       </a>
-      <div id="modprocs-0" class="collapse">
+      <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/random_seed.html#moduleprocedure-random_distribution_seed_iint8">random_distribution_seed_iint8</a>
-            <a class="list-group-item" href="../interface/random_seed.html#moduleprocedure-random_distribution_seed_iint16">random_distribution_seed_iint16</a>
-            <a class="list-group-item" href="../interface/random_seed.html#moduleprocedure-random_distribution_seed_iint32">random_distribution_seed_iint32</a>
-            <a class="list-group-item" href="../interface/random_seed.html#moduleprocedure-random_distribution_seed_iint64">random_distribution_seed_iint64</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_cdp">hermitian_cdp</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_csp">hermitian_csp</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_iint16">hermitian_iint16</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_iint32">hermitian_iint32</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_iint64">hermitian_iint64</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_iint8">hermitian_iint8</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_rdp">hermitian_rdp</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_rsp">hermitian_rsp</a>
         </div>
       </div>
     </div>
 
+  
+  
+  
+  
+  
+  
+  
   
 
 
@@ -152,20 +157,23 @@
     </div>
 
     <div class="col-md-9" id='text'>
-      <h2>public interface random_seed</h2>
-      <p>Version experimental</p>
-<p>Set seed value for random number generator
-(<a href="../page/specs/stdlib_random.html#
-random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudorandom-number-generator">Specification</a>)</p>
+      <h2>public interface hermitian</h2>
+      <p>Computes the Hermitian version of a rank-2 matrix.
+For complex matrices, this returns <code>conjg(transpose(a))</code>.
+For real or integer matrices, this returns <code>transpose(a)</code>.</p>
+<p>Usage:</p>
+<div class="codehilite"><pre><span></span><code>A  = reshape([(1, 2), (3, 4), (5, 6), (7, 8)], [2, 2])
+AH = hermitian(A)
+</code></pre></div>
+
+<p><a href="../page/specs/stdlib_linalg.html#hermitian-compute-the-hermitian-version-of-a-rank-2-matrix">Specification</a></p>
 <br>
-
-
-        <h2>Module Procedures</h2>
+        <h2>Functions</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-random_distribution_seed_iint8"></span> <h3>private  subroutine random_distribution_seed_iint8(put, get)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_cdp"></span> <h3>private pure module function hermitian_cdp(a) result(ah)  
 </h3></div>
     <div class="card-body">
-        <p>Set seed value for random number generator</p>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -180,30 +188,15 @@ random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudoran
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-put"></span>
-              integer(kind=int8),
+              <span class="anchor" id="variable-a~261"></span>
+              complex(kind=dp),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>put</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-get"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>get</strong></td>
+            <td><strong>a</strong>(:,:)</td>
             <td>
                 
             </td>
@@ -211,15 +204,20 @@ random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudoran
     </tbody>
   </table>
 
+    <h4>
+    Return Value
+    <small>complex(kind=dp), (size(a,2),size(a,1))</small>
+    </h4>
+    
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-random_distribution_seed_iint16"></span> <h3>private  subroutine random_distribution_seed_iint16(put, get)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_csp"></span> <h3>private pure module function hermitian_csp(a) result(ah)  
 </h3></div>
     <div class="card-body">
-        <p>Set seed value for random number generator</p>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -234,7 +232,51 @@ random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudoran
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-put~2"></span>
+              <span class="anchor" id="variable-a~260"></span>
+              complex(kind=sp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>complex(kind=sp), (size(a,2),size(a,1))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_iint16"></span> <h3>private pure module function hermitian_iint16(a) result(ah)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~263"></span>
               integer(kind=int16),
             </td>
 <td>intent(in)</td>
@@ -242,22 +284,7 @@ random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudoran
               
             </td>
             <td>::</td>
-            <td><strong>put</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-get~2"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>get</strong></td>
+            <td><strong>a</strong>(:,:)</td>
             <td>
                 
             </td>
@@ -265,15 +292,20 @@ random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudoran
     </tbody>
   </table>
 
+    <h4>
+    Return Value
+    <small>integer(kind=int16), (size(a,2),size(a,1))</small>
+    </h4>
+    
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-random_distribution_seed_iint32"></span> <h3>private  subroutine random_distribution_seed_iint32(put, get)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_iint32"></span> <h3>private pure module function hermitian_iint32(a) result(ah)  
 </h3></div>
     <div class="card-body">
-        <p>Set seed value for random number generator</p>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -288,7 +320,7 @@ random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudoran
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-put~3"></span>
+              <span class="anchor" id="variable-a~264"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -296,22 +328,7 @@ random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudoran
               
             </td>
             <td>::</td>
-            <td><strong>put</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-get~3"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>get</strong></td>
+            <td><strong>a</strong>(:,:)</td>
             <td>
                 
             </td>
@@ -319,15 +336,20 @@ random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudoran
     </tbody>
   </table>
 
+    <h4>
+    Return Value
+    <small>integer(kind=int32), (size(a,2),size(a,1))</small>
+    </h4>
+    
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-random_distribution_seed_iint64"></span> <h3>private  subroutine random_distribution_seed_iint64(put, get)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_iint64"></span> <h3>private pure module function hermitian_iint64(a) result(ah)  
 </h3></div>
     <div class="card-body">
-        <p>Set seed value for random number generator</p>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -342,7 +364,7 @@ random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudoran
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-put~4"></span>
+              <span class="anchor" id="variable-a~265"></span>
               integer(kind=int64),
             </td>
 <td>intent(in)</td>
@@ -350,22 +372,7 @@ random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudoran
               
             </td>
             <td>::</td>
-            <td><strong>put</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-get~4"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>get</strong></td>
+            <td><strong>a</strong>(:,:)</td>
             <td>
                 
             </td>
@@ -373,9 +380,148 @@ random_seed-set-or-get-a-value-of-seed-to-the-probability-distribution-pseudoran
     </tbody>
   </table>
 
+    <h4>
+    Return Value
+    <small>integer(kind=int64), (size(a,2),size(a,1))</small>
+    </h4>
+    
 
     </div>
   </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_iint8"></span> <h3>private pure module function hermitian_iint8(a) result(ah)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~262"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer(kind=int8), (size(a,2),size(a,1))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_rdp"></span> <h3>private pure module function hermitian_rdp(a) result(ah)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~259"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp), (size(a,2),size(a,1))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_rsp"></span> <h3>private pure module function hermitian_rsp(a) result(ah)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~258"></span>
+              real(kind=sp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=sp), (size(a,2),size(a,1))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+
 
 </div>
   </div>
