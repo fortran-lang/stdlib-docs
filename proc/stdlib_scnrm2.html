@@ -131,12 +131,6 @@
   
   
   
-    <div class="card card-primary">
-      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
-      <div class="list-group">
-        <a class="list-group-item" href="../proc/stdlib_scnrm2.html#src">stdlib_scnrm2</a>
-      </div>
-    </div>
 
 
   </div>
@@ -166,7 +160,7 @@ SCNRM2 := sqrt( x*<em>H</em>x )</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~232"></span>
+              <span class="anchor" id="variable-n~621"></span>
               integer(kind=ilp),
             </td>
 <td>intent(in)</td>
@@ -181,7 +175,7 @@ SCNRM2 := sqrt( x*<em>H</em>x )</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~253"></span>
+              <span class="anchor" id="variable-x~1063"></span>
               complex(kind=sp),
             </td>
 <td>intent(in)</td>
@@ -196,7 +190,7 @@ SCNRM2 := sqrt( x*<em>H</em>x )</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~33"></span>
+              <span class="anchor" id="variable-incx~29"></span>
               integer(kind=ilp),
             </td>
 <td>intent(in)</td>
@@ -231,106 +225,6 @@ SCNRM2 := sqrt( x*<em>H</em>x )</p>
 
 
     
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">     </span><span class="k">pure function </span><span class="n">stdlib_scnrm2</span><span class="p">(</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">incx</span><span class="w"> </span><span class="p">)</span>
-<span class="w">     </span><span class="c">!! SCNRM2 returns the euclidean norm of a vector via the function</span>
-<span class="w">     </span><span class="c">!! name, so that</span>
-<span class="w">     </span><span class="c">!! SCNRM2 := sqrt( x**H*x )</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">stdlib_scnrm2</span>
-<span class="w">        </span><span class="c">! -- reference blas level1 routine (version 3.9.1_sp) --</span>
-<span class="w">        </span><span class="c">! -- reference blas is a software package provided by univ. of tennessee,    --</span>
-<span class="w">        </span><span class="c">! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--</span>
-<span class="w">           </span><span class="c">! march 2021</span>
-<span class="w">        </span><span class="c">! Constants </span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">maxn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">huge</span><span class="p">(</span><span class="mf">0.0_sp</span><span class="p">)</span>
-<span class="w">        </span><span class="c">! .. blue&#39;s scaling constants ..</span>
-<span class="w">        </span><span class="c">! Scalar Arguments </span>
-<span class="w">     </span><span class="kt">integer</span><span class="p">(</span><span class="n">ilp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">incx</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
-<span class="w">        </span><span class="c">! Array Arguments </span>
-<span class="w">        </span><span class="kt">complex</span><span class="p">(</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-<span class="w">        </span><span class="c">! Local Scalars </span>
-<span class="w">     </span><span class="kt">integer</span><span class="p">(</span><span class="n">ilp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">ix</span>
-<span class="w">     </span><span class="kt">logical</span><span class="p">(</span><span class="n">lk</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">notbig</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">abig</span><span class="p">,</span><span class="w"> </span><span class="n">amed</span><span class="p">,</span><span class="w"> </span><span class="n">asml</span><span class="p">,</span><span class="w"> </span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">scl</span><span class="p">,</span><span class="w"> </span><span class="n">sumsq</span><span class="p">,</span><span class="w"> </span><span class="n">ymax</span><span class="p">,</span><span class="w"> </span><span class="n">ymin</span>
-<span class="w">        </span><span class="c">! quick return if possible</span>
-<span class="w">        </span><span class="n">stdlib_scnrm2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
-<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
-<span class="k">        </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
-<span class="w">        </span><span class="n">sumsq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
-<span class="w">        </span><span class="c">! compute the sum of squares in 3 accumulators:</span>
-<span class="w">           </span><span class="c">! abig -- sums of squares scaled down to avoid overflow</span>
-<span class="w">           </span><span class="c">! asml -- sums of squares scaled up to avoid underflow</span>
-<span class="w">           </span><span class="c">! amed -- sums of squares that do not require scaling</span>
-<span class="w">        </span><span class="c">! the thresholds and multipliers are</span>
-<span class="w">           </span><span class="c">! tbig -- values bigger than this are scaled down by sbig</span>
-<span class="w">           </span><span class="c">! tsml -- values smaller than this are scaled up by ssml</span>
-<span class="w">        </span><span class="n">notbig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
-<span class="w">        </span><span class="n">asml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
-<span class="w">        </span><span class="n">amed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
-<span class="w">        </span><span class="n">abig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
-<span class="w">        </span><span class="n">ix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">incx</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">ix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">incx</span>
-<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
-<span class="w">           </span><span class="n">ax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="kt">real</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">))</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ax</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">tbig</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">              </span><span class="n">abig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abig</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">ax</span><span class="o">*</span><span class="n">sbig</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-<span class="w">              </span><span class="n">notbig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">ax</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tsml</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">              if</span><span class="w"> </span><span class="p">(</span><span class="n">notbig</span><span class="p">)</span><span class="w"> </span><span class="n">asml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">asml</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">ax</span><span class="o">*</span><span class="n">ssml</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-<span class="w">           </span><span class="k">else</span>
-<span class="k">              </span><span class="n">amed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">amed</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ax</span><span class="o">**</span><span class="mi">2</span>
-<span class="w">           </span><span class="k">end if</span>
-<span class="k">           </span><span class="n">ax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="nb">aimag</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">ix</span><span class="p">)))</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ax</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">tbig</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">              </span><span class="n">abig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abig</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">ax</span><span class="o">*</span><span class="n">sbig</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-<span class="w">              </span><span class="n">notbig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">ax</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tsml</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">              if</span><span class="w"> </span><span class="p">(</span><span class="n">notbig</span><span class="p">)</span><span class="w"> </span><span class="n">asml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">asml</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">ax</span><span class="o">*</span><span class="n">ssml</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-<span class="w">           </span><span class="k">else</span>
-<span class="k">              </span><span class="n">amed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">amed</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ax</span><span class="o">**</span><span class="mi">2</span>
-<span class="w">           </span><span class="k">end if</span>
-<span class="k">           </span><span class="n">ix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ix</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">incx</span>
-<span class="w">        </span><span class="k">end do</span>
-<span class="w">        </span><span class="c">! combine abig and amed or amed and asml if more than one</span>
-<span class="w">        </span><span class="c">! accumulator was used.</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">abig</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="w">           </span><span class="c">! combine abig and amed if abig &gt; 0.</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="n">amed</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">amed</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">maxn</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">amed</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">amed</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">              </span><span class="n">abig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abig</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">amed</span><span class="o">*</span><span class="n">sbig</span><span class="p">)</span><span class="o">*</span><span class="n">sbig</span>
-<span class="w">           </span><span class="k">end if</span>
-<span class="k">           </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sbig</span>
-<span class="w">           </span><span class="n">sumsq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abig</span>
-<span class="w">        </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">asml</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="w">           </span><span class="c">! combine amed and asml if asml &gt; 0.</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="n">amed</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">amed</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">maxn</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">amed</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">amed</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">              </span><span class="n">amed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">amed</span><span class="p">)</span>
-<span class="w">              </span><span class="n">asml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">asml</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">ssml</span>
-<span class="w">              </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">asml</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">amed</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                 </span><span class="n">ymin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">amed</span>
-<span class="w">                 </span><span class="n">ymax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">asml</span>
-<span class="w">              </span><span class="k">else</span>
-<span class="k">                 </span><span class="n">ymin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">asml</span>
-<span class="w">                 </span><span class="n">ymax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">amed</span>
-<span class="w">              </span><span class="k">end if</span>
-<span class="k">              </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
-<span class="w">              </span><span class="n">sumsq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymax</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">ymin</span><span class="o">/</span><span class="n">ymax</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="p">)</span>
-<span class="w">           </span><span class="k">else</span>
-<span class="k">              </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">ssml</span>
-<span class="w">              </span><span class="n">sumsq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">asml</span>
-<span class="w">           </span><span class="k">end if</span>
-<span class="k">        else</span>
-<span class="w">           </span><span class="c">! otherwise all values are mid-range</span>
-<span class="w">           </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
-<span class="w">           </span><span class="n">sumsq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">amed</span>
-<span class="w">        </span><span class="k">end if</span>
-<span class="k">        </span><span class="n">stdlib_scnrm2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scl</span><span class="o">*</span><span class="nb">sqrt</span><span class="p">(</span><span class="w"> </span><span class="n">sumsq</span><span class="w"> </span><span class="p">)</span>
-<span class="w">        </span><span class="k">return</span>
-<span class="k">     end function </span><span class="n">stdlib_scnrm2</span>
-</pre></div>
-
-    </section>
-    <br>
     
     </div>
   </div>
@@ -341,13 +235,13 @@ SCNRM2 := sqrt( x*<em>H</em>x )</p>
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>195d4a56</small></p>
+<br /><small>191879f1</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-12-26 11:06              </p>
+ on 2024-12-29 20:36              </p>
           </div>
         </div>
         <br>

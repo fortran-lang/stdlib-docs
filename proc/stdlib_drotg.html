@@ -131,12 +131,6 @@
   
   
   
-    <div class="card card-primary">
-      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
-      <div class="list-group">
-        <a class="list-group-item" href="../proc/stdlib_drotg.html#src">stdlib_drotg</a>
-      </div>
-    </div>
 
 
   </div>
@@ -177,7 +171,7 @@ If |z| &gt; 1, set c = 1/z and s = sqrt( 1 - c</em>*2).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~469"></span>
+              <span class="anchor" id="variable-a~819"></span>
               real(kind=dp),
             </td>
 <td>intent(inout)</td>
@@ -192,7 +186,7 @@ If |z| &gt; 1, set c = 1/z and s = sqrt( 1 - c</em>*2).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~130"></span>
+              <span class="anchor" id="variable-b~222"></span>
               real(kind=dp),
             </td>
 <td>intent(inout)</td>
@@ -207,7 +201,7 @@ If |z| &gt; 1, set c = 1/z and s = sqrt( 1 - c</em>*2).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~57"></span>
+              <span class="anchor" id="variable-c~126"></span>
               real(kind=dp),
             </td>
 <td>intent(out)</td>
@@ -222,7 +216,7 @@ If |z| &gt; 1, set c = 1/z and s = sqrt( 1 - c</em>*2).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-s~35"></span>
+              <span class="anchor" id="variable-s~50"></span>
               real(kind=dp),
             </td>
 <td>intent(out)</td>
@@ -250,69 +244,6 @@ If |z| &gt; 1, set c = 1/z and s = sqrt( 1 - c</em>*2).</p>
 
 
     
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_drotg</span><span class="p">(</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="p">)</span>
-<span class="w">     </span><span class="c">!! The computation uses the formulas</span>
-<span class="w">     </span><span class="c">!! sigma = sgn(a)    if |a| &gt;  |b|</span>
-<span class="w">     </span><span class="c">!! = sgn(b)    if |b| &gt;= |a|</span>
-<span class="w">     </span><span class="c">!! r = sigma*sqrt( a**2 + b**2 )</span>
-<span class="w">     </span><span class="c">!! c = 1; s = 0      if r = 0</span>
-<span class="w">     </span><span class="c">!! c = a/r; s = b/r  if r != 0</span>
-<span class="w">     </span><span class="c">!! The subroutine also computes</span>
-<span class="w">     </span><span class="c">!! z = s    if |a| &gt; |b|,</span>
-<span class="w">     </span><span class="c">!! = 1/c  if |b| &gt;= |a| and c != 0</span>
-<span class="w">     </span><span class="c">!! = 1    if c = 0</span>
-<span class="w">     </span><span class="c">!! This allows c and s to be reconstructed from z as follows:</span>
-<span class="w">     </span><span class="c">!! If z = 1, set c = 0, s = 1.</span>
-<span class="w">     </span><span class="c">!! If |z| &lt; 1, set c = sqrt(1 - z**2) and s = z.</span>
-<span class="w">     </span><span class="c">!! If |z| &gt; 1, set c = 1/z and s = sqrt( 1 - c**2).</span>
-<span class="w">        </span><span class="c">! -- reference blas level1 routine --</span>
-<span class="w">        </span><span class="c">! -- reference blas is a software package provided by univ. of tennessee,    --</span>
-<span class="w">        </span><span class="c">! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--</span>
-<span class="w">        </span><span class="c">! Scaling Constants </span>
-<span class="w">        </span><span class="c">! Scalar Arguments </span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">s</span>
-<span class="w">        </span><span class="c">! Local Scalars </span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">anorm</span><span class="p">,</span><span class="w"> </span><span class="n">bnorm</span><span class="p">,</span><span class="w"> </span><span class="n">scl</span><span class="p">,</span><span class="w"> </span><span class="n">sigma</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">z</span>
-<span class="w">        </span><span class="n">anorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-<span class="w">        </span><span class="n">bnorm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">bnorm</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">           </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
-<span class="w">           </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
-<span class="w">           </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
-<span class="w">        </span><span class="k">else if</span><span class="p">(</span><span class="w"> </span><span class="n">anorm</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">           </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
-<span class="w">           </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
-<span class="w">           </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span>
-<span class="w">           </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
-<span class="w">        </span><span class="k">else</span>
-<span class="k">           </span><span class="n">scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="w"> </span><span class="n">safmax</span><span class="p">,</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="w"> </span><span class="n">safmin</span><span class="p">,</span><span class="w"> </span><span class="n">anorm</span><span class="p">,</span><span class="w"> </span><span class="n">bnorm</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
-<span class="w">           </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">anorm</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">bnorm</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">              </span><span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="n">one</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
-<span class="w">           </span><span class="k">else</span>
-<span class="k">              </span><span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="n">one</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
-<span class="w">           </span><span class="k">end if</span>
-<span class="k">           </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sigma</span><span class="o">*</span><span class="p">(</span><span class="w"> </span><span class="n">scl</span><span class="o">*</span><span class="nb">sqrt</span><span class="p">((</span><span class="n">a</span><span class="o">/</span><span class="n">scl</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="o">/</span><span class="n">scl</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
-<span class="w">           </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">/</span><span class="n">r</span>
-<span class="w">           </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="o">/</span><span class="n">r</span>
-<span class="w">           </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">anorm</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">bnorm</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">              </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span>
-<span class="w">           </span><span class="k">else if</span><span class="p">(</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">              </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">c</span>
-<span class="w">           </span><span class="k">else</span>
-<span class="k">              </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
-<span class="w">           </span><span class="k">end if</span>
-<span class="k">           </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span>
-<span class="w">           </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">z</span>
-<span class="w">        </span><span class="k">end if</span>
-<span class="k">        return</span>
-<span class="k">     end subroutine </span><span class="n">stdlib_drotg</span>
-</pre></div>
-
-    </section>
-    <br>
     
     </div>
   </div>
@@ -323,13 +254,13 @@ If |z| &gt; 1, set c = 1/z and s = sqrt( 1 - c</em>*2).</p>
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>195d4a56</small></p>
+<br /><small>191879f1</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-12-26 11:06              </p>
+ on 2024-12-29 20:36              </p>
           </div>
         </div>
         <br>

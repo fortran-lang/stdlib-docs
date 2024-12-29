@@ -131,12 +131,6 @@
   
   
   
-    <div class="card card-primary">
-      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
-      <div class="list-group">
-        <a class="list-group-item" href="../proc/stdlib_zher2k.html#src">stdlib_zher2k</a>
-      </div>
-    </div>
 
 
   </div>
@@ -200,7 +194,7 @@ and  k by n  matrices in the second case.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~887"></span>
+              <span class="anchor" id="variable-n~891"></span>
               integer(kind=ilp),
             </td>
 <td>intent(in)</td>
@@ -215,7 +209,7 @@ and  k by n  matrices in the second case.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~349"></span>
+              <span class="anchor" id="variable-k~310"></span>
               integer(kind=ilp),
             </td>
 <td>intent(in)</td>
@@ -245,7 +239,7 @@ and  k by n  matrices in the second case.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~990"></span>
+              <span class="anchor" id="variable-a~985"></span>
               complex(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -275,7 +269,7 @@ and  k by n  matrices in the second case.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~272"></span>
+              <span class="anchor" id="variable-b~267"></span>
               complex(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -320,7 +314,7 @@ and  k by n  matrices in the second case.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~175"></span>
+              <span class="anchor" id="variable-c~171"></span>
               complex(kind=dp),
             </td>
 <td>intent(inout)</td>
@@ -363,219 +357,6 @@ and  k by n  matrices in the second case.</p>
 
 
     
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_zher2k</span><span class="p">(</span><span class="n">uplo</span><span class="p">,</span><span class="n">trans</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">lda</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">ldb</span><span class="p">,</span><span class="n">beta</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">ldc</span><span class="p">)</span>
-<span class="w">     </span><span class="c">!! ZHER2K performs one of the hermitian rank 2k operations</span>
-<span class="w">     </span><span class="c">!! C := alpha*A*B**H + conjg( alpha )*B*A**H + beta*C,</span>
-<span class="w">     </span><span class="c">!! or</span>
-<span class="w">     </span><span class="c">!! C := alpha*A**H*B + conjg( alpha )*B**H*A + beta*C,</span>
-<span class="w">     </span><span class="c">!! where  alpha and beta  are scalars with  beta  real,  C is an  n by n</span>
-<span class="w">     </span><span class="c">!! hermitian matrix and  A and B  are  n by k matrices in the first case</span>
-<span class="w">     </span><span class="c">!! and  k by n  matrices in the second case.</span>
-<span class="w">        </span><span class="c">! -- reference blas level3 routine --</span>
-<span class="w">        </span><span class="c">! -- reference blas is a software package provided by univ. of tennessee,    --</span>
-<span class="w">        </span><span class="c">! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--</span>
-<span class="w">           </span><span class="c">! Scalar Arguments </span>
-<span class="w">           </span><span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">alpha</span>
-<span class="w">           </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">beta</span>
-<span class="w">           </span><span class="kt">integer</span><span class="p">(</span><span class="n">ilp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">ldb</span><span class="p">,</span><span class="w"> </span><span class="n">ldc</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
-<span class="w">           </span><span class="kt">character</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">trans</span><span class="p">,</span><span class="w"> </span><span class="n">uplo</span>
-<span class="w">           </span><span class="c">! Array Arguments </span>
-<span class="w">           </span><span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="n">lda</span><span class="p">,</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">ldb</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
-<span class="w">           </span><span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span><span class="p">(</span><span class="n">ldc</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
-<span class="w">        </span><span class="c">! =====================================================================</span>
-<span class="w">           </span><span class="c">! Intrinsic Functions </span>
-<span class="w">           </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="kt">real</span><span class="p">,</span><span class="nb">conjg</span><span class="p">,</span><span class="nb">max</span>
-<span class="w">           </span><span class="c">! Local Scalars </span>
-<span class="w">           </span><span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">temp1</span><span class="p">,</span><span class="w"> </span><span class="n">temp2</span>
-<span class="w">           </span><span class="kt">integer</span><span class="p">(</span><span class="n">ilp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">nrowa</span>
-<span class="w">           </span><span class="kt">logical</span><span class="p">(</span><span class="n">lk</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upper</span>
-<span class="w">           </span>
-<span class="w">           </span>
-<span class="w">           </span><span class="c">! test the input parameters.</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span><span class="s1">&#39;N&#39;</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">nrowa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span>
-<span class="w">           </span><span class="k">else</span>
-<span class="k">               </span><span class="n">nrowa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span>
-<span class="w">           </span><span class="k">end if</span>
-<span class="k">           </span><span class="n">upper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">uplo</span><span class="p">,</span><span class="s1">&#39;U&#39;</span><span class="p">)</span>
-<span class="w">           </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">((.</span><span class="nb">not</span><span class="p">.</span><span class="n">upper</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">uplo</span><span class="p">,</span><span class="s1">&#39;L&#39;</span><span class="p">)))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">((.</span><span class="nb">not</span><span class="p">.</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span><span class="s1">&#39;N&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.(.</span><span class="nb">not</span><span class="p">.</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">)))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                     </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">lda</span><span class="o">&lt;</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">nrowa</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">ldb</span><span class="o">&lt;</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">nrowa</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">ldc</span><span class="o">&lt;</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span>
-<span class="w">           </span><span class="k">end if</span>
-<span class="k">           if</span><span class="w"> </span><span class="p">(</span><span class="n">info</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               call </span><span class="n">stdlib_xerbla</span><span class="p">(</span><span class="s1">&#39;ZHER2K&#39;</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
-<span class="w">               </span><span class="k">return</span>
-<span class="k">           end if</span>
-<span class="w">           </span><span class="c">! quick return if possible.</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">(((</span><span class="n">alpha</span><span class="o">==</span><span class="n">czero</span><span class="p">).</span><span class="nb">or</span><span class="p">.(</span><span class="n">k</span><span class="o">==</span><span class="mi">0</span><span class="p">)).</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">beta</span><span class="o">==</span><span class="n">one</span><span class="p">)))</span><span class="w"> </span><span class="k">return</span>
-<span class="w">           </span><span class="c">! and when  alpha.eq.czero.</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">alpha</span><span class="o">==</span><span class="n">czero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               if</span><span class="w"> </span><span class="p">(</span><span class="n">upper</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                   if</span><span class="w"> </span><span class="p">(</span><span class="n">beta</span><span class="o">==</span><span class="kt">real</span><span class="p">(</span><span class="n">czero</span><span class="p">,</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                       do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                           </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">j</span>
-<span class="w">                               </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">czero</span>
-<span class="w">                           </span><span class="k">end do</span>
-<span class="k">                       end do</span>
-<span class="k">                   else</span>
-<span class="k">                       do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                           </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">                               </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">end do</span>
-<span class="k">                           </span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="o">*</span><span class="kt">real</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">                       </span><span class="k">end do</span>
-<span class="k">                   end if</span>
-<span class="k">               else</span>
-<span class="k">                   if</span><span class="w"> </span><span class="p">(</span><span class="n">beta</span><span class="o">==</span><span class="kt">real</span><span class="p">(</span><span class="n">czero</span><span class="p">,</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                       do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                           </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                               </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">czero</span>
-<span class="w">                           </span><span class="k">end do</span>
-<span class="k">                       end do</span>
-<span class="k">                   else</span>
-<span class="k">                       do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                           </span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="o">*</span><span class="kt">real</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                               </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">end do</span>
-<span class="k">                       end do</span>
-<span class="k">                   end if</span>
-<span class="k">               end if</span>
-<span class="k">               return</span>
-<span class="k">           end if</span>
-<span class="w">           </span><span class="c">! start the operations.</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span><span class="s1">&#39;N&#39;</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="w">              </span><span class="c">! form  c := alpha*a*b**h + conjg( alpha )*b*a**h +</span>
-<span class="w">                         </span><span class="c">! c.</span>
-<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">upper</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                   do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                       </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">beta</span><span class="o">==</span><span class="kt">real</span><span class="p">(</span><span class="n">czero</span><span class="p">,</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                           do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">j</span>
-<span class="w">                               </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">czero</span>
-<span class="w">                           </span><span class="k">end do</span>
-<span class="k">                       else if</span><span class="w"> </span><span class="p">(</span><span class="n">beta</span><span class="o">/=</span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                           do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">                               </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">end do</span>
-<span class="k">                           </span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="o">*</span><span class="kt">real</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">                       </span><span class="k">else</span>
-<span class="k">                           </span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">                       </span><span class="k">end if</span>
-<span class="k">                       do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">k</span>
-<span class="w">                           </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">a</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="o">/=</span><span class="n">czero</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="o">/=</span><span class="n">czero</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                               </span><span class="n">temp1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="o">*</span><span class="nb">conjg</span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">l</span><span class="p">))</span>
-<span class="w">                               </span><span class="n">temp2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="n">alpha</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">l</span><span class="p">))</span>
-<span class="w">                               </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">                                   </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="n">temp1</span><span class="w"> </span><span class="o">+</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="n">temp2</span>
-<span class="w">                               </span><span class="k">end do</span>
-<span class="k">                               </span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="kt">real</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="n">temp1</span><span class="o">+</span><span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="n">temp2</span><span class="p">,&amp;</span>
-<span class="w">                                         </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">end if</span>
-<span class="k">                       end do</span>
-<span class="k">                   end do</span>
-<span class="k">               else</span>
-<span class="k">                   do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                       </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">beta</span><span class="o">==</span><span class="kt">real</span><span class="p">(</span><span class="n">czero</span><span class="p">,</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                           do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                               </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">czero</span>
-<span class="w">                           </span><span class="k">end do</span>
-<span class="k">                       else if</span><span class="w"> </span><span class="p">(</span><span class="n">beta</span><span class="o">/=</span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                           do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                               </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">end do</span>
-<span class="k">                           </span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="o">*</span><span class="kt">real</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">                       </span><span class="k">else</span>
-<span class="k">                           </span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">                       </span><span class="k">end if</span>
-<span class="k">                       do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">k</span>
-<span class="w">                           </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">a</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="o">/=</span><span class="n">czero</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="o">/=</span><span class="n">czero</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                               </span><span class="n">temp1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="o">*</span><span class="nb">conjg</span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">l</span><span class="p">))</span>
-<span class="w">                               </span><span class="n">temp2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="n">alpha</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">l</span><span class="p">))</span>
-<span class="w">                               </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                                   </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="n">temp1</span><span class="w"> </span><span class="o">+</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="n">temp2</span>
-<span class="w">                               </span><span class="k">end do</span>
-<span class="k">                               </span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="kt">real</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="n">temp1</span><span class="o">+</span><span class="n">b</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="n">temp2</span><span class="p">,&amp;</span>
-<span class="w">                                         </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">end if</span>
-<span class="k">                       end do</span>
-<span class="k">                   end do</span>
-<span class="k">               end if</span>
-<span class="k">           else</span>
-<span class="w">              </span><span class="c">! form  c := alpha*a**h*b + conjg( alpha )*b**h*a +</span>
-<span class="w">                         </span><span class="c">! c.</span>
-<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">upper</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                   do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                       </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">j</span>
-<span class="w">                           </span><span class="n">temp1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">czero</span>
-<span class="w">                           </span><span class="n">temp2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">czero</span>
-<span class="w">                           </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">k</span>
-<span class="w">                               </span><span class="n">temp1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">i</span><span class="p">))</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                               </span><span class="n">temp2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">i</span><span class="p">))</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">end do</span>
-<span class="k">                           if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                               if</span><span class="w"> </span><span class="p">(</span><span class="n">beta</span><span class="o">==</span><span class="kt">real</span><span class="p">(</span><span class="n">czero</span><span class="p">,</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                                   </span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">alpha</span><span class="o">*</span><span class="n">temp1</span><span class="o">+</span><span class="nb">conjg</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">*</span><span class="n">temp2</span><span class="p">,</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">                               </span><span class="k">else</span>
-<span class="k">                                   </span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="o">*</span><span class="kt">real</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="kt">real</span><span class="p">(</span><span class="n">alpha</span><span class="o">*</span><span class="n">temp1</span><span class="o">+</span><span class="nb">conjg</span><span class="p">(&amp;</span>
-<span class="w">                                             </span><span class="n">alpha</span><span class="p">)</span><span class="o">*</span><span class="n">temp2</span><span class="p">,</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">                               </span><span class="k">end if</span>
-<span class="k">                           else</span>
-<span class="k">                               if</span><span class="w"> </span><span class="p">(</span><span class="n">beta</span><span class="o">==</span><span class="kt">real</span><span class="p">(</span><span class="n">czero</span><span class="p">,</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                                   </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="o">*</span><span class="n">temp1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">*</span><span class="n">temp2</span>
-<span class="w">                               </span><span class="k">else</span>
-<span class="k">                                   </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">alpha</span><span class="o">*</span><span class="n">temp1</span><span class="w"> </span><span class="o">+</span><span class="nb">conjg</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">*</span><span class="n">temp2</span>
-<span class="w">                               </span><span class="k">end if</span>
-<span class="k">                           end if</span>
-<span class="k">                       end do</span>
-<span class="k">                   end do</span>
-<span class="k">               else</span>
-<span class="k">                   do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                       </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                           </span><span class="n">temp1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">czero</span>
-<span class="w">                           </span><span class="n">temp2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">czero</span>
-<span class="w">                           </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">k</span>
-<span class="w">                               </span><span class="n">temp1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">i</span><span class="p">))</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                               </span><span class="n">temp2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">i</span><span class="p">))</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">end do</span>
-<span class="k">                           if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                               if</span><span class="w"> </span><span class="p">(</span><span class="n">beta</span><span class="o">==</span><span class="kt">real</span><span class="p">(</span><span class="n">czero</span><span class="p">,</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                                   </span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">alpha</span><span class="o">*</span><span class="n">temp1</span><span class="o">+</span><span class="nb">conjg</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">*</span><span class="n">temp2</span><span class="p">,</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">                               </span><span class="k">else</span>
-<span class="k">                                   </span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="o">*</span><span class="kt">real</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">),</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="kt">real</span><span class="p">(</span><span class="n">alpha</span><span class="o">*</span><span class="n">temp1</span><span class="o">+</span><span class="nb">conjg</span><span class="p">(&amp;</span>
-<span class="w">                                             </span><span class="n">alpha</span><span class="p">)</span><span class="o">*</span><span class="n">temp2</span><span class="p">,</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">                               </span><span class="k">end if</span>
-<span class="k">                           else</span>
-<span class="k">                               if</span><span class="w"> </span><span class="p">(</span><span class="n">beta</span><span class="o">==</span><span class="kt">real</span><span class="p">(</span><span class="n">czero</span><span class="p">,</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                                   </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="o">*</span><span class="n">temp1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">*</span><span class="n">temp2</span>
-<span class="w">                               </span><span class="k">else</span>
-<span class="k">                                   </span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">alpha</span><span class="o">*</span><span class="n">temp1</span><span class="w"> </span><span class="o">+</span><span class="nb">conjg</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">*</span><span class="n">temp2</span>
-<span class="w">                               </span><span class="k">end if</span>
-<span class="k">                           end if</span>
-<span class="k">                       end do</span>
-<span class="k">                   end do</span>
-<span class="k">               end if</span>
-<span class="k">           end if</span>
-<span class="k">           return</span>
-<span class="k">     end subroutine </span><span class="n">stdlib_zher2k</span>
-</pre></div>
-
-    </section>
-    <br>
     
     </div>
   </div>
@@ -586,13 +367,13 @@ and  k by n  matrices in the second case.</p>
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>195d4a56</small></p>
+<br /><small>191879f1</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-12-26 11:06              </p>
+ on 2024-12-29 20:36              </p>
           </div>
         </div>
         <br>

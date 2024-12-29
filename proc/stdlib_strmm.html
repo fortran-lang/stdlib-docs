@@ -131,12 +131,6 @@
   
   
   
-    <div class="card card-primary">
-      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
-      <div class="list-group">
-        <a class="list-group-item" href="../proc/stdlib_strmm.html#src">stdlib_strmm</a>
-      </div>
-    </div>
 
 
   </div>
@@ -183,7 +177,7 @@ op( A ) = A   or   op( A ) = A**T.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~36"></span>
+              <span class="anchor" id="variable-uplo~52"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -228,7 +222,7 @@ op( A ) = A   or   op( A ) = A**T.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~49"></span>
+              <span class="anchor" id="variable-m~115"></span>
               integer(kind=ilp),
             </td>
 <td>intent(in)</td>
@@ -243,7 +237,7 @@ op( A ) = A   or   op( A ) = A**T.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~259"></span>
+              <span class="anchor" id="variable-n~648"></span>
               integer(kind=ilp),
             </td>
 <td>intent(in)</td>
@@ -258,7 +252,7 @@ op( A ) = A   or   op( A ) = A**T.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~71"></span>
+              <span class="anchor" id="variable-alpha~76"></span>
               real(kind=sp),
             </td>
 <td>intent(in)</td>
@@ -273,7 +267,7 @@ op( A ) = A   or   op( A ) = A**T.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~127"></span>
+              <span class="anchor" id="variable-a~811"></span>
               real(kind=sp),
             </td>
 <td>intent(in)</td>
@@ -288,7 +282,7 @@ op( A ) = A   or   op( A ) = A**T.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~44"></span>
+              <span class="anchor" id="variable-lda~85"></span>
               integer(kind=ilp),
             </td>
 <td>intent(in)</td>
@@ -303,7 +297,7 @@ op( A ) = A   or   op( A ) = A**T.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~53"></span>
+              <span class="anchor" id="variable-b~219"></span>
               real(kind=sp),
             </td>
 <td>intent(inout)</td>
@@ -318,7 +312,7 @@ op( A ) = A   or   op( A ) = A**T.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ldb~28"></span>
+              <span class="anchor" id="variable-ldb~36"></span>
               integer(kind=ilp),
             </td>
 <td>intent(in)</td>
@@ -346,216 +340,6 @@ op( A ) = A   or   op( A ) = A**T.</p>
 
 
     
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">stdlib_strmm</span><span class="p">(</span><span class="n">side</span><span class="p">,</span><span class="n">uplo</span><span class="p">,</span><span class="n">transa</span><span class="p">,</span><span class="n">diag</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">lda</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">ldb</span><span class="p">)</span>
-<span class="w">     </span><span class="c">!! STRMM performs one of the matrix-matrix operations</span>
-<span class="w">     </span><span class="c">!! B := alpha*op( A )*B,   or   B := alpha*B*op( A ),</span>
-<span class="w">     </span><span class="c">!! where  alpha  is a scalar,  B  is an m by n matrix,  A  is a unit, or</span>
-<span class="w">     </span><span class="c">!! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of</span>
-<span class="w">     </span><span class="c">!! op( A ) = A   or   op( A ) = A**T.</span>
-<span class="w">        </span><span class="c">! -- reference blas level3 routine --</span>
-<span class="w">        </span><span class="c">! -- reference blas is a software package provided by univ. of tennessee,    --</span>
-<span class="w">        </span><span class="c">! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--</span>
-<span class="w">           </span><span class="c">! Scalar Arguments </span>
-<span class="w">           </span><span class="kt">real</span><span class="p">(</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">alpha</span>
-<span class="w">           </span><span class="kt">integer</span><span class="p">(</span><span class="n">ilp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lda</span><span class="p">,</span><span class="w"> </span><span class="n">ldb</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
-<span class="w">           </span><span class="kt">character</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">diag</span><span class="p">,</span><span class="w"> </span><span class="n">side</span><span class="p">,</span><span class="w"> </span><span class="n">transa</span><span class="p">,</span><span class="w"> </span><span class="n">uplo</span>
-<span class="w">           </span><span class="c">! Array Arguments </span>
-<span class="w">           </span><span class="kt">real</span><span class="p">(</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="n">lda</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
-<span class="w">           </span><span class="kt">real</span><span class="p">(</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">ldb</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
-<span class="w">        </span><span class="c">! =====================================================================</span>
-<span class="w">           </span><span class="c">! Intrinsic Functions </span>
-<span class="w">           </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">max</span>
-<span class="w">           </span><span class="c">! Local Scalars </span>
-<span class="w">           </span><span class="kt">real</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">temp</span>
-<span class="w">           </span><span class="kt">integer</span><span class="p">(</span><span class="n">ilp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">nrowa</span>
-<span class="w">           </span><span class="kt">logical</span><span class="p">(</span><span class="n">lk</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lside</span><span class="p">,</span><span class="w"> </span><span class="n">nounit</span><span class="p">,</span><span class="w"> </span><span class="n">upper</span>
-<span class="w">           </span>
-<span class="w">           </span><span class="c">! test the input parameters.</span>
-<span class="w">           </span><span class="n">lside</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">side</span><span class="p">,</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lside</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">nrowa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span>
-<span class="w">           </span><span class="k">else</span>
-<span class="k">               </span><span class="n">nrowa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span>
-<span class="w">           </span><span class="k">end if</span>
-<span class="k">           </span><span class="n">nounit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">diag</span><span class="p">,</span><span class="s1">&#39;N&#39;</span><span class="p">)</span>
-<span class="w">           </span><span class="n">upper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">uplo</span><span class="p">,</span><span class="s1">&#39;U&#39;</span><span class="p">)</span>
-<span class="w">           </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">((.</span><span class="nb">not</span><span class="p">.</span><span class="n">lside</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">side</span><span class="p">,</span><span class="s1">&#39;R&#39;</span><span class="p">)))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">((.</span><span class="nb">not</span><span class="p">.</span><span class="n">upper</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">uplo</span><span class="p">,</span><span class="s1">&#39;L&#39;</span><span class="p">)))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">((.</span><span class="nb">not</span><span class="p">.</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span><span class="s1">&#39;N&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.(.</span><span class="nb">not</span><span class="p">.</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span><span class="s1">&#39;T&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.(&amp;</span>
-<span class="w">                     </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">)))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">((.</span><span class="nb">not</span><span class="p">.</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">diag</span><span class="p">,</span><span class="s1">&#39;U&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">diag</span><span class="p">,</span><span class="s1">&#39;N&#39;</span><span class="p">)))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                     </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">lda</span><span class="o">&lt;</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">nrowa</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span>
-<span class="w">           </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">ldb</span><span class="o">&lt;</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">m</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span>
-<span class="w">           </span><span class="k">end if</span>
-<span class="k">           if</span><span class="w"> </span><span class="p">(</span><span class="n">info</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               call </span><span class="n">stdlib_xerbla</span><span class="p">(</span><span class="s1">&#39;STRMM &#39;</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
-<span class="w">               </span><span class="k">return</span>
-<span class="k">           end if</span>
-<span class="w">           </span><span class="c">! quick return if possible.</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="o">==</span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
-<span class="w">           </span><span class="c">! and when  alpha.eq.zero.</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">alpha</span><span class="o">==</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                   </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">m</span>
-<span class="w">                       </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
-<span class="w">                   </span><span class="k">end do</span>
-<span class="k">               end do</span>
-<span class="k">               return</span>
-<span class="k">           end if</span>
-<span class="w">           </span><span class="c">! start the operations.</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lside</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">               if</span><span class="w"> </span><span class="p">(</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span><span class="s1">&#39;N&#39;</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="w">                 </span><span class="c">! form  b := alpha*a*b.</span>
-<span class="w">                   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">upper</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                       do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                           </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">m</span>
-<span class="w">                               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/=</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                                   </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                                   </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">                                       </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="w">                                   </span><span class="k">end do</span>
-<span class="k">                                   if</span><span class="w"> </span><span class="p">(</span><span class="n">nounit</span><span class="p">)</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="w">                                   </span><span class="n">b</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span>
-<span class="w">                               </span><span class="k">end if</span>
-<span class="k">                           end do</span>
-<span class="k">                       end do</span>
-<span class="k">                   else</span>
-<span class="k">                       do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                           </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span>
-<span class="w">                               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/=</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                                   </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                                   </span><span class="n">b</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span>
-<span class="w">                                   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nounit</span><span class="p">)</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="w">                                   </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">m</span>
-<span class="w">                                       </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="w">                                   </span><span class="k">end do</span>
-<span class="k">                               end if</span>
-<span class="k">                           end do</span>
-<span class="k">                       end do</span>
-<span class="k">                   end if</span>
-<span class="k">               else</span>
-<span class="w">                 </span><span class="c">! form  b := alpha*a**t*b.</span>
-<span class="w">                   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">upper</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                       do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                           </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span>
-<span class="w">                               </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nounit</span><span class="p">)</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
-<span class="w">                               </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">                                   </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                               </span><span class="k">end do</span>
-<span class="k">                               </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="o">*</span><span class="n">temp</span>
-<span class="w">                           </span><span class="k">end do</span>
-<span class="k">                       end do</span>
-<span class="k">                   else</span>
-<span class="k">                       do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                           </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">m</span>
-<span class="w">                               </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nounit</span><span class="p">)</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
-<span class="w">                               </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">m</span>
-<span class="w">                                   </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                               </span><span class="k">end do</span>
-<span class="k">                               </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="o">*</span><span class="n">temp</span>
-<span class="w">                           </span><span class="k">end do</span>
-<span class="k">                       end do</span>
-<span class="k">                   end if</span>
-<span class="k">               end if</span>
-<span class="k">           else</span>
-<span class="k">               if</span><span class="w"> </span><span class="p">(</span><span class="n">stdlib_lsame</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span><span class="s1">&#39;N&#39;</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="w">                 </span><span class="c">! form  b := alpha*b*a.</span>
-<span class="w">                   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">upper</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                       do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span>
-<span class="w">                           </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span>
-<span class="w">                           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nounit</span><span class="p">)</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">m</span>
-<span class="w">                               </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">end do</span>
-<span class="k">                           do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">                               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/=</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                                   </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                                   </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">m</span>
-<span class="w">                                       </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="w">                                   </span><span class="k">end do</span>
-<span class="k">                               end if</span>
-<span class="k">                           end do</span>
-<span class="k">                       end do</span>
-<span class="k">                   else</span>
-<span class="k">                       do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                           </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span>
-<span class="w">                           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nounit</span><span class="p">)</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">m</span>
-<span class="w">                               </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">end do</span>
-<span class="k">                           do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">/=</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                                   </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-<span class="w">                                   </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">m</span>
-<span class="w">                                       </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="w">                                   </span><span class="k">end do</span>
-<span class="k">                               end if</span>
-<span class="k">                           end do</span>
-<span class="k">                       end do</span>
-<span class="k">                   end if</span>
-<span class="k">               else</span>
-<span class="w">                 </span><span class="c">! form  b := alpha*b*a**t.</span>
-<span class="w">                   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">upper</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                       do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                           </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">                               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="o">/=</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                                   </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="w">                                   </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">m</span>
-<span class="w">                                       </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="w">                                   </span><span class="k">end do</span>
-<span class="k">                               end if</span>
-<span class="k">                           end do</span>
-<span class="k">                           </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span>
-<span class="w">                           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nounit</span><span class="p">)</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="o">/=</span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                               do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">m</span>
-<span class="w">                                   </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="w">                               </span><span class="k">end do</span>
-<span class="k">                           end if</span>
-<span class="k">                       end do</span>
-<span class="k">                   else</span>
-<span class="k">                       do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span>
-<span class="w">                           </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">n</span>
-<span class="w">                               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="o">/=</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                                   </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="w">                                   </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">m</span>
-<span class="w">                                       </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="w">                                   </span><span class="k">end do</span>
-<span class="k">                               end if</span>
-<span class="k">                           end do</span>
-<span class="k">                           </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alpha</span>
-<span class="w">                           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nounit</span><span class="p">)</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">a</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="w">                           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="o">/=</span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                               do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">m</span>
-<span class="w">                                   </span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="w">                               </span><span class="k">end do</span>
-<span class="k">                           end if</span>
-<span class="k">                       end do</span>
-<span class="k">                   end if</span>
-<span class="k">               end if</span>
-<span class="k">           end if</span>
-<span class="k">           return</span>
-<span class="k">     end subroutine </span><span class="n">stdlib_strmm</span>
-</pre></div>
-
-    </section>
-    <br>
     
     </div>
   </div>
@@ -566,13 +350,13 @@ op( A ) = A   or   op( A ) = A**T.</p>
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>195d4a56</small></p>
+<br /><small>191879f1</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-12-26 11:06              </p>
+ on 2024-12-29 20:36              </p>
           </div>
         </div>
         <br>
