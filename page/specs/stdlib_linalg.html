@@ -402,7 +402,7 @@
 <li><a href="#description_28">Description</a></li>
 <li><a href="#syntax_28">Syntax</a></li>
 <li><a href="#arguments_27">Arguments</a></li>
-<li><a href="#return-value_25">Return value</a></li>
+<li><a href="#return-value_25">Return Value</a></li>
 <li><a href="#example_26">Example</a></li>
 </ul>
 </li>
@@ -1669,18 +1669,25 @@ If the state argument <code>err</code> is not present, exceptions trigger an <co
 <h3 id="status_26">Status</h3>
 <p>Stable</p>
 <h3 id="description_26">Description</h3>
-<p>This subroutine computes the solution to the eigenproblem <script type="math/tex"> A \cdot \bar{v} - \lambda \cdot \bar{v} </script>, where <script type="math/tex"> A </script> is a square, full-rank, <code>real</code> or <code>complex</code> matrix.</p>
+<p>This subroutine computes the solution to the eigenproblem <script type="math/tex"> A \cdot \bar{v} - \lambda \cdot \bar{v} </script>, 
+where <script type="math/tex"> A </script> is a square, full-rank, <code>real</code> or <code>complex</code> matrix, or to the generalized eigenproblem <script type="math/tex"> A \cdot \bar{v} - \lambda \cdot B \cdot \bar{v} </script>, 
+where <script type="math/tex"> B </script> is a square matrix with the same type, kind and size as <script type="math/tex"> A </script>.</p>
 <p>Result array <code>lambda</code> returns the eigenvalues of <script type="math/tex"> A </script>. The user can request eigenvectors to be returned: if provided, on output <code>left</code> will contain the left eigenvectors, <code>right</code> the right eigenvectors of <script type="math/tex"> A </script>.
 Both <code>left</code> and <code>right</code> are rank-2 arrays, where eigenvectors are stored as columns.
-The solver is based on LAPACK's <code>*GEEV</code> backends.</p>
+The solver is based on LAPACK's <code>*GEEV</code> (standard eigenproblem) and <code>*GGEV</code> (generalized eigenproblem) backends.</p>
 <h3 id="syntax_26">Syntax</h3>
+<p>For the standard eigenproblem: </p>
 <p><code>call</code> <a href="../../interface/eig.html">eig</a> <code>(a, lambda [, right] [,left] [,overwrite_a] [,err])</code></p>
+<p>For the generalized eigenproblem: </p>
+<p><code>call</code> <a href="../../interface/eig.html">eig</a> `(a, b, lambda [, right] [, left] [, overwrite_a] [, overwrite_b] [, err])</p>
 <h3 id="arguments_25">Arguments</h3>
 <p><code>a</code> : <code>real</code> or <code>complex</code> square array containing the coefficient matrix. If <code>overwrite_a=.false.</code>, it is an <code>intent(in)</code> argument. Otherwise, it is an <code>intent(inout)</code> argument and is destroyed by the call. </p>
+<p><code>b</code>: <code>real</code> or <code>complex</code> square array containing the second coefficient matrix. If <code>overwrite_b=.false.</code>, it is an <code>intent(in)</code> argument.  Otherwise, it is an <code>intent(inout)</code> argument and is destroyed by the call. </p>
 <p><code>lambda</code>: Shall be a <code>complex</code> or <code>real</code> rank-1 array of the same kind as <code>a</code>, containing the eigenvalues, or their <code>real</code> component only. It is an <code>intent(out)</code> argument.</p>
 <p><code>right</code> (optional): Shall be a <code>complex</code> rank-2 array of the same size and kind as <code>a</code>, containing the right eigenvectors of <code>a</code>. It is an <code>intent(out)</code> argument.</p>
 <p><code>left</code> (optional): Shall be a <code>complex</code> rank-2 array of the same size and kind as <code>a</code>, containing the left eigenvectors of <code>a</code>. It is an <code>intent(out)</code> argument.</p>
 <p><code>overwrite_a</code> (optional): Shall be an input logical flag. if <code>.true.</code>, input matrix <code>a</code> will be used as temporary storage and overwritten. This avoids internal data allocation. This is an <code>intent(in)</code> argument.</p>
+<p><code>overwrite_b</code> (optional): Shall be an input logical flag. If <code>.true.</code>, input matrix <code>b</code> will be used as temporary storage and overwritten. This avoids internal data allocation. This is an <code>intent(in)</code> argument.</p>
 <p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument.</p>
 <h3 id="return-value_23">Return value</h3>
 <p>Raises <code>LINALG_ERROR</code> if the calculation did not converge.
@@ -1785,19 +1792,29 @@ If <code>err</code> is not present, exceptions trigger an <code>error stop</code
 <h3 id="status_28">Status</h3>
 <p>Stable</p>
 <h3 id="description_28">Description</h3>
-<p>This function returns the eigenvalues to matrix <script type="math/tex"> A </script>: a square, full-rank, <code>real</code> or <code>complex</code> matrix.
-The eigenvalues are solutions to the eigenproblem <script type="math/tex"> A \cdot \bar{v} - \lambda \cdot \bar{v} </script>.</p>
-<p>Result array <code>lambda</code> is <code>complex</code>, and returns the eigenvalues of <script type="math/tex"> A </script>. 
-The solver is based on LAPACK's <code>*GEEV</code> backends.</p>
+<p>This function computes the eigenvalues for either a standard or generalized eigenproblem:</p>
+<ul>
+<li><strong>Standard eigenproblem</strong>: <script type="math/tex"> A \cdot \bar{v} - \lambda \cdot \bar{v} </script>, where <script type="math/tex"> A </script> is a square, full-rank <code>real</code> or <code>complex</code> matrix.</li>
+<li><strong>Generalized eigenproblem</strong>: <script type="math/tex"> A \cdot \bar{v} - \lambda \cdot B \cdot \bar{v} </script>, where <script type="math/tex"> B </script> is a square matrix with the same type and kind as <script type="math/tex"> A </script>.</li>
+</ul>
+<p>The eigenvalues are stored in the result array <code>lambda</code>, which is <code>complex</code> (even for real input matrices).<br>
+The solver uses LAPACK's <code>*GEEV</code> and <code>*GGEV</code> backends for the standard and generalized problems, respectively.</p>
 <h3 id="syntax_28">Syntax</h3>
-<p><code>lambda =</code> <a href="../../interface/eigvals.html">eigvals</a> <code>(a, [,err])</code></p>
+<p>For the standard eigenproblem:</p>
+<p><code>lambda =</code> <a href="../../interface/eigvals.html">eigvals</a> <code>(a [, err])</code></p>
+<p>For the generalized eigenproblem:</p>
+<p><code>lambda =</code> <a href="../../interface/eigvals.html">eigvals</a> <code>(a, b [, err])</code></p>
 <h3 id="arguments_27">Arguments</h3>
-<p><code>a</code> : <code>real</code> or <code>complex</code> square array containing the coefficient matrix. It is an <code>intent(in)</code> argument.</p>
-<p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument.</p>
-<h3 id="return-value_25">Return value</h3>
-<p>Returns a <code>complex</code> array containing the eigenvalues of <code>a</code>. </p>
-<p>Raises <code>LINALG_ERROR</code> if the calculation did not converge.
-Raises <code>LINALG_VALUE_ERROR</code> if any matrix or arrays have invalid/incompatible sizes.
+<p><code>a</code>:<br>
+Shall be a <code>real</code> or <code>complex</code> square array containing the coefficient matrix. It is an <code>intent(in)</code> argument.</p>
+<p><code>b</code> (optional):<br>
+Shall be a <code>real</code> or <code>complex</code> square array containing the second coefficient matrix for the generalized problem. It is an <code>intent(in)</code> argument.</p>
+<p><code>err</code> (optional):<br>
+Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument.</p>
+<h3 id="return-value_25">Return Value</h3>
+<p>Returns a <code>complex</code> rank-1 array containing the eigenvalues of the problem.  </p>
+<p>Raises <code>LINALG_ERROR</code> if the calculation did not converge.<br>
+Raises <code>LINALG_VALUE_ERROR</code> if any matrix or arrays have invalid/incompatible sizes.<br>
 If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
 <h3 id="example_26">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">! Eigenvalues of a general real / complex matrix </span>
@@ -2695,13 +2712,13 @@ If <code>err</code> is not present, exceptions trigger an <code>error stop</code
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>05e44f02</small></p>
+<br /><small>b5b86a71</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-01-03 07:23              </p>
+ on 2025-01-05 14:00              </p>
           </div>
         </div>
         <br>
