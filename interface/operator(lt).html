@@ -75,24 +75,25 @@
       <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a></li>
+            <li class="list-inline-item" id="meta-version"><i class="fa fa-barcode"></i> experimental</li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 14 statements,  0.1% of total for procedures.">4 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 10 statements,  0.0% of total for procedures.">10 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/stdlib_linalg_state.fypp"> Source File</a>
+              <a href="../src/stdlib_bitsets.fypp"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_linalg_state.fypp.html'>stdlib_linalg_state.fypp</a></li>
-                <li class="breadcrumb-item"><a href='../module/stdlib_linalg_state.html'>stdlib_linalg_state</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_bitsets.fypp.html'>stdlib_bitsets.fypp</a></li>
+                <li class="breadcrumb-item"><a href='../module/stdlib_bitsets.html'>stdlib_bitsets</a></li>
             <li class="breadcrumb-item active" aria-current="page">operator(<)</li>
           </ol>
         </nav>
@@ -122,26 +123,26 @@
   
   
   
-  
-  
-  
-  
-  
-  
-  
       <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#modprocs-0"
-         aria-expanded="false" aria-controls="modprocs-0">
-         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
       </a>
-      <div id="modprocs-0" class="collapse">
+      <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/operator(lt).html#moduleprocedure-state_lt_flag~2">state_lt_flag</a>
-            <a class="list-group-item" href="../interface/operator(lt).html#moduleprocedure-flag_lt_state~2">flag_lt_state</a>
+            <a class="list-group-item" href="../interface/operator(lt).html#proc-lt_64">lt_64</a>
+            <a class="list-group-item" href="../interface/operator(lt).html#proc-lt_large">lt_large</a>
         </div>
       </div>
     </div>
 
+  
+  
+  
+  
+  
+  
+  
   
 
 
@@ -151,16 +152,36 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface operator(<)</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
+      <p>Returns <code>.true.</code> if the bits in <code>set1</code> and <code>set2</code> differ and the
+ highest order different bit is set to 0 in <code>set1</code> and to 1 in <code>set2</code>,
+ <code>.false.</code>  otherwise. The sets must have the same number of bits
+ otherwise the result is undefined.
+(<a href="../page/specs/stdlib_bitsets.html#lt-compare-two-bitsets-to-determine-whether-the-first-is-less-than-the-other">Specification</a>)</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="k">program </span><span class="n">example_lt</span>
+<span class="w">        </span><span class="k">use </span><span class="n">stdlib_bitsets</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">bitset_64</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set0</span><span class="p">,</span><span class="w"> </span><span class="n">set1</span><span class="p">,</span><span class="w"> </span><span class="n">set2</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set0</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="mi">33</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set1</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">set2</span><span class="w"> </span><span class="p">%</span><span class="w"> </span><span class="n">set</span><span class="p">(</span><span class="w"> </span><span class="mi">32</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">set0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w">   </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">set2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Passed 64 bit less than tests.&#39;</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="k">            error stop</span><span class="w"> </span><span class="s1">&#39;Failed 64 bit less than tests.&#39;</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    end program </span><span class="n">example_lt</span>
+</code></pre></div>
+<br>
+        <h2>Functions</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-state_lt_flag"></span> <h3>private elemental function state_lt_flag(err, flag)  
+    <div class="card-header codesum"><span class="anchor" id="proc-lt_64"></span> <h3>private elemental module function lt_64(set1, set2) result(lt)  
 </h3></div>
     <div class="card-body">
-        <p>Compare the error state with an integer flag</p>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -175,30 +196,30 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-err~5"></span>
-              type(<a href='../type/linalg_state_type.html'>linalg_state_type</a>),
+              <span class="anchor" id="variable-set1~18"></span>
+              type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>err</strong></td>
+            <td><strong>set1</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flag~6"></span>
-              integer,
+              <span class="anchor" id="variable-set2~18"></span>
+              type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>flag</strong></td>
+            <td><strong>set2</strong></td>
             <td>
                 
             </td>
@@ -208,7 +229,7 @@
 
     <h4>
     Return Value
-    <small>logical(kind=lk)</small>
+    <small>logical</small>
     </h4>
     
 
@@ -216,10 +237,10 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-flag_lt_state"></span> <h3>private elemental function flag_lt_state(flag, err)  
+    <div class="card-header codesum"><span class="anchor" id="proc-lt_large"></span> <h3>private elemental module function lt_large(set1, set2) result(lt)  
 </h3></div>
     <div class="card-body">
-        <p>Compare an integer flag with the error state</p>
+        
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -234,30 +255,30 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-flag~8"></span>
-              integer,
+              <span class="anchor" id="variable-set1~17"></span>
+              type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>flag</strong></td>
+            <td><strong>set1</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-err~7"></span>
-              type(<a href='../type/linalg_state_type.html'>linalg_state_type</a>),
+              <span class="anchor" id="variable-set2~17"></span>
+              type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>err</strong></td>
+            <td><strong>set2</strong></td>
             <td>
                 
             </td>
@@ -267,12 +288,14 @@
 
     <h4>
     Return Value
-    <small>logical(kind=lk)</small>
+    <small>logical</small>
     </h4>
     
 
     </div>
   </div>
+
+
 
 </div>
   </div>
@@ -282,13 +305,13 @@
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>28250f33</small></p>
+<br /><small>8916fc52</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-01-17 06:39              </p>
+ on 2025-01-17 07:19              </p>
           </div>
         </div>
         <br>
