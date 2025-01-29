@@ -80,20 +80,20 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 0.0% of total for procedures.">9 statements</a>
+                 title=" 0.0% of total for procedures.">7 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/stdlib_hash_64bit.fypp"> Source File</a>
+              <a href="../src/stdlib_hash_32bit.fypp"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_hash_64bit.fypp.html'>stdlib_hash_64bit.fypp</a></li>
-                <li class="breadcrumb-item"><a href='../module/stdlib_hash_64bit.html'>stdlib_hash_64bit</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_hash_32bit.fypp.html'>stdlib_hash_32bit.fypp</a></li>
+                <li class="breadcrumb-item"><a href='../module/stdlib_hash_32bit.html'>stdlib_hash_32bit</a></li>
             <li class="breadcrumb-item active" aria-current="page">odd_random_integer</li>
           </ol>
         </nav>
@@ -149,9 +149,9 @@
 </h2>
     
 
-    <p>Returns a 64 bit pseudo random integer, <code>harvest</code>, distributed uniformly over
-the odd integers of the 64 bit kind.
-(<a href="../page/specs/stdlib_hash_procedures.html#odd_random_integer-returns-odd-integer">Specification</a>)</p>
+    <p>Returns a 32 bit pseudo random integer, <code>harvest</code>, distributed uniformly over
+the odd integers of the <code>int32</code> kind.
+(<a href="../page/specs/stdlib_hash_procedures.html#odd_random_integer-returns-an-odd-integer">Specification</a>)</p>
 
 
     <h3>Arguments</h3>
@@ -167,8 +167,8 @@ the odd integers of the 64 bit kind.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-harvest~2"></span>
-              integer(kind=int64),
+              <span class="anchor" id="variable-harvest~3"></span>
+              integer(kind=int32),
             </td>
 <td>intent(out)</td>
               <td></td>            <td>
@@ -200,18 +200,16 @@ the odd integers of the 64 bit kind.
     <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">odd_random_integer</span><span class="p">(</span><span class="w"> </span><span class="n">harvest</span><span class="w"> </span><span class="p">)</span>
 <span class="c">!! Version: experimental</span>
 <span class="c">!!</span>
-<span class="c">!! Returns a 64 bit pseudo random integer, `harvest`, distributed uniformly over</span>
-<span class="c">!! the odd integers of the 64 bit kind.</span>
-<span class="c">!! ([Specification](../page/specs/stdlib_hash_procedures.html#odd_random_integer-returns-odd-integer))</span>
-
-<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int64</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">harvest</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sample</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">part</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="c">!! Returns a 32 bit pseudo random integer, `harvest`, distributed uniformly over</span>
+<span class="c">!! the odd integers of the `int32` kind.</span>
+<span class="c">!! ([Specification](../page/specs/stdlib_hash_procedures.html#odd_random_integer-returns-an-odd-integer))</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">harvest</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sample</span>
 
 <span class="w">        </span><span class="k">call </span><span class="nb">random_number</span><span class="p">(</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="p">)</span>
-<span class="w">        </span><span class="n">part</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2_int64</span><span class="o">**</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="n">int64</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2_int64</span><span class="o">**</span><span class="mi">31</span><span class="p">,</span><span class="w"> </span><span class="n">int32</span><span class="w"> </span><span class="p">)</span>
-<span class="w">        </span><span class="n">harvest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">transfer</span><span class="p">(</span><span class="w"> </span><span class="n">part</span><span class="p">,</span><span class="w"> </span><span class="n">harvest</span><span class="w"> </span><span class="p">)</span>
-<span class="w">        </span><span class="n">harvest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">ishft</span><span class="p">(</span><span class="w"> </span><span class="n">harvest</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1_int64</span>
+<span class="w">        </span><span class="n">harvest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2_int64</span><span class="o">**</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="n">int64</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2_int64</span><span class="o">**</span><span class="mi">31</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">int32</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="n">harvest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">ishft</span><span class="p">(</span><span class="w"> </span><span class="n">harvest</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1_int32</span>
 
 <span class="w">    </span><span class="k">end subroutine </span><span class="n">odd_random_integer</span>
 </pre></div>
@@ -228,13 +226,13 @@ the odd integers of the 64 bit kind.
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>324e73fe</small></p>
+<br /><small>6ec8cd0e</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-01-24 07:54              </p>
+ on 2025-01-29 06:35              </p>
           </div>
         </div>
         <br>
