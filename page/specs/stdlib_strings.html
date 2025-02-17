@@ -261,7 +261,7 @@
 <li><a href="#example_10">Example</a></li>
 </ul>
 </li>
-<li><a href="#to_string">to_string</a><ul>
+<li><a href="#join">join</a><ul>
 <li><a href="#description_11">Description</a></li>
 <li><a href="#syntax_11">Syntax</a></li>
 <li><a href="#status_11">Status</a></li>
@@ -269,6 +269,26 @@
 <li><a href="#argument_11">Argument</a></li>
 <li><a href="#result-value_11">Result value</a></li>
 <li><a href="#example_11">Example</a></li>
+</ul>
+</li>
+<li><a href="#to_string">to_string</a><ul>
+<li><a href="#description_12">Description</a></li>
+<li><a href="#syntax_12">Syntax</a></li>
+<li><a href="#status_12">Status</a></li>
+<li><a href="#class_12">Class</a></li>
+<li><a href="#argument_12">Argument</a></li>
+<li><a href="#result-value_12">Result value</a></li>
+<li><a href="#example_12">Example</a></li>
+</ul>
+</li>
+<li><a href="#to_c_char">to_c_char</a><ul>
+<li><a href="#description_13">Description</a></li>
+<li><a href="#syntax_13">Syntax</a></li>
+<li><a href="#status_13">Status</a></li>
+<li><a href="#class_13">Class</a></li>
+<li><a href="#argument_13">Argument</a></li>
+<li><a href="#result-value_13">Result value</a></li>
+<li><a href="#example_13">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -703,17 +723,60 @@ If <code>output_length</code> is less than or equal to the length of <code>strin
 </code></pre></div>
 
 <!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
-<h3 id="to_string"><code>to_string</code></h3>
+<h3 id="join"><code>join</code></h3>
 <h4 id="description_11">Description</h4>
-<p>Format or transfer a <code>integer/real/complex/logical</code> scalar as a string.<br>
-Input a wrong <code>format</code> that cause the internal-IO to fail, the result value is a string of <code>[*]</code>.</p>
+<p>Joins an array of strings into a single string. This function concatenates the strings from the input array, 
+inserting a separator between each string (default: space). A user-defined separator may be provided, The resulting string is returned.</p>
 <h4 id="syntax_11">Syntax</h4>
-<p><code>string =</code> <a href="../../interface/to_string.html">to_string</a> <code>(value [, format])</code></p>
+<p><code>joined =</code> <a href="../../interface/join.html">join</a> <code>(strings, separator)</code></p>
 <h4 id="status_11">Status</h4>
 <p>Experimental</p>
 <h4 id="class_11">Class</h4>
-<p>Pure function.</p>
+<p>Pure function</p>
 <h4 id="argument_11">Argument</h4>
+<ul>
+<li><code>strings</code>: Array of strings (either <code>type(string_type)</code> or <code>character(len=*)</code>).
+  This argument is <code>intent(in)</code>. It is an array of strings that will be concatenated together.</li>
+<li><code>separator</code>: <code>character(len=*)</code> scalar (optional).
+  This argument is <code>intent(in)</code>. It specifies the separator to be used between the strings. If not provided, the default separator (a space) is used.</li>
+</ul>
+<h4 id="result-value_11">Result value</h4>
+<p>The result is of the same type as the elements of <code>strings</code> (<code>type(string_type)</code> or <code>character(len=:), allocatable</code>).</p>
+<h4 id="example_11">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_join</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_strings</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">join</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span>
+<span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">words</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="s2">&quot;Hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;World&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Fortran&quot;</span><span class="p">]</span>
+
+<span class="w">  </span><span class="c">! Default separator (space)</span>
+<span class="w">  </span><span class="n">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&#39;&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;&#39;&quot;</span><span class="w">   </span><span class="c">!! &#39;Hello World Fortran&#39;</span>
+
+<span class="w">  </span><span class="c">! Custom separator</span>
+<span class="w">  </span><span class="n">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&#39;&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;&#39;&quot;</span><span class="w">  </span><span class="c">!! &#39;Hello_World_Fortran&#39;</span>
+
+<span class="w">  </span><span class="c">! Custom 2-character separator</span>
+<span class="w">  </span><span class="n">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;, &quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&#39;&quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;&#39;&quot;</span><span class="w">  </span><span class="c">!! &#39;Hello, World, Fortran&#39;</span>
+
+<span class="k">end program </span><span class="n">example_join</span>
+</code></pre></div>
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="to_string"><code>to_string</code></h3>
+<h4 id="description_12">Description</h4>
+<p>Format or transfer a <code>integer/real/complex/logical</code> scalar as a string.<br>
+Input a wrong <code>format</code> that cause the internal-IO to fail, the result value is a string of <code>[*]</code>.</p>
+<h4 id="syntax_12">Syntax</h4>
+<p><code>string =</code> <a href="../../interface/to_string.html">to_string</a> <code>(value [, format])</code></p>
+<h4 id="status_12">Status</h4>
+<p>Experimental</p>
+<h4 id="class_12">Class</h4>
+<p>Pure function.</p>
+<h4 id="argument_12">Argument</h4>
 <ul>
 <li><code>value</code>: Shall be an <code>integer/real/complex/logical</code> scalar.
   This is an <code>intent(in)</code> argument.</li>
@@ -722,9 +785,9 @@ Input a wrong <code>format</code> that cause the internal-IO to fail, the result
   Contains the edit descriptor to format <code>value</code> into a string, for example <code>'(F6.2)'</code> or <code>'(f6.2)'</code>. 
   <code>to_string</code> will automatically enclose <code>format</code> in a set of parentheses, so passing <code>F6.2</code> or <code>f6.2</code> as <code>format</code> is possible as well.</li>
 </ul>
-<h4 id="result-value_11">Result value</h4>
+<h4 id="result-value_12">Result value</h4>
 <p>The result is an <code>allocatable</code> length <code>character</code> scalar with up to <code>128</code> cached <code>character</code> length.</p>
-<h4 id="example_11">Example</h4>
+<h4 id="example_12">Example</h4>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_to_string</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_strings</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">to_string</span>
 <span class="w">  </span><span class="k">implicit none</span>
@@ -758,6 +821,47 @@ Input a wrong <code>format</code> that cause the internal-IO to fail, the result
 
 <span class="k">end program </span><span class="n">example_to_string</span>
 </code></pre></div>
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="to_c_char"><code>to_c_char</code></h3>
+<h4 id="description_13">Description</h4>
+<p>Convert a Fortran <code>character</code> string or a <code>type(string_type)</code> variable to a C character array.<br>
+This function converts a Fortran string into a C-style array of characters, ensuring proper null-termination for use in C functions or libraries.  </p>
+<h4 id="syntax_13">Syntax</h4>
+<p><code>cstr =</code> <a href="../../module/stdlib_strings.html">stdlib_strings</a> <code>(value)</code></p>
+<h4 id="status_13">Status</h4>
+<p>Experimental</p>
+<h4 id="class_13">Class</h4>
+<p>Pure function.</p>
+<h4 id="argument_13">Argument</h4>
+<ul>
+<li><code>value</code>: Shall be a <code>character(len=*)</code> string or a <code>type(string_type)</code> variable. It is an <code>intent(in)</code> argument.<br>
+  This Fortran variable will be converted to a C character array.</li>
+</ul>
+<h4 id="result-value_13">Result value</h4>
+<p>The result is a <code>character(kind=c_char)</code> array with a dimension of <code>len(value) + 1</code> to accommodate the null terminator.</p>
+<h4 id="example_13">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_to_c_char</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_strings</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">to_c_char</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_string_type</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">string_type</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="kt">c_char</span>
+<span class="kt">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">character</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="kt">c_char</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cstr</span><span class="p">(:),</span><span class="n">cstr2</span><span class="p">(:)</span>
+<span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hello</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Hello, World!&quot;</span>
+
+<span class="w">  </span><span class="c">! Convert character array</span>
+<span class="w">  </span><span class="n">cstr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_c_char</span><span class="p">(</span><span class="n">hello</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c">! Convert string type  </span>
+<span class="w">  </span><span class="n">cstr2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_c_char</span><span class="p">(</span><span class="n">string_type</span><span class="p">(</span><span class="n">hello</span><span class="p">))</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">cstr</span><span class="p">)</span><span class="o">/=</span><span class="n">size</span><span class="p">(</span><span class="n">cstr2</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="k">all</span><span class="p">(</span><span class="n">cstr</span><span class="o">==</span><span class="n">cstr2</span><span class="p">))</span><span class="w"> </span><span class="k">then </span>
+<span class="k">     error stop</span><span class="w"> </span><span class="s1">&#39;String conversion error&#39;</span>
+<span class="w">  </span><span class="k">end if</span>
+
+<span class="k">end program </span><span class="n">example_to_c_char</span>
+</code></pre></div>
     </div>
   </div>
       <hr>
@@ -766,13 +870,13 @@ Input a wrong <code>format</code> that cause the internal-IO to fail, the result
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>bec85746</small></p>
+<br /><small>1fe21714</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-02-10 07:56              </p>
+ on 2025-02-17 07:10              </p>
           </div>
         </div>
         <br>
