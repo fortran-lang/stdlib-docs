@@ -113,6 +113,7 @@
               <a class="nav-link" href="stdlib_bitsets.html">bitsets</a>
               <a class="nav-link" href="stdlib_constants.html">constants</a>
               <a class="nav-link" href="stdlib_error.html">error</a>
+              <a class="nav-link" href="stdlib_error_state_type.html">state_type</a>
               <a class="nav-link" href="stdlib_hash_procedures.html">hash</a>
               <a class="nav-link" href="stdlib_hashmaps.html">Hash maps</a>
               <a class="nav-link" href="stdlib_io.html">io</a>
@@ -166,31 +167,21 @@
 </ul>
 </div>
 <h2 id="introduction">Introduction</h2>
-<p>The <code>stdlib_linalg_state</code> module provides a derived type holding information on the<br>
-state of linear algebra operations, and procedures for expert control of linear algebra workflows. 
-All linear algebra procedures are engineered to support returning an optional <code>linalg_state_type</code> 
-variable to holds such information, as a form of expert API. If the user does not require state 
-information, but fatal errors are encountered during the execution of linear algebra routines, the 
-program will undergo a hard stop.
-Instead, if the state argument is present, the program will never stop, but will return detailed error 
-information into the state handler. </p>
+<p>The <code>stdlib_linalg_state</code> module provides a derived type holding information on the state of linear algebra operations, and procedures for expert control of linear algebra workflows. 
+All linear algebra procedures are engineered to support returning an optional <code>linalg_state_type</code> variable to hold such information, as a form of expert API. If the user does not require state information but fatal errors are encountered during the execution of linear algebra routines, the program will undergo a hard stop.
+Instead, if the state argument is present, the program will never stop but will return detailed error information into the state handler. </p>
 <h2 id="derived-types-provided">Derived types provided</h2>
 <!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
 <h3 id="the-linalg_state_type-derived-type">The <code>linalg_state_type</code> derived type</h3>
-<p>The <code>linalg_state_type</code> is defined as a derived type containing an integer error flag, and 
-fixed-size character strings to store an error message and the location of the error state change. 
-Fixed-size string storage was chosen to facilitate the compiler's memory allocation and ultimately 
-ensure maximum computational performance.  </p>
-<p>A similarly named generic interface, <code>linalg_state_type</code>, is provided to allow the developer to 
-create diagnostic messages and raise error flags easily. The call starts with an error flag or 
-the location of the event, and is followed by an arbitrary list of <code>integer</code>, <code>real</code>, <code>complex</code> or 
-<code>character</code> variables. Numeric variables may be provided as either scalars or rank-1 (array) inputs. </p>
+<p>The <code>linalg_state_type</code> is an extension of the <code>state_type</code> derived type, containing an integer error flag and fixed-size character strings to store an error message and the location of the error state change. 
+Fixed-size string storage was chosen to facilitate the compiler's memory allocation and ultimately ensure maximum computational performance.  </p>
+<p>A similarly named generic interface, <code>linalg_state_type</code>, is provided to allow the developer to create diagnostic messages and raise error flags easily. The call starts with an error flag or the location of the event and is followed by an arbitrary list of <code>integer</code>, <code>real</code>, <code>complex</code>, or <code>character</code> variables. Numeric variables may be provided as either scalars or rank-1 (array) inputs. </p>
 <h4 id="type-bound-procedures">Type-bound procedures</h4>
-<p>The following convenience type-bound procedures are provided: 
+<p>The following convenience type-bound procedures are inherited from <code>state_type</code> and available:
 - <code>print()</code> returns an allocatable character string containing state location, message, and error flag; 
 - <code>print_message()</code> returns an allocatable character string containing the state message; 
 - <code>ok()</code> returns a <code>logical</code> flag that is <code>.true.</code> in case of successful state (<code>flag==LINALG_SUCCESS</code>);
-- <code>error()</code> returns a <code>logical</code> flag that is <code>.true.</code> in case of error state (<code>flag/=LINALG_SUCCESS</code>).</p>
+- <code>error()</code> returns a <code>logical</code> flag that is <code>.true.</code> in case of an error state (<code>flag/=LINALG_SUCCESS</code>).</p>
 <h4 id="status">Status</h4>
 <p>Experimental</p>
 <h4 id="example">Example</h4>
@@ -217,14 +208,13 @@ the location of the event, and is followed by an arbitrary list of <code>integer
 </code></pre></div>
 
 <h2 id="error-flags-provided">Error flags provided</h2>
-<p>The module provides the following state flags: 
-- <code>LINALG_SUCCESS</code>: Successful execution
-- <code>LINALG_VALUE_ERROR</code>: Numerical errors (such as infinity, not-a-number, range bounds) are encountered.
-- <code>LINALG_ERROR</code>: Linear Algebra errors are encountered, such as: non-converging iterations, impossible operations, etc.
-- <code>LINALG_INTERNAL_ERROR</code>: Provided as a developer safeguard for internal errors that should never occur.</p>
+<p>The module provides the following state flags, mapped to the general <code>state_type</code> error flags: 
+- <code>LINALG_SUCCESS</code>: Successful execution (equivalent to <code>STDLIB_SUCCESS</code>)
+- <code>LINALG_VALUE_ERROR</code>: Numerical errors (such as infinity, not-a-number, range bounds) are encountered (equivalent to <code>STDLIB_VALUE_ERROR</code>).
+- <code>LINALG_ERROR</code>: Linear Algebra errors are encountered, such as non-converging iterations, and impossible operations (equivalent to <code>STDLIB_LINALG_ERROR</code>).
+- <code>LINALG_INTERNAL_ERROR</code>: Provided as a developer safeguard for internal errors that should never occur (equivalent to <code>STDLIB_INTERNAL_ERROR</code>).</p>
 <h2 id="comparison-operators-provided">Comparison operators provided</h2>
-<p>The module provides overloaded comparison operators for all comparisons of a <code>linalg_state_type</code> variable 
-with an integer error flag: <code>&lt;</code>, <code>&lt;=</code>, <code>==</code>, <code>&gt;=</code>, <code>&gt;</code>, <code>/=</code>.</p>
+<p>The module provides overloaded comparison operators for all comparisons of a <code>linalg_state_type</code> variable with an integer error flag: <code>&lt;</code>, <code>&lt;=</code>, <code>==</code>, <code>&gt;=</code>, <code>&gt;</code>, <code>/=</code>.</p>
     </div>
   </div>
       <hr>
@@ -233,13 +223,13 @@ with an integer error flag: <code>&lt;</code>, <code>&lt;=</code>, <code>==</cod
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>1fe21714</small></p>
+<br /><small>76292d3b</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-02-17 07:10              </p>
+ on 2025-02-21 08:18              </p>
           </div>
         </div>
         <br>
