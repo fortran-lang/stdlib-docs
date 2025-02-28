@@ -197,7 +197,7 @@
 <li><a href="#example_4">Example</a></li>
 </ul>
 </li>
-<li><a href="#getline">getline</a><ul>
+<li><a href="#get_line">get_line</a><ul>
 <li><a href="#status_5">Status</a></li>
 <li><a href="#description_5">Description</a></li>
 <li><a href="#syntax_5">Syntax</a></li>
@@ -209,6 +209,16 @@
 <li><a href="#status_6">Status</a></li>
 <li><a href="#description_6">Description</a></li>
 <li><a href="#example_6">Example</a></li>
+</ul>
+</li>
+<li><a href="#get_file-read-a-whole-ascii-file-into-a-character-or-a-string-variable">get_file - Read a whole ASCII file into a character or a string variable</a><ul>
+<li><a href="#status_7">Status</a></li>
+<li><a href="#description_7">Description</a></li>
+<li><a href="#syntax_6">Syntax</a></li>
+<li><a href="#class">Class</a></li>
+<li><a href="#arguments_6">Arguments</a></li>
+<li><a href="#return-values">Return values</a></li>
+<li><a href="#example_7">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -385,14 +395,14 @@
 <span class="k">end program </span><span class="n">example_savenpy</span>
 </code></pre></div>
 
-<h2 id="getline"><code>getline</code></h2>
+<h2 id="get_line"><code>get_line</code></h2>
 <h3 id="status_5">Status</h3>
 <p>Experimental</p>
 <h3 id="description_5">Description</h3>
 <p>Read a whole line from a formatted unit into a string variable</p>
 <h3 id="syntax_5">Syntax</h3>
-<p><code>call</code> <a href="../../interface/getline.html">getline</a> <code>(unit, line[, iostat][, iomsg])</code></p>
-<p><code>call</code> <a href="../../interface/getline.html">getline</a> <code>(line[, iostat][, iomsg])</code></p>
+<p><code>call</code> <a href="../../interface/get_line.html">get_line</a> <code>(unit, line[, iostat][, iomsg])</code></p>
+<p><code>call</code> <a href="../../interface/get_line.html">get_line</a> <code>(line[, iostat][, iomsg])</code></p>
 <h3 id="arguments_5">Arguments</h3>
 <p><code>unit</code>: Formatted input unit.
         This argument is <code>intent(in)</code>.
@@ -408,15 +418,15 @@
 <h3 id="example_5">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_getline</span>
 <span class="w">  </span><span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">input_unit</span><span class="p">,</span><span class="w"> </span><span class="n">output_unit</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_io</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">getline</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_io</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">get_line</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">line</span>
 <span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
 
-<span class="nb">  </span><span class="k">call </span><span class="n">getline</span><span class="p">(</span><span class="n">input_unit</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="p">)</span>
+<span class="nb">  </span><span class="k">call </span><span class="n">get_line</span><span class="p">(</span><span class="n">input_unit</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="p">)</span>
 <span class="w">  </span><span class="k">do while</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 <span class="w">    </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">line</span>
-<span class="w">    </span><span class="k">call </span><span class="n">getline</span><span class="p">(</span><span class="n">input_unit</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">get_line</span><span class="p">(</span><span class="n">input_unit</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="p">)</span>
 <span class="w">  </span><span class="k">end do</span>
 <span class="k">end program </span><span class="n">example_getline</span>
 </code></pre></div>
@@ -455,6 +465,48 @@ Provides formats for all kinds as defined in the <code>stdlib_kinds</code> modul
 
 <span class="k">end program </span><span class="n">example_fmt_constants</span>
 </code></pre></div>
+
+<h2 id="get_file-read-a-whole-ascii-file-into-a-character-or-a-string-variable"><code>get_file</code> - Read a whole ASCII file into a <code>character</code> or a <code>string</code> variable</h2>
+<h3 id="status_7">Status</h3>
+<p>Experimental</p>
+<h3 id="description_7">Description</h3>
+<p>This subroutine interface reads the entirety of a specified ASCII file and returns its content as a string or an allocatable <code>character</code> variable. 
+The function provides an optional error-handling mechanism via the <code>state_type</code> class. If the <code>err</code> argument is not provided, exceptions will trigger an <code>error stop</code>. The function also supports an optional flag to delete the file after reading.</p>
+<h3 id="syntax_6">Syntax</h3>
+<p><code>call [[stdlib_io(module):get_file(subroutine)]] (filename, file [, err] [, delete=.false.])</code></p>
+<h3 id="class">Class</h3>
+<p>Function</p>
+<h3 id="arguments_6">Arguments</h3>
+<p><code>filename</code>: Shall be a character input containing the path to the ASCII file to read. It is an <code>intent(in)</code> argument.</p>
+<p><code>file</code>: Shall be a <code>type(string_type)</code> or an allocatable <code>character</code> variable containing the full content of the specified file. It is an <code>intent(out)</code> argument.</p>
+<p><code>err</code> (optional): Shall be a <code>type(state_type)</code> variable. It is an <code>intent(out)</code> argument used for error handling.</p>
+<p><code>delete</code> (optional): Shall be a <code>logical</code> flag. If <code>.true.</code>, the file is deleted after reading. Default is <code>.false.</code>. It is an <code>intent(in)</code> argument.</p>
+<h3 id="return-values">Return values</h3>
+<p>Output variable <code>file</code> will contain the full content of the specified file.</p>
+<p>Raises <code>STDLIB_IO_ERROR</code> if the file is not found, cannot be opened, read, or deleted. 
+Exceptions trigger an <code>error stop</code> unless the optional <code>err</code> argument is provided.</p>
+<h3 id="example_7">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Demonstrate usage of `get_file`</span>
+<span class="k">program </span><span class="n">example_get_file</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_io</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">get_file</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_string_type</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">string_type</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_error</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">state_type</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;example.txt&quot;</span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">string_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filecontent</span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">state_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+
+<span class="w">  </span><span class="c">! Read a file into a string</span>
+<span class="w">  </span><span class="k">call </span><span class="n">get_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">filecontent</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="o">=</span><span class="n">err</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Success! File &quot;</span><span class="o">//</span><span class="n">filename</span><span class="o">//</span><span class="s2">&quot; imported.&quot;</span>
+<span class="w">  </span><span class="k">end if</span>
+<span class="k">end program </span><span class="n">example_get_file</span>
+</code></pre></div>
     </div>
   </div>
       <hr>
@@ -463,13 +515,13 @@ Provides formats for all kinds as defined in the <code>stdlib_kinds</code> modul
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>7b99d430</small></p>
+<br /><small>69eaa205</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-02-27 18:42              </p>
+ on 2025-02-28 09:25              </p>
           </div>
         </div>
         <br>

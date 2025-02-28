@@ -79,7 +79,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 0.2% of total for modules and submodules.">724 statements</a>
+                 title=" 0.2% of total for modules and submodules.">792 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -144,7 +144,8 @@
       </a>
       <div id="inters-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/stdlib_io.html#interface-getline">getline</a>
+            <a class="list-group-item" href="../module/stdlib_io.html#interface-get_file">get_file</a>
+            <a class="list-group-item" href="../module/stdlib_io.html#interface-get_line">get_line</a>
             <a class="list-group-item" href="../module/stdlib_io.html#interface-loadtxt">loadtxt</a>
             <a class="list-group-item" href="../module/stdlib_io.html#interface-savetxt">savetxt</a>
         </div>
@@ -182,19 +183,33 @@
 
     <div class="col-md-9" id='text'>
       <p>Provides a support for file handling
-(<a href="../page/specs/stdlib_io.html">Specification</a>)</p>
+ (<a href="../page/specs/stdlib_io.html">Specification</a>)</p>
+<p>version: experimental </p>
+<p>Reads a whole ASCII file and loads its contents into a string variable. 
+ (<a href="../page/specs/stdlib_io.html#get-file-read-a-whole-ascii-file-into-a-character-or-a-string-variable">Specification</a>)</p>
+<h3 id="summary">Summary</h3>
+<p>Subroutine interface for reading the content of a file into a string.</p>
+<h3 id="description">Description</h3>
+<p>This subroutine reads the entirety of a specified ASCII file and returns it as a string. The optional 
+ <code>err</code> argument allows for handling errors through the library's <code>state_type</code> class. 
+ An optional <code>logical</code> flag can be passed to delete the file after reading.  </p>
+<div class="alert alert-info">
+<p class="alert-title h4">Note</p>
+<p>Handles errors using the library's <code>state_type</code> error-handling class. If not provided, 
+ exceptions will trigger an <code>error stop</code>. </p>
+</div>
 <br>          <div class="card mb-4">
       <h3 class="card-header card-title bg-light">Uses</h3>
       <div class="card-body">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='stdlib_kinds.html'>stdlib_kinds</a></li>
-                  <li class="list-inline-item"><a href='stdlib_error.html'>stdlib_error</a></li>
-                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
                   <li class="list-inline-item"><a href='stdlib_ascii.html'>stdlib_ascii</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
                   <li class="list-inline-item"><a href='stdlib_string_type.html'>stdlib_string_type</a></li>
+                  <li class="list-inline-item"><a href='stdlib_kinds.html'>stdlib_kinds</a></li>
                   <li class="list-inline-item"><a href='stdlib_optval.html'>stdlib_optval</a></li>
+                  <li class="list-inline-item"><a href='stdlib_error.html'>stdlib_error</a></li>
               </ul>
             </li>
         </ul>
@@ -471,8 +486,189 @@ Format string for quadruple precision complex numbers</p>
           <h2>Interfaces</h2>
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-getline"></span>
-      <h3>public        interface <a href='../interface/getline.html'>getline</a> 
+      <span class="anchor" id="interface-get_file"></span>
+      <h3>public        interface <a href='../interface/get_file.html'>get_file</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private  subroutine get_file_char(filename, file, err, delete)  
+
+    </h3>
+  <p>Reads a whole ASCII file and loads its contents into an allocatable <code>character</code> variable.
+The function handles error states and optionally deletes the file after reading.
+Check if the file should be deleted after reading
+Check file existing
+Retrieve file size</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-filename~120"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>filename</strong></td>
+            <td>
+                <p>Input file name</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-file~2"></span>
+              character(len=:),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>file</strong></td>
+            <td>
+                <p>Output string variable</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-err~476"></span>
+              type(<a href='../type/state_type.html'>state_type</a>),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>err</strong></td>
+            <td>
+                <p>[optional] State return flag. On error, if not requested, the code will stop.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-delete~2"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>delete</strong></td>
+            <td>
+                <p>[optional] Delete file after reading? Default: do not delete</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine get_file_string(filename, file, err, delete)  
+
+    </h3>
+  <p>Reads a whole ASCII file and loads its contents into a string variable.
+The function handles error states and optionally deletes the file after reading.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-filename~119"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>filename</strong></td>
+            <td>
+                <p>Input file name</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-file"></span>
+              type(<a href='../type/string_type.html'>string_type</a>),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>file</strong></td>
+            <td>
+                <p>Output string variable</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-err~475"></span>
+              type(<a href='../type/state_type.html'>state_type</a>),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>err</strong></td>
+            <td>
+                <p>[optional] State return flag. On error, if not requested, the code will stop.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-delete"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>delete</strong></td>
+            <td>
+                <p>[optional] Delete file after reading? Default: do not delete</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-get_line"></span>
+      <h3>public        interface <a href='../interface/get_line.html'>get_line</a> 
       </h3>
     </div>
       <div class="card-body">
@@ -481,7 +677,7 @@ Format string for quadruple precision complex numbers</p>
     <ul class="list-group">
           <li class="list-group-item">
                 <h3>
-    private  subroutine getline_char(unit, line, iostat, iomsg)  
+    private  subroutine get_line_char(unit, line, iostat, iomsg)  
 
     </h3>
   <p>Read a whole line from a formatted unit into a deferred length character variable</p>
@@ -499,7 +695,7 @@ Format string for quadruple precision complex numbers</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit~29"></span>
+              <span class="anchor" id="variable-unit~33"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -529,7 +725,7 @@ Format string for quadruple precision complex numbers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iostat~62"></span>
+              <span class="anchor" id="variable-iostat~110"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -544,7 +740,7 @@ Format string for quadruple precision complex numbers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iomsg~76"></span>
+              <span class="anchor" id="variable-iomsg~124"></span>
               character(len=:),
             </td>
 <td></td>
@@ -564,7 +760,7 @@ Format string for quadruple precision complex numbers</p>
           </li>
           <li class="list-group-item">
                 <h3>
-    private  subroutine getline_string(unit, line, iostat, iomsg)  
+    private  subroutine get_line_string(unit, line, iostat, iomsg)  
 
     </h3>
   <p>Read a whole line from a formatted unit into a string variable</p>
@@ -582,7 +778,7 @@ Format string for quadruple precision complex numbers</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit~30"></span>
+              <span class="anchor" id="variable-unit~34"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -612,7 +808,7 @@ Format string for quadruple precision complex numbers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iostat~63"></span>
+              <span class="anchor" id="variable-iostat~111"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -627,7 +823,7 @@ Format string for quadruple precision complex numbers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iomsg~77"></span>
+              <span class="anchor" id="variable-iomsg~125"></span>
               character(len=:),
             </td>
 <td></td>
@@ -647,7 +843,7 @@ Format string for quadruple precision complex numbers</p>
           </li>
           <li class="list-group-item">
                 <h3>
-    private  subroutine getline_input_char(line, iostat, iomsg)  
+    private  subroutine get_line_input_char(line, iostat, iomsg)  
 
     </h3>
   <p>Read a whole line from the standard input into a deferred length character variable</p>
@@ -680,7 +876,7 @@ Format string for quadruple precision complex numbers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iostat~64"></span>
+              <span class="anchor" id="variable-iostat~112"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -695,7 +891,7 @@ Format string for quadruple precision complex numbers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iomsg~78"></span>
+              <span class="anchor" id="variable-iomsg~126"></span>
               character(len=:),
             </td>
 <td></td>
@@ -715,7 +911,7 @@ Format string for quadruple precision complex numbers</p>
           </li>
           <li class="list-group-item">
                 <h3>
-    private  subroutine getline_input_string(line, iostat, iomsg)  
+    private  subroutine get_line_input_string(line, iostat, iomsg)  
 
     </h3>
   <p>Read a whole line from the standard input into a string variable</p>
@@ -748,7 +944,7 @@ Format string for quadruple precision complex numbers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iostat~65"></span>
+              <span class="anchor" id="variable-iostat~113"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -763,7 +959,7 @@ Format string for quadruple precision complex numbers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iomsg~79"></span>
+              <span class="anchor" id="variable-iomsg~127"></span>
               character(len=:),
             </td>
 <td></td>
@@ -817,7 +1013,7 @@ Format string for quadruple precision complex numbers</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~54"></span>
+              <span class="anchor" id="variable-filename~102"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -832,7 +1028,7 @@ Format string for quadruple precision complex numbers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~402"></span>
+              <span class="anchor" id="variable-d~552"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -920,7 +1116,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~55"></span>
+              <span class="anchor" id="variable-filename~103"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -935,7 +1131,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~403"></span>
+              <span class="anchor" id="variable-d~553"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -1023,7 +1219,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~56"></span>
+              <span class="anchor" id="variable-filename~104"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1038,7 +1234,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~404"></span>
+              <span class="anchor" id="variable-d~554"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -1126,7 +1322,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~57"></span>
+              <span class="anchor" id="variable-filename~105"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1141,7 +1337,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~405"></span>
+              <span class="anchor" id="variable-d~555"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -1229,7 +1425,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~58"></span>
+              <span class="anchor" id="variable-filename~106"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1244,7 +1440,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~406"></span>
+              <span class="anchor" id="variable-d~556"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -1332,7 +1528,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~59"></span>
+              <span class="anchor" id="variable-filename~107"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1347,7 +1543,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~407"></span>
+              <span class="anchor" id="variable-d~557"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -1435,7 +1631,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~60"></span>
+              <span class="anchor" id="variable-filename~108"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1450,7 +1646,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~408"></span>
+              <span class="anchor" id="variable-d~558"></span>
               complex(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -1538,7 +1734,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~61"></span>
+              <span class="anchor" id="variable-filename~109"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1553,7 +1749,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~409"></span>
+              <span class="anchor" id="variable-d~559"></span>
               complex(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -1654,7 +1850,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~62"></span>
+              <span class="anchor" id="variable-filename~110"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1669,7 +1865,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~410"></span>
+              <span class="anchor" id="variable-d~560"></span>
               real(kind=sp),
             </td>
 <td>intent(in)</td>
@@ -1712,7 +1908,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~63"></span>
+              <span class="anchor" id="variable-filename~111"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1727,7 +1923,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~411"></span>
+              <span class="anchor" id="variable-d~561"></span>
               real(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -1770,7 +1966,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~64"></span>
+              <span class="anchor" id="variable-filename~112"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1785,7 +1981,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~412"></span>
+              <span class="anchor" id="variable-d~562"></span>
               integer(kind=int8),
             </td>
 <td>intent(in)</td>
@@ -1828,7 +2024,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~65"></span>
+              <span class="anchor" id="variable-filename~113"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1843,7 +2039,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~413"></span>
+              <span class="anchor" id="variable-d~563"></span>
               integer(kind=int16),
             </td>
 <td>intent(in)</td>
@@ -1886,7 +2082,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~66"></span>
+              <span class="anchor" id="variable-filename~114"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1901,7 +2097,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~414"></span>
+              <span class="anchor" id="variable-d~564"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -1944,7 +2140,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~67"></span>
+              <span class="anchor" id="variable-filename~115"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1959,7 +2155,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~415"></span>
+              <span class="anchor" id="variable-d~565"></span>
               integer(kind=int64),
             </td>
 <td>intent(in)</td>
@@ -2002,7 +2198,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~68"></span>
+              <span class="anchor" id="variable-filename~116"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2017,7 +2213,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~416"></span>
+              <span class="anchor" id="variable-d~566"></span>
               complex(kind=sp),
             </td>
 <td>intent(in)</td>
@@ -2060,7 +2256,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~69"></span>
+              <span class="anchor" id="variable-filename~117"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2075,7 +2271,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~417"></span>
+              <span class="anchor" id="variable-d~567"></span>
               complex(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -2132,7 +2328,7 @@ The default value is -1.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-filename~70"></span>
+              <span class="anchor" id="variable-filename~118"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2162,7 +2358,7 @@ The default value is -1.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iostat~61"></span>
+              <span class="anchor" id="variable-iostat~109"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2247,13 +2443,13 @@ The default value is -1.</p>
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>7b99d430</small></p>
+<br /><small>69eaa205</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-02-27 18:42              </p>
+ on 2025-02-28 09:25              </p>
           </div>
         </div>
         <br>
