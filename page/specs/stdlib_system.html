@@ -239,6 +239,26 @@ and monitoring of system commands or applications directly from Fortran. </p>
 <li><a href="#example_9">Example</a></li>
 </ul>
 </li>
+<li><a href="#get_runtime_os-determine-the-os-type-at-runtime">get_runtime_os - Determine the OS type at runtime</a><ul>
+<li><a href="#status_10">Status</a></li>
+<li><a href="#description_10">Description</a></li>
+<li><a href="#syntax_10">Syntax</a></li>
+<li><a href="#class">Class</a></li>
+<li><a href="#arguments_9">Arguments</a></li>
+<li><a href="#return-value_6">Return Value</a></li>
+<li><a href="#example_10">Example</a></li>
+</ul>
+</li>
+<li><a href="#os_type-cached-os-type-retrieval">OS_TYPE - Cached OS type retrieval</a><ul>
+<li><a href="#status_11">Status</a></li>
+<li><a href="#description_11">Description</a></li>
+<li><a href="#syntax_11">Syntax</a></li>
+<li><a href="#class_1">Class</a></li>
+<li><a href="#arguments_10">Arguments</a></li>
+<li><a href="#return-value_7">Return Value</a></li>
+<li><a href="#example_11">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -634,6 +654,74 @@ This function is highly efficient and works during the compilation phase, avoidi
 
 <span class="k">end program </span><span class="n">run_sync</span>
 </code></pre></div>
+
+<h2 id="get_runtime_os-determine-the-os-type-at-runtime"><code>get_runtime_os</code> - Determine the OS type at runtime</h2>
+<h3 id="status_10">Status</h3>
+<p>Experimental</p>
+<h3 id="description_10">Description</h3>
+<p><code>get_runtime_os</code> inspects the runtime environment to identify the current OS type. It evaluates environment variables (<code>OSTYPE</code>, <code>OS</code>) and checks for specific files associated with known operating systems.
+The supported OS types are <code>integer, parameter</code> variables stored in the <code>stdlib_system</code> module:</p>
+<ul>
+<li><strong>Linux</strong> (<code>OS_LINUX</code>)</li>
+<li><strong>macOS</strong> (<code>OS_MACOS</code>)</li>
+<li><strong>Windows</strong> (<code>OS_WINDOWS</code>)</li>
+<li><strong>Cygwin</strong> (<code>OS_CYGWIN</code>)</li>
+<li><strong>Solaris</strong> (<code>OS_SOLARIS</code>)</li>
+<li><strong>FreeBSD</strong> (<code>OS_FREEBSD</code>)</li>
+<li><strong>OpenBSD</strong> (<code>OS_OPENBSD</code>)</li>
+</ul>
+<p>If the OS cannot be identified, the function returns <code>OS_UNKNOWN</code>.</p>
+<h3 id="syntax_10">Syntax</h3>
+<p><code>os = [[stdlib_system(module):get_runtime_os(function)]]()</code></p>
+<h3 id="class">Class</h3>
+<p>Function</p>
+<h3 id="arguments_9">Arguments</h3>
+<p>None.</p>
+<h3 id="return-value_6">Return Value</h3>
+<p>Returns one of the <code>integer</code> <code>OS_*</code> parameters representing the OS type, from the <code>stdlib_system</code> module, or <code>OS_UNKNOWN</code> if undetermined.</p>
+<h3 id="example_10">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Demonstrate usage of (non-cached) runtime OS query</span>
+<span class="k">program </span><span class="n">example_get_runtime_os</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_system</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">OS_NAME</span><span class="p">,</span><span class="w"> </span><span class="n">get_runtime_os</span>
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="w">    </span><span class="c">! Runtime OS detection (full inspection)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Runtime OS Type: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">OS_NAME</span><span class="p">(</span><span class="n">get_runtime_os</span><span class="p">())</span>
+
+<span class="k">end program </span><span class="n">example_get_runtime_os</span>
+</code></pre></div>
+
+<hr>
+<h2 id="os_type-cached-os-type-retrieval"><code>OS_TYPE</code> - Cached OS type retrieval</h2>
+<h3 id="status_11">Status</h3>
+<p>Experimental</p>
+<h3 id="description_11">Description</h3>
+<p><code>OS_TYPE</code> provides a cached result of the <code>get_runtime_os</code> function. The OS type is determined during the first invocation and stored in a static variable. 
+Subsequent calls reuse the cached value, making this function highly efficient.</p>
+<p>This caching mechanism ensures negligible overhead for repeated calls, unlike <code>get_runtime_os</code>, which performs a full runtime inspection.</p>
+<h3 id="syntax_11">Syntax</h3>
+<p><code>os = [[stdlib_system(module):OS_TYPE(function)]]()</code></p>
+<h3 id="class_1">Class</h3>
+<p>Function</p>
+<h3 id="arguments_10">Arguments</h3>
+<p>None.</p>
+<h3 id="return-value_7">Return Value</h3>
+<p>Returns one of the <code>integer</code> <code>OS_*</code> parameters representing the OS type, from the <code>stdlib_system</code> module, or <code>OS_UNKNOWN</code> if undetermined.</p>
+<hr>
+<h3 id="example_11">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Demonstrate OS detection</span>
+<span class="k">program </span><span class="n">example_os_type</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_system</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">OS_TYPE</span><span class="p">,</span><span class="w"> </span><span class="n">OS_NAME</span>
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">current_os</span>
+
+<span class="w">    </span><span class="c">! Cached OS detection</span>
+<span class="w">    </span><span class="n">current_os</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OS_TYPE</span><span class="p">()</span><span class="w"> </span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Current OS Type: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">OS_NAME</span><span class="p">(</span><span class="n">current_os</span><span class="p">)</span><span class="w"> </span>
+
+<span class="k">end program </span><span class="n">example_os_type</span>
+</code></pre></div>
     </div>
   </div>
       <hr>
@@ -642,13 +730,13 @@ This function is highly efficient and works during the compilation phase, avoidi
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>d2767cfb</small></p>
+<br /><small>d7246580</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-07 07:48              </p>
+ on 2025-03-07 10:41              </p>
           </div>
         </div>
         <br>
