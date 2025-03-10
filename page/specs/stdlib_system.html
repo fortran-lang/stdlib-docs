@@ -259,6 +259,16 @@ and monitoring of system commands or applications directly from Fortran. </p>
 <li><a href="#example_11">Example</a></li>
 </ul>
 </li>
+<li><a href="#null_device-return-the-null-device-file-path">null_device - Return the null device file path</a><ul>
+<li><a href="#status_12">Status</a></li>
+<li><a href="#description_12">Description</a></li>
+<li><a href="#syntax_12">Syntax</a></li>
+<li><a href="#class_2">Class</a></li>
+<li><a href="#arguments_11">Arguments</a></li>
+<li><a href="#return-value_8">Return Value</a></li>
+<li><a href="#example_12">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -722,6 +732,48 @@ Subsequent calls reuse the cached value, making this function highly efficient.<
 
 <span class="k">end program </span><span class="n">example_os_type</span>
 </code></pre></div>
+
+<h2 id="null_device-return-the-null-device-file-path"><code>null_device</code> - Return the null device file path</h2>
+<h3 id="status_12">Status</h3>
+<p>Experimental</p>
+<h3 id="description_12">Description</h3>
+<p>This function returns the file path of the null device, which is a special file used to discard any data written to it. 
+It reads as an empty file. The null device's path varies by operating system:
+- On Windows, the null device is represented as <code>NUL</code>.
+- On UNIX-like systems (Linux, macOS), the null device is represented as <code>/dev/null</code>.</p>
+<h3 id="syntax_12">Syntax</h3>
+<p><code>path = [[stdlib_system(module):null_device(function)]]()</code></p>
+<h3 id="class_2">Class</h3>
+<p>Function</p>
+<h3 id="arguments_11">Arguments</h3>
+<p>None.</p>
+<h3 id="return-value_8">Return Value</h3>
+<ul>
+<li><strong>Type:</strong> <code>character(:), allocatable</code></li>
+<li>Returns the null device file path as a character string, appropriate for the operating system.</li>
+</ul>
+<h3 id="example_12">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Showcase usage of the null device</span>
+<span class="k">program </span><span class="n">example_null_device</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_system</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">null_device</span>
+<span class="w">    </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">output_unit</span>
+<span class="w">    </span><span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span>
+<span class="w">    </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">screen_output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">screen_output</span><span class="p">)</span><span class="w"> </span><span class="k">then </span>
+<span class="k">       </span><span class="n">unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">output_unit</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">       </span><span class="c">! Write to the null device if no screen output is wanted</span>
+<span class="w">       </span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="k">file</span><span class="o">=</span><span class="n">null_device</span><span class="p">())</span>
+<span class="w">    </span><span class="k">endif     </span>
+
+<span class="k">    write</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;Hello, world!&quot;</span><span class="w"> </span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="n">screen_output</span><span class="p">)</span><span class="w"> </span><span class="k">close</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span><span class="w"> </span>
+
+<span class="k">end program </span><span class="n">example_null_device</span>
+</code></pre></div>
     </div>
   </div>
       <hr>
@@ -730,13 +782,13 @@ Subsequent calls reuse the cached value, making this function highly efficient.<
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>d7246580</small></p>
+<br /><small>954a84be</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-07 10:41              </p>
+ on 2025-03-10 08:45              </p>
           </div>
         </div>
         <br>
