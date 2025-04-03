@@ -279,6 +279,17 @@ and monitoring of system commands or applications directly from Fortran. </p>
 <li><a href="#example_13">Example</a></li>
 </ul>
 </li>
+<li><a href="#delete_file-delete-a-file">delete_file - Delete a file</a><ul>
+<li><a href="#status_14">Status</a></li>
+<li><a href="#description_14">Description</a></li>
+<li><a href="#syntax_14">Syntax</a></li>
+<li><a href="#class_4">Class</a></li>
+<li><a href="#arguments_13">Arguments</a></li>
+<li><a href="#behavior">Behavior</a></li>
+<li><a href="#return-values_1">Return values</a></li>
+<li><a href="#example_14">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -292,7 +303,7 @@ Processes run synchronously, meaning execution is blocked until the process fini
 Optional arguments enable the collection of standard output and error streams, as well as sending input via standard input. 
 Additionally, a callback function can be specified to execute upon process completion, optionally receiving a user-defined payload.</p>
 <h3 id="syntax">Syntax</h3>
-<p><code>process =</code> <a>stdlib_subprocess</a> <code>(args [, stdin] [, want_stdout] [, want_stderr] [, callback] [, payload])</code></p>
+<p><code>process =</code> <a>stdlib_system</a> <code>(args [, stdin] [, want_stdout] [, want_stderr] [, callback] [, payload])</code></p>
 <h3 id="arguments">Arguments</h3>
 <p><code>args</code>: Shall be a <code>character(*)</code> string (for command-line execution) or a <code>character(*), dimension(:)</code> array (for argument-based execution). It specifies the command and arguments to execute. This is an <code>intent(in)</code> argument.</p>
 <p><code>stdin</code> (optional): Shall be a <code>character(*)</code> value containing input to send to the process via standard input (pipe). This is an <code>intent(in)</code> argument.</p>
@@ -319,7 +330,7 @@ Processes are run asynchronously (non-blocking), meaning execution does not wait
 Optional arguments enable the collection of standard output and error streams, as well as sending input via standard input.
 Additionally, a callback function can be specified to execute upon process completion, optionally receiving a user-defined payload.</p>
 <h3 id="syntax_1">Syntax</h3>
-<p><code>process =</code> <a>stdlib_subprocess</a> <code>(args [, stdin] [, want_stdout] [, want_stderr] [, callback] [, payload])</code></p>
+<p><code>process =</code> <a>stdlib_system</a> <code>(args [, stdin] [, want_stdout] [, want_stderr] [, callback] [, payload])</code></p>
 <h3 id="arguments_1">Arguments</h3>
 <p><code>args</code>: Shall be a <code>character(*)</code> string (for command-line execution) or a <code>character(*), dimension(:)</code> array (for argument-based execution). It specifies the command and arguments to execute. This is an <code>intent(in)</code> argument.</p>
 <p><code>stdin</code> (optional): Shall be a <code>character(*)</code> value containing input to send to the process via standard input (pipe). This is an <code>intent(in)</code> argument.</p>
@@ -363,7 +374,7 @@ Additionally, a callback function can be specified to execute upon process compl
 <p>The <code>is_running</code> interface provides a method to check if an external process is still running.<br>
 This is useful for monitoring the status of asynchronous processes created with the <code>run</code> interface.</p>
 <h3 id="syntax_2">Syntax</h3>
-<p><code>status =</code> <a>stdlib_subprocess</a> <code>(process)</code></p>
+<p><code>status =</code> <a>stdlib_system</a> <code>(process)</code></p>
 <h3 id="arguments_2">Arguments</h3>
 <p><code>process</code>:  Shall be a <code>type(process_type)</code> object representing the external process to check. This is an <code>intent(inout)</code> argument.</p>
 <h3 id="return-value_2">Return Value</h3>
@@ -400,7 +411,7 @@ After a call to <code>is_running</code>, the <code>type(process_type)</code> str
 <p>The <code>is_completed</code> interface provides a method to check if an external process has finished execution.<br>
 This is useful for determining whether asynchronous processes created with the <code>run</code> interface have terminated.</p>
 <h3 id="syntax_3">Syntax</h3>
-<p><code>status =</code> <a>stdlib_subprocess</a> <code>(process)</code></p>
+<p><code>status =</code> <a>stdlib_system</a> <code>(process)</code></p>
 <h3 id="arguments_3">Arguments</h3>
 <p><code>process</code>: Shall be a <code>type(process_type)</code> object representing the external process to check. This is an <code>intent(inout)</code> argument.</p>
 <h3 id="return-value_3">Return Value</h3>
@@ -443,7 +454,7 @@ This is useful for determining whether asynchronous processes created with the <
 This is useful for tracking the duration of an external process or for performance monitoring purposes.  </p>
 <p>The result is a real value representing the elapsed time in seconds, measured from the time the process was created.</p>
 <h3 id="syntax_4">Syntax</h3>
-<p><code>delta_t =</code> <a>stdlib_subprocess</a> <code>(process)</code></p>
+<p><code>delta_t =</code> <a>stdlib_system</a> <code>(process)</code></p>
 <h3 id="arguments_4">Arguments</h3>
 <p><code>process</code>: Shall be a <code>type(process_type)</code> object representing the external process. It is an <code>intent(in)</code> argument.</p>
 <h3 id="return-value_4">Return Value</h3>
@@ -487,7 +498,7 @@ the subroutine will return without waiting further.</p>
 This is useful when you want to wait for a background task to complete, but want to avoid indefinite blocking 
 in case of process hang or delay.</p>
 <h3 id="syntax_5">Syntax</h3>
-<p><code>call</code> <a>stdlib_subprocess</a> <code>(process [, max_wait_time])</code></p>
+<p><code>call</code> <a>stdlib_system</a> <code>(process [, max_wait_time])</code></p>
 <h3 id="arguments_5">Arguments</h3>
 <p><code>process</code>: Shall be a <code>type(process_type)</code> object representing the external process to monitor.<br>
 This is an <code>intent(inout)</code> argument, and its state is updated upon completion.</p>
@@ -525,7 +536,7 @@ If not provided, the subroutine will wait indefinitely until the process complet
 After the process completes, the standard output and standard error are retrieved, if they were requested, and loaded into the <code>process%stdout</code> and <code>process%stderr</code> string variables, respectively.</p>
 <p>This is especially useful for monitoring asynchronous processes and retrieving their output after they have finished.</p>
 <h3 id="syntax_6">Syntax</h3>
-<p><code>call</code> <a>stdlib_subprocess</a> <code>(process)</code></p>
+<p><code>call</code> <a>stdlib_system</a> <code>(process)</code></p>
 <h3 id="arguments_6">Arguments</h3>
 <p><code>process</code>: Shall be a <code>type(process_type)</code> object representing the external process whose state needs to be updated.<br>
 This is an <code>intent(inout)</code> argument, and its internal state is updated on completion.</p>
@@ -567,7 +578,7 @@ This is an <code>intent(inout)</code> argument, and its internal state is update
 <p>The <code>kill</code> interface is used to terminate a running external process. It attempts to stop the process and returns a boolean flag indicating whether the operation was successful.
 This interface is useful when a process needs to be forcefully stopped, for example, if it becomes unresponsive or if its execution is no longer required.</p>
 <h3 id="syntax_7">Syntax</h3>
-<p><code>call</code> <a>stdlib_subprocess</a> <code>(process, success)</code></p>
+<p><code>call</code> <a>stdlib_system</a> <code>(process, success)</code></p>
 <h3 id="arguments_7">Arguments</h3>
 <p><code>process</code>: Shall be a <code>type(process_type)</code> object representing the external process to be terminated.<br>
 This is an <code>intent(inout)</code> argument, and on return is updated with the terminated process state.</p>
@@ -750,7 +761,7 @@ Subsequent calls reuse the cached value, making this function highly efficient.<
 <p>This function checks if a specified file system path is a directory. 
 It is designed to work across multiple platforms. On Windows, paths with both forward <code>/</code> and backward <code>\</code> slashes are accepted.</p>
 <h3 id="syntax_12">Syntax</h3>
-<p><code>result = [[stdlib_io(module):is_directory(function)]] (path)</code></p>
+<p><code>result = [[stdlib_system(module):is_directory(function)]] (path)</code></p>
 <h3 id="class_2">Class</h3>
 <p>Function</p>
 <h3 id="arguments_11">Arguments</h3>
@@ -817,6 +828,49 @@ It reads as an empty file. The null device's path varies by operating system:
 
 <span class="k">end program </span><span class="n">example_null_device</span>
 </code></pre></div>
+
+<h2 id="delete_file-delete-a-file"><code>delete_file</code> - Delete a file</h2>
+<h3 id="status_14">Status</h3>
+<p>Experimental</p>
+<h3 id="description_14">Description</h3>
+<p>This subroutine deletes a specified file from the filesystem. It ensures that the file exists and is not a directory before attempting deletion.
+If the file cannot be deleted due to permissions, being a directory, or other issues, an error is raised. 
+The function provides an optional error-handling mechanism via the <code>state_type</code> class. If the <code>err</code> argument is not provided, exceptions will trigger an <code>error stop</code>.</p>
+<h3 id="syntax_14">Syntax</h3>
+<p><code>call [[stdlib_system(module):delete_file(subroutine)]] (path [, err])</code></p>
+<h3 id="class_4">Class</h3>
+<p>Subroutine</p>
+<h3 id="arguments_13">Arguments</h3>
+<p><code>path</code>: Shall be a character string containing the path to the file to be deleted. It is an <code>intent(in)</code> argument.</p>
+<p><code>err</code> (optional): Shall be a <code>type(state_type)</code> variable for error handling. If provided, errors are returned as a state object. If not provided, the program stops execution on error.</p>
+<h3 id="behavior">Behavior</h3>
+<ul>
+<li>Checks if the file exists. If not, an error is raised.</li>
+<li>Ensures the path is not a directory before deletion.</li>
+<li>Attempts to delete the file, raising an error if unsuccessful.</li>
+</ul>
+<h3 id="return-values_1">Return values</h3>
+<p>The file is removed from the filesystem if the operation is successful. If the operation fails, an error is raised.</p>
+<h3 id="example_14">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">! Demonstrate usage of `delete_file`</span>
+<span class="k">program </span><span class="n">example_delete_file</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_system</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">delete_file</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_error</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">state_type</span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  type</span><span class="p">(</span><span class="n">state_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+<span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;example.txt&quot;</span>
+
+<span class="w">  </span><span class="c">! Delete a file with error handling</span>
+<span class="w">  </span><span class="k">call </span><span class="n">delete_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span><span class="w"> </span>
+<span class="w">  </span><span class="k">else</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;File &quot;</span><span class="o">//</span><span class="n">filename</span><span class="o">//</span><span class="s2">&quot; deleted successfully.&quot;</span>
+<span class="w">  </span><span class="k">end if</span>
+<span class="k">end program </span><span class="n">example_delete_file</span>
+</code></pre></div>
     </div>
   </div>
       <hr>
@@ -825,13 +879,13 @@ It reads as an empty file. The null device's path varies by operating system:
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>60d0a769</small></p>
+<br /><small>def840da</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-03-28 07:23              </p>
+ on 2025-04-03 06:18              </p>
           </div>
         </div>
         <br>
