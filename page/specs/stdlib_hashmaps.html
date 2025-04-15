@@ -1126,7 +1126,7 @@ type. Each of these types are described below. </p>
 <h4 id="the-hashmap_type-abstract-type">The <code>hashmap_type</code> abstract type</h4>
 <p>The <code>hashmap_type</code> abstract type serves as the parent type for the two
 types <code>chaining_hashmap_type</code> and <code>open_hashmap_type</code>. It defines
-seven private components:</p>
+eight private components:</p>
 <ul>
 <li>
 <p><code>call_count</code> - the number of procedure calls on the map;</p>
@@ -1151,6 +1151,9 @@ seven private components:</p>
 </li>
 <li>
 <p><code>hasher</code> - a pointer to the hash function used by the map.</p>
+</li>
+<li>
+<p><code>initialized</code> - track if map has been initialized</p>
 </li>
 </ul>
 <p>It also defines five non-overridable procedures:</p>
@@ -1439,7 +1442,7 @@ to report on the structure of the map. The procedures in each category
 are listed below.</p>
 <p>Procedure to initialize a chaining hash map:</p>
 <ul>
-<li><code>map % init( hasher[, slots_bits, status] )</code> - Routine
+<li><code>map % init( [hasher, slots_bits, status] )</code> - Routine
   to initialize a chaining hash map.</li>
 </ul>
 <p>Procedure to modify the structure of a map:</p>
@@ -1509,7 +1512,7 @@ offsets of slot entries from their slot index</p>
 <h5 id="description_12">Description</h5>
 <p>Returns the number of procedure calls on a hash map.</p>
 <h5 id="syntax_11">Syntax</h5>
-<p><code>value = map %</code> <a href="../../type/hashmap_type.html#boundprocedure-calls">calls</a> <code>()</code></p>
+<p><code>value = map %</code> <a>hashmap_type</a> <code>()</code></p>
 <h5 id="class_11">Class</h5>
 <p>Pure function</p>
 <h5 id="argument_9">Argument</h5>
@@ -1522,11 +1525,10 @@ It is an <code>intent(in)</code> argument.</p>
 <h5 id="example_11">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_calls</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chaining_hashmap_type</span><span class="p">,</span><span class="w"> </span><span class="n">int_calls</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  type</span><span class="p">(</span><span class="n">chaining_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_calls</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">initial_calls</span>
-<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">()</span>
 <span class="w">  </span><span class="n">initial_calls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">%</span><span class="n">calls</span><span class="p">()</span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;INITIAL_CALLS =  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">initial_calls</span>
 <span class="k">end program </span><span class="n">example_calls</span>
@@ -1538,7 +1540,7 @@ It is an <code>intent(in)</code> argument.</p>
 <h5 id="description_13">Description</h5>
 <p>Returns the number of entries in a hash map.</p>
 <h5 id="syntax_12">Syntax</h5>
-<p><code>value = map %</code> <a href="../../type/hashmap_type.html#boundprocedure-entries">entries</a> <code>()</code></p>
+<p><code>value = map %</code> <a>hashmap_type</a> <code>()</code></p>
 <h5 id="class_12">Class</h5>
 <p>Pure function</p>
 <h5 id="argument_10">Argument</h5>
@@ -1551,11 +1553,10 @@ It is an <code>intent(in)</code> argument.</p>
 <h5 id="example_12">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_entries</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">open_hashmap_type</span><span class="p">,</span><span class="w"> </span><span class="n">int_index</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  type</span><span class="p">(</span><span class="n">open_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_index</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">initial_entries</span>
-<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">()</span>
 <span class="w">  </span><span class="n">initial_entries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">%</span><span class="n">entries</span><span class="p">()</span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;INITIAL_ENTRIES =  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">initial_entries</span>
 <span class="k">end program </span><span class="n">example_entries</span>
@@ -1567,7 +1568,7 @@ It is an <code>intent(in)</code> argument.</p>
 <h5 id="description_14">Description</h5>
 <p>Returns all the keys contained in a map.</p>
 <h5 id="syntax_13">Syntax</h5>
-<p><code>call map %</code> <a href="../../type/hashmap_type.html#boundprocedure-get_all_keys">get_all_keys</a> <code>( all_keys )</code></p>
+<p><code>call map %</code> <a>hashmap_type</a> <code>( all_keys )</code></p>
 <h5 id="class_13">Class</h5>
 <p>Subroutine</p>
 <h5 id="arguments_2">Arguments</h5>
@@ -1581,8 +1582,7 @@ It is an <code>intent(in)</code> argument.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_hashmaps_get_all_keys</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int32</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chaining_hashmap_type</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">get</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                     </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">get</span><span class="p">,</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  type</span><span class="p">(</span><span class="n">chaining_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span>
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">key_type</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
@@ -1591,8 +1591,6 @@ It is an <code>intent(in)</code> argument.</p>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int32</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
 
 <span class="w">  </span><span class="kt">character</span><span class="p">(:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span>
-
-<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">)</span>
 
 <span class="w">  </span><span class="c">! adding key-value pairs to the map</span>
 <span class="w">  </span><span class="k">call </span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;initial key&quot;</span><span class="p">)</span>
@@ -1627,7 +1625,7 @@ It is an <code>intent(in)</code> argument.</p>
 <h5 id="description_15">Description</h5>
 <p>Returns the value associated with the <code>key</code>,</p>
 <h5 id="syntax_14">Syntax</h5>
-<p><code>value = map %</code> <a href="../../type/hashmap_type.html#boundprocedure-get_other_data">get_other_data</a> <code>( key, other [, exists] )</code></p>
+<p><code>value = map %</code> <a>hashmap_type</a> <code>( key, other [, exists] )</code></p>
 <h5 id="class_14">Class</h5>
 <p>Subroutine</p>
 <h5 id="arguments_3">Arguments</h5>
@@ -1650,7 +1648,7 @@ undefined.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_get_other_data</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="p">,</span><span class="w"> </span><span class="n">int64</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chaining_hashmap_type</span><span class="p">,</span><span class="w"> </span><span class="n">int_index</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="n">get</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">logical</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">conflict</span>
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">key_type</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
@@ -1662,9 +1660,6 @@ undefined.</p>
 <span class="w">  </span><span class="k">class</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="k">data</span>
 <span class="k">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int8</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">key_array</span><span class="p">(:)</span>
 <span class="w">  </span><span class="kt">integer</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">int_scalar</span>
-
-<span class="w">  </span><span class="c">! Initialize hashmap</span>
-<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">)</span>
 
 <span class="w">  </span><span class="c">! Hashmap functions are setup to store scalar value types (other).  Use a dervied</span>
 <span class="w">  </span><span class="c">! type wrapper to store arrays.</span>
@@ -1760,7 +1755,7 @@ undefined.</p>
 <h5 id="description_16">Description</h5>
 <p>Initializes a <code>hashmap_type</code> object.</p>
 <h5 id="syntax_15">Syntax</h5>
-<p><code>call map %</code> <a href="../../type/hashmap_type.html#boundprocedure-init">init</a> <code>( hasher [, slots_bits, status ] )</code></p>
+<p><code>call map %</code> <a>hashmap_type</a> <code>( [hasher, slots_bits, status ] )</code></p>
 <h5 id="class_15">Class</h5>
 <p>Subroutine</p>
 <h5 id="arguments_4">Arguments</h5>
@@ -1768,9 +1763,10 @@ undefined.</p>
   <code>chaining_hashmap_type</code> or <code>open_hashmap_type</code>. It is an
   <code>intent(out)</code> argument. It will 
   be a hash map used to store and access the entries.</p>
-<p><code>hasher</code>: shall be a procedure with interface <code>hash_fun</code>.
+<p><code>hasher</code>: (optional): shall be a procedure with interface <code>hash_fun</code>.
   It is an <code>intent(in)</code> argument. It is the procedure to be used to
-  generate the hashes for the table from the keys of the entries.</p>
+  generate the hashes for the table from the keys of the entries. 
+  Defaults to fnv_1_hasher if not provided.</p>
 <p><code>slots_bits</code> (optional): shall be a scalar default integer 
   expression. It is an <code>intent(in)</code> argument. The initial number of
   slots in the table will be <code>2**slots_bits</code>.</p>
@@ -1808,11 +1804,30 @@ has the value <code>alloc_fault</code>.</p>
 </ul>
 <h5 id="example_15">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_init</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chaining_hashmap_type</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chaining_hashmap_type</span><span class="p">,</span><span class="w"> </span><span class="n">open_hashmap_type</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  type</span><span class="p">(</span><span class="n">chaining_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span>
-<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">slots_bits</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">  </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">present</span>
+
+
+<span class="w">  </span><span class="c">!If default values are used, then init can be typically be skipped as the first map_entry call will initialize the map using default values.  </span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">map_entry</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">key_test</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">present</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Key exists without explicit init call =  &quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">present</span>
+
+<span class="w">  </span><span class="c">! Init can be called to clear all items in a map. </span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">()</span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">key_test</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">present</span><span class="p">)</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Key exists after re-initalization =  &quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">present</span>
+
+<span class="w">  </span><span class="c">! User can optional specify hasher type and slots_bits instead of using default values.  </span>
+<span class="w">  </span><span class="c">! Number of slots in the hashmap will initially equal 2**slots_bits.   </span>
+<span class="w">  </span><span class="c">! The hashmap will automatically re-size as needed; however for better performance, a rule of thumb is to size so that number of slots is ~2X expected number of entries.</span>
+<span class="w">  </span><span class="c">! In this example with slots_bits=10, there will initially be 1024 slots in the map.  </span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">hasher</span><span class="o">=</span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">slots_bits</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">map_entry</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+
 <span class="k">end program </span><span class="n">example_init</span>
 </code></pre></div>
 
@@ -1823,7 +1838,7 @@ has the value <code>alloc_fault</code>.</p>
 <p>Returns a logical flag indicating whether <code>key</code> is present for an
 entry in the map.</p>
 <h5 id="syntax_16">Syntax</h5>
-<p><code>call map %</code> <a href="../../type/hashmap_type.html#boundprocedure-key_test">key_test</a> <code>( key, present )</code></p>
+<p><code>call map %</code> <a>hashmap_type</a> <code>( key, present )</code></p>
 <h5 id="class_16">Class</h5>
 <p>Subroutine.</p>
 <h5 id="arguments_5">Arguments</h5>
@@ -1842,15 +1857,17 @@ It is an <code>intent(out)</code> argument. It is a logical flag where
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_key_test</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chaining_hashmap_type</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  type</span><span class="p">(</span><span class="n">chaining_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span>
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">key_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
 <span class="w">  </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">present</span>
-<span class="nb">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">)</span>
+
+<span class="nb">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">()</span>
 <span class="w">  </span><span class="k">call </span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">0_int8</span><span class="p">,</span><span class="w"> </span><span class="mi">1_int8</span><span class="p">])</span>
 <span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">key_test</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="nb">present</span><span class="p">)</span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Initial key of 10 present for empty map =  &quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">present</span>
+
 <span class="k">end program </span><span class="n">example_key_test</span>
 </code></pre></div>
 
@@ -1861,7 +1878,7 @@ It is an <code>intent(out)</code> argument. It is a logical flag where
 <p>Returns the ratio of the number of entries relative to the number of
 slots in the hash map.</p>
 <h5 id="syntax_17">Syntax</h5>
-<p><code>value = map %</code> <a href="../../type/hashmap_type.html#boundprocedure-loading">loading</a> <code>( )</code></p>
+<p><code>value = map %</code> <a>hashmap_type</a> <code>( )</code></p>
 <h5 id="class_17">Class</h5>
 <p>Pure function</p>
 <h5 id="argument_11">Argument</h5>
@@ -1875,11 +1892,10 @@ number of slots in the hash map.</p>
 <h5 id="example_17">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_loading</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">open_hashmap_type</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  type</span><span class="p">(</span><span class="n">open_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span>
 <span class="w">  </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ratio</span>
-<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">()</span>
 <span class="w">  </span><span class="n">ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">%</span><span class="n">loading</span><span class="p">()</span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Initial loading =  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ratio</span>
 <span class="k">end program </span><span class="n">example_loading</span>
@@ -1891,7 +1907,7 @@ number of slots in the hash map.</p>
 <h5 id="description_19">Description</h5>
 <p>Inserts an entry into the hash map if it is not already present.</p>
 <h5 id="syntax_18">Syntax</h5>
-<p><code>call map %</code> <a href="../../type/hashmap_type.html#boundprocedure-map_entry">map_entry</a> <code>( key[, other, conflict ] )</code></p>
+<p><code>call map %</code> <a>hashmap_type</a> <code>( key[, other, conflict ] )</code></p>
 <h5 id="class_18">Class</h5>
 <p>Subroutine</p>
 <h5 id="arguments_6">Arguments</h5>
@@ -1920,7 +1936,7 @@ been provided then it routine will error stop.  </li>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_map_entry</span>
 <span class="w">  </span><span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="p">,</span><span class="w"> </span><span class="n">int64</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chaining_hashmap_type</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  type</span><span class="p">(</span><span class="n">chaining_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span>
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">key_type</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
@@ -1935,7 +1951,7 @@ been provided then it routine will error stop.  </li>
 
 <span class="w">  </span><span class="c">! Initialize hashmap with 2^10 slots.</span>
 <span class="w">  </span><span class="c">! Hashmap will dynamically increase size if needed.</span>
-<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">slots_bits</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">slots_bits</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
 <span class="w">  </span><span class="c">! Explicitly set key using set function</span>
 <span class="w">  </span><span class="k">call </span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">])</span>
@@ -1978,7 +1994,7 @@ been provided then it routine will error stop.  </li>
 <h5 id="description_20">Description</h5>
 <p>Returns the total number of table probes on the hash map.</p>
 <h5 id="syntax_19">Syntax</h5>
-<p><code>result = map %</code> <a href="../../type/hashmap_type.html#boundprocedure-map_probes">map_probes</a> <code>( )</code></p>
+<p><code>result = map %</code> <a>hashmap_type</a> <code>( )</code></p>
 <h5 id="class_19">Class</h5>
 <p>Pure function</p>
 <h5 id="argument_12">Argument</h5>
@@ -1993,11 +2009,10 @@ rehashing. </p>
 <h5 id="example_19">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_probes</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chaining_hashmap_type</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  type</span><span class="p">(</span><span class="n">chaining_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span>
 <span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nprobes</span>
-<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">()</span>
 <span class="w">  </span><span class="n">nprobes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">%</span><span class="n">map_probes</span><span class="p">()</span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Initial probes =  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nprobes</span>
 <span class="k">end program </span><span class="n">example_probes</span>
@@ -2009,7 +2024,7 @@ rehashing. </p>
 <h5 id="description_21">Description</h5>
 <p>Returns the total number of slots on a hash map</p>
 <h5 id="syntax_20">Syntax</h5>
-<p><code>result = map %</code> <a href="../../type/hashmap_type.html#boundprocedure-num_slots">num_slots</a> <code>( )</code></p>
+<p><code>result = map %</code> <a>hashmap_type</a> <code>( )</code></p>
 <h5 id="class_20">Class</h5>
 <p>Pure function</p>
 <h5 id="argument_13">Argument</h5>
@@ -2023,11 +2038,10 @@ hash map of interest.</p>
 <h5 id="example_20">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_num_slots</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chaining_hashmap_type</span><span class="p">,</span><span class="w"> </span><span class="n">int_index</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  type</span><span class="p">(</span><span class="n">chaining_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_index</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">initial_slots</span>
-<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">()</span>
 <span class="w">  </span><span class="n">initial_slots</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">%</span><span class="n">num_slots</span><span class="p">()</span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Initial slots =  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">initial_slots</span>
 <span class="k">end program </span><span class="n">example_num_slots</span>
@@ -2039,7 +2053,7 @@ hash map of interest.</p>
 <h5 id="description_22">Description</h5>
 <p>Changes the hashing function for the map entries to that of <code>hasher</code>.</p>
 <h5 id="syntax_21">Syntax</h5>
-<p><code>call map %</code> <a href="../../type/hashmap_type.html#boundprocedure-rehash">rehash</a> <code>( hasher )</code></p>
+<p><code>call map %</code> <a>hashmap_type</a> <code>( hasher )</code></p>
 <h5 id="class_21">Class</h5>
 <p>Subroutine</p>
 <h5 id="arguments_7">Arguments</h5>
@@ -2053,12 +2067,12 @@ It is the hash method to be used by <code>map</code>.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_rehash</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">open_hashmap_type</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">fnv_1a_hasher</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1a_hasher</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                     </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  type</span><span class="p">(</span><span class="n">open_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span>
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">key_type</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
-<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">slots_bits</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">slots_bits</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="w">  </span><span class="k">call </span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">5_int8</span><span class="p">,</span><span class="w"> </span><span class="mi">7_int8</span><span class="p">,</span><span class="w"> </span><span class="mi">4_int8</span><span class="p">,</span><span class="w"> </span><span class="mi">13_int8</span><span class="p">])</span>
 <span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">map_entry</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;A value&#39;</span><span class="p">)</span>
 <span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">rehash</span><span class="p">(</span><span class="n">fnv_1a_hasher</span><span class="p">)</span>
@@ -2071,7 +2085,7 @@ It is the hash method to be used by <code>map</code>.</p>
 <h5 id="description_23">Description</h5>
 <p>Removes an entry from the hash map, <code>map</code>.</p>
 <h5 id="syntax_22">Syntax</h5>
-<p><code>call map %</code> <a href="../../type/hashmap_type.html#boundprocedure-remove">remove</a> <code>( key[, existed ])</code></p>
+<p><code>call map %</code> <a>hashmap_type</a> <code>( key[, existed ])</code></p>
 <h5 id="class_22">Class</h5>
 <p>Subroutine</p>
 <h5 id="arguments_8">Arguments</h5>
@@ -2091,8 +2105,7 @@ absent, the procedure returns with no entry with the given key.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_remove</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="p">,</span><span class="w"> </span><span class="n">int64</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">open_hashmap_type</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                     </span><span class="n">fnv_1a_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  type</span><span class="p">(</span><span class="n">open_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span>
 <span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">key_type</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
@@ -2101,7 +2114,7 @@ absent, the procedure returns with no entry with the given key.</p>
 
 <span class="w">  </span><span class="c">! Initialize hashmap with 2^10 slots.</span>
 <span class="w">  </span><span class="c">! Hashmap will dynamically increase size if needed.</span>
-<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">slots_bits</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">slots_bits</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="w">  </span><span class="c">! Explicitly set key type using set function</span>
 <span class="w">  </span><span class="k">call </span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">])</span>
 <span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">map_entry</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0</span><span class="p">)</span>
@@ -2138,7 +2151,7 @@ absent, the procedure returns with no entry with the given key.</p>
 <p>Replaces the other data in the map for the entry with the key value,
 <code>key</code>.</p>
 <h5 id="syntax_23">Syntax</h5>
-<p><code>call map %</code> <a href="../../type/hashmap_type.html#boundprocedure-set_other_data">set_other_data</a> <code>( key, other[, exists] )</code></p>
+<p><code>call map %</code> <a>hashmap_type</a> <code>( key, other[, exists] )</code></p>
 <h5 id="class_23">Class</h5>
 <p>Subroutine</p>
 <h5 id="arguments_9">Arguments</h5>
@@ -2165,7 +2178,7 @@ been provided then the routine will error stop.</li>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_set_other_data</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">open_hashmap_type</span><span class="p">,</span><span class="w"> </span><span class="n">chaining_hashmap_type</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="p">,</span><span class="w"> </span><span class="n">fnv_1_hasher</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">key_type</span><span class="p">,</span><span class="w"> </span><span class="n">set</span>
 
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">exists</span>
@@ -2175,7 +2188,7 @@ been provided then the routine will error stop.</li>
 
 <span class="w">  </span><span class="c">! Initialize hashmap with 2^10 slots.</span>
 <span class="w">  </span><span class="c">! Hashmap will dynamically increase size if needed.</span>
-<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">,</span><span class="w"> </span><span class="n">slots_bits</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">slots_bits</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
 <span class="w">  </span><span class="k">call </span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p">])</span>
 
@@ -2207,7 +2220,7 @@ been provided then the routine will error stop.</li>
 <h5 id="description_25">Description</h5>
 <p>Returns the total number of bits used to address the hash map slots.</p>
 <h5 id="syntax_24">Syntax</h5>
-<p><code>result = map %</code> <a href="../../type/hashmap_type.html#boundprocedure-slots_bits">slots_bits</a> <code>( )</code></p>
+<p><code>result = map %</code> <a>hashmap_type</a> <code>( )</code></p>
 <h5 id="class_24">Class</h5>
 <p>Pure function</p>
 <h5 id="argument_14">Argument</h5>
@@ -2221,11 +2234,10 @@ hash map of interest.</p>
 <h5 id="example_24">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_slots_bits</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chaining_hashmap_type</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  type</span><span class="p">(</span><span class="n">chaining_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span>
 <span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bits</span>
-<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">()</span>
 <span class="w">  </span><span class="n">bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">%</span><span class="n">slots_bits</span><span class="p">()</span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Initial slot bits =  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">bits</span>
 <span class="k">end program </span><span class="n">example_slots_bits</span>
@@ -2238,7 +2250,7 @@ hash map of interest.</p>
 <p>Returns the total number of one's based offsets of slot entries from
 their slot index for a hash map</p>
 <h5 id="syntax_25">Syntax</h5>
-<p><code>result = map %</code> <a href="../../type/hashmap_type.html#boundprocedure-total_depth">total_depth</a> <code>( )</code></p>
+<p><code>result = map %</code> <a>hashmap_type</a> <code>( )</code></p>
 <h5 id="class_25">Class</h5>
 <p>Pure function</p>
 <h5 id="argument_15">Argument</h5>
@@ -2253,11 +2265,10 @@ from their slot index the map.</p>
 <h5 id="example_25">Example</h5>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_total_depth</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmaps</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">chaining_hashmap_type</span><span class="p">,</span><span class="w"> </span><span class="n">int_depth</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_hashmap_wrappers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">fnv_1_hasher</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  type</span><span class="p">(</span><span class="n">chaining_hashmap_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span>
 <span class="w">  </span><span class="kt">integer</span><span class="p">(</span><span class="n">int_depth</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">initial_depth</span>
-<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">(</span><span class="n">fnv_1_hasher</span><span class="p">)</span>
+<span class="w">  </span><span class="k">call </span><span class="n">map</span><span class="p">%</span><span class="n">init</span><span class="p">()</span>
 <span class="w">  </span><span class="n">initial_depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">%</span><span class="n">total_depth</span><span class="p">()</span>
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Initial total depth =  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">initial_depth</span>
 <span class="k">end program </span><span class="n">example_total_depth</span>
@@ -2270,13 +2281,13 @@ from their slot index the map.</p>
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>1ba499c3</small></p>
+<br /><small>6aa51775</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-04-08 07:09              </p>
+ on 2025-04-15 08:07              </p>
           </div>
         </div>
         <br>
