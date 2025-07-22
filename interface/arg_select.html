@@ -200,7 +200,7 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2583"></span>
+              <span class="anchor" id="variable-a~1899"></span>
               integer(kind=int8),
             </td>
 <td>intent(in)</td>
@@ -215,7 +215,7 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indx~11"></span>
+              <span class="anchor" id="variable-indx~3"></span>
               integer(kind=int8),
             </td>
 <td>intent(inout)</td>
@@ -234,7 +234,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~950"></span>
+              <span class="anchor" id="variable-k~896"></span>
               integer(kind=int8),
             </td>
 <td>intent(in)</td>
@@ -266,1687 +266,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~159"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>left</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-right~133"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>right</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint8_int16"></span> <h3>private  subroutine arg_select_1_iint8_int16(a, indx, k, kth_smallest, left, right)  
-</h3></div>
-    <div class="card-body">
-        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
-<p>Partly derived from the "Coretran" implementation of 
-quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~2586"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:)</td>
-            <td>
-                <p>Array in which we seek the k-th smallest entry.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indx~14"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indx</strong>(:)</td>
-            <td>
-                <p>Array of indices into <code>a(:)</code>. Must contain each integer
-from <code>1:size(a)</code> exactly once. On output it will be partially
-sorted such that
-<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
- all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-k~951"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>k</strong></td>
-            <td>
-                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
-<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
-<code>a(kth_smallest) = max(a)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-kth_smallest~26"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>kth_smallest</strong></td>
-            <td>
-                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-left~162"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>left</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-right~136"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>right</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint8_int32"></span> <h3>private  subroutine arg_select_1_iint8_int32(a, indx, k, kth_smallest, left, right)  
-</h3></div>
-    <div class="card-body">
-        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
-<p>Partly derived from the "Coretran" implementation of 
-quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~2589"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:)</td>
-            <td>
-                <p>Array in which we seek the k-th smallest entry.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indx~17"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indx</strong>(:)</td>
-            <td>
-                <p>Array of indices into <code>a(:)</code>. Must contain each integer
-from <code>1:size(a)</code> exactly once. On output it will be partially
-sorted such that
-<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
- all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-k~952"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>k</strong></td>
-            <td>
-                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
-<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
-<code>a(kth_smallest) = max(a)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-kth_smallest~27"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>kth_smallest</strong></td>
-            <td>
-                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-left~165"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>left</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-right~139"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>right</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint8_int64"></span> <h3>private  subroutine arg_select_1_iint8_int64(a, indx, k, kth_smallest, left, right)  
-</h3></div>
-    <div class="card-body">
-        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
-<p>Partly derived from the "Coretran" implementation of 
-quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~2592"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:)</td>
-            <td>
-                <p>Array in which we seek the k-th smallest entry.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indx~20"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indx</strong>(:)</td>
-            <td>
-                <p>Array of indices into <code>a(:)</code>. Must contain each integer
-from <code>1:size(a)</code> exactly once. On output it will be partially
-sorted such that
-<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
- all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-k~953"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>k</strong></td>
-            <td>
-                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
-<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
-<code>a(kth_smallest) = max(a)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-kth_smallest~28"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>kth_smallest</strong></td>
-            <td>
-                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-left~168"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>left</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-right~142"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>right</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint16_int8"></span> <h3>private  subroutine arg_select_1_iint16_int8(a, indx, k, kth_smallest, left, right)  
-</h3></div>
-    <div class="card-body">
-        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
-<p>Partly derived from the "Coretran" implementation of 
-quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~2595"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:)</td>
-            <td>
-                <p>Array in which we seek the k-th smallest entry.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indx~23"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indx</strong>(:)</td>
-            <td>
-                <p>Array of indices into <code>a(:)</code>. Must contain each integer
-from <code>1:size(a)</code> exactly once. On output it will be partially
-sorted such that
-<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
- all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-k~954"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>k</strong></td>
-            <td>
-                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
-<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
-<code>a(kth_smallest) = max(a)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-kth_smallest~29"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>kth_smallest</strong></td>
-            <td>
-                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-left~171"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>left</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-right~145"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>right</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint16_int16"></span> <h3>private  subroutine arg_select_1_iint16_int16(a, indx, k, kth_smallest, left, right)  
-</h3></div>
-    <div class="card-body">
-        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
-<p>Partly derived from the "Coretran" implementation of 
-quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~2598"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:)</td>
-            <td>
-                <p>Array in which we seek the k-th smallest entry.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indx~26"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indx</strong>(:)</td>
-            <td>
-                <p>Array of indices into <code>a(:)</code>. Must contain each integer
-from <code>1:size(a)</code> exactly once. On output it will be partially
-sorted such that
-<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
- all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-k~955"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>k</strong></td>
-            <td>
-                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
-<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
-<code>a(kth_smallest) = max(a)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-kth_smallest~30"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>kth_smallest</strong></td>
-            <td>
-                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-left~174"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>left</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-right~148"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>right</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint16_int32"></span> <h3>private  subroutine arg_select_1_iint16_int32(a, indx, k, kth_smallest, left, right)  
-</h3></div>
-    <div class="card-body">
-        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
-<p>Partly derived from the "Coretran" implementation of 
-quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~2601"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:)</td>
-            <td>
-                <p>Array in which we seek the k-th smallest entry.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indx~29"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indx</strong>(:)</td>
-            <td>
-                <p>Array of indices into <code>a(:)</code>. Must contain each integer
-from <code>1:size(a)</code> exactly once. On output it will be partially
-sorted such that
-<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
- all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-k~956"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>k</strong></td>
-            <td>
-                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
-<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
-<code>a(kth_smallest) = max(a)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-kth_smallest~31"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>kth_smallest</strong></td>
-            <td>
-                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-left~177"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>left</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-right~151"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>right</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint16_int64"></span> <h3>private  subroutine arg_select_1_iint16_int64(a, indx, k, kth_smallest, left, right)  
-</h3></div>
-    <div class="card-body">
-        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
-<p>Partly derived from the "Coretran" implementation of 
-quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~2604"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:)</td>
-            <td>
-                <p>Array in which we seek the k-th smallest entry.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indx~32"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indx</strong>(:)</td>
-            <td>
-                <p>Array of indices into <code>a(:)</code>. Must contain each integer
-from <code>1:size(a)</code> exactly once. On output it will be partially
-sorted such that
-<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
- all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-k~957"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>k</strong></td>
-            <td>
-                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
-<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
-<code>a(kth_smallest) = max(a)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-kth_smallest~32"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>kth_smallest</strong></td>
-            <td>
-                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-left~180"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>left</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-right~154"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>right</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint32_int8"></span> <h3>private  subroutine arg_select_1_iint32_int8(a, indx, k, kth_smallest, left, right)  
-</h3></div>
-    <div class="card-body">
-        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
-<p>Partly derived from the "Coretran" implementation of 
-quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~2607"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:)</td>
-            <td>
-                <p>Array in which we seek the k-th smallest entry.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indx~35"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indx</strong>(:)</td>
-            <td>
-                <p>Array of indices into <code>a(:)</code>. Must contain each integer
-from <code>1:size(a)</code> exactly once. On output it will be partially
-sorted such that
-<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
- all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-k~958"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>k</strong></td>
-            <td>
-                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
-<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
-<code>a(kth_smallest) = max(a)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-kth_smallest~33"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>kth_smallest</strong></td>
-            <td>
-                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-left~183"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>left</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-right~157"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>right</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint32_int16"></span> <h3>private  subroutine arg_select_1_iint32_int16(a, indx, k, kth_smallest, left, right)  
-</h3></div>
-    <div class="card-body">
-        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
-<p>Partly derived from the "Coretran" implementation of 
-quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~2610"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:)</td>
-            <td>
-                <p>Array in which we seek the k-th smallest entry.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indx~38"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indx</strong>(:)</td>
-            <td>
-                <p>Array of indices into <code>a(:)</code>. Must contain each integer
-from <code>1:size(a)</code> exactly once. On output it will be partially
-sorted such that
-<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
- all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-k~959"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>k</strong></td>
-            <td>
-                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
-<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
-<code>a(kth_smallest) = max(a)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-kth_smallest~34"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>kth_smallest</strong></td>
-            <td>
-                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-left~186"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>left</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-right~160"></span>
-              integer(kind=int16),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>right</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint32_int32"></span> <h3>private  subroutine arg_select_1_iint32_int32(a, indx, k, kth_smallest, left, right)  
-</h3></div>
-    <div class="card-body">
-        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
-<p>Partly derived from the "Coretran" implementation of 
-quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~2613"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:)</td>
-            <td>
-                <p>Array in which we seek the k-th smallest entry.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indx~41"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indx</strong>(:)</td>
-            <td>
-                <p>Array of indices into <code>a(:)</code>. Must contain each integer
-from <code>1:size(a)</code> exactly once. On output it will be partially
-sorted such that
-<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
- all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-k~960"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>k</strong></td>
-            <td>
-                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
-<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
-<code>a(kth_smallest) = max(a)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-kth_smallest~35"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>kth_smallest</strong></td>
-            <td>
-                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-left~189"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>left</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-right~163"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>right</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint32_int64"></span> <h3>private  subroutine arg_select_1_iint32_int64(a, indx, k, kth_smallest, left, right)  
-</h3></div>
-    <div class="card-body">
-        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
-<p>Partly derived from the "Coretran" implementation of 
-quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~2616"></span>
-              integer(kind=int32),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:)</td>
-            <td>
-                <p>Array in which we seek the k-th smallest entry.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indx~44"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indx</strong>(:)</td>
-            <td>
-                <p>Array of indices into <code>a(:)</code>. Must contain each integer
-from <code>1:size(a)</code> exactly once. On output it will be partially
-sorted such that
-<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
- all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-k~961"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>k</strong></td>
-            <td>
-                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
-<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
-<code>a(kth_smallest) = max(a)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-kth_smallest~36"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>kth_smallest</strong></td>
-            <td>
-                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-left~192"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>left</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-right~166"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>right</strong></td>
-            <td>
-                <p>If we know that:
- the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
-and also that:
- <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
-and:
- <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
-then one or both bounds can be specified to reduce the search
-time. These constraints are available if we have previously
-called the subroutine with a different <code>k</code> (due to the way that
-<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint64_int8"></span> <h3>private  subroutine arg_select_1_iint64_int8(a, indx, k, kth_smallest, left, right)  
-</h3></div>
-    <div class="card-body">
-        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
-<p>Partly derived from the "Coretran" implementation of 
-quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~2619"></span>
-              integer(kind=int64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:)</td>
-            <td>
-                <p>Array in which we seek the k-th smallest entry.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-indx~47"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>indx</strong>(:)</td>
-            <td>
-                <p>Array of indices into <code>a(:)</code>. Must contain each integer
-from <code>1:size(a)</code> exactly once. On output it will be partially
-sorted such that
-<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
- all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-k~962"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>k</strong></td>
-            <td>
-                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
-<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
-<code>a(kth_smallest) = max(a)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-kth_smallest~37"></span>
-              integer(kind=int8),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>kth_smallest</strong></td>
-            <td>
-                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-left~195"></span>
+              <span class="anchor" id="variable-left~213"></span>
               integer(kind=int8),
             </td>
 <td>intent(in),</td>
@@ -2000,7 +320,7 @@ called the subroutine with a different <code>k</code> (due to the way that
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint64_int16"></span> <h3>private  subroutine arg_select_1_iint64_int16(a, indx, k, kth_smallest, left, right)  
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint8_int16"></span> <h3>private  subroutine arg_select_1_iint8_int16(a, indx, k, kth_smallest, left, right)  
 </h3></div>
     <div class="card-body">
         <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
@@ -2020,8 +340,8 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2622"></span>
-              integer(kind=int64),
+              <span class="anchor" id="variable-a~1902"></span>
+              integer(kind=int8),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -2035,7 +355,7 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indx~50"></span>
+              <span class="anchor" id="variable-indx~6"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout)</td>
@@ -2054,7 +374,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~963"></span>
+              <span class="anchor" id="variable-k~897"></span>
               integer(kind=int16),
             </td>
 <td>intent(in)</td>
@@ -2071,7 +391,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kth_smallest~38"></span>
+              <span class="anchor" id="variable-kth_smallest~26"></span>
               integer(kind=int16),
             </td>
 <td>intent(out)</td>
@@ -2086,7 +406,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~198"></span>
+              <span class="anchor" id="variable-left~216"></span>
               integer(kind=int16),
             </td>
 <td>intent(in),</td>
@@ -2140,7 +460,7 @@ called the subroutine with a different <code>k</code> (due to the way that
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint64_int32"></span> <h3>private  subroutine arg_select_1_iint64_int32(a, indx, k, kth_smallest, left, right)  
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint8_int32"></span> <h3>private  subroutine arg_select_1_iint8_int32(a, indx, k, kth_smallest, left, right)  
 </h3></div>
     <div class="card-body">
         <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
@@ -2160,8 +480,8 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2625"></span>
-              integer(kind=int64),
+              <span class="anchor" id="variable-a~1905"></span>
+              integer(kind=int8),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -2175,7 +495,7 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indx~53"></span>
+              <span class="anchor" id="variable-indx~9"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout)</td>
@@ -2194,7 +514,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~964"></span>
+              <span class="anchor" id="variable-k~898"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -2211,7 +531,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kth_smallest~39"></span>
+              <span class="anchor" id="variable-kth_smallest~27"></span>
               integer(kind=int32),
             </td>
 <td>intent(out)</td>
@@ -2226,7 +546,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~201"></span>
+              <span class="anchor" id="variable-left~219"></span>
               integer(kind=int32),
             </td>
 <td>intent(in),</td>
@@ -2280,7 +600,7 @@ called the subroutine with a different <code>k</code> (due to the way that
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint64_int64"></span> <h3>private  subroutine arg_select_1_iint64_int64(a, indx, k, kth_smallest, left, right)  
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint8_int64"></span> <h3>private  subroutine arg_select_1_iint8_int64(a, indx, k, kth_smallest, left, right)  
 </h3></div>
     <div class="card-body">
         <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
@@ -2300,8 +620,8 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2628"></span>
-              integer(kind=int64),
+              <span class="anchor" id="variable-a~1908"></span>
+              integer(kind=int8),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -2315,7 +635,7 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indx~56"></span>
+              <span class="anchor" id="variable-indx~12"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -2334,7 +654,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~965"></span>
+              <span class="anchor" id="variable-k~899"></span>
               integer(kind=int64),
             </td>
 <td>intent(in)</td>
@@ -2351,7 +671,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kth_smallest~40"></span>
+              <span class="anchor" id="variable-kth_smallest~28"></span>
               integer(kind=int64),
             </td>
 <td>intent(out)</td>
@@ -2366,7 +686,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~204"></span>
+              <span class="anchor" id="variable-left~222"></span>
               integer(kind=int64),
             </td>
 <td>intent(in),</td>
@@ -2420,7 +740,7 @@ called the subroutine with a different <code>k</code> (due to the way that
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rsp_int8"></span> <h3>private  subroutine arg_select_1_rsp_int8(a, indx, k, kth_smallest, left, right)  
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint16_int8"></span> <h3>private  subroutine arg_select_1_iint16_int8(a, indx, k, kth_smallest, left, right)  
 </h3></div>
     <div class="card-body">
         <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
@@ -2440,8 +760,8 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2631"></span>
-              real(kind=sp),
+              <span class="anchor" id="variable-a~1911"></span>
+              integer(kind=int16),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -2455,7 +775,7 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indx~59"></span>
+              <span class="anchor" id="variable-indx~15"></span>
               integer(kind=int8),
             </td>
 <td>intent(inout)</td>
@@ -2474,7 +794,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~966"></span>
+              <span class="anchor" id="variable-k~900"></span>
               integer(kind=int8),
             </td>
 <td>intent(in)</td>
@@ -2491,7 +811,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kth_smallest~41"></span>
+              <span class="anchor" id="variable-kth_smallest~29"></span>
               integer(kind=int8),
             </td>
 <td>intent(out)</td>
@@ -2506,7 +826,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~207"></span>
+              <span class="anchor" id="variable-left~225"></span>
               integer(kind=int8),
             </td>
 <td>intent(in),</td>
@@ -2560,7 +880,7 @@ called the subroutine with a different <code>k</code> (due to the way that
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rsp_int16"></span> <h3>private  subroutine arg_select_1_rsp_int16(a, indx, k, kth_smallest, left, right)  
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint16_int16"></span> <h3>private  subroutine arg_select_1_iint16_int16(a, indx, k, kth_smallest, left, right)  
 </h3></div>
     <div class="card-body">
         <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
@@ -2580,8 +900,8 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2634"></span>
-              real(kind=sp),
+              <span class="anchor" id="variable-a~1914"></span>
+              integer(kind=int16),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -2595,7 +915,7 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indx~62"></span>
+              <span class="anchor" id="variable-indx~18"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout)</td>
@@ -2614,7 +934,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~967"></span>
+              <span class="anchor" id="variable-k~901"></span>
               integer(kind=int16),
             </td>
 <td>intent(in)</td>
@@ -2631,7 +951,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kth_smallest~42"></span>
+              <span class="anchor" id="variable-kth_smallest~30"></span>
               integer(kind=int16),
             </td>
 <td>intent(out)</td>
@@ -2646,7 +966,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~210"></span>
+              <span class="anchor" id="variable-left~228"></span>
               integer(kind=int16),
             </td>
 <td>intent(in),</td>
@@ -2700,7 +1020,7 @@ called the subroutine with a different <code>k</code> (due to the way that
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rsp_int32"></span> <h3>private  subroutine arg_select_1_rsp_int32(a, indx, k, kth_smallest, left, right)  
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint16_int32"></span> <h3>private  subroutine arg_select_1_iint16_int32(a, indx, k, kth_smallest, left, right)  
 </h3></div>
     <div class="card-body">
         <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
@@ -2720,8 +1040,8 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2637"></span>
-              real(kind=sp),
+              <span class="anchor" id="variable-a~1917"></span>
+              integer(kind=int16),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -2735,7 +1055,7 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indx~65"></span>
+              <span class="anchor" id="variable-indx~21"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout)</td>
@@ -2754,7 +1074,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~968"></span>
+              <span class="anchor" id="variable-k~902"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -2771,7 +1091,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kth_smallest~43"></span>
+              <span class="anchor" id="variable-kth_smallest~31"></span>
               integer(kind=int32),
             </td>
 <td>intent(out)</td>
@@ -2786,7 +1106,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~213"></span>
+              <span class="anchor" id="variable-left~231"></span>
               integer(kind=int32),
             </td>
 <td>intent(in),</td>
@@ -2840,7 +1160,7 @@ called the subroutine with a different <code>k</code> (due to the way that
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rsp_int64"></span> <h3>private  subroutine arg_select_1_rsp_int64(a, indx, k, kth_smallest, left, right)  
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint16_int64"></span> <h3>private  subroutine arg_select_1_iint16_int64(a, indx, k, kth_smallest, left, right)  
 </h3></div>
     <div class="card-body">
         <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
@@ -2860,8 +1180,8 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2640"></span>
-              real(kind=sp),
+              <span class="anchor" id="variable-a~1920"></span>
+              integer(kind=int16),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -2875,7 +1195,7 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indx~68"></span>
+              <span class="anchor" id="variable-indx~24"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -2894,7 +1214,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~969"></span>
+              <span class="anchor" id="variable-k~903"></span>
               integer(kind=int64),
             </td>
 <td>intent(in)</td>
@@ -2911,7 +1231,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kth_smallest~44"></span>
+              <span class="anchor" id="variable-kth_smallest~32"></span>
               integer(kind=int64),
             </td>
 <td>intent(out)</td>
@@ -2926,7 +1246,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~216"></span>
+              <span class="anchor" id="variable-left~234"></span>
               integer(kind=int64),
             </td>
 <td>intent(in),</td>
@@ -2980,7 +1300,7 @@ called the subroutine with a different <code>k</code> (due to the way that
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rdp_int8"></span> <h3>private  subroutine arg_select_1_rdp_int8(a, indx, k, kth_smallest, left, right)  
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint32_int8"></span> <h3>private  subroutine arg_select_1_iint32_int8(a, indx, k, kth_smallest, left, right)  
 </h3></div>
     <div class="card-body">
         <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
@@ -3000,8 +1320,8 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2643"></span>
-              real(kind=dp),
+              <span class="anchor" id="variable-a~1923"></span>
+              integer(kind=int32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -3015,7 +1335,7 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indx~71"></span>
+              <span class="anchor" id="variable-indx~27"></span>
               integer(kind=int8),
             </td>
 <td>intent(inout)</td>
@@ -3034,7 +1354,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~970"></span>
+              <span class="anchor" id="variable-k~904"></span>
               integer(kind=int8),
             </td>
 <td>intent(in)</td>
@@ -3051,7 +1371,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kth_smallest~45"></span>
+              <span class="anchor" id="variable-kth_smallest~33"></span>
               integer(kind=int8),
             </td>
 <td>intent(out)</td>
@@ -3066,7 +1386,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~219"></span>
+              <span class="anchor" id="variable-left~237"></span>
               integer(kind=int8),
             </td>
 <td>intent(in),</td>
@@ -3120,7 +1440,7 @@ called the subroutine with a different <code>k</code> (due to the way that
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rdp_int16"></span> <h3>private  subroutine arg_select_1_rdp_int16(a, indx, k, kth_smallest, left, right)  
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint32_int16"></span> <h3>private  subroutine arg_select_1_iint32_int16(a, indx, k, kth_smallest, left, right)  
 </h3></div>
     <div class="card-body">
         <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
@@ -3140,8 +1460,8 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2646"></span>
-              real(kind=dp),
+              <span class="anchor" id="variable-a~1926"></span>
+              integer(kind=int32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -3155,7 +1475,7 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indx~74"></span>
+              <span class="anchor" id="variable-indx~30"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout)</td>
@@ -3174,7 +1494,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~971"></span>
+              <span class="anchor" id="variable-k~905"></span>
               integer(kind=int16),
             </td>
 <td>intent(in)</td>
@@ -3191,7 +1511,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kth_smallest~46"></span>
+              <span class="anchor" id="variable-kth_smallest~34"></span>
               integer(kind=int16),
             </td>
 <td>intent(out)</td>
@@ -3206,7 +1526,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~222"></span>
+              <span class="anchor" id="variable-left~240"></span>
               integer(kind=int16),
             </td>
 <td>intent(in),</td>
@@ -3260,7 +1580,7 @@ called the subroutine with a different <code>k</code> (due to the way that
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rdp_int32"></span> <h3>private  subroutine arg_select_1_rdp_int32(a, indx, k, kth_smallest, left, right)  
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint32_int32"></span> <h3>private  subroutine arg_select_1_iint32_int32(a, indx, k, kth_smallest, left, right)  
 </h3></div>
     <div class="card-body">
         <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
@@ -3280,8 +1600,8 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2649"></span>
-              real(kind=dp),
+              <span class="anchor" id="variable-a~1929"></span>
+              integer(kind=int32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -3295,7 +1615,7 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indx~77"></span>
+              <span class="anchor" id="variable-indx~33"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout)</td>
@@ -3314,7 +1634,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~972"></span>
+              <span class="anchor" id="variable-k~906"></span>
               integer(kind=int32),
             </td>
 <td>intent(in)</td>
@@ -3331,7 +1651,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kth_smallest~47"></span>
+              <span class="anchor" id="variable-kth_smallest~35"></span>
               integer(kind=int32),
             </td>
 <td>intent(out)</td>
@@ -3346,7 +1666,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~225"></span>
+              <span class="anchor" id="variable-left~243"></span>
               integer(kind=int32),
             </td>
 <td>intent(in),</td>
@@ -3400,7 +1720,7 @@ called the subroutine with a different <code>k</code> (due to the way that
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rdp_int64"></span> <h3>private  subroutine arg_select_1_rdp_int64(a, indx, k, kth_smallest, left, right)  
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint32_int64"></span> <h3>private  subroutine arg_select_1_iint32_int64(a, indx, k, kth_smallest, left, right)  
 </h3></div>
     <div class="card-body">
         <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
@@ -3420,8 +1740,8 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2652"></span>
-              real(kind=dp),
+              <span class="anchor" id="variable-a~1932"></span>
+              integer(kind=int32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -3435,7 +1755,7 @@ quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-indx~80"></span>
+              <span class="anchor" id="variable-indx~36"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -3454,7 +1774,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~973"></span>
+              <span class="anchor" id="variable-k~907"></span>
               integer(kind=int64),
             </td>
 <td>intent(in)</td>
@@ -3471,7 +1791,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kth_smallest~48"></span>
+              <span class="anchor" id="variable-kth_smallest~36"></span>
               integer(kind=int64),
             </td>
 <td>intent(out)</td>
@@ -3486,7 +1806,7 @@ sorted such that
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~228"></span>
+              <span class="anchor" id="variable-left~246"></span>
               integer(kind=int64),
             </td>
 <td>intent(in),</td>
@@ -3539,6 +1859,1686 @@ called the subroutine with a different <code>k</code> (due to the way that
     </div>
   </div>
 
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint64_int8"></span> <h3>private  subroutine arg_select_1_iint64_int8(a, indx, k, kth_smallest, left, right)  
+</h3></div>
+    <div class="card-body">
+        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
+<p>Partly derived from the "Coretran" implementation of 
+quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~1935"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:)</td>
+            <td>
+                <p>Array in which we seek the k-th smallest entry.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indx~39"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>indx</strong>(:)</td>
+            <td>
+                <p>Array of indices into <code>a(:)</code>. Must contain each integer
+from <code>1:size(a)</code> exactly once. On output it will be partially
+sorted such that
+<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
+ all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~908"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
+<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
+<code>a(kth_smallest) = max(a)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kth_smallest~37"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kth_smallest</strong></td>
+            <td>
+                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-left~249"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>left</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right~205"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>right</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint64_int16"></span> <h3>private  subroutine arg_select_1_iint64_int16(a, indx, k, kth_smallest, left, right)  
+</h3></div>
+    <div class="card-body">
+        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
+<p>Partly derived from the "Coretran" implementation of 
+quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~1938"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:)</td>
+            <td>
+                <p>Array in which we seek the k-th smallest entry.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indx~42"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>indx</strong>(:)</td>
+            <td>
+                <p>Array of indices into <code>a(:)</code>. Must contain each integer
+from <code>1:size(a)</code> exactly once. On output it will be partially
+sorted such that
+<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
+ all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~909"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
+<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
+<code>a(kth_smallest) = max(a)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kth_smallest~38"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kth_smallest</strong></td>
+            <td>
+                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-left~252"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>left</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right~208"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>right</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint64_int32"></span> <h3>private  subroutine arg_select_1_iint64_int32(a, indx, k, kth_smallest, left, right)  
+</h3></div>
+    <div class="card-body">
+        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
+<p>Partly derived from the "Coretran" implementation of 
+quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~1941"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:)</td>
+            <td>
+                <p>Array in which we seek the k-th smallest entry.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indx~45"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>indx</strong>(:)</td>
+            <td>
+                <p>Array of indices into <code>a(:)</code>. Must contain each integer
+from <code>1:size(a)</code> exactly once. On output it will be partially
+sorted such that
+<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
+ all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~910"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
+<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
+<code>a(kth_smallest) = max(a)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kth_smallest~39"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kth_smallest</strong></td>
+            <td>
+                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-left~255"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>left</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right~211"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>right</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_iint64_int64"></span> <h3>private  subroutine arg_select_1_iint64_int64(a, indx, k, kth_smallest, left, right)  
+</h3></div>
+    <div class="card-body">
+        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
+<p>Partly derived from the "Coretran" implementation of 
+quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~1944"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:)</td>
+            <td>
+                <p>Array in which we seek the k-th smallest entry.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indx~48"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>indx</strong>(:)</td>
+            <td>
+                <p>Array of indices into <code>a(:)</code>. Must contain each integer
+from <code>1:size(a)</code> exactly once. On output it will be partially
+sorted such that
+<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
+ all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~911"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
+<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
+<code>a(kth_smallest) = max(a)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kth_smallest~40"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kth_smallest</strong></td>
+            <td>
+                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-left~258"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>left</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right~214"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>right</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rsp_int8"></span> <h3>private  subroutine arg_select_1_rsp_int8(a, indx, k, kth_smallest, left, right)  
+</h3></div>
+    <div class="card-body">
+        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
+<p>Partly derived from the "Coretran" implementation of 
+quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~1947"></span>
+              real(kind=sp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:)</td>
+            <td>
+                <p>Array in which we seek the k-th smallest entry.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indx~51"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>indx</strong>(:)</td>
+            <td>
+                <p>Array of indices into <code>a(:)</code>. Must contain each integer
+from <code>1:size(a)</code> exactly once. On output it will be partially
+sorted such that
+<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
+ all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~912"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
+<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
+<code>a(kth_smallest) = max(a)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kth_smallest~41"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kth_smallest</strong></td>
+            <td>
+                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-left~261"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>left</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right~217"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>right</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rsp_int16"></span> <h3>private  subroutine arg_select_1_rsp_int16(a, indx, k, kth_smallest, left, right)  
+</h3></div>
+    <div class="card-body">
+        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
+<p>Partly derived from the "Coretran" implementation of 
+quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~1950"></span>
+              real(kind=sp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:)</td>
+            <td>
+                <p>Array in which we seek the k-th smallest entry.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indx~54"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>indx</strong>(:)</td>
+            <td>
+                <p>Array of indices into <code>a(:)</code>. Must contain each integer
+from <code>1:size(a)</code> exactly once. On output it will be partially
+sorted such that
+<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
+ all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~913"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
+<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
+<code>a(kth_smallest) = max(a)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kth_smallest~42"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kth_smallest</strong></td>
+            <td>
+                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-left~264"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>left</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right~220"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>right</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rsp_int32"></span> <h3>private  subroutine arg_select_1_rsp_int32(a, indx, k, kth_smallest, left, right)  
+</h3></div>
+    <div class="card-body">
+        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
+<p>Partly derived from the "Coretran" implementation of 
+quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~1953"></span>
+              real(kind=sp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:)</td>
+            <td>
+                <p>Array in which we seek the k-th smallest entry.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indx~57"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>indx</strong>(:)</td>
+            <td>
+                <p>Array of indices into <code>a(:)</code>. Must contain each integer
+from <code>1:size(a)</code> exactly once. On output it will be partially
+sorted such that
+<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
+ all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~914"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
+<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
+<code>a(kth_smallest) = max(a)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kth_smallest~43"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kth_smallest</strong></td>
+            <td>
+                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-left~267"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>left</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right~223"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>right</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rsp_int64"></span> <h3>private  subroutine arg_select_1_rsp_int64(a, indx, k, kth_smallest, left, right)  
+</h3></div>
+    <div class="card-body">
+        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
+<p>Partly derived from the "Coretran" implementation of 
+quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~1956"></span>
+              real(kind=sp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:)</td>
+            <td>
+                <p>Array in which we seek the k-th smallest entry.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indx~60"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>indx</strong>(:)</td>
+            <td>
+                <p>Array of indices into <code>a(:)</code>. Must contain each integer
+from <code>1:size(a)</code> exactly once. On output it will be partially
+sorted such that
+<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
+ all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~915"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
+<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
+<code>a(kth_smallest) = max(a)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kth_smallest~44"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kth_smallest</strong></td>
+            <td>
+                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-left~270"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>left</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right~226"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>right</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rdp_int8"></span> <h3>private  subroutine arg_select_1_rdp_int8(a, indx, k, kth_smallest, left, right)  
+</h3></div>
+    <div class="card-body">
+        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
+<p>Partly derived from the "Coretran" implementation of 
+quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~1959"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:)</td>
+            <td>
+                <p>Array in which we seek the k-th smallest entry.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indx~63"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>indx</strong>(:)</td>
+            <td>
+                <p>Array of indices into <code>a(:)</code>. Must contain each integer
+from <code>1:size(a)</code> exactly once. On output it will be partially
+sorted such that
+<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
+ all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~916"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
+<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
+<code>a(kth_smallest) = max(a)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kth_smallest~45"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kth_smallest</strong></td>
+            <td>
+                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-left~273"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>left</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right~229"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>right</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rdp_int16"></span> <h3>private  subroutine arg_select_1_rdp_int16(a, indx, k, kth_smallest, left, right)  
+</h3></div>
+    <div class="card-body">
+        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
+<p>Partly derived from the "Coretran" implementation of 
+quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~1962"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:)</td>
+            <td>
+                <p>Array in which we seek the k-th smallest entry.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indx~66"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>indx</strong>(:)</td>
+            <td>
+                <p>Array of indices into <code>a(:)</code>. Must contain each integer
+from <code>1:size(a)</code> exactly once. On output it will be partially
+sorted such that
+<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
+ all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~917"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
+<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
+<code>a(kth_smallest) = max(a)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kth_smallest~46"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kth_smallest</strong></td>
+            <td>
+                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-left~276"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>left</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right~232"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>right</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rdp_int32"></span> <h3>private  subroutine arg_select_1_rdp_int32(a, indx, k, kth_smallest, left, right)  
+</h3></div>
+    <div class="card-body">
+        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
+<p>Partly derived from the "Coretran" implementation of 
+quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~1965"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:)</td>
+            <td>
+                <p>Array in which we seek the k-th smallest entry.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indx~69"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>indx</strong>(:)</td>
+            <td>
+                <p>Array of indices into <code>a(:)</code>. Must contain each integer
+from <code>1:size(a)</code> exactly once. On output it will be partially
+sorted such that
+<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
+ all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~918"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
+<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
+<code>a(kth_smallest) = max(a)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kth_smallest~47"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kth_smallest</strong></td>
+            <td>
+                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-left~279"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>left</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right~235"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>right</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-arg_select_1_rdp_int64"></span> <h3>private  subroutine arg_select_1_rdp_int64(a, indx, k, kth_smallest, left, right)  
+</h3></div>
+    <div class="card-body">
+        <p>arg_select - find the index of the k-th smallest entry in <code>a(:)</code></p>
+<p>Partly derived from the "Coretran" implementation of 
+quickSelect by Leon Foks, https://github.com/leonfoks/coretran</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~1968"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:)</td>
+            <td>
+                <p>Array in which we seek the k-th smallest entry.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-indx~72"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>indx</strong>(:)</td>
+            <td>
+                <p>Array of indices into <code>a(:)</code>. Must contain each integer
+from <code>1:size(a)</code> exactly once. On output it will be partially
+sorted such that
+<code>all( a(indx(1:(k-1)))) &lt;= a(indx(k)) ) .AND.
+ all( a(indx(k))  &lt;= a(indx( (k+1):size(a) )) )</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~919"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+                <p>We want index of the k-th smallest entry. E.G. <code>k=1</code> leads to
+<code>a(kth_smallest) = min(a)</code>, and <code>k=size(a)</code> leads to
+<code>a(kth_smallest) = max(a)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kth_smallest~48"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>kth_smallest</strong></td>
+            <td>
+                <p>On output contains the index with the k-th smallest value of <code>a(:)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-left~282"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>left</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-right~238"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>right</strong></td>
+            <td>
+                <p>If we know that:
+ the k-th smallest entry of <code>a</code> is in <code>a(indx(left:right))</code>
+and also that:
+ <code>maxval(a(indx(1:(left-1)))) &lt;= minval(a(indx(left:right)))</code>
+and:
+ <code>maxval(a(indx(left:right))) &lt;= minval(a(indx((right+1):size(a))))</code>
+then one or both bounds can be specified to reduce the search
+time. These constraints are available if we have previously
+called the subroutine with a different <code>k</code> (due to the way that
+<code>indx(:)</code> becomes partially sorted, see documentation for <code>indx(:)</code>).</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
 </div>
   </div>
       <hr>
@@ -3547,13 +3547,13 @@ called the subroutine with a different <code>k</code> (due to the way that
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>a0d9e221</small></p>
+<br /><small>a2fadac1</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-07-22 13:38              </p>
+ on 2025-07-22 13:48              </p>
           </div>
         </div>
         <br>
