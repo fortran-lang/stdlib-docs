@@ -160,6 +160,7 @@
 <li><a href="#the-module-subroutines">The module subroutines</a><ul>
 <li><a href="#licensing">Licensing</a></li>
 <li><a href="#the-ord_sort-subroutine">The ORD_SORT subroutine</a></li>
+<li><a href="#the-sort_adjoint-subroutine">The SORT_ADJOINT subroutine</a></li>
 <li><a href="#the-sort_index-subroutine">The SORT_INDEX subroutine</a></li>
 <li><a href="#the-sort-subroutine">The SORT subroutine</a></li>
 <li><a href="#the-radix_sort-subroutine">The RADIX_SORT subroutine</a></li>
@@ -196,7 +197,7 @@
 <li><a href="#example_2">Example</a></li>
 </ul>
 </li>
-<li><a href="#sort_index-creates-an-array-of-sorting-indices-for-an-input-array-while-also-sorting-the-array">sort_index - creates an array of sorting indices for an input array, while also sorting the array.</a><ul>
+<li><a href="#sort_adjoint-sorts-an-associated-array">sort_adjoint - sorts an associated array</a><ul>
 <li><a href="#status_3">Status</a></li>
 <li><a href="#description_3">Description</a></li>
 <li><a href="#syntax_3">Syntax</a></li>
@@ -204,6 +205,16 @@
 <li><a href="#arguments_3">Arguments</a></li>
 <li><a href="#notes_3">Notes</a></li>
 <li><a href="#examples">Examples</a></li>
+</ul>
+</li>
+<li><a href="#sort_index-creates-an-array-of-sorting-indices-for-an-input-array-while-also-sorting-the-array">sort_index - creates an array of sorting indices for an input array, while also sorting the array.</a><ul>
+<li><a href="#status_4">Status</a></li>
+<li><a href="#description_4">Description</a></li>
+<li><a href="#syntax_4">Syntax</a></li>
+<li><a href="#class_4">Class</a></li>
+<li><a href="#arguments_4">Arguments</a></li>
+<li><a href="#notes_4">Notes</a></li>
+<li><a href="#examples_1">Examples</a></li>
 </ul>
 </li>
 </ul>
@@ -248,6 +259,9 @@ data:</p>
 <li><code>ORD_SORT</code> is intended to sort simple arrays of intrinsic data
   that have significant sections that were partially ordered before
   the sort;</li>
+<li><code>SORT_ADJOINT</code> is based on <code>ORD_SORT</code>, but in addition to sorting the
+  input array, it re-orders a second array of the same size
+  according to the same permutations;</li>
 <li><code>SORT_INDEX</code> is based on <code>ORD_SORT</code>, but in addition to sorting the
   input array, it returns indices that map the original array to its
   sorted version. This enables related arrays to be re-ordered in the
@@ -261,9 +275,9 @@ data:</p>
 <p>The Fortran Standard Library is distributed under the MIT
 License. However components of the library may be based on code with
 additional licensing restrictions. In particular <code>ORD_SORT</code>,
-<code>SORT_INDEX</code>, and <code>SORT</code> are translations of codes with their
+<code>SORT_ADJOINT</code>, <code>SORT_INDEX</code>, and <code>SORT</code> are translations of codes with their
 own distribution restrictions.</p>
-<p>The <code>ORD_SORT</code> and <code>SORT_INDEX</code> subroutines are essentially
+<p>The <code>ORD_SORT</code>, <code>SORT_ADJOINT</code> and <code>SORT_INDEX</code> subroutines are essentially
 translations to Fortran 2008 of the <code>"Rust" sort</code> of the Rust Language
 distributed as part of
 <a href="https://github.com/rust-lang/rust/blob/90eb44a5897c39e3dff9c7e48e3973671dcd9496/src/liballoc/slice.rs"><code>slice.rs</code></a>.
@@ -332,6 +346,20 @@ use of a "scratch" array, that may be provided as an optional <code>work</code>
 argument or allocated internally on the stack.</p>
 <p>Arrays can be also sorted in a decreasing order by providing the argument <code>reverse
 = .true.</code>.</p>
+<h4 id="the-sort_adjoint-subroutine">The <code>SORT_ADJOINT</code> subroutine</h4>
+<p>The <code>SORT</code> and <code>ORD_SORT</code> subroutines can sort rank 1 isolated
+arrays of intrinsic types, but do nothing for the coordinated sorting
+of related data, e.g., a related rank 1 array. Therefore the module
+provides a subroutine, <code>SORT_ADJOINT</code>, that re-order such a rank 1 array
+according to the same permutations as for the input array based on the <code>ORD_SORT</code> algorithm,
+in addition to sorting the input array.</p>
+<p>The logic of <code>SORT_ADJOINT</code> parallels that of <code>ORD_SORT</code>, with
+additional housekeeping to keep the associated array consistent with
+the sorted positions of the input array. Because of this additional
+housekeeping it has slower runtime performance than <code>ORD_SORT</code>.
+<code>SORT_ADJOINT</code> requires the use of two "scratch" arrays, that may be
+provided as optional <code>work</code> and <code>iwork</code> arguments or allocated
+internally on the stack.</p>
 <h4 id="the-sort_index-subroutine">The <code>SORT_INDEX</code> subroutine</h4>
 <p>The <code>SORT</code> and <code>ORD_SORT</code> subroutines can sort rank 1 isolated
 arrays of intrinsic types, but do nothing for the coordinated sorting
@@ -388,7 +416,7 @@ factor of six. Still, even when it shows enhanced performance, its
 performance on partially sorted data is typically an order of
 magnitude slower than <code>ORD_SORT</code>. Its memory requirements are also
 low, being of order O(Ln(N)), while the memory requirements of
-<code>ORD_SORT</code> and <code>SORT_INDEX</code> are of order O(N).</p>
+<code>ORD_SORT</code>, <code>SORT_ADJOINT</code> and <code>SORT_INDEX</code> are of order O(N).</p>
 <h4 id="the-radix_sort-subroutine">The <code>RADIX_SORT</code> subroutine</h4>
 <p><code>RADIX_SORT</code> is a implementation of LSD <a href="https://www.growingwiththeweb.com/sorting/radix-sort-lsd/">radix sort</a>,
 using <code>256</code> as the radix. It only works for fixed width data,
@@ -559,18 +587,90 @@ element of <code>array</code> is a <code>NaN</code>.</p>
 <span class="k">end program </span><span class="n">example_radix_sort</span>
 </code></pre></div>
 
-<h4 id="sort_index-creates-an-array-of-sorting-indices-for-an-input-array-while-also-sorting-the-array"><code>sort_index</code> - creates an array of sorting indices for an input array, while also sorting the array.</h4>
+<h4 id="sort_adjoint-sorts-an-associated-array"><code>sort_adjoint</code> - sorts an associated array</h4>
+<p>according to the same permutations as for the input array.</p>
 <h5 id="status_3">Status</h5>
 <p>Experimental</p>
 <h5 id="description_3">Description</h5>
 <p>Returns the input <code>array</code> sorted in the direction requested while
-retaining order stability, and an integer array whose elements would
-sort the input <code>array</code> to produce the output <code>array</code>.</p>
+retaining order stability, and an associated array whose elements are
+sorted according to the same permutations as for the input <code>array</code>.</p>
 <h5 id="syntax_3">Syntax</h5>
-<p><code>call</code> <a href="../../interface/sort_index.html">sort_index</a> <code>( array, index[, work, iwork, reverse ] )</code></p>
+<p><code>call</code> <a href="../../interface/sort_adjoint.html">sort_adjoint</a> <code>( array, adjoint_array[, work, iwork, reverse ] )</code></p>
 <h5 id="class_3">Class</h5>
 <p>Generic subroutine.</p>
 <h5 id="arguments_3">Arguments</h5>
+<p><code>array</code>: shall be a rank one array of any of the types:
+<code>integer(int8)</code>, <code>integer(int16)</code>, <code>integer(int32)</code>, <code>integer(int64)</code>,
+<code>real(sp)</code>, <code>real(dp)</code>, <code>real(qp)</code>, <code>character(*)</code>, <code>type(string_type)</code>,
+<code>type(bitset_64)</code>, or <code>type(bitset_large)</code>.
+It is an <code>intent(inout)</code> argument. On input it
+will be an array whose sorting indices are to be determined. On return
+it will be the sorted array.</p>
+<p><code>adjoint_array</code>: shall be a rank one <code>integer</code> or <code>real</code> array of
+the size of <code>array</code>. It is an <code>intent(inout)</code> argument. On return it
+shall have values that are the indices needed to sort the original
+array in the desired direction.</p>
+<p><code>work</code> (optional): shall be a rank one array of any of the same type as
+<code>array</code>, and shall have at least <code>size(array)/2</code> elements. It is an
+<code>intent(out)</code> argument. It is intended to be used as "scratch"
+memory for internal record keeping. If associated with an array in
+static storage, its use can significantly reduce the stack memory
+requirements for the code. Its contents on return are undefined.</p>
+<p><code>iwork</code> (optional): shall be a rank one integer array of the same kind
+of the array <code>adjoint_array</code>, and shall have at least <code>size(array)/2</code> elements. It
+is an <code>intent(out)</code> argument.  It is intended to be used as "scratch"
+memory for internal record keeping. If associated with an array in
+static storage, its use can significantly reduce the stack memory
+requirements for the code. Its contents on return are undefined.</p>
+<p><code>reverse</code> (optional): shall be a scalar of type default logical. It
+is an <code>intent(in)</code> argument. If present with a value of <code>.true.</code> then
+<code>array</code> will be sorted in order of non-increasing values in stable
+order. Otherwise <code>array</code> will be sorted in order of non-decreasing
+values in stable order.</p>
+<h5 id="notes_3">Notes</h5>
+<p><code>SORT_ADJOINT</code> implements the hybrid sorting algorithm of <code>ORD_SORT</code>,
+keeping the values of <code>adjoint_array</code> consistent with the elements of <code>array</code>
+as it is sorted. As a <code>merge sort</code> based algorithm, it is a stable
+sorting comparison algorithm. The optional <code>work</code> and <code>iwork</code> arrays
+replace "scratch" memory that would otherwise be allocated on the
+stack. If <code>array</code> is of any kind of <code>REAL</code> the order of the elements in
+<code>adjoint_array</code> and <code>array</code> on return are undefined if any element of <code>array</code>
+is a <code>NaN</code>. Sorting of <code>CHARACTER(*)</code> and <code>STRING_TYPE</code> arrays are
+based on the operator <code>&gt;</code>, and not on the function <code>LGT</code>.</p>
+<p>It should be emphasized that the order of <code>array</code> will typically be
+different on return</p>
+<h5 id="examples">Examples</h5>
+<p>Sorting a rank one array with <code>sort_adjoint</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_sort_adjoint</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_sorting</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">sort_adjoint</span>
+<span class="w">  </span><span class="k">implicit none</span>
+<span class="k">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">array</span><span class="p">(:)</span>
+<span class="w">  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">adjoint</span><span class="p">(:)</span>
+
+<span class="w">  </span><span class="k">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">]</span>
+<span class="w">  </span><span class="k">allocate</span><span class="p">(</span><span class="n">adjoint</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="kt">real</span><span class="p">(</span><span class="k">array</span><span class="p">))</span>
+
+<span class="w">  </span><span class="k">call </span><span class="n">sort_adjoint</span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">adjoint</span><span class="p">)</span>
+
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="k">array</span><span class="w">   </span><span class="c">!print [1, 3, 4, 4, 5, 9, 10]</span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">adjoint</span><span class="w">   </span><span class="c">!print [1., 3., 4., 4., 5., 9., 10.]</span>
+
+<span class="k">end program </span><span class="n">example_sort_adjoint</span>
+</code></pre></div>
+
+<h4 id="sort_index-creates-an-array-of-sorting-indices-for-an-input-array-while-also-sorting-the-array"><code>sort_index</code> - creates an array of sorting indices for an input array, while also sorting the array.</h4>
+<h5 id="status_4">Status</h5>
+<p>Experimental</p>
+<h5 id="description_4">Description</h5>
+<p>Returns the input <code>array</code> sorted in the direction requested while
+retaining order stability, and an integer array whose elements would
+sort the input <code>array</code> to produce the output <code>array</code>.</p>
+<h5 id="syntax_4">Syntax</h5>
+<p><code>call</code> <a href="../../interface/sort_index.html">sort_index</a> <code>( array, index[, work, iwork, reverse ] )</code></p>
+<h5 id="class_4">Class</h5>
+<p>Generic subroutine.</p>
+<h5 id="arguments_4">Arguments</h5>
 <p><code>array</code>: shall be a rank one array of any of the types:
 <code>integer(int8)</code>, <code>integer(int16)</code>, <code>integer(int32)</code>, <code>integer(int64)</code>,
 <code>real(sp)</code>, <code>real(dp)</code>, <code>real(qp)</code>, <code>character(*)</code>, <code>type(string_type)</code>,
@@ -599,7 +699,7 @@ is an <code>intent(in)</code> argument. If present with a value of <code>.true.<
 <code>index</code> will sort <code>array</code> in order of non-increasing values in stable
 order. Otherwise index will sort <code>array</code> in order of non-decreasing
 values in stable order.</p>
-<h5 id="notes_3">Notes</h5>
+<h5 id="notes_4">Notes</h5>
 <p><code>SORT_INDEX</code> implements the hybrid sorting algorithm of <code>ORD_SORT</code>,
 keeping the values of <code>index</code> consistent with the elements of <code>array</code>
 as it is sorted. As a <code>merge sort</code> based algorithm, it is a stable
@@ -611,7 +711,7 @@ is a <code>NaN</code>. Sorting of <code>CHARACTER(*)</code> and <code>STRING_TYP
 based on the operator <code>&gt;</code>, and not on the function <code>LGT</code>.</p>
 <p>It should be emphasized that the order of <code>array</code> will typically be
 different on return</p>
-<h5 id="examples">Examples</h5>
+<h5 id="examples_1">Examples</h5>
 <p>Sorting a rank one array with <code>sort_index</code>:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_sort_index</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_sorting</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">sort_index</span>
@@ -1538,13 +1638,13 @@ for applications running on Intel(R) 64, Version 2021.7.0 Build
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>a8519b67</small></p>
+<br /><small>efb26ca2</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-08-10 18:03              </p>
+ on 2025-09-01 06:24              </p>
           </div>
         </div>
         <br>
