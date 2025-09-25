@@ -1,0 +1,594 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A community driven standard library for (modern) Fortran">
+    <meta name="author" content="fortran-lang/stdlib contributors" >
+    <link rel="icon" href="../../favicon.png">
+
+    <title>linalg_iterative_solvers &ndash; Fortran-lang/stdlib</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../../css/pygments.css" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../css/local.css" rel="stylesheet">
+      <link  href="../../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../../index.html">Fortran-lang/stdlib </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../index.html">Contributing and specs</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>linalg_iterative_solvers</h1>
+    <div class="container p-2 mb-4 bg-light border rounded-3">
+      <div class="row align-items-center justify-content-between">
+        <div class="col">
+          <ul class="list-inline" style="margin-bottom:0px; display:inline">
+          </ul>
+        </div>
+        <div class="col">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../index.html'>Contributing and specs</a></li>
+                <li class="breadcrumb-item"><a href='index.html'>Specifications (specs)</a></li>
+              <li class="breadcrumb-item active" aria-current="page">linalg_iterative_solvers</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+      <div class="col-3">
+        <div class="card card-body bg-light" id="sidebar-toc">
+          <ul class="nav flex-column align-items">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">Contributing and specs</a>
+            </li>
+          </ul>
+          <hr>
+          <nav class="nav nav-pills flex-column">
+              <a class="nav-link" href="../License.html">Fortran stdlib License (MIT)</a>
+              <a class="nav-link" href="../changelog.html">Changelog</a>
+              <a class="nav-link" href="../contributing/index.html">Contributing</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../contributing/CodeOfConduct.html">Contributor Code of Conduct</a>
+              <a class="nav-link" href="../contributing/StyleGuide.html">Style Guide</a>
+              <a class="nav-link" href="../contributing/Workflow.html">Workflow for Contributors</a>
+
+                </nav>
+              <a class="nav-link" href="index.html">Specifications (specs)</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="stdlib_ansi.html">terminal colors</a>
+              <a class="nav-link" href="stdlib_array.html">array</a>
+              <a class="nav-link" href="stdlib_ascii.html">ascii</a>
+              <a class="nav-link" href="stdlib_bitsets.html">bitsets</a>
+              <a class="nav-link" href="stdlib_constants.html">constants</a>
+              <a class="nav-link" href="stdlib_error.html">error</a>
+              <a class="nav-link" href="stdlib_error_state_type.html">state_type</a>
+              <a class="nav-link" href="stdlib_hash_procedures.html">hash</a>
+              <a class="nav-link" href="stdlib_hashmaps.html">Hash maps</a>
+              <a class="nav-link" href="stdlib_intrinsics.html">intrinsics</a>
+              <a class="nav-link" href="stdlib_io.html">io</a>
+              <a class="nav-link" href="stdlib_kinds.html">kinds</a>
+              <a class="nav-link" href="stdlib_linalg.html">linalg</a>
+              <a class="nav-link active disabled" href="stdlib_linalg_iterative_solvers.html">linalg_iterative_solvers</a>
+              <a class="nav-link" href="stdlib_linalg_state_type.html">linalg_state_type</a>
+              <a class="nav-link" href="stdlib_logger.html">logger</a>
+              <a class="nav-link" href="stdlib_math.html">math</a>
+              <a class="nav-link" href="stdlib_optval.html">optval</a>
+              <a class="nav-link" href="stdlib_quadrature.html">quadrature</a>
+              <a class="nav-link" href="stdlib_random.html">random</a>
+              <a class="nav-link" href="stdlib_selection.html">selection</a>
+              <a class="nav-link" href="stdlib_sorting.html">sorting</a>
+              <a class="nav-link" href="stdlib_sparse.html">sparse</a>
+              <a class="nav-link" href="stdlib_specialfunctions.html">specialfunctions</a>
+              <a class="nav-link" href="stdlib_specialfunctions_activations.html">specialfunctions_activations</a>
+              <a class="nav-link" href="stdlib_specialfunctions_gamma.html">specialfunctions_gamma</a>
+              <a class="nav-link" href="stdlib_specialmatrices.html">specialmatrices</a>
+              <a class="nav-link" href="stdlib_stats.html">stats</a>
+              <a class="nav-link" href="stdlib_stats_distribution_exponential.html">stats_distribution_exponential</a>
+              <a class="nav-link" href="stdlib_stats_distribution_normal.html">stats_distribution_normal</a>
+              <a class="nav-link" href="stdlib_stats_distribution_uniform.html">stats_distribution_uniform</a>
+              <a class="nav-link" href="stdlib_str2num.html">str2num</a>
+              <a class="nav-link" href="stdlib_string_type.html">string_type</a>
+              <a class="nav-link" href="stdlib_stringlist_type.html">stringlist_type</a>
+              <a class="nav-link" href="stdlib_strings.html">strings</a>
+              <a class="nav-link" href="stdlib_system.html">system</a>
+              <a class="nav-link" href="stdlib_version.html">version</a>
+
+                </nav>
+          </nav>
+        </div>
+      </div>
+
+    <div class="col-9" id='text'>
+      <h1 id="the-stdlib_linalg_iterative_solvers-module">The <code>stdlib_linalg_iterative_solvers</code> module</h1>
+<div class="toc">
+<ul>
+<li><a href="#the-stdlib_linalg_iterative_solvers-module">The stdlib_linalg_iterative_solvers module</a><ul>
+<li><a href="#introduction">Introduction</a><ul>
+<li><a href="#the-linop-derived-type">The linop derived type</a><ul>
+<li><a href="#type-bound-procedures">Type-bound procedures</a><ul>
+<li><a href="#matvec">matvec</a></li>
+</ul>
+</li>
+<li><a href="#syntax">Syntax</a><ul>
+<li><a href="#class">Class</a></li>
+<li><a href="#arguments">Argument(s)</a></li>
+<li><a href="#inner_product">inner_product</a></li>
+</ul>
+</li>
+<li><a href="#syntax_1">Syntax</a><ul>
+<li><a href="#class_1">Class</a></li>
+<li><a href="#arguments_1">Argument(s)</a></li>
+<li><a href="#output-value-or-result-value">Output value or Result value</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#the-solver_workspace-derived-type">The solver_workspace derived type</a><ul>
+<li><a href="#type-bound-procedures_1">Type-bound procedures</a><ul>
+<li><a href="#class_2">Class</a></li>
+<li><a href="#arguments_2">Argument(s)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#stdlib_solve_cg_kernel-subroutine">stdlib_solve_cg_kernel subroutine</a><ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#syntax_2">Syntax</a></li>
+<li><a href="#status">Status</a></li>
+<li><a href="#class_3">Class</a></li>
+<li><a href="#arguments_3">Argument(s)</a></li>
+</ul>
+</li>
+<li><a href="#solve_cg-subroutine">solve_cg subroutine</a><ul>
+<li><a href="#description_1">Description</a></li>
+<li><a href="#syntax_3">Syntax</a></li>
+<li><a href="#status_1">Status</a></li>
+<li><a href="#class_4">Class</a></li>
+<li><a href="#arguments_4">Argument(s)</a></li>
+<li><a href="#example">Example</a></li>
+</ul>
+</li>
+<li><a href="#stdlib_solve_pcg_kernel-subroutine">stdlib_solve_pcg_kernel subroutine</a><ul>
+<li><a href="#description_2">Description</a></li>
+<li><a href="#syntax_4">Syntax</a></li>
+<li><a href="#status_2">Status</a></li>
+<li><a href="#class_5">Class</a></li>
+<li><a href="#arguments_5">Argument(s)</a></li>
+<li><a href="#example_1">Example</a></li>
+</ul>
+</li>
+<li><a href="#stdlib_solve_pcg-subroutine">stdlib_solve_pcg subroutine</a><ul>
+<li><a href="#description_3">Description</a></li>
+<li><a href="#syntax_5">Syntax</a></li>
+<li><a href="#status_3">Status</a></li>
+<li><a href="#class_6">Class</a></li>
+<li><a href="#arguments_6">Argument(s)</a></li>
+<li><a href="#example_2">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="introduction">Introduction</h2>
+<p>The <code>stdlib_linalg_iterative_solvers</code> module provides base implementations for known iterative solver methods. Each method is exposed with two procedure flavors: </p>
+<ul>
+<li>
+<p>A <code>solve_&lt;method&gt;_kernel</code> which holds the method's base implementation. The linear system argument is defined through a <code>linop</code> derived type which enables extending the method for implicit or unknown (by <code>stdlib</code>) matrices or to complex scenarios involving distributed parallelism for which the user shall extend the <code>inner_product</code> and/or matrix-vector product to account for parallel syncrhonization.</p>
+</li>
+<li>
+<p>A <code>solve_&lt;method&gt;</code> which proposes an off-the-shelf ready to use interface for <code>dense</code> and <code>CSR_&lt;kind&gt;_type</code> matrices for all <code>real</code> kinds.</p>
+</li>
+</ul>
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="the-linop-derived-type">The <code>linop</code> derived type</h3>
+<p>The <code>stdlib_linop_&lt;kind&gt;_type</code> derive type is an auxiliary class enabling to abstract the definition of the linear system and the actual implementation of the solvers.</p>
+<h4 id="type-bound-procedures">Type-bound procedures</h4>
+<p>The following type-bound procedure pointers enable customization of the solver:</p>
+<h5 id="matvec"><code>matvec</code></h5>
+<p>Proxy procedure for the matrix-vector product $y = alpha * op(M) * x + beta * y$.</p>
+<h4 id="syntax">Syntax</h4>
+<p><code>call</code> <a>stdlib_iterative_solvers</a> <code>(x,y,alpha,beta,op)</code></p>
+<h6 id="class">Class</h6>
+<p>Subroutine</p>
+<h6 id="arguments">Argument(s)</h6>
+<p><code>x</code>: 1-D array of <code>real(&lt;kind&gt;)</code>. This argument is <code>intent(in)</code>.</p>
+<p><code>y</code>: 1-D array of <code>real(&lt;kind&gt;)</code>. This argument is <code>intent(inout)</code>.</p>
+<p><code>alpha</code>: scalar of <code>real(&lt;kind&gt;)</code>. This argument is <code>intent(in)</code>.</p>
+<p><code>beta</code>: scalar of <code>real(&lt;kind&gt;)</code>. This argument is <code>intent(in)</code>.</p>
+<p><code>op</code>: <code>character(1)</code> scalar which can be have any of the following values: <code>N</code> (no transpose), <code>T</code> (transpose) or <code>H</code> (conjugate transpose). This argument is <code>intent(in)</code>.</p>
+<h5 id="inner_product"><code>inner_product</code></h5>
+<p>Proxy procedure for the <code>dot_product</code>.</p>
+<h4 id="syntax_1">Syntax</h4>
+<p><code>res =</code> <a>stdlib_iterative_solvers</a> <code>(x,y)</code></p>
+<h6 id="class_1">Class</h6>
+<p>Pure function</p>
+<h6 id="arguments_1">Argument(s)</h6>
+<p><code>x</code>: 1-D array of <code>real(&lt;kind&gt;)</code>. This argument is <code>intent(in)</code>.</p>
+<p><code>y</code>: 1-D array of <code>real(&lt;kind&gt;)</code>. This argument is <code>intent(in)</code>.</p>
+<h6 id="output-value-or-result-value">Output value or Result value</h6>
+<p>The output is a scalar of <code>type</code> and <code>kind</code> same as to that of <code>x</code> and <code>y</code>.</p>
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="the-solver_workspace-derived-type">The <code>solver_workspace</code> derived type</h3>
+<p>The <code>stdlib_solver_workspace_&lt;kind&gt;_type</code> derive type is an auxiliary class enabling to hold the data associated to the working arrays needed by the solvers to operate.</p>
+<h4 id="type-bound-procedures_1">Type-bound procedures</h4>
+<ul>
+<li><code>callback</code>: null pointer procedure enabling to pass a callback at each iteration to check on the solvers status.</li>
+</ul>
+<h5 id="class_2">Class</h5>
+<p>Subroutine</p>
+<h5 id="arguments_2">Argument(s)</h5>
+<p><code>x</code>: 1-D array of <code>real(&lt;kind&gt;)</code> type with the current state of the solution vector. This argument is <code>intent(in)</code> as it should not be modified by the callback.</p>
+<p><code>norm_sq</code>: scalar of <code>real(&lt;kind&gt;)</code> type representing the squared norm of the residual at the current iteration. This argument is <code>intent(in)</code>.</p>
+<p><code>iter</code>: scalar of <code>integer</code> type giving the current iteration counter. This argument is <code>intent(in)</code>.</p>
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="stdlib_solve_cg_kernel-subroutine"><code>stdlib_solve_cg_kernel</code> subroutine</h3>
+<h4 id="description">Description</h4>
+<p>Implements the Conjugate Gradient (CG) method for solving the linear system <script type="math/tex"> Ax = b </script>, where <script type="math/tex"> A </script> is a symmetric positive-definite linear operator defined via the <code>stdlib_linop</code> type. This is the core implementation, allowing flexibility for custom matrix types or parallel environments.</p>
+<h4 id="syntax_2">Syntax</h4>
+<p><code>call</code> <a>stdlib_iterative_solvers</a> <code>(A, b, x, tol, maxiter, workspace)</code></p>
+<h4 id="status">Status</h4>
+<p>Experimental</p>
+<h4 id="class_3">Class</h4>
+<p>Subroutine</p>
+<h4 id="arguments_3">Argument(s)</h4>
+<p><code>A</code>: <code>class(stdlib_linop_&lt;kind&gt;_type)</code> defining the linear operator. This argument is <code>intent(in)</code>.</p>
+<p><code>b</code>: 1-D array of <code>real(&lt;kind&gt;)</code> defining the loading conditions of the linear system. This argument is <code>intent(in)</code>.</p>
+<p><code>x</code>: 1-D array of <code>real(&lt;kind&gt;)</code> which serves as the input initial guess and the output solution. This argument is <code>intent(inout)</code>.</p>
+<p><code>rtol</code> and <code>atol</code>: scalars of type <code>real(&lt;kind&gt;)</code> specifying the convergence test. For convergence, the following criterion is used <script type="math/tex"> || b - Ax ||^2 <= max(rtol^2 * || b ||^2 , atol^2 ) </script>. These arguments are <code>intent(in)</code>.</p>
+<p><code>maxiter</code>: scalar of type <code>integer</code> defining the maximum allowed number of iterations. This argument is <code>intent(in)</code>.</p>
+<p><code>workspace</code>: scalar derived type of <code>type(stdlib_solver_workspace_&lt;kind&gt;_type)</code> holding the work array for the solver. This argument is <code>intent(inout)</code>.</p>
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="solve_cg-subroutine"><code>solve_cg</code> subroutine</h3>
+<h4 id="description_1">Description</h4>
+<p>Provides a user-friendly interface to the CG method for solving <script type="math/tex"> Ax = b </script>, supporting <code>dense</code> and <code>CSR_&lt;kind&gt;_type</code> matrices. It handles workspace allocation and optional parameters for customization.</p>
+<h4 id="syntax_3">Syntax</h4>
+<p><code>call</code> <a>stdlib_iterative_solvers</a> <code>(A, b, x [, di, rtol, atol, maxiter, restart, workspace])</code></p>
+<h4 id="status_1">Status</h4>
+<p>Experimental</p>
+<h4 id="class_4">Class</h4>
+<p>Subroutine</p>
+<h4 id="arguments_4">Argument(s)</h4>
+<p><code>A</code>: <code>dense</code> or <code>CSR_&lt;kind&gt;_type</code> matrix defining the linear system. This argument is <code>intent(in)</code>.</p>
+<p><code>b</code>: 1-D array of <code>real(&lt;kind&gt;)</code> defining the right-hand-side (or loading) of the linear system. This argument is <code>intent(in)</code>.</p>
+<p><code>x</code>: 1-D array of <code>real(&lt;kind&gt;)</code> which serves as the input initial guess and as the output solution. This argument is <code>intent(inout)</code>.</p>
+<p><code>di</code> (optional): 1-D mask array of type <code>logical(int8)</code> defining the degrees of freedom subject to dirichlet boundary conditions. The actual boundary conditions values should be stored in the <code>b</code> load array. This argument is <code>intent(in)</code>.</p>
+<p><code>rtol</code> and <code>atol</code> (optional): scalars of type <code>real(&lt;kind&gt;)</code> specifying the convergence test. For convergence, the following criterion is used <script type="math/tex"> || b - Ax ||^2 <= max(rtol^2 * || b ||^2 , atol^2 ) </script>. Defaults values are <code>rtol=1.e-5</code> and <code>atol=epsilon(1._&lt;kind&gt;)</code>. These arguments are <code>intent(in)</code>.</p>
+<p><code>maxiter</code> (optional): scalar of type <code>integer</code> defining the maximum allowed number of iterations. If no value is given, a default of <code>N</code> is set, where <code>N = size(b)</code>. This argument is <code>intent(in)</code>.</p>
+<p><code>workspace</code> (optional): scalar derived type of <code>type(stdlib_solver_workspace_&lt;kind&gt;_type)</code> holding the work array for the solver. If the user passes its own <code>workspace</code>, then a pointer is set internally to it. Otherwise, memory will be internally allocated and deallocated before exiting the procedure. This argument is <code>intent(inout)</code>.</p>
+<h4 id="example">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_solve_cg</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_linalg_iterative_solvers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">stdlib_solve_cg</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">rhs</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">matrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,&amp;</span>
+<span class="w">                       </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="w">    </span><span class="n">x</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nb">dble</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="c">!&gt; initial guess</span>
+<span class="w">    </span><span class="n">rhs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">dble</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="c">!&gt; rhs vector</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">stdlib_solve_cg</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">restart</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="c">!&gt; solution: [0.0909, 0.6364]</span>
+
+<span class="k">end program</span>
+</code></pre></div>
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="stdlib_solve_pcg_kernel-subroutine"><code>stdlib_solve_pcg_kernel</code> subroutine</h3>
+<h4 id="description_2">Description</h4>
+<p>Implements the Preconditioned Conjugate Gradient (PCG) method for solving the linear system <script type="math/tex"> Ax = b </script>, where <script type="math/tex"> A </script> is a symmetric positive-definite linear operator defined via the <code>stdlib_linop</code> type. This is the core implementation, allowing flexibility for custom matrix types or parallel environments.</p>
+<h4 id="syntax_4">Syntax</h4>
+<p><code>call</code> <a>stdlib_iterative_solvers</a> <code>(A, M, b, x, tol, maxiter, workspace)</code></p>
+<h4 id="status_2">Status</h4>
+<p>Experimental</p>
+<h4 id="class_5">Class</h4>
+<p>Subroutine</p>
+<h4 id="arguments_5">Argument(s)</h4>
+<p><code>A</code>: <code>class(stdlib_linop_&lt;kind&gt;_type)</code> defining the linear operator. This argument is <code>intent(in)</code>.</p>
+<p><code>M</code>: <code>class(stdlib_linop_&lt;kind&gt;_type)</code> defining the preconditioner linear operator. This argument is <code>intent(in)</code>.</p>
+<p><code>b</code>: 1-D array of <code>real(&lt;kind&gt;)</code> defining the loading conditions of the linear system. This argument is <code>intent(in)</code>.</p>
+<p><code>x</code>: 1-D array of <code>real(&lt;kind&gt;)</code> which serves as the input initial guess and the output solution. This argument is <code>intent(inout)</code>.</p>
+<p><code>rtol</code> and <code>atol</code> (optional): scalars of type <code>real(&lt;kind&gt;)</code> specifying the convergence test. For convergence, the following criterion is used <script type="math/tex"> || b - Ax ||^2 <= max(rtol^2 * || b ||^2 , atol^2 ) </script>. These arguments are <code>intent(in)</code>.</p>
+<p><code>maxiter</code>: scalar of type <code>integer</code> defining the maximum allowed number of iterations. This argument is <code>intent(in)</code>.</p>
+<p><code>workspace</code>: scalar derived type  of <code>type(stdlib_solver_workspace_&lt;kind&gt;_type)</code> holding the work array for the solver. This argument is <code>intent(inout)</code>.</p>
+<h4 id="example_1">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">module </span><span class="n">custom_solver</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_sparse</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">CSR_dp_type</span><span class="p">,</span><span class="w"> </span><span class="n">spmv</span><span class="p">,</span><span class="w"> </span><span class="n">diag</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_linalg_iterative_solvers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">stdlib_linop_dp_type</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                    </span><span class="n">stdlib_solver_workspace_dp_type</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                    </span><span class="n">stdlib_solve_pcg_kernel</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                    </span><span class="n">stdlib_size_wksp_pcg</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_optval</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">optval</span>
+<span class="w">    </span><span class="k">implicit none</span>
+<span class="k">    private</span>
+<span class="k">    public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">stdlib_solve_pcg_custom</span>
+
+<span class="k">contains</span>
+
+<span class="k">    subroutine </span><span class="n">stdlib_solve_pcg_custom</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">di</span><span class="p">,</span><span class="n">rtol</span><span class="p">,</span><span class="n">atol</span><span class="p">,</span><span class="n">maxiter</span><span class="p">,</span><span class="n">restart</span><span class="p">,</span><span class="n">workspace</span><span class="p">)</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">CSR_dp_type</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rtol</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">atol</span>
+<span class="w">        </span><span class="kt">logical</span><span class="p">(</span><span class="n">int8</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="p">,</span><span class="w"> </span><span class="k">target</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">di</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">maxiter</span>
+<span class="w">        </span><span class="kt">logical</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">restart</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">stdlib_solver_workspace_dp_type</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">),</span><span class="w"> </span><span class="k">target</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">workspace</span>
+<span class="w">        </span><span class="c">!-------------------------</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">stdlib_linop_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">op</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">stdlib_linop_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">M</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">stdlib_solver_workspace_dp_type</span><span class="p">),</span><span class="w"> </span><span class="k">pointer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">workspace_</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">maxiter_</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rtol_</span><span class="p">,</span><span class="w"> </span><span class="n">atol_</span>
+<span class="w">        </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">restart_</span>
+<span class="w">        </span><span class="kt">logical</span><span class="p">(</span><span class="n">int8</span><span class="p">),</span><span class="w"> </span><span class="k">pointer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">di_</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">diagonal</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">norm_sq0</span>
+<span class="w">        </span><span class="c">!-------------------------</span>
+<span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="w">        </span><span class="n">maxiter_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">optval</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="w">        </span><span class="n">restart_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">optval</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">restart</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="w">        </span><span class="n">rtol_</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">optval</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span><span class="w">    </span><span class="n">default</span><span class="o">=</span><span class="mf">1.e-4_dp</span><span class="p">)</span>
+<span class="w">        </span><span class="n">atol_</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">optval</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">atol</span><span class="p">,</span><span class="w">    </span><span class="n">default</span><span class="o">=</span><span class="mf">0._dp</span><span class="p">)</span>
+<span class="w">        </span><span class="n">norm_sq0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0._dp</span>
+<span class="w">        </span><span class="c">!-------------------------</span>
+<span class="w">        </span><span class="c">! internal memory setup</span>
+<span class="w">        </span><span class="n">op</span><span class="p">%</span><span class="n">matvec</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">my_matvec</span>
+<span class="w">        </span><span class="n">op</span><span class="p">%</span><span class="n">inner_product</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">my_dot</span>
+<span class="w">        </span><span class="n">M</span><span class="p">%</span><span class="n">matvec</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">my_jacobi_preconditioner</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">di</span><span class="p">))</span><span class="k">then</span>
+<span class="k">            </span><span class="n">di_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">di</span>
+<span class="w">        </span><span class="k">else </span>
+<span class="k">            allocate</span><span class="p">(</span><span class="n">di_</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">source</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="err">_</span><span class="n">int8</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end if</span>
+
+<span class="k">        if</span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">workspace</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">workspace_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">workspace</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="k">            allocate</span><span class="p">(</span><span class="w"> </span><span class="n">workspace_</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">        if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">allocated</span><span class="p">(</span><span class="n">workspace_</span><span class="p">%</span><span class="n">tmp</span><span class="p">))</span><span class="w"> </span><span class="k">allocate</span><span class="p">(</span><span class="w"> </span><span class="n">workspace_</span><span class="p">%</span><span class="n">tmp</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">stdlib_size_wksp_pcg</span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0._dp</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="n">workspace_</span><span class="p">%</span><span class="n">callback</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">my_logger</span>
+<span class="w">        </span><span class="c">!-------------------------</span>
+<span class="w">        </span><span class="c">! Jacobi preconditioner factorization</span>
+<span class="w">        </span><span class="k">call </span><span class="n">diag</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">diagonal</span><span class="p">)</span>
+<span class="w">        </span><span class="k">where</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">diagonal</span><span class="p">)</span><span class="o">&gt;</span><span class="nb">epsilon</span><span class="p">(</span><span class="mf">0._dp</span><span class="p">))</span><span class="w"> </span><span class="n">diagonal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1._dp</span><span class="o">/</span><span class="n">diagonal</span>
+<span class="w">        </span><span class="c">!-------------------------</span>
+<span class="w">        </span><span class="c">! main call to the solver</span>
+<span class="w">        </span><span class="k">call </span><span class="n">stdlib_solve_pcg_kernel</span><span class="p">(</span><span class="n">op</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">rtol_</span><span class="p">,</span><span class="n">atol_</span><span class="p">,</span><span class="n">maxiter_</span><span class="p">,</span><span class="n">workspace_</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c">!-------------------------</span>
+<span class="w">        </span><span class="c">! internal memory cleanup</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">present</span><span class="p">(</span><span class="n">di</span><span class="p">))</span><span class="w"> </span><span class="k">deallocate</span><span class="p">(</span><span class="n">di_</span><span class="p">)</span>
+<span class="w">        </span><span class="n">di_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">null</span><span class="p">()</span>
+
+<span class="w">        </span><span class="k">if</span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="nb">present</span><span class="p">(</span><span class="n">workspace</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            deallocate</span><span class="p">(</span><span class="w"> </span><span class="n">workspace_</span><span class="p">%</span><span class="n">tmp</span><span class="w"> </span><span class="p">)</span>
+<span class="w">            </span><span class="k">deallocate</span><span class="p">(</span><span class="w"> </span><span class="n">workspace_</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">        </span><span class="n">workspace_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">null</span><span class="p">()</span>
+<span class="w">        </span><span class="k">contains</span>
+
+<span class="k">        subroutine </span><span class="n">my_matvec</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">beta</span><span class="p">,</span><span class="n">op</span><span class="p">)</span>
+<span class="w">            </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:)</span>
+<span class="w">            </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">y</span><span class="p">(:)</span>
+<span class="w">            </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">alpha</span>
+<span class="w">            </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">beta</span>
+<span class="w">            </span><span class="kt">character</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">op</span>
+<span class="w">            </span><span class="k">call </span><span class="n">spmv</span><span class="p">(</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">op</span><span class="p">)</span>
+<span class="w">            </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">merge</span><span class="p">(</span><span class="w"> </span><span class="mf">0._dp</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">di_</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">end subroutine</span>
+<span class="k">        subroutine </span><span class="n">my_jacobi_preconditioner</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">beta</span><span class="p">,</span><span class="n">op</span><span class="p">)</span>
+<span class="w">            </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:)</span>
+<span class="w">            </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">y</span><span class="p">(:)</span>
+<span class="w">            </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">alpha</span>
+<span class="w">            </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">beta</span>
+<span class="w">            </span><span class="kt">character</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">op</span>
+<span class="w">            </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">merge</span><span class="p">(</span><span class="w"> </span><span class="mf">0._dp</span><span class="p">,</span><span class="w"> </span><span class="n">diagonal</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">di_</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="k">end subroutine</span>
+<span class="k">        pure </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function </span><span class="n">my_dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="w">            </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:)</span>
+<span class="w">            </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">y</span><span class="p">(:)</span>
+<span class="w">            </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">dot_product</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end function</span>
+<span class="k">        subroutine </span><span class="n">my_logger</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">norm_sq</span><span class="p">,</span><span class="n">iter</span><span class="p">)</span>
+<span class="w">            </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:)</span>
+<span class="w">            </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">norm_sq</span>
+<span class="w">            </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span>
+<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="n">iter</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">norm_sq0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">norm_sq</span>
+<span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Iteration: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; Residual: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">norm_sq</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot; Relative: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">norm_sq</span><span class="p">)</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">norm_sq0</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end subroutine</span>
+<span class="k">    end subroutine</span>
+
+<span class="k">end module </span><span class="n">custom_solver</span>
+
+
+<span class="k">program </span><span class="n">example_solve_custom</span>
+<span class="w">    </span><span class="k">use </span><span class="n">custom_solver</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_sparse</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">CSR_dp_type</span><span class="p">,</span><span class="w"> </span><span class="n">COO_dp_type</span><span class="p">,</span><span class="w"> </span><span class="n">dense2coo</span><span class="p">,</span><span class="w"> </span><span class="n">coo2csr</span>
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    type</span><span class="p">(</span><span class="n">CSR_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">laplacian_csr</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">COO_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">COO</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">laplacian</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="w"> </span><span class="n">rhs</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">logical</span><span class="p">(</span><span class="n">int8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dirichlet</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">laplacian</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,&amp;</span>
+<span class="w">                         </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,&amp;</span>
+<span class="w">                          </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,&amp;</span>
+<span class="w">                          </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,&amp;</span>
+<span class="w">                          </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="w">    </span><span class="k">call </span><span class="n">dense2coo</span><span class="p">(</span><span class="n">laplacian</span><span class="p">,</span><span class="n">COO</span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">coo2csr</span><span class="p">(</span><span class="n">COO</span><span class="p">,</span><span class="n">laplacian_csr</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0._dp</span>
+<span class="w">    </span><span class="n">rhs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">dble</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">dirichlet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="err">_</span><span class="n">int8</span>
+<span class="w">    </span><span class="n">dirichlet</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="err">_</span><span class="n">int8</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">stdlib_solve_pcg_custom</span><span class="p">(</span><span class="n">laplacian_csr</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">rtol</span><span class="o">=</span><span class="mf">1.d-6</span><span class="p">,</span><span class="w"> </span><span class="n">di</span><span class="o">=</span><span class="n">dirichlet</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="c">!&gt; solution: [0.0, 2.5, 5.0, 2.5, 0.0]</span>
+
+<span class="k">end program </span><span class="n">example_solve_custom</span>
+</code></pre></div>
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="stdlib_solve_pcg-subroutine"><code>stdlib_solve_pcg</code> subroutine</h3>
+<h4 id="description_3">Description</h4>
+<p>Provides a user-friendly interface to the PCG method for solving <script type="math/tex"> Ax = b </script>, supporting <code>dense</code> and <code>CSR_&lt;kind&gt;_type</code> matrices. It supports optional preconditioners and handles workspace allocation.</p>
+<h4 id="syntax_5">Syntax</h4>
+<p><code>call</code> <a>stdlib_iterative_solvers</a> <code>(A, b, x [, di, tol, maxiter, restart, precond, M, workspace])</code></p>
+<h4 id="status_3">Status</h4>
+<p>Experimental</p>
+<h4 id="class_6">Class</h4>
+<p>Subroutine</p>
+<h4 id="arguments_6">Argument(s)</h4>
+<p><code>A</code>: <code>dense</code> or <code>CSR_&lt;kind&gt;_type</code> matrix defining the linear system. This argument is <code>intent(in)</code>.</p>
+<p><code>b</code>: 1-D array of <code>real(&lt;kind&gt;)</code> defining the loading conditions of the linear system. This argument is <code>intent(in)</code>.</p>
+<p><code>x</code>: 1-D array of <code>real(&lt;kind&gt;)</code> which serves as the input initial guess and the output solution. This argument is <code>intent(inout)</code>.</p>
+<p><code>di</code> (optional): 1-D mask array of type <code>logical(int8)</code> defining the degrees of freedom subject to dirichlet boundary conditions. The actual boundary conditions values should be stored in the <code>b</code> load array. This argument is <code>intent(in)</code>.</p>
+<p><code>rtol</code> and <code>atol</code> (optional): scalars of type <code>real(&lt;kind&gt;)</code> specifying the convergence test. For convergence, the following criterion is used <script type="math/tex"> || b - Ax ||^2 <= max(rtol^2 * || b ||^2 , atol^2 ) </script>. Defaults values are <code>rtol=1.e-5</code> and <code>atol=epsilon(1._&lt;kind&gt;)</code>. These arguments are <code>intent(in)</code>.</p>
+<p><code>maxiter</code> (optional): scalar of type <code>integer</code> defining the maximum allowed number of iterations. If no value is given, a default of <code>N</code> is set, where <code>N = size(b)</code>. This argument is <code>intent(in)</code>.</p>
+<p><code>precond</code> (optional): scalar of type <code>integer</code> enabling to switch among the default preconditioners available with the following enum (<code>pc_none</code>, <code>pc_jacobi</code>). If no value is given, no preconditionning will be applied. This argument is <code>intent(in)</code>.</p>
+<p><code>M</code> (optional): scalar derived type of <code>class(stdlib_linop_&lt;kind&gt;_type)</code> defining a custom preconditioner linear operator. If given, <code>precond</code> will have no effect, a pointer is set to this custom preconditioner.</p>
+<p><code>workspace</code> (optional): scalar derived type of <code>type(stdlib_solver_workspace_&lt;kind&gt;_type)</code> holding the work temporal array for the solver. If the user passes its own <code>workspace</code>, then internally a pointer is set to it, otherwise, memory will be internally allocated and deallocated before exiting the procedure. This argument is <code>intent(inout)</code>.</p>
+<h4 id="example_2">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_solve_pcg</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">int8</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_sparse</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_linalg_iterative_solvers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">stdlib_solve_pcg</span>
+
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">CSR_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">laplacian_csr</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">COO_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">COO</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">laplacian</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="w"> </span><span class="n">rhs</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">logical</span><span class="p">(</span><span class="n">int8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dirichlet</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">laplacian</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,&amp;</span>
+<span class="w">                         </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,&amp;</span>
+<span class="w">                          </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,&amp;</span>
+<span class="w">                          </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,&amp;</span>
+<span class="w">                          </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="w">    </span><span class="k">call </span><span class="n">dense2coo</span><span class="p">(</span><span class="n">laplacian</span><span class="p">,</span><span class="n">COO</span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">coo2csr</span><span class="p">(</span><span class="n">COO</span><span class="p">,</span><span class="n">laplacian_csr</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0._dp</span>
+<span class="w">    </span><span class="n">rhs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">dirichlet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="err">_</span><span class="n">int8</span>
+<span class="w">    </span><span class="n">dirichlet</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="err">_</span><span class="n">int8</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">stdlib_solve_pcg</span><span class="p">(</span><span class="n">laplacian</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">rtol</span><span class="o">=</span><span class="mf">1.d-6</span><span class="p">,</span><span class="w"> </span><span class="n">di</span><span class="o">=</span><span class="n">dirichlet</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="c">!&gt; solution: [0.0, 2.5, 5.0, 2.5, 0.0]</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0._dp</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">stdlib_solve_pcg</span><span class="p">(</span><span class="n">laplacian_csr</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">rtol</span><span class="o">=</span><span class="mf">1.d-6</span><span class="p">,</span><span class="w"> </span><span class="n">di</span><span class="o">=</span><span class="n">dirichlet</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="c">!&gt; solution: [0.0, 2.5, 5.0, 2.5, 0.0]</span>
+<span class="k">end program</span>
+</code></pre></div>
+    </div>
+  </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+<br /><small>fb404bbc</small></p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2025-09-25 09:30              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>
