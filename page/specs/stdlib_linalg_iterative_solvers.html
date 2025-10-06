@@ -156,7 +156,7 @@
 <ul>
 <li><a href="#the-stdlib_linalg_iterative_solvers-module">The stdlib_linalg_iterative_solvers module</a><ul>
 <li><a href="#introduction">Introduction</a><ul>
-<li><a href="#the-linop-derived-type">The linop derived type</a><ul>
+<li><a href="#the-stdlib_linop-derived-type">The stdlib_linop derived type</a><ul>
 <li><a href="#type-bound-procedures">Type-bound procedures</a><ul>
 <li><a href="#matvec">matvec</a></li>
 </ul>
@@ -218,6 +218,26 @@
 <li><a href="#example_2">Example</a></li>
 </ul>
 </li>
+<li><a href="#stdlib_solve_bicgstab_kernel-subroutine">stdlib_solve_bicgstab_kernel subroutine</a><ul>
+<li><a href="#description_4">Description</a></li>
+<li><a href="#syntax_6">Syntax</a></li>
+<li><a href="#status_4">Status</a></li>
+<li><a href="#class_7">Class</a></li>
+<li><a href="#arguments_7">Argument(s)</a></li>
+<li><a href="#note">Note</a></li>
+</ul>
+</li>
+<li><a href="#stdlib_solve_bicgstab-subroutine">stdlib_solve_bicgstab subroutine</a><ul>
+<li><a href="#description_5">Description</a></li>
+<li><a href="#syntax_7">Syntax</a></li>
+<li><a href="#status_5">Status</a></li>
+<li><a href="#class_8">Class</a></li>
+<li><a href="#arguments_8">Argument(s)</a></li>
+<li><a href="#note_1">Note</a></li>
+<li><a href="#example-1">Example 1</a></li>
+<li><a href="#example-2">Example 2</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -228,21 +248,21 @@
 <p>The <code>stdlib_linalg_iterative_solvers</code> module provides base implementations for known iterative solver methods. Each method is exposed with two procedure flavors: </p>
 <ul>
 <li>
-<p>A <code>solve_&lt;method&gt;_kernel</code> which holds the method's base implementation. The linear system argument is defined through a <code>linop</code> derived type which enables extending the method for implicit or unknown (by <code>stdlib</code>) matrices or to complex scenarios involving distributed parallelism for which the user shall extend the <code>inner_product</code> and/or matrix-vector product to account for parallel syncrhonization.</p>
+<p>A <code>stdlib_solve_&lt;method&gt;_kernel</code> which holds the method's base implementation. The linear system argument is defined through a <code>stdlib_linop</code> derived type which enables extending the method for implicit or unknown (by <code>stdlib</code>) matrices or to complex scenarios involving distributed parallelism for which the user shall extend the <code>inner_product</code> and/or matrix-vector product to account for parallel syncrhonization.</p>
 </li>
 <li>
-<p>A <code>solve_&lt;method&gt;</code> which proposes an off-the-shelf ready to use interface for <code>dense</code> and <code>CSR_&lt;kind&gt;_type</code> matrices for all <code>real</code> kinds.</p>
+<p>A <code>stdlib_solve_&lt;method&gt;</code> which proposes an off-the-shelf ready to use interface for <code>dense</code> and <code>CSR_&lt;kind&gt;_type</code> matrices for all <code>real</code> kinds.</p>
 </li>
 </ul>
 <!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
-<h3 id="the-linop-derived-type">The <code>linop</code> derived type</h3>
+<h3 id="the-stdlib_linop-derived-type">The <code>stdlib_linop</code> derived type</h3>
 <p>The <code>stdlib_linop_&lt;kind&gt;_type</code> derive type is an auxiliary class enabling to abstract the definition of the linear system and the actual implementation of the solvers.</p>
 <h4 id="type-bound-procedures">Type-bound procedures</h4>
 <p>The following type-bound procedure pointers enable customization of the solver:</p>
 <h5 id="matvec"><code>matvec</code></h5>
-<p>Proxy procedure for the matrix-vector product $y = alpha * op(M) * x + beta * y$.</p>
+<p>Proxy procedure for the matrix-vector product <script type="math/tex"> y = alpha * op(M) * x + beta * y </script>.</p>
 <h4 id="syntax">Syntax</h4>
-<p><code>call</code> <a>stdlib_iterative_solvers</a> <code>(x,y,alpha,beta,op)</code></p>
+<p><code>call</code> <a href="../../type/stdlib_linop_dp_type.html">stdlib_linop_dp_type</a> <code>%matvec(x,y,alpha,beta,op)</code></p>
 <h6 id="class">Class</h6>
 <p>Subroutine</p>
 <h6 id="arguments">Argument(s)</h6>
@@ -254,7 +274,7 @@
 <h5 id="inner_product"><code>inner_product</code></h5>
 <p>Proxy procedure for the <code>dot_product</code>.</p>
 <h4 id="syntax_1">Syntax</h4>
-<p><code>res =</code> <a>stdlib_iterative_solvers</a> <code>(x,y)</code></p>
+<p><code>res =</code> <a href="../../type/stdlib_linop_dp_type.html">stdlib_linop_dp_type</a> <code>%inner_product(x,y)</code></p>
 <h6 id="class_1">Class</h6>
 <p>Pure function</p>
 <h6 id="arguments_1">Argument(s)</h6>
@@ -280,7 +300,7 @@
 <h4 id="description">Description</h4>
 <p>Implements the Conjugate Gradient (CG) method for solving the linear system <script type="math/tex"> Ax = b </script>, where <script type="math/tex"> A </script> is a symmetric positive-definite linear operator defined via the <code>stdlib_linop</code> type. This is the core implementation, allowing flexibility for custom matrix types or parallel environments.</p>
 <h4 id="syntax_2">Syntax</h4>
-<p><code>call</code> <a>stdlib_iterative_solvers</a> <code>(A, b, x, tol, maxiter, workspace)</code></p>
+<p><code>call</code> <a href="../../interface/stdlib_solve_cg_kernel.html">stdlib_solve_cg_kernel</a> <code>(A, b, x, tol, maxiter, workspace)</code></p>
 <h4 id="status">Status</h4>
 <p>Experimental</p>
 <h4 id="class_3">Class</h4>
@@ -297,7 +317,7 @@
 <h4 id="description_1">Description</h4>
 <p>Provides a user-friendly interface to the CG method for solving <script type="math/tex"> Ax = b </script>, supporting <code>dense</code> and <code>CSR_&lt;kind&gt;_type</code> matrices. It handles workspace allocation and optional parameters for customization.</p>
 <h4 id="syntax_3">Syntax</h4>
-<p><code>call</code> <a>stdlib_iterative_solvers</a> <code>(A, b, x [, di, rtol, atol, maxiter, restart, workspace])</code></p>
+<p><code>call</code> <a href="../../interface/stdlib_solve_cg.html">stdlib_solve_cg</a> <code>(A, b, x [, di, rtol, atol, maxiter, restart, workspace])</code></p>
 <h4 id="status_1">Status</h4>
 <p>Experimental</p>
 <h4 id="class_4">Class</h4>
@@ -335,7 +355,7 @@
 <h4 id="description_2">Description</h4>
 <p>Implements the Preconditioned Conjugate Gradient (PCG) method for solving the linear system <script type="math/tex"> Ax = b </script>, where <script type="math/tex"> A </script> is a symmetric positive-definite linear operator defined via the <code>stdlib_linop</code> type. This is the core implementation, allowing flexibility for custom matrix types or parallel environments.</p>
 <h4 id="syntax_4">Syntax</h4>
-<p><code>call</code> <a>stdlib_iterative_solvers</a> <code>(A, M, b, x, tol, maxiter, workspace)</code></p>
+<p><code>call</code> <a href="../../interface/stdlib_solve_cg_kernel.html">stdlib_solve_cg_kernel</a> <code>(A, M, b, x, tol, maxiter, workspace)</code></p>
 <h4 id="status_2">Status</h4>
 <p>Experimental</p>
 <h4 id="class_5">Class</h4>
@@ -499,7 +519,7 @@
 <h4 id="description_3">Description</h4>
 <p>Provides a user-friendly interface to the PCG method for solving <script type="math/tex"> Ax = b </script>, supporting <code>dense</code> and <code>CSR_&lt;kind&gt;_type</code> matrices. It supports optional preconditioners and handles workspace allocation.</p>
 <h4 id="syntax_5">Syntax</h4>
-<p><code>call</code> <a>stdlib_iterative_solvers</a> <code>(A, b, x [, di, tol, maxiter, restart, precond, M, workspace])</code></p>
+<p><code>call</code> <a href="../../interface/stdlib_solve_pcg.html">stdlib_solve_pcg</a> <code>(A, b, x [, di, tol, maxiter, restart, precond, M, workspace])</code></p>
 <h4 id="status_3">Status</h4>
 <p>Experimental</p>
 <h4 id="class_6">Class</h4>
@@ -548,6 +568,152 @@
 <span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="c">!&gt; solution: [0.0, 2.5, 5.0, 2.5, 0.0]</span>
 <span class="k">end program</span>
 </code></pre></div>
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="stdlib_solve_bicgstab_kernel-subroutine"><code>stdlib_solve_bicgstab_kernel</code> subroutine</h3>
+<h4 id="description_4">Description</h4>
+<p>Implements the Biconjugate Gradient Stabilized (BiCGSTAB) method for solving the linear system <script type="math/tex"> Ax = b </script>, where <script type="math/tex"> A </script> is a general (non-symmetric) linear operator defined via the <code>stdlib_linop</code> type. BiCGSTAB is particularly suitable for solving non-symmetric linear systems and provides better stability than the basic BiCG method. This is the core implementation, allowing flexibility for custom matrix types or parallel environments.</p>
+<h4 id="syntax_6">Syntax</h4>
+<p><code>call</code> <a href="../../interface/stdlib_solve_bicgstab_kernel.html">stdlib_solve_bicgstab_kernel</a> <code>(A, M, b, x, rtol, atol, maxiter, workspace)</code></p>
+<h4 id="status_4">Status</h4>
+<p>Experimental</p>
+<h4 id="class_7">Class</h4>
+<p>Subroutine</p>
+<h4 id="arguments_7">Argument(s)</h4>
+<p><code>A</code>: <code>class(stdlib_linop_&lt;kind&gt;_type)</code> defining the linear operator. This argument is <code>intent(in)</code>.</p>
+<p><code>M</code>: <code>class(stdlib_linop_&lt;kind&gt;_type)</code> defining the preconditioner linear operator. This argument is <code>intent(in)</code>.</p>
+<p><code>b</code>: 1-D array of <code>real(&lt;kind&gt;)</code> defining the loading conditions of the linear system. This argument is <code>intent(in)</code>.</p>
+<p><code>x</code>: 1-D array of <code>real(&lt;kind&gt;)</code> which serves as the input initial guess and the output solution. This argument is <code>intent(inout)</code>.</p>
+<p><code>rtol</code> and <code>atol</code>: scalars of type <code>real(&lt;kind&gt;)</code> specifying the convergence test. For convergence, the following criterion is used <script type="math/tex"> || b - Ax ||^2 <= max(rtol^2 * || b ||^2 , atol^2 ) </script>. These arguments are <code>intent(in)</code>.</p>
+<p><code>maxiter</code>: scalar of type <code>integer</code> defining the maximum allowed number of iterations. This argument is <code>intent(in)</code>.</p>
+<p><code>workspace</code>: scalar derived type of <code>type(stdlib_solver_workspace_&lt;kind&gt;_type)</code> holding the work array for the solver. This argument is <code>intent(inout)</code>.</p>
+<h4 id="note">Note</h4>
+<p>The BiCGSTAB method requires 8 auxiliary vectors in its workspace, making it more memory-intensive than CG or PCG methods. However, it can handle general non-symmetric matrices and often converges faster than BiCG for many problems.</p>
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="stdlib_solve_bicgstab-subroutine"><code>stdlib_solve_bicgstab</code> subroutine</h3>
+<h4 id="description_5">Description</h4>
+<p>Provides a user-friendly interface to the BiCGSTAB method for solving <script type="math/tex"> Ax = b </script>, supporting <code>dense</code> and <code>CSR_&lt;kind&gt;_type</code> matrices. BiCGSTAB is suitable for general (non-symmetric) linear systems and supports optional preconditioners for improved convergence. It handles workspace allocation and optional parameters for customization.</p>
+<h4 id="syntax_7">Syntax</h4>
+<p><code>call</code> <a href="../../interface/stdlib_solve_bicgstab.html">stdlib_solve_bicgstab</a> <code>(A, b, x [, di, rtol, atol, maxiter, restart, precond, M, workspace])</code></p>
+<h4 id="status_5">Status</h4>
+<p>Experimental</p>
+<h4 id="class_8">Class</h4>
+<p>Subroutine</p>
+<h4 id="arguments_8">Argument(s)</h4>
+<p><code>A</code>: <code>dense</code> or <code>CSR_&lt;kind&gt;_type</code> matrix defining the linear system. This argument is <code>intent(in)</code>.</p>
+<p><code>b</code>: 1-D array of <code>real(&lt;kind&gt;)</code> defining the loading conditions of the linear system. This argument is <code>intent(in)</code>.</p>
+<p><code>x</code>: 1-D array of <code>real(&lt;kind&gt;)</code> which serves as the input initial guess and the output solution. This argument is <code>intent(inout)</code>.</p>
+<p><code>di</code> (optional): 1-D mask array of type <code>logical(int8)</code> defining the degrees of freedom subject to dirichlet boundary conditions. The actual boundary condition values should be stored in the <code>b</code> load array. This argument is <code>intent(in)</code>.</p>
+<p><code>rtol</code> and <code>atol</code> (optional): scalars of type <code>real(&lt;kind&gt;)</code> specifying the convergence test. For convergence, the following criterion is used <script type="math/tex"> || b - Ax ||^2 <= max(rtol^2 * || b ||^2 , atol^2 ) </script>. Default values are <code>rtol=1.e-5</code> and <code>atol=epsilon(1._&lt;kind&gt;)</code>. These arguments are <code>intent(in)</code>.</p>
+<p><code>maxiter</code> (optional): scalar of type <code>integer</code> defining the maximum allowed number of iterations. If no value is given, a default of <code>N</code> is set, where <code>N = size(b)</code>. This argument is <code>intent(in)</code>.</p>
+<p><code>restart</code> (optional): scalar of type <code>logical</code> indicating whether to restart the iteration with zero initial guess. Default is <code>.true.</code>. This argument is <code>intent(in)</code>.</p>
+<p><code>precond</code> (optional): scalar of type <code>integer</code> enabling to switch among the default preconditioners available with the following enum (<code>pc_none</code>, <code>pc_jacobi</code>). If no value is given, no preconditioning will be applied. This argument is <code>intent(in)</code>.</p>
+<p><code>M</code> (optional): scalar derived type of <code>class(stdlib_linop_&lt;kind&gt;_type)</code> defining a custom preconditioner linear operator. If given, <code>precond</code> will have no effect, and a pointer is set to this custom preconditioner. This argument is <code>intent(in)</code>.</p>
+<p><code>workspace</code> (optional): scalar derived type of <code>type(stdlib_solver_workspace_&lt;kind&gt;_type)</code> holding the work temporal array for the solver. If the user passes its own <code>workspace</code>, then internally a pointer is set to it, otherwise, memory will be internally allocated and deallocated before exiting the procedure. This argument is <code>intent(inout)</code>.</p>
+<h4 id="note_1">Note</h4>
+<p>BiCGSTAB is particularly effective for:
+- Non-symmetric linear systems
+- Systems where CG cannot be applied
+- Cases where BiCG suffers from irregular convergence</p>
+<p>The method uses 8 auxiliary vectors internally, requiring more memory than simpler methods but often providing better stability and convergence properties.</p>
+<h4 id="example-1">Example 1</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_solve_bicgstab</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_linalg_iterative_solvers</span>
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+
+<span class="w">    </span><span class="c">! Example matrix (same as SciPy documentation)</span>
+<span class="w">    </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="mf">4.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                 </span><span class="mf">3.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0_dp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                 </span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                 </span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">])</span>
+
+<span class="w">    </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">0.5_dp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0_dp</span><span class="p">]</span>
+
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="w">  </span><span class="c">! Initial guess</span>
+
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Solving Ax = b using BiCGSTAB method:&#39;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Matrix A:&#39;</span>
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(4F8.2)&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">i</span><span class="p">,:)</span>
+<span class="w">    </span><span class="k">end do</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Right-hand side b:&#39;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(4F8.2)&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">b</span>
+
+<span class="w">    </span><span class="c">! Solve using BiCGSTAB</span>
+<span class="w">    </span><span class="k">call </span><span class="n">stdlib_solve_bicgstab</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">rtol</span><span class="o">=</span><span class="mf">1e-10_dp</span><span class="p">,</span><span class="w"> </span><span class="n">atol</span><span class="o">=</span><span class="mf">1e-12_dp</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Solution x:&#39;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(4F10.6)&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span>
+
+<span class="w">    </span><span class="c">! Verify solution</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Verification A*x:&#39;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(4F10.6)&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Residual ||b - A*x||:&#39;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">))</span>
+
+<span class="k">end program</span><span class="w"> </span>
+</code></pre></div>
+
+<h4 id="example-2">Example 2</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_solve_bicgstab_wilkinson</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_linalg_iterative_solvers</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_sparse</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_sparse_spmv</span>
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">21</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">COO_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">COO</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">CSR_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">stdlib_solver_workspace_dp_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">workspace</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">norm_sq0</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+
+<span class="w">    </span><span class="c">! Construct the Wilkinson&#39;s matrix in COO format</span>
+<span class="w">    </span><span class="c">! https://en.wikipedia.org/wiki/Wilkinson_matrix</span>
+<span class="w">    </span><span class="k">call </span><span class="n">COO</span><span class="p">%</span><span class="n">malloc</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="w">    </span><span class="n">COO</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[(</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="n">i</span><span class="o">=-</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)]</span>
+<span class="w">    </span><span class="n">COO</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span>
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
+<span class="w">        </span><span class="n">COO</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">]</span>
+<span class="w">    </span><span class="k">end do</span>
+<span class="k">    do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="mi">1</span>
+<span class="w">        </span><span class="n">COO</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">+</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+<span class="w">        </span><span class="n">COO</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">+</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">]</span>
+<span class="w">    </span><span class="k">end do</span>
+<span class="k">    call </span><span class="n">coo2ordered</span><span class="p">(</span><span class="n">COO</span><span class="p">,</span><span class="n">sort_data</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+
+<span class="w">    </span><span class="c">! Convert COO to CSR format</span>
+<span class="w">    </span><span class="k">call </span><span class="n">coo2csr</span><span class="p">(</span><span class="n">COO</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! Set up the right-hand side for the solution to be ones</span>
+<span class="w">    </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span>
+<span class="w">    </span><span class="k">call </span><span class="n">spmv</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="c">! b = A * 1</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="w"> </span><span class="c">! initial guess</span>
+
+<span class="w">    </span><span class="c">! Solve the system using BiCGSTAB</span>
+<span class="w">    </span><span class="n">workspace</span><span class="p">%</span><span class="n">callback</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">my_logger</span>
+<span class="w">    </span><span class="k">call </span><span class="n">stdlib_solve_bicgstab</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">rtol</span><span class="o">=</span><span class="mf">1e-12_dp</span><span class="p">,</span><span class="w"> </span><span class="n">maxiter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">workspace</span><span class="o">=</span><span class="n">workspace</span><span class="p">)</span>
+
+<span class="k">contains </span>
+
+<span class="k">    subroutine </span><span class="n">my_logger</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">norm_sq</span><span class="p">,</span><span class="n">iter</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">norm_sq</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">iter</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">norm_sq0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">norm_sq</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Iteration: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; Residual: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">norm_sq</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; Relative: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">norm_sq</span><span class="o">/</span><span class="n">norm_sq0</span>
+<span class="w">    </span><span class="k">end subroutine</span>
+
+<span class="k">end program </span><span class="n">example_solve_bicgstab_wilkinson</span>
+</code></pre></div>
     </div>
   </div>
       <hr>
@@ -556,13 +722,13 @@
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>80a8164c</small></p>
+<br /><small>eb461537</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-09-26 11:16              </p>
+ on 2025-10-06 06:47              </p>
           </div>
         </div>
         <br>
