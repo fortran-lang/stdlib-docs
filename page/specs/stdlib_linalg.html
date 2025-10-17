@@ -541,6 +541,24 @@
 <li><a href="#example_40">Example</a></li>
 </ul>
 </li>
+<li><a href="#expm">expm - Computes the matrix exponential</a><ul>
+<li><a href="#status_43">Status</a></li>
+<li><a href="#description_43">Description</a></li>
+<li><a href="#syntax_43">Syntax</a></li>
+<li><a href="#arguments_42">Arguments</a></li>
+<li><a href="#return-value_36">Return value</a></li>
+<li><a href="#example_41">Example</a></li>
+</ul>
+</li>
+<li><a href="#matrix_exp">matrix_exp - Computes the matrix exponential</a><ul>
+<li><a href="#status_44">Status</a></li>
+<li><a href="#description_44">Description</a></li>
+<li><a href="#syntax_44">Syntax</a></li>
+<li><a href="#arguments_43">Arguments</a></li>
+<li><a href="#return-value_37">Return value</a></li>
+<li><a href="#example_42">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -2707,6 +2725,79 @@ If <code>err</code> is not present, exceptions trigger an <code>error stop</code
 <span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Infinity norms of matrices in b:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nb</span>
 <span class="k">end program </span><span class="n">example_mnorm</span>
 </code></pre></div>
+
+<h2 id="expm"><code>expm</code> - Computes the matrix exponential</h2>
+<h3 id="status_43">Status</h3>
+<p>Experimental</p>
+<h3 id="description_43">Description</h3>
+<p>Given a matrix <script type="math/tex">A</script>, this function computes its matrix exponential <script type="math/tex">E = \exp(A)</script> using a Pade approximation.</p>
+<h3 id="syntax_43">Syntax</h3>
+<p><code>E =</code> <a href="../../interface/expm.html">expm</a> <code>(a [, order])</code></p>
+<h3 id="arguments_42">Arguments</h3>
+<p><code>a</code>: Shall be a rank-2 <code>real</code> or <code>complex</code> array containing the data. It is an <code>intent(in)</code> argument.</p>
+<p><code>order</code> (optional): Shall be a non-negative <code>integer</code> value specifying the order of the Pade approximation. By default <code>order=10</code>. It is an <code>intent(in)</code> argument. </p>
+<h3 id="return-value_36">Return value</h3>
+<p>The returned array <code>E</code> contains the Pade approximation of <script type="math/tex">\exp(A)</script>.</p>
+<p>If <code>A</code> is non-square or <code>order</code> is negative, it raises a <code>LINALG_VALUE_ERROR</code>.</p>
+<h3 id="example_41">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_expm</span>
+<span class="w">   </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">expm</span>
+<span class="w">   </span><span class="k">implicit none</span>
+<span class="k">   </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">E</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">   </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+<span class="w">   </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">])</span>
+<span class="w">   </span><span class="n">E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expm</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Matrix A :&quot;</span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">   </span><span class="k">end do</span>
+
+<span class="k">   print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Matrix exponential E = exp(A):&quot;</span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">E</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">   </span><span class="k">end do</span>
+<span class="k">end program </span><span class="n">example_expm</span>
+</code></pre></div>
+
+<h2 id="matrix_exp"><code>matrix_exp</code> - Computes the matrix exponential</h2>
+<h3 id="status_44">Status</h3>
+<p>Experimental</p>
+<h3 id="description_44">Description</h3>
+<p>Given a matrix <script type="math/tex">A</script>, this function computes its matrix exponential <script type="math/tex">E = \exp(A)</script> using a Pade approximation.</p>
+<h3 id="syntax_44">Syntax</h3>
+<p><code>call</code> <a href="../../interface/matrix_exp.html">matrix_exp</a> <code>(a [, e, order, err])</code></p>
+<h3 id="arguments_43">Arguments</h3>
+<p><code>a</code>: Shall be a rank-2 <code>real</code> or <code>complex</code> array containing the data. If <code>e</code> is not passed, it is an <code>intent(inout)</code> argument and is overwritten on exit by the matrix exponential. If <code>e</code> is passed, it is an <code>intent(in)</code> argument and is left unchanged.</p>
+<p><code>e</code> (optional): Shall be a rank-2 <code>real</code> or <code>complex</code> array with the same dimensions as <code>a</code>. It is an <code>intent(out)</code> argument. On exit, it contains the matrix exponential of <code>a</code>.</p>
+<p><code>order</code> (optional): Shall be a non-negative <code>integer</code> value specifying the order of the Pade approximation. By default <code>order=10</code>. It is an <code>intent(in)</code> argument. </p>
+<p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument. </p>
+<h3 id="return-value_37">Return value</h3>
+<p>The returned array <code>A</code> (in-place) or <code>E</code> (out-of-place) contains the Pade approximation of <script type="math/tex">\exp(A)</script>.</p>
+<p>If <code>A</code> is non-square or <code>order</code> is negative, it raises a <code>LINALG_VALUE_ERROR</code>.
+If <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
+<h3 id="example_42">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_expm</span>
+<span class="w">   </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">matrix_exp</span>
+<span class="w">   </span><span class="k">implicit none</span>
+<span class="k">   </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">E</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">   </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Matrix A :&quot;</span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">   </span><span class="k">end do</span>
+
+<span class="k">   </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">])</span>
+<span class="w">   </span><span class="k">call </span><span class="n">matrix_exp</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="c">! In-place computation.</span>
+<span class="w">   </span><span class="c">! For out-of-place, use call matrix_exp(A, E).</span>
+
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Matrix exponential E = exp(A):&quot;</span>
+<span class="w">   </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">E</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">   </span><span class="k">end do</span>
+<span class="k">end program </span><span class="n">example_expm</span>
+</code></pre></div>
     </div>
   </div>
       <hr>
@@ -2715,13 +2806,13 @@ If <code>err</code> is not present, exceptions trigger an <code>error stop</code
       <div class="container">
         <div class="row justify-content-between">
           <div class="col"><p>Fortran-lang/stdlib was developed by fortran-lang/stdlib contributors<br>&copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>e5d296d8</small></p>
+<br /><small>7ee5aa8b</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2025-10-17 12:57              </p>
+ on 2025-10-17 13:18              </p>
           </div>
         </div>
         <br>
