@@ -208,6 +208,16 @@
 <li><a href="#output-value-or-result-value_3">Output value or Result value</a></li>
 </ul>
 </li>
+<li><a href="#stdlib_matmul-function">stdlib_matmul function</a><ul>
+<li><a href="#description_4">Description</a></li>
+<li><a href="#syntax_4">Syntax</a></li>
+<li><a href="#status_4">Status</a></li>
+<li><a href="#class_4">Class</a></li>
+<li><a href="#arguments_4">Argument(s)</a></li>
+<li><a href="#result">Result</a></li>
+<li><a href="#example_1">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -331,6 +341,41 @@
 
 <span class="k">end program </span><span class="n">example_dot_product</span>
 </code></pre></div>
+
+<h3 id="stdlib_matmul-function"><code>stdlib_matmul</code> function</h3>
+<h4 id="description_4">Description</h4>
+<p>The extension of the intrinsic function <code>matmul</code> to handle more than 2 and less than or equal to 5 matrices, with error handling using <code>linalg_state_type</code>.
+The optimal parenthesization to minimize the number of scalar multiplications is done using the Algorithm as outlined in Cormen, "Introduction to Algorithms", 4ed, ch-14, section-2.
+The actual matrix multiplication is performed using the <code>gemm</code> interfaces.
+It supports only <code>real</code> and <code>complex</code> matrices.</p>
+<h4 id="syntax_4">Syntax</h4>
+<p><code>res =</code> <a href="../../interface/stdlib_matmul.html">stdlib_matmul</a> <code>(m1, m2, m3, m4, m5, err)</code></p>
+<h4 id="status_4">Status</h4>
+<p>Experimental</p>
+<h4 id="class_4">Class</h4>
+<p>Function.</p>
+<h4 id="arguments_4">Argument(s)</h4>
+<p><code>m1</code>, <code>m2</code>: 2D arrays of the same kind and type. <code>intent(in)</code> arguments.
+<code>m3</code>,<code>m4</code>,<code>m5</code>: 2D arrays of the same kind and type as the other matrices. <code>intent(in), optional</code> arguments.
+<code>err</code>: <code>type(linalg_state_type), intent(out), optional</code> argument. Can be used for elegant error handling. It is assigned <code>LINALG_VALUE_ERROR</code> 
+        in case the matrices are not of compatible sizes.</p>
+<h4 id="result">Result</h4>
+<p>The output is a matrix of the appropriate size.</p>
+<h4 id="example_1">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_matmul</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_intrinsics</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">stdlib_matmul</span>
+<span class="w">    </span><span class="kt">complex</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">z</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)],</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">])</span><span class="w">  </span><span class="c">! pauli x-matrix</span>
+<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)],</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">])</span><span class="w"> </span><span class="c">! pauli y-matrix</span>
+<span class="w">    </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)],</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">])</span><span class="w"> </span><span class="c">! pauli z-matrix</span>
+
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">stdlib_matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="c">! should be iota*z</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">stdlib_matmul</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="c">! should be iota*identity</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">stdlib_matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="c">! should be -iota*x</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">stdlib_matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="c">! should be z</span>
+<span class="k">end program </span><span class="n">example_matmul</span>
+</code></pre></div>
     </div>
   </div>
       <hr>
@@ -342,13 +387,13 @@
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>17a320af</small></p>
+<br /><small>9da8d33e</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-04 19:36 +0000             </p>
+ on 2026-01-09 08:55 +0000             </p>
           </div>
         </div>
         <br>
