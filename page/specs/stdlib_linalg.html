@@ -788,7 +788,7 @@ to the original.</p>
 <h3 id="description_1">Description</h3>
 <p>Create a diagonal array or extract the diagonal elements of an array</p>
 <h3 id="syntax_1">Syntax</h3>
-<p><code>d =</code> <a href="../../interface/diag.html">diag</a> <code>(a [, k])</code></p>
+<p><code>d =</code> <a href="../../interface/diag~2.html">diag</a> <code>(a [, k])</code></p>
 <h3 id="arguments">Arguments</h3>
 <p><code>a</code>: Shall be a rank-1 or or rank-2 array. If <code>a</code> is a rank-1 array (i.e. a vector) then <code>diag</code> returns a rank-2 array with the elements of <code>a</code> on the diagonal. If <code>a</code> is a rank-2 array (i.e. a matrix) then <code>diag</code> returns a rank-1 array of the diagonal elements.</p>
 <p><code>k</code> (optional): Shall be a scalar of type <code>integer</code> and specifies the diagonal. The default <code>k = 0</code> represents the main diagonal, <code>k &gt; 0</code> are diagonals above the main diagonal, <code>k &lt; 0</code> are diagonals below the main diagonal.</p>
@@ -1115,7 +1115,7 @@ Note that nonsquare matrices may be diagonal, so long as <code>a_ij = 0</code> w
 For <code>complex</code> matrices, the function returns the conjugate transpose (<code>conjg(transpose(a))</code>). 
 For <code>real</code> or <code>integer</code> matrices, the function returns the transpose (<code>transpose(a)</code>).</p>
 <h3 id="syntax_11">Syntax</h3>
-<p><code>h =</code> <a href="../../interface/hermitian.html">hermitian</a> <code>(a)</code></p>
+<p><code>h =</code> <a href="../../interface/hermitian~2.html">hermitian</a> <code>(a)</code></p>
 <h3 id="arguments_10">Arguments</h3>
 <p><code>a</code>: Shall be a rank-2 array of type <code>integer</code>, <code>real</code>, or <code>complex</code>. The input matrix <code>a</code> is not modified.</p>
 <h3 id="return-value_10">Return value</h3>
@@ -1723,16 +1723,17 @@ Because the lower rows of <script type="math/tex"> R </script> are zeros, a redu
 the input arguments determines what problem is solved: on full matrices (<code>shape(Q)==[m,m]</code>, <code>shape(R)==[m,n]</code>), 
 the full problem is solved. On reduced matrices (<code>shape(Q)==[m,k]</code>, <code>shape(R)==[k,n]</code>), the reduced problem is solved.</p>
 <h3 id="syntax_25">Syntax</h3>
-<p><code>call</code> <a href="../../interface/qr.html">qr</a> <code>(a, q, r, [, storage] [, overwrite_a] [, err])</code></p>
+<p><code>call</code> <a href="../../interface/qr.html">qr</a> <code>(a, q, r [, pivots] [, overwrite_a] [, storage] [, err])</code></p>
 <h3 id="arguments_24">Arguments</h3>
 <p><code>a</code>: Shall be a rank-2 <code>real</code> or <code>complex</code> array containing the coefficient matrix of size <code>[m,n]</code>. It is an <code>intent(in)</code> argument, if <code>overwrite_a=.false.</code>. Otherwise, it is an <code>intent(inout)</code> argument, and is destroyed upon return.</p>
 <p><code>q</code>: Shall be a rank-2 array of the same kind as <code>a</code>, containing the orthonormal matrix <code>q</code>. It is an <code>intent(out)</code> argument. It should have a shape equal to either <code>[m,m]</code> or <code>[m,k]</code>, whether the full or the reduced problem is sought for.</p>
 <p><code>r</code>: Shall be a rank-2 array of the same kind as <code>a</code>, containing the upper triangular matrix <code>r</code>. It is an <code>intent(out)</code> argument. It should have a shape equal to either <code>[m,n]</code> or <code>[k,n]</code>, whether the full or the reduced problem is sought for.</p>
-<p><code>storage</code> (optional): Shall be a rank-1 array of the same type and kind as <code>a</code>, providing working storage for the solver. Its minimum size can be determined with a call to <a href="../../interface/qr_space.html">qr_space</a>. It is an <code>intent(out)</code> argument.</p>
+<p><code>pivots</code> (optional): Shall be an <code>integer</code> array of size <code>n</code>. If provided, QR factorization with column-pivoting is being computed. It is an <code>intent(out)</code> argument.</p>
 <p><code>overwrite_a</code> (optional): Shall be an input <code>logical</code> flag (default: <code>.false.</code>). If <code>.true.</code>, input matrix <code>a</code> will be used as temporary storage and overwritten. This avoids internal data allocation. It is an <code>intent(in)</code> argument.</p>
+<p><code>storage</code> (optional): Shall be a rank-1 array of the same type and kind as <code>a</code>, providing working storage for the solver. Its minimum size can be determined with a call to <a href="../../interface/qr_space.html">qr_space</a>. It is an <code>intent(out)</code> argument.</p>
 <p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. It is an <code>intent(out)</code> argument.</p>
 <h3 id="return-value_21">Return value</h3>
-<p>Returns the QR factorization matrices into the <script type="math/tex"> Q </script> and <script type="math/tex"> R </script> arguments. </p>
+<p>Returns the QR factorization matrices into the <script type="math/tex"> Q </script> and <script type="math/tex"> R </script> arguments and the optional pivots in <code>pivots</code>.</p>
 <p>Raises <code>LINALG_VALUE_ERROR</code> if any of the matrices has invalid or unsuitable size for the full/reduced problem.
 Raises <code>LINALG_ERROR</code> on insufficient user storage space.
 If the state argument <code>err</code> is not present, exceptions trigger an <code>error stop</code>.</p>
@@ -1752,6 +1753,23 @@ If the state argument <code>err</code> is not present, exceptions trigger an <co
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">maxval</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="nb">matmul</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span><span class="n">R</span><span class="p">)</span><span class="o">-</span><span class="n">A</span><span class="p">))</span><span class="w"> </span>
 
 <span class="k">end program </span><span class="n">example_qr</span>
+
+<span class="k">program </span><span class="n">example_pivoting_qr</span>
+<span class="w">   </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">qr</span>
+<span class="w">   </span><span class="k">implicit none</span>
+<span class="k">   </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="mi">104</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">),</span><span class="w"> </span><span class="n">Q</span><span class="p">(</span><span class="mi">104</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">),</span><span class="w"> </span><span class="n">R</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span>
+<span class="w">   </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pivots</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+
+<span class="w">   </span><span class="c">! Create a random matrix</span>
+<span class="w">   </span><span class="k">call </span><span class="nb">random_number</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="w">   </span><span class="c">! Compute its QR factorization (reduced)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">qr</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">Q</span><span class="p">,</span><span class="w"> </span><span class="n">R</span><span class="p">,</span><span class="w"> </span><span class="n">pivots</span><span class="p">)</span>
+
+<span class="w">   </span><span class="c">! Test factorization: Q*R = A</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">maxval</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="nb">matmul</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span><span class="w"> </span><span class="n">R</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">A</span><span class="p">(:,</span><span class="w"> </span><span class="n">pivots</span><span class="p">)))</span>
+
+<span class="k">end program </span><span class="n">example_pivoting_qr</span>
 </code></pre></div>
 
 <h2 id="qr_space-compute-internal-working-space-requirements-for-the-qr-factorization"><code>qr_space</code> - Compute internal working space requirements for the QR factorization.</h2>
@@ -1760,10 +1778,11 @@ If the state argument <code>err</code> is not present, exceptions trigger an <co
 <h3 id="description_26">Description</h3>
 <p>This subroutine computes the internal working space requirements for the QR factorization, <a href="../../interface/qr.html">qr</a> .</p>
 <h3 id="syntax_26">Syntax</h3>
-<p><code>call</code> <a href="../../interface/qr_space.html">qr_space</a> <code>(a, lwork, [, err])</code></p>
+<p><code>call</code> <a href="../../interface/qr_space.html">qr_space</a> <code>(a, lwork, [, pivoting] [, err])</code></p>
 <h3 id="arguments_25">Arguments</h3>
 <p><code>a</code>: Shall be a rank-2 <code>real</code> or <code>complex</code> array containing the coefficient matrix. It is an <code>intent(in)</code> argument.</p>
 <p><code>lwork</code>: Shall be an <code>integer</code> scalar, that returns the minimum array size required for the working storage in <a href="../../interface/qr.html">qr</a> to factorize <code>a</code>.</p>
+<p><code>pivoting</code> (optional): Shall a <code>logical</code> flag (default: <code>.false.</code>). If <code>.true.</code>, on exit <code>lwork</code> is the optimal workspace size for the QR factorization with column pivoting. If <code>.false.</code>, <code>lwork</code> is the optimal workspace size for the standard QR factorization. It is an <code>intent(in)</code> argument.</p>
 <p><code>err</code> (optional): Shall be a <code>type(linalg_state_type)</code> value. This is an <code>intent(out)</code> argument.</p>
 <h3 id="example_24">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="c">! QR example with pre-allocated storage</span>
@@ -1791,6 +1810,32 @@ If the state argument <code>err</code> is not present, exceptions trigger an <co
 <span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span><span class="w"> </span>
 
 <span class="k">end program </span><span class="n">example_qr_space</span>
+
+<span class="c">! Pivoting QR example with pre-allocated storage</span>
+<span class="k">program </span><span class="n">example_pivoting_qr_space</span>
+<span class="w">   </span><span class="k">use </span><span class="n">stdlib_linalg_constants</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">ilp</span>
+<span class="w">   </span><span class="k">use </span><span class="n">stdlib_linalg</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">qr</span><span class="p">,</span><span class="w"> </span><span class="n">qr_space</span><span class="p">,</span><span class="w"> </span><span class="n">linalg_state_type</span>
+<span class="w">   </span><span class="k">implicit none</span>
+<span class="k">   </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="mi">104</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">),</span><span class="w"> </span><span class="n">Q</span><span class="p">(</span><span class="mi">104</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">),</span><span class="w"> </span><span class="n">R</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span>
+<span class="w">   </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">work</span><span class="p">(:)</span>
+<span class="w">   </span><span class="kt">integer</span><span class="p">(</span><span class="n">ilp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lwork</span><span class="p">,</span><span class="w"> </span><span class="n">pivots</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+<span class="w">   </span><span class="k">type</span><span class="p">(</span><span class="n">linalg_state_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+
+<span class="w">   </span><span class="c">! Create a random matrix</span>
+<span class="w">   </span><span class="k">call </span><span class="nb">random_number</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="w">   </span><span class="c">! Prepare QR workspace</span>
+<span class="w">   </span><span class="k">call </span><span class="n">qr_space</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">lwork</span><span class="p">,</span><span class="w"> </span><span class="n">pivoting</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="w">   </span><span class="k">allocate</span><span class="w"> </span><span class="p">(</span><span class="n">work</span><span class="p">(</span><span class="n">lwork</span><span class="p">))</span>
+
+<span class="w">   </span><span class="c">! Compute its QR factorization (reduced)</span>
+<span class="w">   </span><span class="k">call </span><span class="n">qr</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">Q</span><span class="p">,</span><span class="w"> </span><span class="n">R</span><span class="p">,</span><span class="w"> </span><span class="n">pivots</span><span class="p">,</span><span class="w"> </span><span class="n">storage</span><span class="o">=</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="o">=</span><span class="n">err</span><span class="p">)</span>
+
+<span class="w">   </span><span class="c">! Test factorization: Q*R = A</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">maxval</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="nb">matmul</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span><span class="w"> </span><span class="n">R</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">A</span><span class="p">(:,</span><span class="w"> </span><span class="n">pivots</span><span class="p">)))</span>
+<span class="w">   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
+
+<span class="k">end program </span><span class="n">example_pivoting_qr_space</span>
 </code></pre></div>
 
 <h2 id="schur-compute-the-schur-decomposition-of-a-matrix"><code>schur</code> - Compute the Schur decomposition of a matrix</h2>
@@ -3004,13 +3049,13 @@ If <code>err</code> is not present, exceptions trigger an <code>error stop</code
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>6e8669d1</small></p>
+<br /><small>9a52f836</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-14 16:15 +0000             </p>
+ on 2026-01-20 15:36 +0000             </p>
           </div>
         </div>
         <br>
