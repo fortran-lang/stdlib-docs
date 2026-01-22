@@ -93,20 +93,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 52 statements,  0.1% of total for procedures.">20 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 66 statements,  0.1% of total for procedures.">66 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/stdlib_linalg_blas.fypp"> Source File</a>
+              <a href="../src/stdlib_specialmatrices.fypp"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_linalg_blas.fypp.html'>stdlib_linalg_blas.fypp</a></li>
-                <li class="breadcrumb-item"><a href='../module/stdlib_linalg_blas.html'>stdlib_linalg_blas</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_specialmatrices.fypp.html'>stdlib_specialmatrices.fypp</a></li>
+                <li class="breadcrumb-item"><a href='../module/stdlib_specialmatrices.html'>stdlib_specialmatrices</a></li>
             <li class="breadcrumb-item active" aria-current="page">spmv</li>
           </ol>
         </nav>
@@ -146,8 +146,14 @@
       </a>
       <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/spmv~4.html#proc-dspmv">dspmv</a>
-            <a class="list-group-item" href="../interface/spmv~4.html#proc-sspmv">sspmv</a>
+            <a class="list-group-item" href="../interface/spmv~4.html#proc-spmv_tridiag_1d_cdp">spmv_tridiag_1d_cdp</a>
+            <a class="list-group-item" href="../interface/spmv~4.html#proc-spmv_tridiag_1d_csp">spmv_tridiag_1d_csp</a>
+            <a class="list-group-item" href="../interface/spmv~4.html#proc-spmv_tridiag_1d_dp">spmv_tridiag_1d_dp</a>
+            <a class="list-group-item" href="../interface/spmv~4.html#proc-spmv_tridiag_1d_sp">spmv_tridiag_1d_sp</a>
+            <a class="list-group-item" href="../interface/spmv~4.html#proc-spmv_tridiag_2d_cdp">spmv_tridiag_2d_cdp</a>
+            <a class="list-group-item" href="../interface/spmv~4.html#proc-spmv_tridiag_2d_csp">spmv_tridiag_2d_csp</a>
+            <a class="list-group-item" href="../interface/spmv~4.html#proc-spmv_tridiag_2d_dp">spmv_tridiag_2d_dp</a>
+            <a class="list-group-item" href="../interface/spmv~4.html#proc-spmv_tridiag_2d_sp">spmv_tridiag_2d_sp</a>
         </div>
       </div>
     </div>
@@ -157,19 +163,7 @@
   
   
   
-      <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#modprocs-0"
-         aria-expanded="false" aria-controls="modprocs-0">
-         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
-      </a>
-      <div id="modprocs-0" class="collapse">
-        <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/spmv~4.html#moduleprocedure-stdlib_dspmv">stdlib_dspmv</a>
-            <a class="list-group-item" href="../interface/spmv~4.html#moduleprocedure-stdlib_sspmv">stdlib_sspmv</a>
-        </div>
-      </div>
-    </div>
-
+  
   
 
 
@@ -179,15 +173,17 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface spmv</h2>
-      <p>SPMV performs the matrix-vector operation
-y := alpha<em>A</em>x + beta*y,
-where alpha and beta are scalars, x and y are n element vectors and
-A is an n by n symmetric matrix, supplied in packed form.</p>
+      <p>(<a href="../page/specs/stdlib_specialmatrices.html#spmv">Specifications</a>) This
+interface provides methods to compute the matrix-vector product</p>
+<p>
+<script type="math/tex; mode=display"> y = \alpha \mathrm{op}(A) x + \beta y</script>
+</p>
+<p>for the different matrix types defined by <code>stdlib_specialmatrices</code>.</p>
 <br>
 
         <h2>Subroutines</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dspmv"></span> <h3>public pure subroutine dspmv(uplo, n, alpha, ap, x, incx, beta, y, incy)  
+    <div class="card-header codesum"><span class="anchor" id="proc-spmv_tridiag_1d_cdp"></span> <h3>private module subroutine spmv_tridiag_1d_cdp(A, x, y, alpha, beta, op)  
 </h3></div>
     <div class="card-body">
         
@@ -205,41 +201,56 @@ A is an n by n symmetric matrix, supplied in packed form.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~2220"></span>
-              character(len=1),
+              <span class="anchor" id="variable-a~177"></span>
+              type(<a href='../type/tridiagonal_cdp_type.html'>tridiagonal_cdp_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>uplo</strong></td>
+            <td><strong>A</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~6013"></span>
-              integer(kind=ilp),
+              <span class="anchor" id="variable-x~1971"></span>
+              complex(kind=dp),
             </td>
-<td>intent(in)</td>
+<td>intent(in),</td>
               <td></td>            <td>
-              
+              contiguous, target
             </td>
             <td>::</td>
-            <td><strong>n</strong></td>
+            <td><strong>x</strong>(:)</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~646"></span>
-              real(kind=dp),
+              <span class="anchor" id="variable-y~542"></span>
+              complex(kind=dp),
             </td>
-<td>intent(in)</td>
+<td>intent(inout),</td>
               <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>y</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~573"></span>
+              complex(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
               
             </td>
             <td>::</td>
@@ -250,56 +261,11 @@ A is an n by n symmetric matrix, supplied in packed form.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ap~547"></span>
-              real(kind=dp),
+              <span class="anchor" id="variable-beta~405"></span>
+              complex(kind=dp),
             </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ap</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-x~2277"></span>
-              real(kind=dp),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>x</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-incx~476"></span>
-              integer(kind=ilp),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>incx</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-beta~455"></span>
-              real(kind=dp),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
               
             </td>
             <td>::</td>
@@ -310,30 +276,15 @@ A is an n by n symmetric matrix, supplied in packed form.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-y~574"></span>
-              real(kind=dp),
+              <span class="anchor" id="variable-op~69"></span>
+              character(len=1),
             </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>y</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-incy~266"></span>
-              integer(kind=ilp),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>incy</strong></td>
+            <td><strong>op</strong></td>
             <td>
                 
             </td>
@@ -346,7 +297,7 @@ A is an n by n symmetric matrix, supplied in packed form.</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-sspmv"></span> <h3>public pure subroutine sspmv(uplo, n, alpha, ap, x, incx, beta, y, incy)  
+    <div class="card-header codesum"><span class="anchor" id="proc-spmv_tridiag_1d_csp"></span> <h3>private module subroutine spmv_tridiag_1d_csp(A, x, y, alpha, beta, op)  
 </h3></div>
     <div class="card-body">
         
@@ -364,41 +315,56 @@ A is an n by n symmetric matrix, supplied in packed form.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~2221"></span>
-              character(len=1),
+              <span class="anchor" id="variable-a~175"></span>
+              type(<a href='../type/tridiagonal_csp_type.html'>tridiagonal_csp_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>uplo</strong></td>
+            <td><strong>A</strong></td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~6014"></span>
-              integer(kind=ilp),
+              <span class="anchor" id="variable-x~1969"></span>
+              complex(kind=sp),
             </td>
-<td>intent(in)</td>
+<td>intent(in),</td>
               <td></td>            <td>
-              
+              contiguous, target
             </td>
             <td>::</td>
-            <td><strong>n</strong></td>
+            <td><strong>x</strong>(:)</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~647"></span>
-              real(kind=sp),
+              <span class="anchor" id="variable-y~540"></span>
+              complex(kind=sp),
             </td>
-<td>intent(in)</td>
+<td>intent(inout),</td>
               <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>y</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~571"></span>
+              complex(kind=sp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
               
             </td>
             <td>::</td>
@@ -409,56 +375,11 @@ A is an n by n symmetric matrix, supplied in packed form.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ap~548"></span>
-              real(kind=sp),
+              <span class="anchor" id="variable-beta~403"></span>
+              complex(kind=sp),
             </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ap</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-x~2278"></span>
-              real(kind=sp),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>x</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-incx~477"></span>
-              integer(kind=ilp),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>incx</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-beta~456"></span>
-              real(kind=sp),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
               
             </td>
             <td>::</td>
@@ -469,30 +390,15 @@ A is an n by n symmetric matrix, supplied in packed form.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-y~575"></span>
-              real(kind=sp),
+              <span class="anchor" id="variable-op~67"></span>
+              character(len=1),
             </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>y</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-incy~267"></span>
-              integer(kind=ilp),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>incy</strong></td>
+            <td><strong>op</strong></td>
             <td>
                 
             </td>
@@ -504,33 +410,690 @@ A is an n by n symmetric matrix, supplied in packed form.</p>
     </div>
   </div>
 
-
-        <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-stdlib_dspmv"></span> <h3>public  interface <a href='stdlib_dspmv.html'>stdlib_dspmv</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-spmv_tridiag_1d_dp"></span> <h3>private module subroutine spmv_tridiag_1d_dp(A, x, y, alpha, beta, op)  
 </h3></div>
     <div class="card-body">
-          
-  
+        
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~173"></span>
+              type(<a href='../type/tridiagonal_dp_type.html'>tridiagonal_dp_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~1967"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~538"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>y</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~569"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta~401"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>beta</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-op~65"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>op</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-stdlib_sspmv"></span> <h3>public  interface <a href='stdlib_sspmv.html'>stdlib_sspmv</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-spmv_tridiag_1d_sp"></span> <h3>private module subroutine spmv_tridiag_1d_sp(A, x, y, alpha, beta, op)  
 </h3></div>
     <div class="card-body">
-          
-  
+        
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~171"></span>
+              type(<a href='../type/tridiagonal_sp_type.html'>tridiagonal_sp_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~1965"></span>
+              real(kind=sp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~536"></span>
+              real(kind=sp),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>y</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~567"></span>
+              real(kind=sp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta~399"></span>
+              real(kind=sp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>beta</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-op~63"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>op</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
 
     </div>
   </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-spmv_tridiag_2d_cdp"></span> <h3>private module subroutine spmv_tridiag_2d_cdp(A, x, y, alpha, beta, op)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~178"></span>
+              type(<a href='../type/tridiagonal_cdp_type.html'>tridiagonal_cdp_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~1972"></span>
+              complex(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~543"></span>
+              complex(kind=dp),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>y</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~574"></span>
+              complex(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta~406"></span>
+              complex(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>beta</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-op~70"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>op</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-spmv_tridiag_2d_csp"></span> <h3>private module subroutine spmv_tridiag_2d_csp(A, x, y, alpha, beta, op)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~176"></span>
+              type(<a href='../type/tridiagonal_csp_type.html'>tridiagonal_csp_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~1970"></span>
+              complex(kind=sp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~541"></span>
+              complex(kind=sp),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>y</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~572"></span>
+              complex(kind=sp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta~404"></span>
+              complex(kind=sp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>beta</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-op~68"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>op</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-spmv_tridiag_2d_dp"></span> <h3>private module subroutine spmv_tridiag_2d_dp(A, x, y, alpha, beta, op)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~174"></span>
+              type(<a href='../type/tridiagonal_dp_type.html'>tridiagonal_dp_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~1968"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~539"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>y</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~570"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta~402"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>beta</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-op~66"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>op</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-spmv_tridiag_2d_sp"></span> <h3>private module subroutine spmv_tridiag_2d_sp(A, x, y, alpha, beta, op)  
+</h3></div>
+    <div class="card-body">
+        
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~172"></span>
+              type(<a href='../type/tridiagonal_sp_type.html'>tridiagonal_sp_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~1966"></span>
+              real(kind=sp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~537"></span>
+              real(kind=sp),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>y</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~568"></span>
+              real(kind=sp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta~400"></span>
+              real(kind=sp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>beta</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-op~64"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>op</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
 
 </div>
   </div>
@@ -543,13 +1106,13 @@ A is an n by n symmetric matrix, supplied in packed form.</p>
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>f43e6f16</small></p>
+<br /><small>9d4d1a8d</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-01-22 22:22 +0000             </p>
+ on 2026-01-22 22:25 +0000             </p>
           </div>
         </div>
         <br>
