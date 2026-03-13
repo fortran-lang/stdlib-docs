@@ -93,7 +93,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">11 statements</a>
+                 title=" 0.0% of total for procedures.">16 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -160,11 +160,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public pure subroutine linalg_error_handling(ierr, ierr_out)  
+    <h2>public pure subroutine linalg_error_handling(ierr, ierr_out, where_at)  
 </h2>
     
 
-    <p>Flow control: on output flag present, return it; otherwise, halt on error</p>
+    <p>Flow control: on output flag present, return it; otherwise, halt on error
+If where_at is provided, update the error location before returning/stopping</p>
 
 
     <h3>Arguments</h3>
@@ -180,7 +181,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-ierr~119"></span>
+              <span class="anchor" id="variable-ierr~21"></span>
               type(<a href='../type/linalg_state_type.html'>linalg_state_type</a>),
             </td>
 <td>intent(in)</td>
@@ -195,7 +196,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ierr_out~2"></span>
+              <span class="anchor" id="variable-ierr_out"></span>
               type(<a href='../type/linalg_state_type.html'>linalg_state_type</a>),
             </td>
 <td>intent(out),</td>
@@ -204,6 +205,21 @@
             </td>
             <td>::</td>
             <td><strong>ierr_out</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-where_at"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>where_at</strong></td>
             <td>
                 
             </td>
@@ -225,17 +241,24 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">linalg_error_handling</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="n">ierr_out</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">     </span><span class="k">pure subroutine </span><span class="n">linalg_error_handling</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="n">ierr_out</span><span class="p">,</span><span class="n">where_at</span><span class="p">)</span>
 <span class="w">         </span><span class="k">type</span><span class="p">(</span><span class="n">linalg_state_type</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ierr</span>
 <span class="w">         </span><span class="k">type</span><span class="p">(</span><span class="n">linalg_state_type</span><span class="p">),</span><span class="k">optional</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ierr_out</span>
+<span class="w">         </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">optional</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">where_at</span>
 
 <span class="w">         </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err_msg</span>
+<span class="w">         </span><span class="k">type</span><span class="p">(</span><span class="n">linalg_state_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">local_err</span>
 
 <span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">ierr_out</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
 <span class="w">             </span><span class="c">! Return error flag</span>
 <span class="w">             </span><span class="n">ierr_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ierr</span>
+<span class="w">             </span><span class="c">! Update location if requested (update_location handles optional internally)</span>
+<span class="w">             </span><span class="k">call </span><span class="n">ierr_out</span><span class="p">%</span><span class="n">update_location</span><span class="p">(</span><span class="n">where_at</span><span class="p">)</span>
 <span class="w">         </span><span class="k">elseif</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
-<span class="k">             </span><span class="n">err_msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ierr</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
+<span class="w">             </span><span class="c">! Use local copy to update location, then print</span>
+<span class="w">             </span><span class="n">local_err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ierr</span>
+<span class="w">             </span><span class="k">call </span><span class="n">local_err</span><span class="p">%</span><span class="n">update_location</span><span class="p">(</span><span class="n">where_at</span><span class="p">)</span>
+<span class="w">             </span><span class="n">err_msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
 <span class="w">             </span><span class="k">error stop </span><span class="n">err_msg</span>
 <span class="w">         </span><span class="k">end if</span>
 
@@ -257,13 +280,13 @@
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>b6086cef</small></p>
+<br /><small>eeeadbf8</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-12 11:20 +0000             </p>
+ on 2026-03-13 07:42 +0000             </p>
           </div>
         </div>
         <br>

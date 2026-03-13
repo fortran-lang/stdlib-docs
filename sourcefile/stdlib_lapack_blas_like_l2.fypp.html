@@ -93,7 +93,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.8% of total for source files.">2996 statements</a>
+                 title=" 0.8% of total for source files.">3036 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -5855,7 +5855,54 @@
 <a id="ln-5681" name="ln-5681" href="#ln-5681"></a>
 <a id="ln-5682" name="ln-5682" href="#ln-5682"></a>
 <a id="ln-5683" name="ln-5683" href="#ln-5683"></a><span class="cp">#:endfor</span>
-<a id="ln-5684" name="ln-5684" href="#ln-5684"></a><span class="k">end submodule </span><span class="n">stdlib_lapack_blas_like_l2</span>
+<a id="ln-5684" name="ln-5684" href="#ln-5684"></a>
+<a id="ln-5685" name="ln-5685" href="#ln-5685"></a><span class="c">! LASCL2 performs diagonal scaling on a matrix: X(i,:) = D(i) * X(i,:)</span>
+<a id="ln-5686" name="ln-5686" href="#ln-5686"></a><span class="cp">#:for ik,it,ii in LINALG_INT_KINDS_TYPES</span>
+<a id="ln-5687" name="ln-5687" href="#ln-5687"></a><span class="cp">#:for rk,rt,ri in REAL_KINDS_TYPES</span>
+<a id="ln-5688" name="ln-5688" href="#ln-5688"></a><span class="w">     </span><span class="k">pure module subroutine </span><span class="n">stdlib$</span><span class="err">{</span><span class="n">ii</span><span class="err">}$_${</span><span class="n">ri</span><span class="err">}$</span><span class="n">lascl2</span><span class="p">(</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">ldx</span><span class="w"> </span><span class="p">)</span>
+<a id="ln-5689" name="ln-5689" href="#ln-5689"></a><span class="w">        </span><span class="c">!! LASCL2 performs a diagonal scaling on a matrix:</span>
+<a id="ln-5690" name="ln-5690" href="#ln-5690"></a><span class="w">        </span><span class="c">!! X(i,j) = D(i) * X(i,j), for i = 1,...,M and j = 1,...,N.</span>
+<a id="ln-5691" name="ln-5691" href="#ln-5691"></a><span class="w">        </span><span class="c">!! D is a vector of length M containing the diagonal scaling factors.</span>
+<a id="ln-5692" name="ln-5692" href="#ln-5692"></a><span class="w">           </span><span class="c">! Scalar Arguments</span>
+<a id="ln-5693" name="ln-5693" href="#ln-5693"></a><span class="w">           </span><span class="kt">integer</span><span class="p">(</span><span class="err">${</span><span class="n">ik</span><span class="err">}$</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">ldx</span>
+<a id="ln-5694" name="ln-5694" href="#ln-5694"></a><span class="w">           </span><span class="c">! Array Arguments</span>
+<a id="ln-5695" name="ln-5695" href="#ln-5695"></a><span class="w">           </span><span class="kt">real</span><span class="p">(</span><span class="err">${</span><span class="n">rk</span><span class="err">}$</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">d</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<a id="ln-5696" name="ln-5696" href="#ln-5696"></a><span class="w">           </span><span class="kt">real</span><span class="p">(</span><span class="err">${</span><span class="n">rk</span><span class="err">}$</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">ldx</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a id="ln-5697" name="ln-5697" href="#ln-5697"></a><span class="w">        </span><span class="c">! =====================================================================</span>
+<a id="ln-5698" name="ln-5698" href="#ln-5698"></a><span class="w">           </span><span class="c">! Local Scalars</span>
+<a id="ln-5699" name="ln-5699" href="#ln-5699"></a><span class="w">           </span><span class="kt">integer</span><span class="p">(</span><span class="err">${</span><span class="n">ik</span><span class="err">}$</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span>
+<a id="ln-5700" name="ln-5700" href="#ln-5700"></a><span class="w">           </span><span class="c">! Executable Statements</span>
+<a id="ln-5701" name="ln-5701" href="#ln-5701"></a><span class="w">           </span><span class="k">do</span><span class="w"> </span><span class="k">concurrent</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="p">)</span>
+<a id="ln-5702" name="ln-5702" href="#ln-5702"></a><span class="w">              </span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+<a id="ln-5703" name="ln-5703" href="#ln-5703"></a><span class="w">           </span><span class="k">end do</span>
+<a id="ln-5704" name="ln-5704" href="#ln-5704"></a><span class="k">           return</span>
+<a id="ln-5705" name="ln-5705" href="#ln-5705"></a><span class="k">     end subroutine </span><span class="n">stdlib$</span><span class="err">{</span><span class="n">ii</span><span class="err">}$_${</span><span class="n">ri</span><span class="err">}$</span><span class="n">lascl2</span>
+<a id="ln-5706" name="ln-5706" href="#ln-5706"></a>
+<a id="ln-5707" name="ln-5707" href="#ln-5707"></a><span class="cp">#:endfor</span>
+<a id="ln-5708" name="ln-5708" href="#ln-5708"></a><span class="cp">#:for ck,ct,ci in CMPLX_KINDS_TYPES</span>
+<a id="ln-5709" name="ln-5709" href="#ln-5709"></a><span class="w">     </span><span class="k">pure module subroutine </span><span class="n">stdlib$</span><span class="err">{</span><span class="n">ii</span><span class="err">}$_${</span><span class="n">ci</span><span class="err">}$</span><span class="n">lascl2</span><span class="p">(</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">ldx</span><span class="w"> </span><span class="p">)</span>
+<a id="ln-5710" name="ln-5710" href="#ln-5710"></a><span class="w">        </span><span class="c">!! LASCL2 performs a diagonal scaling on a matrix:</span>
+<a id="ln-5711" name="ln-5711" href="#ln-5711"></a><span class="w">        </span><span class="c">!! X(i,j) = D(i) * X(i,j), for i = 1,...,M and j = 1,...,N.</span>
+<a id="ln-5712" name="ln-5712" href="#ln-5712"></a><span class="w">        </span><span class="c">!! D is a vector of length M containing the diagonal scaling factors.</span>
+<a id="ln-5713" name="ln-5713" href="#ln-5713"></a><span class="w">           </span><span class="c">! Scalar Arguments</span>
+<a id="ln-5714" name="ln-5714" href="#ln-5714"></a><span class="w">           </span><span class="kt">integer</span><span class="p">(</span><span class="err">${</span><span class="n">ik</span><span class="err">}$</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">ldx</span>
+<a id="ln-5715" name="ln-5715" href="#ln-5715"></a><span class="w">           </span><span class="c">! Array Arguments</span>
+<a id="ln-5716" name="ln-5716" href="#ln-5716"></a><span class="w">           </span><span class="kt">real</span><span class="p">(</span><span class="err">${</span><span class="n">ck</span><span class="err">}$</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">d</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<a id="ln-5717" name="ln-5717" href="#ln-5717"></a><span class="w">           </span><span class="kt">complex</span><span class="p">(</span><span class="err">${</span><span class="n">ck</span><span class="err">}$</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">ldx</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a id="ln-5718" name="ln-5718" href="#ln-5718"></a><span class="w">        </span><span class="c">! =====================================================================</span>
+<a id="ln-5719" name="ln-5719" href="#ln-5719"></a><span class="w">           </span><span class="c">! Local Scalars</span>
+<a id="ln-5720" name="ln-5720" href="#ln-5720"></a><span class="w">           </span><span class="kt">integer</span><span class="p">(</span><span class="err">${</span><span class="n">ik</span><span class="err">}$</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span>
+<a id="ln-5721" name="ln-5721" href="#ln-5721"></a><span class="w">           </span><span class="c">! Executable Statements</span>
+<a id="ln-5722" name="ln-5722" href="#ln-5722"></a><span class="w">           </span><span class="k">do</span><span class="w"> </span><span class="k">concurrent</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="p">)</span>
+<a id="ln-5723" name="ln-5723" href="#ln-5723"></a><span class="w">              </span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+<a id="ln-5724" name="ln-5724" href="#ln-5724"></a><span class="w">           </span><span class="k">end do</span>
+<a id="ln-5725" name="ln-5725" href="#ln-5725"></a><span class="k">           return</span>
+<a id="ln-5726" name="ln-5726" href="#ln-5726"></a><span class="k">     end subroutine </span><span class="n">stdlib$</span><span class="err">{</span><span class="n">ii</span><span class="err">}$_${</span><span class="n">ci</span><span class="err">}$</span><span class="n">lascl2</span>
+<a id="ln-5727" name="ln-5727" href="#ln-5727"></a>
+<a id="ln-5728" name="ln-5728" href="#ln-5728"></a><span class="cp">#:endfor</span>
+<a id="ln-5729" name="ln-5729" href="#ln-5729"></a><span class="cp">#:endfor</span>
+<a id="ln-5730" name="ln-5730" href="#ln-5730"></a>
+<a id="ln-5731" name="ln-5731" href="#ln-5731"></a><span class="k">end submodule </span><span class="n">stdlib_lapack_blas_like_l2</span>
 </pre></div>
 
       </section>
@@ -5871,13 +5918,13 @@
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>b6086cef</small></p>
+<br /><small>eeeadbf8</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-12 11:20 +0000             </p>
+ on 2026-03-13 07:42 +0000             </p>
           </div>
         </div>
         <br>
