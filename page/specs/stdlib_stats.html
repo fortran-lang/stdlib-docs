@@ -220,14 +220,39 @@
 <li><a href="#example_4">Example</a></li>
 </ul>
 </li>
-<li><a href="#var-variance-of-array-elements">var - variance of array elements</a><ul>
+<li><a href="#pca-principal-component-analysis">pca - Principal Component Analysis</a><ul>
 <li><a href="#status_5">Status</a></li>
 <li><a href="#description_5">Description</a></li>
 <li><a href="#syntax_5">Syntax</a></li>
 <li><a href="#class_5">Class</a></li>
 <li><a href="#arguments_5">Arguments</a></li>
-<li><a href="#return-value_5">Return value</a></li>
 <li><a href="#example_5">Example</a></li>
+</ul>
+</li>
+<li><a href="#pca_transform-projects-data-into-principal-component-space">pca_transform - Projects data into principal component space</a><ul>
+<li><a href="#status_6">Status</a></li>
+<li><a href="#description_6">Description</a></li>
+<li><a href="#syntax_6">Syntax</a></li>
+<li><a href="#class_6">Class</a></li>
+<li><a href="#arguments_6">Arguments</a></li>
+</ul>
+</li>
+<li><a href="#pca_inverse_transform-reconstructs-original-data-from-principal-component-space">pca_inverse_transform - Reconstructs original data from principal component space</a><ul>
+<li><a href="#status_7">Status</a></li>
+<li><a href="#description_7">Description</a></li>
+<li><a href="#syntax_7">Syntax</a></li>
+<li><a href="#class_7">Class</a></li>
+<li><a href="#arguments_7">Arguments</a></li>
+</ul>
+</li>
+<li><a href="#var-variance-of-array-elements">var - variance of array elements</a><ul>
+<li><a href="#status_8">Status</a></li>
+<li><a href="#description_8">Description</a></li>
+<li><a href="#syntax_8">Syntax</a></li>
+<li><a href="#class_8">Class</a></li>
+<li><a href="#arguments_8">Arguments</a></li>
+<li><a href="#return-value_5">Return value</a></li>
+<li><a href="#example_6">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -434,10 +459,115 @@ If <code>array</code> is of type <code>integer</code>, the result is of type <co
 <span class="k">end program </span><span class="n">example_moment</span>
 </code></pre></div>
 
-<h2 id="var-variance-of-array-elements"><code>var</code> - variance of array elements</h2>
+<h2 id="pca-principal-component-analysis"><code>pca</code> - Principal Component Analysis</h2>
 <h3 id="status_5">Status</h3>
 <p>Experimental</p>
 <h3 id="description_5">Description</h3>
+<p>Performs Principal Component Analysis (PCA) on a 2D array of observations and features.
+The input matrix <code>x</code> has shape <code>(m, n)</code>, where <code>m</code> is the number of observations and <code>n</code> is the number of features.
+The subroutine computes the principal components (loadings), the singular values, and optionally the feature means.</p>
+<p>Two methods are supported:
+- <code>"svd"</code>: (Default) Computes PCA via Singular Value Decomposition of the centered data. This is generally more numerically stable.
+- <code>"eig"</code> or <code>"cov"</code>: Computes PCA via Eigendecomposition of the covariance matrix.</p>
+<h3 id="syntax_5">Syntax</h3>
+<p><code>call</code> <a href="../../interface/pca.html">pca</a> <code>(x, components, singular_values [, x_mean, method, overwrite_x, err])</code></p>
+<h3 id="class_5">Class</h3>
+<p>Generic subroutine</p>
+<h3 id="arguments_5">Arguments</h3>
+<p><code>x</code>: Shall be a rank-2 real array with shape <code>(m, n)</code>. It is an <code>intent(inout)</code> argument. If <code>overwrite_x</code> is <code>.true.</code>, <code>x</code> may be modified during computation.</p>
+<p><code>components</code>: Shall be a rank-2 real array with shape <code>(n_components, n)</code>. It stores the principal components as rows. It is an <code>intent(out)</code> argument.</p>
+<p><code>singular_values</code>: Shall be a rank-1 real array with shape <code>(n_components)</code>. It stores the singular values in descending order. It is an <code>intent(out)</code> argument.</p>
+<p><code>x_mean</code> (optional): Shall be a rank-1 real array with shape <code>(n)</code>. It stores the mean of each feature (column). It is an <code>intent(out)</code> argument.</p>
+<p><code>method</code> (optional): Shall be a character string. Either <code>"svd"</code> or <code>"eig"</code>/<code>"cov"</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>overwrite_x</code> (optional): Shall be a scalar of type <code>logical</code>. If <code>.true.</code>, the input matrix <code>x</code> can be used as a workspace and modified. It is an <code>intent(in)</code> argument.</p>
+<p><code>err</code> (optional): Shall be of type <code>linalg_state_type</code>. It is an <code>intent(out)</code> argument.</p>
+<h3 id="example_5">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_pca</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_stats</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">pca</span><span class="p">,</span><span class="w"> </span><span class="n">pca_transform</span><span class="p">,</span><span class="w"> </span><span class="n">pca_inverse_transform</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_linalg_state</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">linalg_state_type</span>
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">components</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">s</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">mu</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x_trans</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">x_inv</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">linalg_state_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+
+<span class="w">    </span><span class="c">! Input data: 3 observations, 2 features</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">5.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0_dp</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">])</span>
+
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Original data:&quot;</span>
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="s2">&quot;(2f6.2)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">    </span><span class="k">end do</span>
+
+<span class="w">    </span><span class="c">! Perform PCA</span>
+<span class="w">    </span><span class="k">call </span><span class="n">pca</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">components</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">x_mean</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="o">=</span><span class="n">err</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">ok</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Feature means:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Singular values:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">s</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Principal components (as rows):&quot;</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="s2">&quot;(2f6.3)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">components</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="s2">&quot;(2f6.3)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">components</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+
+<span class="w">        </span><span class="c">! Transform data to principal components space</span>
+<span class="w">        </span><span class="k">call </span><span class="n">pca_transform</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">components</span><span class="p">,</span><span class="w"> </span><span class="n">x_trans</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="p">)</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Transformed data (projected):&quot;</span>
+<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="s2">&quot;(2f8.3)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x_trans</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">        </span><span class="k">end do</span>
+
+<span class="w">        </span><span class="c">! Inverse transform to reconstruct original data</span>
+<span class="w">        </span><span class="k">call </span><span class="n">pca_inverse_transform</span><span class="p">(</span><span class="n">x_trans</span><span class="p">,</span><span class="w"> </span><span class="n">components</span><span class="p">,</span><span class="w"> </span><span class="n">x_inv</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="p">)</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Reconstructed data:&quot;</span>
+<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="s2">&quot;(2f6.2)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x_inv</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">    else</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;PCA failed: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">%</span><span class="n">message</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">end program </span><span class="n">example_pca</span>
+</code></pre></div>
+
+<h2 id="pca_transform-projects-data-into-principal-component-space"><code>pca_transform</code> - Projects data into principal component space</h2>
+<h3 id="status_6">Status</h3>
+<p>Experimental</p>
+<h3 id="description_6">Description</h3>
+<p>Projects the input data <code>x</code> into the reduced dimensional space defined by the provided principal components.
+The transformation is defined as <code>x_transformed = (x - x_mean) * components^T</code>.</p>
+<h3 id="syntax_6">Syntax</h3>
+<p><code>call</code> <a href="../../interface/pca_transform.html">pca_transform</a> <code>(x, components, x_transformed [, x_mean])</code></p>
+<h3 id="class_6">Class</h3>
+<p>Generic subroutine</p>
+<h3 id="arguments_6">Arguments</h3>
+<p><code>x</code>: Shall be a rank-2 real array with shape <code>(m, n)</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>components</code>: Shall be a rank-2 real array with shape <code>(nc, n)</code>. It stores the principal components as rows. It is an <code>intent(in)</code> argument.</p>
+<p><code>x_transformed</code>: Shall be a rank-2 real array with shape <code>(m, nc)</code>. It stores the projected data. It is an <code>intent(out)</code> argument.</p>
+<p><code>x_mean</code> (optional): Shall be a rank-1 real array with shape <code>(n)</code>. It stores the feature means to subtract. It is an <code>intent(in)</code> argument.</p>
+<h2 id="pca_inverse_transform-reconstructs-original-data-from-principal-component-space"><code>pca_inverse_transform</code> - Reconstructs original data from principal component space</h2>
+<h3 id="status_7">Status</h3>
+<p>Experimental</p>
+<h3 id="description_7">Description</h3>
+<p>Reconstructs the original data representation from the principal component space.
+The reconstruction is defined as <code>x_reconstructed = x_reduced * components + x_mean</code>.</p>
+<h3 id="syntax_7">Syntax</h3>
+<p><code>call</code> <a href="../../interface/pca_inverse_transform.html">pca_inverse_transform</a> <code>(x_reduced, components, x_reconstructed [, x_mean])</code></p>
+<h3 id="class_7">Class</h3>
+<p>Generic subroutine</p>
+<h3 id="arguments_7">Arguments</h3>
+<p><code>x_reduced</code>: Shall be a rank-2 real array with shape <code>(m, nc)</code>. It is an <code>intent(in)</code> argument.</p>
+<p><code>components</code>: Shall be a rank-2 real array with shape <code>(nc, n)</code>. It stores the principal components as rows. It is an <code>intent(in)</code> argument.</p>
+<p><code>x_reconstructed</code>: Shall be a rank-2 real array with shape <code>(m, n)</code>. It stores the reconstructed data. It is an <code>intent(out)</code> argument.</p>
+<p><code>x_mean</code> (optional): Shall be a rank-1 real array with shape <code>(n)</code>. It stores the feature means to add back. It is an <code>intent(in)</code> argument.</p>
+<h2 id="var-variance-of-array-elements"><code>var</code> - variance of array elements</h2>
+<h3 id="status_8">Status</h3>
+<p>Experimental</p>
+<h3 id="description_8">Description</h3>
 <p>Returns the variance of all the elements of <code>array</code>, or of the elements of <code>array</code> along dimension <code>dim</code> if provided, and if the corresponding element in <code>mask</code> is <code>true</code>.</p>
 <p>Per default, the variance is defined as the best unbiased estimator and is computed as:</p>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="k">var</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">sum_i</span><span class="w"> </span><span class="p">(</span><span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">array</span><span class="p">))</span><span class="o">^</span><span class="mi">2</span>
@@ -445,12 +575,12 @@ If <code>array</code> is of type <code>integer</code>, the result is of type <co
 
 <p>where <code>n</code> is the number of elements.</p>
 <p>The use of the term <code>n-1</code> for scaling is called Bessel 's correction. The scaling can be changed with the logical argument <code>corrected</code>. If <code>corrected</code> is <code>.false.</code>, then the sum is scaled with <code>n</code>, otherwise with <code>n-1</code>.</p>
-<h3 id="syntax_5">Syntax</h3>
+<h3 id="syntax_8">Syntax</h3>
 <p><code>result =</code> <a href="../../interface/var.html">var</a> <code>(array [, mask [, corrected]])</code></p>
 <p><code>result =</code> <a href="../../interface/var.html">var</a> <code>(array, dim [, mask [, corrected]])</code></p>
-<h3 id="class_5">Class</h3>
+<h3 id="class_8">Class</h3>
 <p>Generic subroutine</p>
-<h3 id="arguments_5">Arguments</h3>
+<h3 id="arguments_8">Arguments</h3>
 <p><code>array</code>: Shall be an array of type <code>integer</code>, <code>real</code>, or <code>complex</code>. It is an <code>intent(in)</code> argument.</p>
 <p><code>dim</code>: Shall be a scalar of type <code>integer</code> with a value in the range from 1 to <code>n</code>, where <code>n</code> is the rank of <code>array</code>. It is an <code>intent(in)</code> argument.</p>
 <p><code>mask</code> (optional): Shall be of type <code>logical</code> and either a scalar or an array of the same shape as <code>array</code>. It is an <code>intent(in)</code> argument.</p>
@@ -461,7 +591,7 @@ If <code>array</code> is of type <code>integer</code>, the result is of type <co
 <p>If <code>dim</code> is absent, a scalar with the variance of all elements in <code>array</code> is returned. Otherwise, an array of rank <code>n-1</code>, where <code>n</code> equals the rank of <code>array</code>, and a shape similar to that of <code>array</code> with dimension <code>dim</code> dropped is returned.</p>
 <p>If <code>mask</code> is specified, the result is the variance of all elements of <code>array</code> corresponding to <code>true</code> elements of <code>mask</code>. If every element of <code>mask</code> is <code>false</code>, the result is IEEE <code>NaN</code>.</p>
 <p>If the variance is computed with only one single element, then the result is IEEE <code>NaN</code> if <code>corrected</code> is <code>.true.</code> and is <code>0.</code> if <code>corrected</code> is <code>.false.</code>.</p>
-<h3 id="example_5">Example</h3>
+<h3 id="example_6">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_var</span>
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_stats</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">var</span>
 <span class="w">  </span><span class="k">implicit none</span>
@@ -486,13 +616,13 @@ If <code>array</code> is of type <code>integer</code>, the result is of type <co
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>c016c6d2</small></p>
+<br /><small>4c308bf0</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-03-14 16:44 +0000             </p>
+ on 2026-03-18 07:13 +0000             </p>
           </div>
         </div>
         <br>
