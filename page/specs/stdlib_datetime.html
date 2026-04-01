@@ -1,0 +1,728 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A community driven standard library for (modern) Fortran">
+    <meta name="author" content="fortran-lang/stdlib contributors" >
+    <link rel="icon" href="../../favicon.png">
+
+    <title>datetime &ndash; Fortran-lang/stdlib</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../../css/brands.min.css" rel="stylesheet">
+    <link href="../../css/regular.min.css" rel="stylesheet">
+    <link href="../../css/solid.min.css" rel="stylesheet">
+    <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../../css/local.css" rel="stylesheet">
+    <link href="../../css/pygments.css" rel="stylesheet">
+    <script src="../../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../../index.html">Fortran-lang/stdlib </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../index.html">Contributing and specs</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>datetime</h1>
+    <div class="container p-2 mb-4 bg-light border rounded-3">
+      <div class="row align-items-center justify-content-between">
+        <div class="col">
+          <ul class="list-inline" style="margin-bottom:0px; display:inline">
+          </ul>
+        </div>
+        <div class="col">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../index.html'>Contributing and specs</a></li>
+                <li class="breadcrumb-item"><a href='index.html'>Specifications (specs)</a></li>
+              <li class="breadcrumb-item active" aria-current="page">datetime</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+      <div class="col-3">
+        <div class="card card-body bg-light" id="sidebar-toc">
+          <ul class="nav flex-column align-items">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">Contributing and specs</a>
+            </li>
+          </ul>
+          <hr>
+          <nav class="nav nav-pills flex-column">
+              <a class="nav-link" href="../License.html">Fortran stdlib License (MIT)</a>
+              <a class="nav-link" href="../changelog.html">Changelog</a>
+              <a class="nav-link" href="../contributing/index.html">Contributing</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../contributing/CodeOfConduct.html">Contributor Code of Conduct</a>
+              <a class="nav-link" href="../contributing/StyleGuide.html">Style Guide</a>
+              <a class="nav-link" href="../contributing/Workflow.html">Workflow for Contributors</a>
+
+                </nav>
+              <a class="nav-link" href="index.html">Specifications (specs)</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="stdlib_ansi.html">terminal colors</a>
+              <a class="nav-link" href="stdlib_array.html">array</a>
+              <a class="nav-link" href="stdlib_ascii.html">ascii</a>
+              <a class="nav-link" href="stdlib_bitsets.html">bitsets</a>
+              <a class="nav-link" href="stdlib_constants.html">constants</a>
+              <a class="nav-link active disabled" href="stdlib_datetime.html">datetime</a>
+              <a class="nav-link" href="stdlib_error.html">error</a>
+              <a class="nav-link" href="stdlib_error_state_type.html">state_type</a>
+              <a class="nav-link" href="stdlib_hash_procedures.html">hash</a>
+              <a class="nav-link" href="stdlib_hashmaps.html">Hash maps</a>
+              <a class="nav-link" href="stdlib_intrinsics.html">intrinsics</a>
+              <a class="nav-link" href="stdlib_io.html">io</a>
+              <a class="nav-link" href="stdlib_kinds.html">kinds</a>
+              <a class="nav-link" href="stdlib_linalg.html">linalg</a>
+              <a class="nav-link" href="stdlib_linalg_iterative_solvers.html">linalg_iterative_solvers</a>
+              <a class="nav-link" href="stdlib_linalg_state_type.html">linalg_state_type</a>
+              <a class="nav-link" href="stdlib_logger.html">logger</a>
+              <a class="nav-link" href="stdlib_math.html">math</a>
+              <a class="nav-link" href="stdlib_optval.html">optval</a>
+              <a class="nav-link" href="stdlib_quadrature.html">quadrature</a>
+              <a class="nav-link" href="stdlib_random.html">random</a>
+              <a class="nav-link" href="stdlib_selection.html">selection</a>
+              <a class="nav-link" href="stdlib_sorting.html">sorting</a>
+              <a class="nav-link" href="stdlib_sparse.html">sparse</a>
+              <a class="nav-link" href="stdlib_specialfunctions.html">specialfunctions</a>
+              <a class="nav-link" href="stdlib_specialfunctions_activations.html">specialfunctions_activations</a>
+              <a class="nav-link" href="stdlib_specialfunctions_gamma.html">specialfunctions_gamma</a>
+              <a class="nav-link" href="stdlib_specialmatrices.html">specialmatrices</a>
+              <a class="nav-link" href="stdlib_stats.html">stats</a>
+              <a class="nav-link" href="stdlib_stats_distribution_exponential.html">stats_distribution_exponential</a>
+              <a class="nav-link" href="stdlib_stats_distribution_normal.html">stats_distribution_normal</a>
+              <a class="nav-link" href="stdlib_stats_distribution_uniform.html">stats_distribution_uniform</a>
+              <a class="nav-link" href="stdlib_str2num.html">str2num</a>
+              <a class="nav-link" href="stdlib_string_type.html">string_type</a>
+              <a class="nav-link" href="stdlib_stringlist_type.html">stringlist_type</a>
+              <a class="nav-link" href="stdlib_strings.html">strings</a>
+              <a class="nav-link" href="stdlib_system.html">system</a>
+              <a class="nav-link" href="stdlib_version.html">version</a>
+
+                </nav>
+          </nav>
+        </div>
+      </div>
+
+    <div class="col-9" id='text'>
+      <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a><ul>
+<li><a href="#status">Status</a></li>
+</ul>
+</li>
+<li><a href="#derived-types">Derived Types</a><ul>
+<li><a href="#datetime_type">datetime_type</a></li>
+<li><a href="#timedelta_type">timedelta_type</a></li>
+</ul>
+</li>
+<li><a href="#constructors">Constructors</a><ul>
+<li><a href="#datetime-create-from-components">datetime — Create from components</a><ul>
+<li><a href="#status_1">Status</a></li>
+<li><a href="#class">Class</a></li>
+<li><a href="#description">Description</a></li>
+<li><a href="#syntax">Syntax</a></li>
+<li><a href="#arguments">Arguments</a></li>
+<li><a href="#return-value">Return value</a></li>
+</ul>
+</li>
+<li><a href="#timedelta-create-from-mixed-units">timedelta — Create from mixed units</a><ul>
+<li><a href="#status_2">Status</a></li>
+<li><a href="#class_1">Class</a></li>
+<li><a href="#description_1">Description</a></li>
+<li><a href="#syntax_1">Syntax</a></li>
+<li><a href="#arguments_1">Arguments</a></li>
+<li><a href="#return-value_1">Return value</a></li>
+</ul>
+</li>
+<li><a href="#now-current-local-time">now — Current local time</a><ul>
+<li><a href="#status_3">Status</a></li>
+<li><a href="#class_2">Class</a></li>
+<li><a href="#description_2">Description</a></li>
+<li><a href="#syntax_2">Syntax</a></li>
+</ul>
+</li>
+<li><a href="#now_utc-current-utc-time">now_utc — Current UTC time</a><ul>
+<li><a href="#status_4">Status</a></li>
+<li><a href="#class_3">Class</a></li>
+<li><a href="#description_3">Description</a></li>
+<li><a href="#syntax_3">Syntax</a></li>
+</ul>
+</li>
+<li><a href="#epoch-unix-epoch">epoch — Unix epoch</a><ul>
+<li><a href="#status_5">Status</a></li>
+<li><a href="#class_4">Class</a></li>
+<li><a href="#description_4">Description</a></li>
+<li><a href="#syntax_4">Syntax</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#operators">Operators</a><ul>
+<li><a href="#arithmetic">Arithmetic</a></li>
+<li><a href="#comparison">Comparison</a></li>
+</ul>
+</li>
+<li><a href="#parsing-and-formatting">Parsing and Formatting</a><ul>
+<li><a href="#parse_datetime-parse-iso-8601-string">parse_datetime — Parse ISO 8601 string</a><ul>
+<li><a href="#status_6">Status</a></li>
+<li><a href="#class_5">Class</a></li>
+<li><a href="#description_5">Description</a></li>
+<li><a href="#syntax_5">Syntax</a></li>
+<li><a href="#arguments_2">Arguments</a></li>
+<li><a href="#supported-formats">Supported formats</a></li>
+</ul>
+</li>
+<li><a href="#format_datetime-format-as-iso-8601">format_datetime — Format as ISO 8601</a><ul>
+<li><a href="#status_7">Status</a></li>
+<li><a href="#class_6">Class</a></li>
+<li><a href="#description_6">Description</a></li>
+<li><a href="#syntax_6">Syntax</a></li>
+<li><a href="#return-value_2">Return value</a></li>
+</ul>
+</li>
+<li><a href="#format_timedelta-format-duration">format_timedelta — Format duration</a><ul>
+<li><a href="#status_8">Status</a></li>
+<li><a href="#class_7">Class</a></li>
+<li><a href="#description_7">Description</a></li>
+<li><a href="#syntax_7">Syntax</a></li>
+<li><a href="#return-value_3">Return value</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#utility-functions">Utility Functions</a><ul>
+<li><a href="#is_leap_year">is_leap_year</a><ul>
+<li><a href="#status_9">Status</a></li>
+<li><a href="#class_8">Class</a></li>
+<li><a href="#description_8">Description</a></li>
+<li><a href="#syntax_8">Syntax</a></li>
+</ul>
+</li>
+<li><a href="#days_in_month">days_in_month</a><ul>
+<li><a href="#status_10">Status</a></li>
+<li><a href="#class_9">Class</a></li>
+<li><a href="#description_9">Description</a></li>
+<li><a href="#syntax_9">Syntax</a></li>
+</ul>
+</li>
+<li><a href="#days_in_year">days_in_year</a><ul>
+<li><a href="#status_11">Status</a></li>
+<li><a href="#class_10">Class</a></li>
+<li><a href="#description_10">Description</a></li>
+<li><a href="#syntax_10">Syntax</a></li>
+</ul>
+</li>
+<li><a href="#day_of_year">day_of_year</a><ul>
+<li><a href="#status_12">Status</a></li>
+<li><a href="#class_11">Class</a></li>
+<li><a href="#description_11">Description</a></li>
+<li><a href="#syntax_11">Syntax</a></li>
+</ul>
+</li>
+<li><a href="#day_of_week">day_of_week</a><ul>
+<li><a href="#status_13">Status</a></li>
+<li><a href="#class_12">Class</a></li>
+<li><a href="#description_12">Description</a></li>
+<li><a href="#syntax_12">Syntax</a></li>
+</ul>
+</li>
+<li><a href="#to_utc">to_utc</a><ul>
+<li><a href="#status_14">Status</a></li>
+<li><a href="#class_13">Class</a></li>
+<li><a href="#description_13">Description</a></li>
+<li><a href="#syntax_13">Syntax</a></li>
+</ul>
+</li>
+<li><a href="#total_seconds">total_seconds</a><ul>
+<li><a href="#status_15">Status</a></li>
+<li><a href="#class_14">Class</a></li>
+<li><a href="#description_14">Description</a></li>
+<li><a href="#syntax_14">Syntax</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#example">Example</a></li>
+</ul>
+</div>
+<h2 id="introduction">Introduction</h2>
+<p>The <code>stdlib_datetime</code> module provides types and procedures for date, time, and duration handling. It defines two primary derived types — <code>datetime_type</code> for representing specific points in time and <code>timedelta_type</code> for representing durations — along with arithmetic operators, comparison operators, ISO 8601 parsing/formatting, and calendar utilities.</p>
+<p>No C-bindings or parameterized derived types are required. The module uses only standard Fortran intrinsics, calendar arithmetic, and string manipulation.</p>
+<h3 id="status">Status</h3>
+<p>Experimental</p>
+<h2 id="derived-types">Derived Types</h2>
+<h3 id="datetime_type"><code>datetime_type</code></h3>
+<p>Represents a specific point in time.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>year</code></td>
+<td><code>integer</code></td>
+<td>1</td>
+<td>Year (1–9999)</td>
+</tr>
+<tr>
+<td><code>month</code></td>
+<td><code>integer</code></td>
+<td>1</td>
+<td>Month (1–12)</td>
+</tr>
+<tr>
+<td><code>day</code></td>
+<td><code>integer</code></td>
+<td>1</td>
+<td>Day (1–31)</td>
+</tr>
+<tr>
+<td><code>hour</code></td>
+<td><code>integer</code></td>
+<td>0</td>
+<td>Hour (0–23)</td>
+</tr>
+<tr>
+<td><code>minute</code></td>
+<td><code>integer</code></td>
+<td>0</td>
+<td>Minute (0–59)</td>
+</tr>
+<tr>
+<td><code>second</code></td>
+<td><code>integer</code></td>
+<td>0</td>
+<td>Second (0–59)</td>
+</tr>
+<tr>
+<td><code>millisecond</code></td>
+<td><code>integer</code></td>
+<td>0</td>
+<td>Millisecond (0–999)</td>
+</tr>
+<tr>
+<td><code>utc_offset_minutes</code></td>
+<td><code>integer</code></td>
+<td>0</td>
+<td>UTC offset in minutes. Minutes are used because all real-world UTC offsets are whole multiples of minutes (ISO 8601 specifies offsets as <code>±HH:MM</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="timedelta_type"><code>timedelta_type</code></h3>
+<p>Represents a duration or interval. After normalization, <code>seconds</code> is always in [0, 86399] and <code>milliseconds</code> is always in [0, 999] (i.e., they are never negative). For negative durations, only the <code>days</code> component is negative while <code>seconds</code> and <code>milliseconds</code> remain non-negative.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>days</code></td>
+<td><code>integer</code></td>
+<td>0</td>
+<td>Number of days (can be negative for negative durations)</td>
+</tr>
+<tr>
+<td><code>seconds</code></td>
+<td><code>integer</code></td>
+<td>0</td>
+<td>Seconds, always in [0, 86399] after normalization</td>
+</tr>
+<tr>
+<td><code>milliseconds</code></td>
+<td><code>integer</code></td>
+<td>0</td>
+<td>Milliseconds, always in [0, 999] after normalization</td>
+</tr>
+</tbody>
+</table>
+<h2 id="constructors">Constructors</h2>
+<h3 id="datetime-create-from-components"><code>datetime</code> — Create from components</h3>
+<h4 id="status_1">Status</h4>
+<p>Experimental</p>
+<h4 id="class">Class</h4>
+<p>Pure function.</p>
+<h4 id="description">Description</h4>
+<p>Creates a <code>datetime_type</code> from individual components. All arguments are optional; if omitted, they default to the type's initial values: <code>year=1</code>, <code>month=1</code>, <code>day=1</code>, <code>hour=0</code>, <code>minute=0</code>, <code>second=0</code>, <code>millisecond=0</code>, <code>utc_offset_minutes=0</code>.</p>
+<p><em>Note:</em> Unlike <code>parse_datetime</code>, this constructor does not perform strict bounds checking on the provided values (e.g., passing <code>month=13</code> is not checked) to remain highly efficient in tight loops. The caller is responsible for ensuring the values form a valid date block.</p>
+<h4 id="syntax">Syntax</h4>
+<p><code>dt =</code> <a href="../../proc/datetime.html">datetime</a> <code>([year] [, month] [, day] [, hour] [, minute] [, second] [, millisecond] [, utc_offset_minutes])</code></p>
+<h4 id="arguments">Arguments</h4>
+<p>All arguments are optional with <code>intent(in)</code> and type <code>integer</code>. If no arguments are provided, all components default to the type's initial values (<code>year=1</code>, <code>month=1</code>, <code>day=1</code>, <code>hour=0</code>, <code>minute=0</code>, <code>second=0</code>, <code>millisecond=0</code>, <code>utc_offset_minutes=0</code>).</p>
+<h4 id="return-value">Return value</h4>
+<p>A <code>datetime_type</code> value with components equal to those provided, or to the default ones.</p>
+<h3 id="timedelta-create-from-mixed-units"><code>timedelta</code> — Create from mixed units</h3>
+<h4 id="status_2">Status</h4>
+<p>Experimental</p>
+<h4 id="class_1">Class</h4>
+<p>Pure function.</p>
+<h4 id="description_1">Description</h4>
+<p>Creates a normalized <code>timedelta_type</code>. Accepts mixed units (days, hours, minutes, seconds, milliseconds) and normalizes them. If no arguments are provided, all components default to <code>0</code>.</p>
+<h4 id="syntax_1">Syntax</h4>
+<p><code>td =</code> <a href="../../proc/timedelta.html">timedelta</a> <code>([days] [, hours] [, minutes] [, seconds] [, milliseconds])</code></p>
+<h4 id="arguments_1">Arguments</h4>
+<p>All arguments are optional with <code>intent(in)</code> and type <code>integer</code>. If no arguments are provided, all components default to <code>0</code>.</p>
+<h4 id="return-value_1">Return value</h4>
+<p>A normalized <code>timedelta_type</code> value with <code>seconds</code> in [0, 86399] and <code>milliseconds</code> in [0, 999].</p>
+<h3 id="now-current-local-time"><code>now</code> — Current local time</h3>
+<h4 id="status_3">Status</h4>
+<p>Experimental</p>
+<h4 id="class_2">Class</h4>
+<p>Function (not <code>pure</code>; calls the intrinsic <code>date_and_time</code> which is impure).</p>
+<h4 id="description_2">Description</h4>
+<p>Returns the current local date and time from the system clock.</p>
+<h4 id="syntax_2">Syntax</h4>
+<p><code>dt =</code> <a href="../../proc/now.html">now</a> <code>()</code></p>
+<h3 id="now_utc-current-utc-time"><code>now_utc</code> — Current UTC time</h3>
+<h4 id="status_4">Status</h4>
+<p>Experimental</p>
+<h4 id="class_3">Class</h4>
+<p>Function (not <code>pure</code>; calls <code>now()</code> internally).</p>
+<h4 id="description_3">Description</h4>
+<p>Returns the current UTC date and time.</p>
+<h4 id="syntax_3">Syntax</h4>
+<p><code>dt =</code> <a href="../../proc/now_utc.html">now_utc</a> <code>()</code></p>
+<h3 id="epoch-unix-epoch"><code>epoch</code> — Unix epoch</h3>
+<h4 id="status_5">Status</h4>
+<p>Experimental</p>
+<h4 id="class_4">Class</h4>
+<p>Pure function.</p>
+<h4 id="description_4">Description</h4>
+<p>Returns the Unix epoch: <code>1970-01-01T00:00:00Z</code>. This is a mathematical constant (a fixed date) and does not depend on the operating system.</p>
+<h4 id="syntax_4">Syntax</h4>
+<p><code>dt =</code> <a href="../../proc/epoch.html">epoch</a> <code>()</code></p>
+<h2 id="operators">Operators</h2>
+<h3 id="arithmetic">Arithmetic</h3>
+<table>
+<thead>
+<tr>
+<th>Expression</th>
+<th>Result Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>datetime + timedelta</code></td>
+<td><code>datetime_type</code></td>
+<td>Add duration to timestamp</td>
+</tr>
+<tr>
+<td><code>timedelta + datetime</code></td>
+<td><code>datetime_type</code></td>
+<td>Commutative form</td>
+</tr>
+<tr>
+<td><code>timedelta + timedelta</code></td>
+<td><code>timedelta_type</code></td>
+<td>Add two durations</td>
+</tr>
+<tr>
+<td><code>datetime - timedelta</code></td>
+<td><code>datetime_type</code></td>
+<td>Subtract duration</td>
+</tr>
+<tr>
+<td><code>datetime - datetime</code></td>
+<td><code>timedelta_type</code></td>
+<td>Difference between two timestamps</td>
+</tr>
+<tr>
+<td><code>timedelta - timedelta</code></td>
+<td><code>timedelta_type</code></td>
+<td>Subtract durations</td>
+</tr>
+<tr>
+<td><code>-timedelta</code></td>
+<td><code>timedelta_type</code></td>
+<td>Negate duration</td>
+</tr>
+</tbody>
+</table>
+<h3 id="comparison">Comparison</h3>
+<p>All six comparison operators are provided for both <code>datetime_type</code> and <code>timedelta_type</code>: <code>==</code>, <code>/=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>.</p>
+<p><strong>Important:</strong> <code>datetime_type</code> comparisons convert both operands to UTC internally, so comparing across timezones works correctly.</p>
+<h2 id="parsing-and-formatting">Parsing and Formatting</h2>
+<h3 id="parse_datetime-parse-iso-8601-string"><code>parse_datetime</code> — Parse ISO 8601 string</h3>
+<h4 id="status_6">Status</h4>
+<p>Experimental</p>
+<h4 id="class_5">Class</h4>
+<p>Function (not <code>pure</code>; dummy arguments in a <code>pure function</code> must be <code>intent(in)</code>, which contradicts the <code>intent(out)</code> status argument <code>stat</code>).</p>
+<h4 id="description_5">Description</h4>
+<p>Parses an ISO 8601 date/time string into a <code>datetime_type</code>.</p>
+<h4 id="syntax_5">Syntax</h4>
+<p><code>dt =</code> <a href="../../proc/parse_datetime.html">parse_datetime</a> <code>(str [, stat])</code></p>
+<h4 id="arguments_2">Arguments</h4>
+<p><code>str</code>: <code>character(len=*)</code>, <code>intent(in)</code>. The ISO 8601 string to parse.</p>
+<p><code>stat</code> (optional): <code>integer</code>, <code>intent(out)</code>. Returns 0 on success, non-zero on error.</p>
+<h4 id="supported-formats">Supported formats</h4>
+<ul>
+<li><code>YYYY-MM-DD</code></li>
+<li><code>YYYY-MM-DDTHH:MM:SS</code></li>
+<li><code>YYYY-MM-DDTHH:MM:SSZ</code></li>
+<li><code>YYYY-MM-DDTHH:MM:SS+HH:MM</code></li>
+<li><code>YYYY-MM-DDTHH:MM:SS.fZ</code> (variable precision fractional seconds up to milliseconds)</li>
+<li><code>YYYY-MM-DDTHH:MM:SS.f+HH:MM</code></li>
+</ul>
+<p>For the <code>YYYY-MM-DDTHH:MM:SS</code> form without a timezone designator, the value is interpreted as UTC, and <code>utc_offset_minutes</code> is set to <code>0</code>. There is currently no cross-platform standard way to get a time zone offset for arbitrary past/future dates, so defaulting to UTC serves as an absolute, safe coordinate. Forms with <code>Z</code> or an explicit offset use the specified UTC offset.</p>
+<h3 id="format_datetime-format-as-iso-8601"><code>format_datetime</code> — Format as ISO 8601</h3>
+<h4 id="status_7">Status</h4>
+<p>Experimental</p>
+<h4 id="class_6">Class</h4>
+<p>Pure function.</p>
+<h4 id="description_6">Description</h4>
+<p>Formats a <code>datetime_type</code> as an ISO 8601 string.</p>
+<h4 id="syntax_6">Syntax</h4>
+<p><code>str =</code> <a href="../../proc/format_datetime.html">format_datetime</a> <code>(dt)</code></p>
+<h4 id="return-value_2">Return value</h4>
+<p><code>character(:), allocatable</code> — e.g. <code>"2026-03-17T12:00:00Z"</code> or <code>"2026-03-17T23:05:15+05:30"</code>.</p>
+<h3 id="format_timedelta-format-duration"><code>format_timedelta</code> — Format duration</h3>
+<h4 id="status_8">Status</h4>
+<p>Experimental</p>
+<h4 id="class_7">Class</h4>
+<p>Pure function.</p>
+<h4 id="description_7">Description</h4>
+<p>Formats a <code>timedelta_type</code> as a human-readable string.</p>
+<h4 id="syntax_7">Syntax</h4>
+<p><code>str =</code> <a href="../../proc/format_timedelta.html">format_timedelta</a> <code>(td)</code></p>
+<h4 id="return-value_3">Return value</h4>
+<p><code>character(:), allocatable</code> — e.g. <code>"30 days, 01:30:00"</code>.</p>
+<h2 id="utility-functions">Utility Functions</h2>
+<h3 id="is_leap_year"><code>is_leap_year</code></h3>
+<h4 id="status_9">Status</h4>
+<p>Experimental</p>
+<h4 id="class_8">Class</h4>
+<p>Pure elemental function / interface.</p>
+<h4 id="description_8">Description</h4>
+<p>Returns <code>.true.</code> if the given year (or datetime's year) is a leap year.</p>
+<h4 id="syntax_8">Syntax</h4>
+<p><code>result =</code> <a href="../../interface/is_leap_year.html">is_leap_year</a> <code>(year)</code> or <code>(dt)</code></p>
+<h3 id="days_in_month"><code>days_in_month</code></h3>
+<h4 id="status_10">Status</h4>
+<p>Experimental</p>
+<h4 id="class_9">Class</h4>
+<p>Pure function.</p>
+<h4 id="description_9">Description</h4>
+<p>Returns the number of days in a given month and year.</p>
+<h4 id="syntax_9">Syntax</h4>
+<p><code>d =</code> <a href="../../proc/days_in_month.html">days_in_month</a> <code>(month, year)</code></p>
+<h3 id="days_in_year"><code>days_in_year</code></h3>
+<h4 id="status_11">Status</h4>
+<p>Experimental</p>
+<h4 id="class_10">Class</h4>
+<p>Pure function.</p>
+<h4 id="description_10">Description</h4>
+<p>Returns 365 or 366.</p>
+<h4 id="syntax_10">Syntax</h4>
+<p><code>d =</code> <a href="../../proc/days_in_year.html">days_in_year</a> <code>(year)</code></p>
+<h3 id="day_of_year"><code>day_of_year</code></h3>
+<h4 id="status_12">Status</h4>
+<p>Experimental</p>
+<h4 id="class_11">Class</h4>
+<p>Pure function.</p>
+<h4 id="description_11">Description</h4>
+<p>Returns the ordinal day (1–366).</p>
+<h4 id="syntax_11">Syntax</h4>
+<p><code>doy =</code> <a href="../../proc/day_of_year.html">day_of_year</a> <code>(dt)</code></p>
+<h3 id="day_of_week"><code>day_of_week</code></h3>
+<h4 id="status_13">Status</h4>
+<p>Experimental</p>
+<h4 id="class_12">Class</h4>
+<p>Pure function.</p>
+<h4 id="description_12">Description</h4>
+<p>Returns the ISO weekday (1=Monday, ..., 7=Sunday).</p>
+<h4 id="syntax_12">Syntax</h4>
+<p><code>dow =</code> <a href="../../proc/day_of_week.html">day_of_week</a> <code>(dt)</code></p>
+<h3 id="to_utc"><code>to_utc</code></h3>
+<h4 id="status_14">Status</h4>
+<p>Experimental</p>
+<h4 id="class_13">Class</h4>
+<p>Pure function.</p>
+<h4 id="description_13">Description</h4>
+<p>Converts a <code>datetime_type</code> to UTC.</p>
+<h4 id="syntax_13">Syntax</h4>
+<p><code>utc_dt =</code> <a href="../../proc/to_utc.html">to_utc</a> <code>(dt)</code></p>
+<h3 id="total_seconds"><code>total_seconds</code></h3>
+<h4 id="status_15">Status</h4>
+<p>Experimental</p>
+<h4 id="class_14">Class</h4>
+<p>Pure function.</p>
+<h4 id="description_14">Description</h4>
+<p>Returns the total duration as <code>real(dp)</code>.</p>
+<h4 id="syntax_14">Syntax</h4>
+<p><code>secs =</code> <a href="../../proc/total_seconds.html">total_seconds</a> <code>(td)</code></p>
+<h2 id="example">Example</h2>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_datetime</span>
+<span class="w">    </span><span class="c">!! Demonstrate the stdlib_datetime module functionality.</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_datetime</span>
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    type</span><span class="p">(</span><span class="n">datetime_type</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">t2</span><span class="p">,</span><span class="w"> </span><span class="n">t3</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">timedelta_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">duration</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
+
+<span class="nb">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;=== stdlib_datetime Example ===&#39;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span>
+
+<span class="w">    </span><span class="c">! 1. Get the current local time</span>
+<span class="w">    </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">()</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Current local time: &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">format_datetime</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! 2. Get the current UTC time</span>
+<span class="w">    </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now_utc</span><span class="p">()</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Current UTC time:   &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">format_datetime</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! 3. Parse an ISO 8601 string</span>
+<span class="w">    </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parse_datetime</span><span class="p">(</span><span class="s1">&#39;2026-03-17T12:00:00Z&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        print</span><span class="w"> </span><span class="s1">&#39;(A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;ERROR: Failed to parse date string!&#39;</span>
+<span class="w">        </span><span class="k">stop </span><span class="mi">1</span>
+<span class="w">    </span><span class="k">end if</span>
+<span class="k">    print</span><span class="w"> </span><span class="s1">&#39;(A,A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Parsed datetime:    &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">format_datetime</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! 4. Calculate the difference between two datetimes</span>
+<span class="w">    </span><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t2</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Duration (t1-t2):   &#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">        </span><span class="n">format_timedelta</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! 5. Add 30 days to a date</span>
+<span class="w">    </span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">timedelta_type</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;After adding 30d:   &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">format_datetime</span><span class="p">(</span><span class="n">t3</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! 6. Add mixed units (1 day, 6 hours, 30 minutes)</span>
+<span class="w">    </span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">hours</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="n">minutes</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;After +1d 6h 30m:   &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">format_datetime</span><span class="p">(</span><span class="n">t3</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! 7. Calendar utilities</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;=== Calendar Utilities ===&#39;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,L1)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Is 2024 leap year?  &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">is_leap_year</span><span class="p">(</span><span class="mi">2024</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,L1)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Is 2026 leap year?  &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">is_leap_year</span><span class="p">(</span><span class="mi">2026</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,I0)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Days in Feb 2024:   &#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">        </span><span class="n">days_in_month</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2024</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,I0)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Days in Feb 2026:   &#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">        </span><span class="n">days_in_month</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2026</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,I0)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Day of year (t2):   &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">day_of_year</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,I0)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Day of week (t2):   &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">day_of_week</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;  (1=Mon, 2=Tue, ..., 7=Sun)&#39;</span>
+
+<span class="w">    </span><span class="c">! 8. Comparison operators</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;=== Comparisons ===&#39;</span>
+<span class="w">    </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parse_datetime</span><span class="p">(</span><span class="s1">&#39;2026-03-17T12:00:00Z&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parse_datetime</span><span class="p">(</span><span class="s1">&#39;2026-03-18T12:00:00Z&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,L1)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Mar17 &lt; Mar18?      &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">t3</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,L1)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Mar17 == Mar17?     &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">t2</span>
+
+<span class="w">    </span><span class="c">! Cross-timezone equality: 12:00 UTC == 17:30 IST</span>
+<span class="w">    </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datetime_type</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datetime_type</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">330</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,L1)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;12:00Z == 17:30+05:30? &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">t3</span>
+
+<span class="w">    </span><span class="c">! 9. Unix epoch</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A,A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Unix epoch:         &#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">        </span><span class="n">format_datetime</span><span class="p">(</span><span class="n">epoch</span><span class="p">())</span>
+
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">&#39;(A)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Done!&#39;</span>
+
+<span class="k">end program </span><span class="n">example_datetime</span>
+</code></pre></div>
+    </div>
+  </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Fortran-lang/stdlib
+ was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+<br /><small>923f75fd</small></p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2026-04-01 19:14 +0000             </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
