@@ -345,21 +345,92 @@ Text files are opened using a sequential access, while binary files are opened u
 <p>Experimental</p>
 <h3 id="description_2">Description</h3>
 <p>Saves a rank-2 <code>array</code> into a text file.</p>
+<p>If the text file already exists:
+ - When called with a character expression <code>filename</code> as the first argument it will overwrite the file.
+ - When called with an integer number <code>unit</code> to an open file as the first argument, it will save data to the file with no further manipulation.</p>
 <h3 id="syntax_2">Syntax</h3>
-<p><code>call</code> <a href="../../interface/savetxt.html">savetxt</a> <code>(filename, array [, delimiter])</code></p>
+<p><code>call</code> <a href="../../interface/savetxt.html">savetxt</a> <code>(filename, array [,  delimiter] [, fmt] [, header] [, footer] [, comments])</code></p>
+<p><code>call</code> <a href="../../interface/savetxt.html">savetxt</a> <code>(unit, array [,  delimiter] [, fmt] [, header] [, footer] [, comments])</code></p>
 <h3 id="arguments_2">Arguments</h3>
-<p><code>filename</code>: Shall be  a character expression containing the name of the file that will contain the 2D <code>array</code>.</p>
+<p><code>filename</code> or <code>unit</code>: Shall be either a character expression containing the name of the file or an integer containing the unit of an already open file, that will contain the 2D <code>array</code>. </p>
 <p><code>array</code>: Shall be a rank-2 array of type <code>real</code>, <code>complex</code> or <code>integer</code>.</p>
-<p><code>delimiter</code> (optional): Shall be a character expression of length 1 that contains the delimiter used to separate the columns. The default is <code>' '</code>.</p>
+<p><code>delimiter</code> (optional): Shall be a character expression of any length that contains the delimiter used to separate the columns. The default is a single space <code>' '</code>.</p>
+<p><code>fmt</code> (optional): Fortran format specifier for the text save. Defaults to the write format for the data type as defined in the [formatting constants]{formatting-constants}.</p>
+<p><code>header</code> (optional): Shall be a character expression that will be written at the beginning of the file.</p>
+<p><code>footer</code> (optional): Shall be a character expression that will be written at the end of the file.</p>
+<p><code>comments</code> (optional): Shall  be a character expression of any length that will be prepended to the <code>header</code> and <code>footer</code> strings to mark them as comments. Default: <code>#</code>.</p>
 <h3 id="output">Output</h3>
-<p>Provides a text file called <code>filename</code> that contains the rank-2 <code>array</code>.</p>
+<p>Provides a text file called <code>filename</code> that contains the rank-2 <code>array</code> with optional <code>header</code> and <code>footer</code> lines.</p>
 <h3 id="example_2">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_savetxt</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_io</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">savetxt</span>
-<span class="w">  </span><span class="k">implicit none</span>
-<span class="k">  </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">  </span><span class="k">call </span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;example.dat&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
-<span class="w">  </span><span class="k">call </span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;example.csv&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_io</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">savetxt</span>
+<span class="w">    </span><span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">output_unit</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">unit</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">])</span>
+
+<span class="w">    </span><span class="c">! Output to file, default options</span>
+<span class="w">    </span><span class="k">call </span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;example.dat&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<span class="w">    </span><span class="c">! Result in example.dat:</span>
+<span class="w">    </span><span class="c">!  1.00000000E+00  4.00000000E+00</span>
+<span class="w">    </span><span class="c">!  2.00000000E+00  5.00000000E+00</span>
+<span class="w">    </span><span class="c">!  3.00000000E+00  6.00000000E+00</span>
+<span class="w">    </span><span class="c">!</span>
+<span class="w">    </span><span class="c">! Output to file, with custom delimiter</span>
+<span class="w">    </span><span class="k">call </span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;example.csv&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="c">! Result in example.csv:</span>
+<span class="w">    </span><span class="c">! 1.00000000E+00, 4.00000000E+00</span>
+<span class="w">    </span><span class="c">! 2.00000000E+00, 5.00000000E+00</span>
+<span class="w">    </span><span class="c">! 3.00000000E+00, 6.00000000E+00</span>
+<span class="w">    </span><span class="c">!</span>
+<span class="w">    </span><span class="c">! Output to file, with header and footer and custom comment string</span>
+<span class="w">    </span><span class="k">call </span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;example2.dat&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="s1">&#39;x  (x-units)   y  (y-units)&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">comments</span><span class="o">=</span><span class="s1">&#39;!#&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">footer</span><span class="o">=</span><span class="s1">&#39;This is all data&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="c">! Result in example2.dat:</span>
+<span class="w">  </span><span class="c">!!# x  (x-units)   y  (y-units)</span>
+<span class="w">    </span><span class="c">! 1.00000000E+00  4.00000000E+00</span>
+<span class="w">    </span><span class="c">! 2.00000000E+00  5.00000000E+00</span>
+<span class="w">    </span><span class="c">! 3.00000000E+00  6.00000000E+00</span>
+<span class="w">  </span><span class="c">!!# This is all data</span>
+<span class="w">    </span><span class="c">!</span>
+<span class="w">    </span><span class="c">! Output to file. Custom format</span>
+<span class="w">    </span><span class="k">call </span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;example3.dat&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;f4.2&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="c">! Result in example3.dat:</span>
+<span class="w">    </span><span class="c">! 1.00 4.00</span>
+<span class="w">    </span><span class="c">! 2.00 5.00</span>
+<span class="w">    </span><span class="c">! 3.00 6.00</span>
+<span class="w">    </span><span class="c">!</span>
+<span class="w">    </span><span class="c">! Output to standard output. Diferent formats for the columns</span>
+<span class="w">    </span><span class="k">call </span><span class="n">savetxt</span><span class="p">(</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="s1">&#39;x   y&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;(f4.2,1x,f3.1)&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="c">! Output:</span>
+<span class="w">    </span><span class="c">! # x   y</span>
+<span class="w">    </span><span class="c">! 1.00 4.0</span>
+<span class="w">    </span><span class="c">! 2.00 5.0</span>
+<span class="w">    </span><span class="c">! 3.00 6.0</span>
+<span class="w">    </span><span class="c">!</span>
+<span class="w">    </span><span class="c">! Save data and then overwrite it:</span>
+<span class="w">    </span><span class="k">call </span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;example4.dat&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;example4.dat&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<span class="w">    </span><span class="c">! Result in example4.dat:</span>
+<span class="w">    </span><span class="c">! 2.00000000E+00  8.00000000E+00</span>
+<span class="w">    </span><span class="c">! 4.00000000E+00  1.00000000E+01</span>
+<span class="w">    </span><span class="c">! 6.00000000E+00  1.20000000E+01</span>
+
+<span class="w">    </span><span class="c">! Save data and then append some more:</span>
+<span class="w">    </span><span class="k">open</span><span class="w"> </span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="s1">&#39;example5.dat&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">savetxt</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">header</span><span class="o">=</span><span class="s1">&#39;x  (x-units)   y  (y-units)&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">savetxt</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<span class="w">    </span><span class="k">close</span><span class="w"> </span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+<span class="w">    </span><span class="c">! Result in example5.dat:</span>
+<span class="w">    </span><span class="c">! # x  (x-units)   y  (y-units)</span>
+<span class="w">    </span><span class="c">!  1.00000000E+00  4.00000000E+00</span>
+<span class="w">    </span><span class="c">!  2.00000000E+00  5.00000000E+00</span>
+<span class="w">    </span><span class="c">!  3.00000000E+00  6.00000000E+00</span>
+<span class="w">    </span><span class="c">!  2.00000000E+00  8.00000000E+00</span>
+<span class="w">    </span><span class="c">!  4.00000000E+00  1.00000000E+01</span>
+<span class="w">    </span><span class="c">!  6.00000000E+00  1.20000000E+01</span>
+
 <span class="k">end program </span><span class="n">example_savetxt</span>
 </code></pre></div>
 
@@ -457,7 +528,7 @@ Text files are opened using a sequential access, while binary files are opened u
 <span class="k">end program </span><span class="n">example_getline</span>
 </code></pre></div>
 
-<h2 id="formatting-constants">Formatting constants</h2>
+<h2 formatting-constants id="formatting-constants">Formatting constants</h2>
 <h3 id="status_6">Status</h3>
 <p>Experimental</p>
 <h3 id="description_6">Description</h3>
@@ -499,7 +570,7 @@ Provides formats for all kinds as defined in the <code>stdlib_kinds</code> modul
 <p>This subroutine interface reads the entirety of a specified ASCII file and returns its content as a string or an allocatable <code>character</code> variable. 
 The function provides an optional error-handling mechanism via the <code>state_type</code> class. If the <code>err</code> argument is not provided, exceptions will trigger an <code>error stop</code>. The function also supports an optional flag to delete the file after reading.</p>
 <h3 id="syntax_6">Syntax</h3>
-<p><code>call [[stdlib_io(module):get_file(subroutine)]] (filename, file [, err] [, delete=.false.])</code></p>
+<p><code>call</code> <a href="../../module/stdlib_io.html">stdlib_io</a> <code>(filename, file [, err] [, delete=.false.])</code></p>
 <h3 id="class">Class</h3>
 <p>Function</p>
 <h3 id="arguments_6">Arguments</h3>
@@ -544,13 +615,13 @@ Exceptions trigger an <code>error stop</code> unless the optional <code>err</cod
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>72698fd7</small></p>
+<br /><small>d30e0875</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-04-04 06:04 +0000             </p>
+ on 2026-04-07 18:55 +0000             </p>
           </div>
         </div>
         <br>
