@@ -90,7 +90,6 @@
       <div class="col">
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
             <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a></li>
-            <li class="list-inline-item" id="meta-version"><i class="fa fa-barcode"></i> experimental</li>
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
@@ -99,15 +98,15 @@
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/stdlib_linalg.fypp"> Source File</a>
+              <a href="../src/stdlib_specialmatrices.fypp"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_linalg.fypp.html'>stdlib_linalg.fypp</a></li>
-                <li class="breadcrumb-item"><a href='../module/stdlib_linalg.html'>stdlib_linalg</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/stdlib_specialmatrices.fypp.html'>stdlib_specialmatrices.fypp</a></li>
+                <li class="breadcrumb-item"><a href='../module/stdlib_specialmatrices.html'>stdlib_specialmatrices</a></li>
             <li class="breadcrumb-item active" aria-current="page">hermitian</li>
           </ol>
         </nav>
@@ -146,14 +145,14 @@
       </a>
       <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_cdp">hermitian_cdp</a>
-            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_csp">hermitian_csp</a>
-            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_iint16">hermitian_iint16</a>
-            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_iint32">hermitian_iint32</a>
-            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_iint64">hermitian_iint64</a>
-            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_iint8">hermitian_iint8</a>
-            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_rdp">hermitian_rdp</a>
-            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_rsp">hermitian_rsp</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_sym_tridiagonal_cdp">hermitian_sym_tridiagonal_cdp</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_sym_tridiagonal_csp">hermitian_sym_tridiagonal_csp</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_sym_tridiagonal_dp">hermitian_sym_tridiagonal_dp</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_sym_tridiagonal_sp">hermitian_sym_tridiagonal_sp</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_tridiagonal_cdp">hermitian_tridiagonal_cdp</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_tridiagonal_csp">hermitian_tridiagonal_csp</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_tridiagonal_dp">hermitian_tridiagonal_dp</a>
+            <a class="list-group-item" href="../interface/hermitian.html#proc-hermitian_tridiagonal_sp">hermitian_tridiagonal_sp</a>
         </div>
       </div>
     </div>
@@ -174,19 +173,14 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface hermitian</h2>
-      <p>Computes the Hermitian version of a rank-2 matrix.
-For complex matrices, this returns <code>conjg(transpose(a))</code>.
-For real or integer matrices, this returns <code>transpose(a)</code>.</p>
-<p>Usage:</p>
-<div class="codehilite"><pre><span></span><code>A  = reshape([(1, 2), (3, 4), (5, 6), (7, 8)], [2, 2])
-AH = hermitian(A)
-</code></pre></div>
-
-<p><a href="../page/specs/stdlib_linalg.html#hermitian-compute-the-hermitian-version-of-a-rank-2-matrix">Specification</a></p>
+      <p>This interface provides methods to compute the hermitian operation for
+the different matrix types defined by <code>stdlib_specialmatrices</code>. For
+real-valued matrices, this is equivalent to the standard <code>transpose</code>.
+<a href="../page/specs/stdlib_specialmatrices.html#hermitian">Specifications</a></p>
 <br>
         <h2>Functions</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_cdp"></span> <h3>private pure module function hermitian_cdp(a) result(ah)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_sym_tridiagonal_cdp"></span> <h3>private pure module function hermitian_sym_tridiagonal_cdp(A) result(B)  
 </h3></div>
     <div class="card-body">
         
@@ -204,17 +198,17 @@ AH = hermitian(A)
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~3393"></span>
-              complex(kind=dp),
+              <span class="anchor" id="variable-a~96"></span>
+              type(<a href='../type/sym_tridiagonal_cdp_type.html'>sym_tridiagonal_cdp_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
+            <td><strong>A</strong></td>
             <td>
-                
+                <p>Input matrix.</p>
             </td>
         </tr>
     </tbody>
@@ -222,7 +216,7 @@ AH = hermitian(A)
 
     <h4>
     Return Value
-    <small>complex(kind=dp), (size(a,2),size(a,1))</small>
+    <small>type(<a href='../type/sym_tridiagonal_cdp_type.html'>sym_tridiagonal_cdp_type</a>)</small>
     </h4>
     
 
@@ -230,7 +224,7 @@ AH = hermitian(A)
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_csp"></span> <h3>private pure module function hermitian_csp(a) result(ah)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_sym_tridiagonal_csp"></span> <h3>private pure module function hermitian_sym_tridiagonal_csp(A) result(B)  
 </h3></div>
     <div class="card-body">
         
@@ -248,17 +242,17 @@ AH = hermitian(A)
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~3392"></span>
-              complex(kind=sp),
+              <span class="anchor" id="variable-a~95"></span>
+              type(<a href='../type/sym_tridiagonal_csp_type.html'>sym_tridiagonal_csp_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
+            <td><strong>A</strong></td>
             <td>
-                
+                <p>Input matrix.</p>
             </td>
         </tr>
     </tbody>
@@ -266,7 +260,7 @@ AH = hermitian(A)
 
     <h4>
     Return Value
-    <small>complex(kind=sp), (size(a,2),size(a,1))</small>
+    <small>type(<a href='../type/sym_tridiagonal_csp_type.html'>sym_tridiagonal_csp_type</a>)</small>
     </h4>
     
 
@@ -274,7 +268,7 @@ AH = hermitian(A)
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_iint16"></span> <h3>private pure module function hermitian_iint16(a) result(ah)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_sym_tridiagonal_dp"></span> <h3>private pure module function hermitian_sym_tridiagonal_dp(A) result(B)  
 </h3></div>
     <div class="card-body">
         
@@ -292,17 +286,17 @@ AH = hermitian(A)
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~3395"></span>
-              integer(kind=int16),
+              <span class="anchor" id="variable-a~94"></span>
+              type(<a href='../type/sym_tridiagonal_dp_type.html'>sym_tridiagonal_dp_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
+            <td><strong>A</strong></td>
             <td>
-                
+                <p>Input matrix.</p>
             </td>
         </tr>
     </tbody>
@@ -310,7 +304,7 @@ AH = hermitian(A)
 
     <h4>
     Return Value
-    <small>integer(kind=int16), (size(a,2),size(a,1))</small>
+    <small>type(<a href='../type/sym_tridiagonal_dp_type.html'>sym_tridiagonal_dp_type</a>)</small>
     </h4>
     
 
@@ -318,7 +312,7 @@ AH = hermitian(A)
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_iint32"></span> <h3>private pure module function hermitian_iint32(a) result(ah)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_sym_tridiagonal_sp"></span> <h3>private pure module function hermitian_sym_tridiagonal_sp(A) result(B)  
 </h3></div>
     <div class="card-body">
         
@@ -336,17 +330,17 @@ AH = hermitian(A)
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~3396"></span>
-              integer(kind=int32),
+              <span class="anchor" id="variable-a~93"></span>
+              type(<a href='../type/sym_tridiagonal_sp_type.html'>sym_tridiagonal_sp_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
+            <td><strong>A</strong></td>
             <td>
-                
+                <p>Input matrix.</p>
             </td>
         </tr>
     </tbody>
@@ -354,7 +348,7 @@ AH = hermitian(A)
 
     <h4>
     Return Value
-    <small>integer(kind=int32), (size(a,2),size(a,1))</small>
+    <small>type(<a href='../type/sym_tridiagonal_sp_type.html'>sym_tridiagonal_sp_type</a>)</small>
     </h4>
     
 
@@ -362,7 +356,7 @@ AH = hermitian(A)
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_iint64"></span> <h3>private pure module function hermitian_iint64(a) result(ah)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_tridiagonal_cdp"></span> <h3>private pure module function hermitian_tridiagonal_cdp(A) result(B)  
 </h3></div>
     <div class="card-body">
         
@@ -380,17 +374,17 @@ AH = hermitian(A)
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~3397"></span>
-              integer(kind=int64),
+              <span class="anchor" id="variable-a~92"></span>
+              type(<a href='../type/tridiagonal_cdp_type.html'>tridiagonal_cdp_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
+            <td><strong>A</strong></td>
             <td>
-                
+                <p>Input matrix.</p>
             </td>
         </tr>
     </tbody>
@@ -398,7 +392,7 @@ AH = hermitian(A)
 
     <h4>
     Return Value
-    <small>integer(kind=int64), (size(a,2),size(a,1))</small>
+    <small>type(<a href='../type/tridiagonal_cdp_type.html'>tridiagonal_cdp_type</a>)</small>
     </h4>
     
 
@@ -406,7 +400,7 @@ AH = hermitian(A)
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_iint8"></span> <h3>private pure module function hermitian_iint8(a) result(ah)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_tridiagonal_csp"></span> <h3>private pure module function hermitian_tridiagonal_csp(A) result(B)  
 </h3></div>
     <div class="card-body">
         
@@ -424,17 +418,17 @@ AH = hermitian(A)
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~3394"></span>
-              integer(kind=int8),
+              <span class="anchor" id="variable-a~91"></span>
+              type(<a href='../type/tridiagonal_csp_type.html'>tridiagonal_csp_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
+            <td><strong>A</strong></td>
             <td>
-                
+                <p>Input matrix.</p>
             </td>
         </tr>
     </tbody>
@@ -442,7 +436,7 @@ AH = hermitian(A)
 
     <h4>
     Return Value
-    <small>integer(kind=int8), (size(a,2),size(a,1))</small>
+    <small>type(<a href='../type/tridiagonal_csp_type.html'>tridiagonal_csp_type</a>)</small>
     </h4>
     
 
@@ -450,7 +444,7 @@ AH = hermitian(A)
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_rdp"></span> <h3>private pure module function hermitian_rdp(a) result(ah)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_tridiagonal_dp"></span> <h3>private pure module function hermitian_tridiagonal_dp(A) result(B)  
 </h3></div>
     <div class="card-body">
         
@@ -468,17 +462,17 @@ AH = hermitian(A)
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~3391"></span>
-              real(kind=dp),
+              <span class="anchor" id="variable-a~90"></span>
+              type(<a href='../type/tridiagonal_dp_type.html'>tridiagonal_dp_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
+            <td><strong>A</strong></td>
             <td>
-                
+                <p>Input matrix.</p>
             </td>
         </tr>
     </tbody>
@@ -486,7 +480,7 @@ AH = hermitian(A)
 
     <h4>
     Return Value
-    <small>real(kind=dp), (size(a,2),size(a,1))</small>
+    <small>type(<a href='../type/tridiagonal_dp_type.html'>tridiagonal_dp_type</a>)</small>
     </h4>
     
 
@@ -494,7 +488,7 @@ AH = hermitian(A)
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_rsp"></span> <h3>private pure module function hermitian_rsp(a) result(ah)  
+    <div class="card-header codesum"><span class="anchor" id="proc-hermitian_tridiagonal_sp"></span> <h3>private pure module function hermitian_tridiagonal_sp(A) result(B)  
 </h3></div>
     <div class="card-body">
         
@@ -512,17 +506,17 @@ AH = hermitian(A)
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~3390"></span>
-              real(kind=sp),
+              <span class="anchor" id="variable-a~89"></span>
+              type(<a href='../type/tridiagonal_sp_type.html'>tridiagonal_sp_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
+            <td><strong>A</strong></td>
             <td>
-                
+                <p>Input matrix.</p>
             </td>
         </tr>
     </tbody>
@@ -530,7 +524,7 @@ AH = hermitian(A)
 
     <h4>
     Return Value
-    <small>real(kind=sp), (size(a,2),size(a,1))</small>
+    <small>type(<a href='../type/tridiagonal_sp_type.html'>tridiagonal_sp_type</a>)</small>
     </h4>
     
 
@@ -550,13 +544,13 @@ AH = hermitian(A)
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>a0471def</small></p>
+<br /><small>a21a7d6b</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-04-10 14:01 +0000             </p>
+ on 2026-04-10 14:09 +0000             </p>
           </div>
         </div>
         <br>
