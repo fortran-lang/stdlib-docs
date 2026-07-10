@@ -240,6 +240,23 @@
 <li><a href="#example_7">Example</a></li>
 </ul>
 </li>
+<li><a href="#matrix-market-format-io">Matrix Market Format I/O</a><ul>
+<li><a href="#status_8">Status</a></li>
+<li><a href="#description_8">Description</a></li>
+<li><a href="#load_mm-load-a-matrix-from-matrix-market-file">load_mm - load a matrix from Matrix Market file</a><ul>
+<li><a href="#syntax_7">Syntax</a></li>
+<li><a href="#arguments_7">Arguments</a></li>
+</ul>
+</li>
+<li><a href="#save_mm-save-a-matrix-to-matrix-market-file">save_mm - save a matrix to Matrix Market file</a><ul>
+<li><a href="#syntax_8">Syntax</a></li>
+<li><a href="#arguments_8">Arguments</a></li>
+</ul>
+</li>
+<li><a href="#matrix-market-format-details">Matrix Market Format Details</a></li>
+<li><a href="#example_8">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -604,6 +621,246 @@ Exceptions trigger an <code>error stop</code> unless the optional <code>err</cod
 <span class="w">  </span><span class="k">end if</span>
 <span class="k">end program </span><span class="n">example_get_file</span>
 </code></pre></div>
+
+<h2 id="matrix-market-format-io">Matrix Market Format I/O</h2>
+<h3 id="status_8">Status</h3>
+<p>Experimental</p>
+<h3 id="description_8">Description</h3>
+<p>The Matrix Market I/O module provides support for reading and writing matrices in the Matrix Market format, a simple ASCII format for sparse and dense matrices developed at NIST. The format supports real, complex, and integer matrices with various symmetry properties.</p>
+<h3 id="load_mm-load-a-matrix-from-matrix-market-file"><code>load_mm</code> - load a matrix from Matrix Market file</h3>
+<p>Loads a 2D matrix from a Matrix Market format file. Symmetric matrices are expanded to full storage.</p>
+<h4 id="syntax_7">Syntax</h4>
+<ul>
+<li>To load a matrix of <code>array</code> format:</li>
+</ul>
+<p><code>call</code> <a href="../../interface/load_mm.html">load_mm</a> <code>(filename, matrix [, iostat, iomsg])</code></p>
+<ul>
+<li>To load a matrix of <code>coordinate</code> format:</li>
+</ul>
+<p><code>call</code> <a href="../../interface/load_mm.html">load_mm</a> <code>(filename, index, data [, iostat, iomsg])</code></p>
+<h4 id="arguments_7">Arguments</h4>
+<p><strong><code>Array</code> format</strong></p>
+<p><code>call</code> <a href="../../interface/load_mm.html">load_mm</a> <code>(filename, matrix [, iostat, iomsg])</code></p>
+<ul>
+<li>
+<p><code>filename</code>: Shall be a character expression containing the Matrix Market file name to read from.</p>
+</li>
+<li>
+<p><code>matrix</code>: Shall be an allocatable rank-2 array of type <code>real</code>, <code>complex</code>, or <code>integer</code> that will contain the loaded matrix.</p>
+</li>
+<li>
+<p><code>iostat</code> (optional): Shall be a scalar of type <code>integer</code> that receives the error status. Zero indicates success.</p>
+</li>
+<li>
+<p><code>iomsg</code> (optional): Shall be an allocatable character string that receives the error message if iostat is non-zero.</p>
+</li>
+</ul>
+<p><strong><code>Coordinate</code> format</strong></p>
+<p><code>call</code> <a href="../../interface/load_mm.html">load_mm</a> <code>(filename, index, data [, iostat, iomsg])</code></p>
+<ul>
+<li>
+<p><code>filename</code>: Shall be a character expression containing the Matrix Market file name to read from.</p>
+</li>
+<li>
+<p><code>index</code>: Shall be an allocatable rank-2 array of type <code>integer</code> that will contain the indices of the loaded matrix.</p>
+</li>
+<li>
+<p><code>data</code>: Shall be an allocatable rank-1 array of type <code>real</code>, <code>complex</code>, or <code>integer</code> that will contain the values of the loaded matrix.</p>
+</li>
+<li>
+<p><code>iostat</code> (optional): Shall be a scalar of type <code>integer</code> that receives the error status. Zero indicates success.</p>
+</li>
+<li>
+<p><code>iomsg</code> (optional): Shall be an allocatable character string that receives the error message if iostat is non-zero.</p>
+</li>
+</ul>
+<h3 id="save_mm-save-a-matrix-to-matrix-market-file"><code>save_mm</code> - save a matrix to Matrix Market file</h3>
+<p>Saves a 2D matrix to Matrix Market format file.</p>
+<h4 id="syntax_8">Syntax</h4>
+<ul>
+<li>To save a matrix of <code>array</code> format:</li>
+</ul>
+<p><code>call</code> <a href="../../interface/save_mm.html">save_mm</a> <code>(filename, matrix [, comment, format, symmetry, iostat, iomsg])</code></p>
+<ul>
+<li>To save a matrix of <code>coordinate</code> format:</li>
+</ul>
+<p><code>call</code> <a href="../../interface/save_mm.html">save_mm</a> <code>(filename, index, data [, comment, format, symmetry, iostat, iomsg])</code></p>
+<h4 id="arguments_8">Arguments</h4>
+<p><strong><code>Array</code> format</strong></p>
+<p><code>call</code> <a href="../../interface/save_mm.html">save_mm</a> <code>(filename, matrix [, comment, format, symmetry, iostat, iomsg])</code></p>
+<ul>
+<li>
+<p><code>filename</code>: Shall be a character expression containing the Matrix Market file name to write to.</p>
+</li>
+<li>
+<p><code>matrix</code>: Shall be a rank-2 array of type <code>real</code>, <code>complex</code>, or <code>integer</code> to save.</p>
+</li>
+<li>
+<p><code>comment</code> (optional): Shall be a character expression containing additional comments for the file header.</p>
+</li>
+<li>
+<p><code>format</code> (optional): Shall be a character expression specifying how entries are written.</p>
+</li>
+<li>
+<p><code>symmetry</code> (optional): Shall be a character expression defining the symmetry of the matrix. Allowed values: <code>auto</code>, <code>general</code>, <code>symmetric</code>, <code>skew-symmetric</code>, <code>hermitian</code>.</p>
+<ul>
+<li><code>auto</code>: Detects the symmetry automatically, falls back to <code>general</code> if no symmetry is found.</li>
+<li><code>general</code>: all entries are stored</li>
+<li><code>symmetric</code> / <code>hermitian</code>: only the lower triangle (including diagonal) is stored</li>
+<li><code>skew-symmetric</code>: only the strictly lower triangle (excluding diagonal) is stored</li>
+</ul>
+</li>
+</ul>
+<p>Default: <code>general</code></p>
+<ul>
+<li>
+<p><code>iostat</code> (optional): Shall be a scalar of type <code>integer</code> that receives the error status. Zero indicates success.</p>
+</li>
+<li>
+<p><code>iomsg</code> (optional): Shall be an allocatable character string that receives the error message if iostat is non-zero.</p>
+</li>
+</ul>
+<p><strong><code>Coordinate</code> format</strong></p>
+<p><code>call</code> <a href="../../interface/save_mm.html">save_mm</a> <code>(filename, index, data [, comment, format, symmetry, iostat, iomsg])</code></p>
+<ul>
+<li>
+<p><code>filename</code>: Shall be a character expression containing the Matrix Market file name to write to.</p>
+</li>
+<li>
+<p><code>index</code>: Shall be a rank-2 <code>integer</code> array of shape <code>(2, n)</code> specifying the indices of the entries. </p>
+<ul>
+<li>index(1,:) shall contain row indices</li>
+<li>index(2,:) shall contain column indices</li>
+</ul>
+</li>
+<li>
+<p><code>data</code>: Shall be a rank-1 array of type <code>real</code>, <code>complex</code>, or <code>integer</code> to save. </p>
+<ul>
+<li>If <code>size(data) == n</code>, the values for each index are written.</li>
+<li>If <code>size(data) == 1</code>, a <code>pattern</code> matrix is written (no explicit values)</li>
+</ul>
+</li>
+<li>
+<p><code>comment</code> (optional): Shall be a character expression containing additional comments for the file header.</p>
+</li>
+<li>
+<p><code>format</code> (optional): Shall be a character expression specifying how entries are written.</p>
+</li>
+<li>
+<p><code>symmetry</code> (optional): Shall be a character expression defining the symmetry of the matrix. Allowed values: <code>general</code>, <code>symmetric</code>, <code>skew-symmetric</code>, <code>hermitian</code>. </p>
+<ul>
+<li><code>general</code>: all entries are stored</li>
+<li><code>symmetric</code> / <code>hermitian</code>: only the lower triangle (including diagonal) is stored</li>
+<li><code>skew-symmetric</code>: only the strictly lower triangle (excluding diagonal) is stored</li>
+</ul>
+</li>
+<li>
+<p><code>iostat</code> (optional): Shall be a scalar of type <code>integer</code> that receives the error status. Zero indicates success.</p>
+</li>
+<li>
+<p><code>iomsg</code> (optional): Shall be an allocatable character string that receives the error message if iostat is non-zero.</p>
+</li>
+</ul>
+<h3 id="matrix-market-format-details">Matrix Market Format Details</h3>
+<p>The Matrix Market format supports:</p>
+<ul>
+<li><strong>Object types</strong>: Currently only <code>matrix</code> is supported</li>
+<li><strong>Formats</strong>: <code>coordinate</code> (sparse) and <code>array</code> (dense)  </li>
+<li><strong>Data types</strong>: <code>real</code>, <code>complex</code>, <code>integer</code>, <code>pattern</code></li>
+<li><strong>Symmetry</strong>: <code>general</code>, <code>symmetric</code>, <code>skew-symmetric</code>, <code>hermitian</code>, <code>auto</code> (Currently only supported for <code>array</code> format)</li>
+</ul>
+<h3 id="example_8">Example</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_matrix_market</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_io_mm</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">load_mm</span><span class="p">,</span><span class="w"> </span><span class="n">save_mm</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_error</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">error_stop</span>
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span><span class="p">(:,:),</span><span class="w"> </span><span class="n">matrix2</span><span class="p">(:,:)</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="nb">index</span><span class="p">(:,:)</span>
+<span class="w">    </span><span class="kt">complex</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">data</span><span class="p">(:)</span>
+<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dense_filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;example_dense.mtx&quot;</span>
+<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sparse_filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;example_sparse.mtx&quot;</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="n">i</span>
+<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">errmsg</span>
+<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iomsg</span>
+
+<span class="w">    </span><span class="c">! Create a test dense matrix</span>
+<span class="w">    </span><span class="k">allocate</span><span class="p">(</span><span class="n">matrix</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="w">    </span><span class="n">matrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0_dp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                      </span><span class="mf">4.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">5.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0_dp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                      </span><span class="mf">7.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">8.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">9.0_dp</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;=== Dense Matrix Example ===&quot;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Original dense matrix:&quot;</span>
+<span class="w">    </span><span class="k">call </span><span class="n">print_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! Save dense matrix to Matrix Market file</span>
+<span class="w">    </span><span class="k">call </span><span class="n">save_mm</span><span class="p">(</span><span class="n">dense_filename</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="k">format</span><span class="o">=</span><span class="s2">&quot;ES24.15E2&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">symmetry</span><span class="o">=</span><span class="s2">&quot;general&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="n">iomsg</span><span class="o">=</span><span class="n">iomsg</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">errmsg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Error saving dense matrix: &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">iomsg</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">error_stop</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Dense matrix saved to &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dense_filename</span>
+
+<span class="w">    </span><span class="c">! Load dense matrix from Matrix Market file  </span>
+<span class="w">    </span><span class="k">call </span><span class="n">load_mm</span><span class="p">(</span><span class="n">dense_filename</span><span class="p">,</span><span class="w"> </span><span class="n">matrix2</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="n">iomsg</span><span class="o">=</span><span class="n">iomsg</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">errmsg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Error loading dense matrix: &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">iomsg</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">error_stop</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Loaded dense matrix:&quot;</span>
+<span class="w">    </span><span class="k">call </span><span class="n">print_matrix</span><span class="p">(</span><span class="n">matrix2</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;=== Sparse Matrix Example ===&quot;</span>
+<span class="w">    </span><span class="c">! Create a test sparse matrix</span>
+<span class="w">    </span><span class="k">allocate</span><span class="p">(</span><span class="nb">index</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="w">    </span><span class="k">allocate</span><span class="p">(</span><span class="k">data</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+<span class="w">    </span><span class="nb">index</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">];</span><span class="w"> </span><span class="k">data</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.5_dp</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">index</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">];</span><span class="w"> </span><span class="k">data</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0_dp</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">index</span><span class="p">(:,</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">];</span><span class="w"> </span><span class="k">data</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0_dp</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">index</span><span class="p">(:,</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">];</span><span class="w"> </span><span class="k">data</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">4.0_dp</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">index</span><span class="p">(:,</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">];</span><span class="w"> </span><span class="k">data</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mf">5.0_dp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">7.5_dp</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">index</span><span class="p">(:,</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">];</span><span class="w"> </span><span class="k">data</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="mf">5.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="mf">5.0_dp</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! Save sparse matrix to Matrix Market file</span>
+<span class="w">    </span><span class="k">call </span><span class="n">save_mm</span><span class="p">(</span><span class="n">sparse_filename</span><span class="p">,</span><span class="w"> </span><span class="nb">index</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">,</span><span class="w"> </span><span class="k">format</span><span class="o">=</span><span class="s2">&quot;ES24.15E2&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">symmetry</span><span class="o">=</span><span class="s2">&quot;general&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="n">iomsg</span><span class="o">=</span><span class="n">iomsg</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">errmsg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Error saving sparse matrix: &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">iomsg</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">error_stop</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Sparse matrix saved to &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sparse_filename</span>
+
+<span class="w">    </span><span class="c">! Load sparse matrix from Matrix Market file</span>
+<span class="w">    </span><span class="k">call </span><span class="n">load_mm</span><span class="p">(</span><span class="n">sparse_filename</span><span class="p">,</span><span class="w"> </span><span class="nb">index</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">,</span><span class="w"> </span><span class="n">iomsg</span><span class="o">=</span><span class="n">iomsg</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">errmsg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Error loading sparse matrix: &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">iomsg</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">error_stop</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Loaded sparse matrix (COO format):&quot;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Data (row, col, value):&quot;</span>
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="k">data</span><span class="p">)</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="k">data</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end do</span>
+
+<span class="k">contains</span>
+
+<span class="k">    subroutine </span><span class="n">print_matrix</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mat</span><span class="p">(:,:)</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+
+<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">mat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">print_matrix</span>
+
+<span class="k">end program </span><span class="n">example_matrix_market</span>
+</code></pre></div>
     </div>
   </div>
       <hr>
@@ -615,13 +872,13 @@ Exceptions trigger an <code>error stop</code> unless the optional <code>err</cod
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>cf865176</small></p>
+<br /><small>d068e75f</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-07-09 17:02 +0000             </p>
+ on 2026-07-10 07:41 +0000             </p>
           </div>
         </div>
         <br>
