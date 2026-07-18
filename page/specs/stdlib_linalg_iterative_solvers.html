@@ -255,6 +255,25 @@
 <li><a href="#example-2">Example 2</a></li>
 </ul>
 </li>
+<li><a href="#stdlib_solve_gmres_kernel-subroutine">stdlib_solve_gmres_kernel subroutine</a><ul>
+<li><a href="#description_6">Description</a></li>
+<li><a href="#syntax_8">Syntax</a></li>
+<li><a href="#status_6">Status</a></li>
+<li><a href="#class_9">Class</a></li>
+<li><a href="#arguments_9">Argument(s)</a></li>
+<li><a href="#note_2">Note</a></li>
+</ul>
+</li>
+<li><a href="#stdlib_solve_gmres-subroutine">stdlib_solve_gmres subroutine</a><ul>
+<li><a href="#description_7">Description</a></li>
+<li><a href="#syntax_9">Syntax</a></li>
+<li><a href="#status_7">Status</a></li>
+<li><a href="#class_10">Class</a></li>
+<li><a href="#arguments_10">Argument(s)</a></li>
+<li><a href="#note_3">Note</a></li>
+<li><a href="#example_3">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -731,6 +750,80 @@
 
 <span class="k">end program </span><span class="n">example_solve_bicgstab_wilkinson</span>
 </code></pre></div>
+
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="stdlib_solve_gmres_kernel-subroutine"><code>stdlib_solve_gmres_kernel</code> subroutine</h3>
+<h4 id="description_6">Description</h4>
+<p>Implements the restarted Generalized Minimal Residual (GMRES) method for solving the linear system <script type="math/tex"> Ax = b </script>, where <script type="math/tex"> A </script> is a general linear operator defined via the <code>stdlib_linop</code> type. This is the core implementation, allowing custom matrix types, custom preconditioners, and user-managed workspace.</p>
+<h4 id="syntax_8">Syntax</h4>
+<p><code>call</code> <a href="../../interface/stdlib_solve_gmres_kernel.html">stdlib_solve_gmres_kernel</a> <code>(A, M, b, x, rtol, atol, maxiter, kdim, workspace, compact)</code></p>
+<h4 id="status_6">Status</h4>
+<p>Experimental</p>
+<h4 id="class_9">Class</h4>
+<p>Subroutine</p>
+<h4 id="arguments_9">Argument(s)</h4>
+<p><code>A</code>: <code>class(stdlib_linop_&lt;kind&gt;_type)</code> defining the linear operator. This argument is <code>intent(in)</code>.</p>
+<p><code>M</code>: <code>class(stdlib_linop_&lt;kind&gt;_type)</code> defining the preconditioner linear operator. This argument is <code>intent(in)</code>.</p>
+<p><code>b</code>: 1-D array of <code>real(&lt;kind&gt;)</code> defining the loading conditions of the linear system. This argument is <code>intent(in)</code>.</p>
+<p><code>x</code>: 1-D array of <code>real(&lt;kind&gt;)</code> which serves as the input initial guess and the output solution. This argument is <code>intent(inout)</code>.</p>
+<p><code>rtol</code> and <code>atol</code>: scalars of type <code>real(&lt;kind&gt;)</code> specifying the convergence test. For convergence, the following criterion is used <script type="math/tex"> || b - Ax ||^2 <= max(rtol^2 * || b ||^2 , atol^2 ) </script>. These arguments are <code>intent(in)</code>.</p>
+<p><code>maxiter</code>: scalar of type <code>integer</code> defining the maximum allowed number of iterations. This argument is <code>intent(in)</code>.</p>
+<p><code>kdim</code>: scalar of type <code>integer</code> defining the Krylov subspace size before restart. This argument is <code>intent(in)</code>.</p>
+<p><code>workspace</code>: scalar derived type of <code>type(stdlib_solver_workspace_&lt;kind&gt;_type)</code> holding the work array for the solver. This argument is <code>intent(inout)</code>.</p>
+<p><code>compact</code>: scalar of type <code>logical</code>. If true, GMRES stores only one preconditioned basis vector at a time and rebuilds the cycle-end correction through the preconditioner, reducing memory usage. If false, GMRES caches the full preconditioned basis for a faster cycle-end update at the cost of additional memory. Default is <code>.true.</code>. This argument is <code>intent(in)</code>.</p>
+<h4 id="note_2">Note</h4>
+<p>GMRES trades increasing memory and orthogonalization cost for robust convergence on general non-symmetric systems. The <code>compact</code> option allows choosing between a lower-memory layout and a slightly faster restart update.</p>
+<!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -->
+<h3 id="stdlib_solve_gmres-subroutine"><code>stdlib_solve_gmres</code> subroutine</h3>
+<h4 id="description_7">Description</h4>
+<p>Provides a user-friendly interface to the restarted GMRES method for solving <script type="math/tex"> Ax = b </script>, supporting <code>dense</code> and <code>CSR_&lt;kind&gt;_type</code> matrices. GMRES is suitable for general non-symmetric systems and supports optional preconditioning, workspace reuse, and a storage-mode choice for balancing memory use against cycle-end update speed.</p>
+<h4 id="syntax_9">Syntax</h4>
+<p><code>call</code> <a href="../../interface/stdlib_solve_gmres.html">stdlib_solve_gmres</a> <code>(A, b, x [, di, rtol, atol, maxiter, restart, kdim, precond, M, workspace, compact])</code></p>
+<h4 id="status_7">Status</h4>
+<p>Experimental</p>
+<h4 id="class_10">Class</h4>
+<p>Subroutine</p>
+<h4 id="arguments_10">Argument(s)</h4>
+<p><code>A</code>: <code>dense</code> or <code>CSR_&lt;kind&gt;_type</code> matrix defining the linear system. This argument is <code>intent(in)</code>.</p>
+<p><code>b</code>: 1-D array of <code>real(&lt;kind&gt;)</code> defining the loading conditions of the linear system. This argument is <code>intent(in)</code>.</p>
+<p><code>x</code>: 1-D array of <code>real(&lt;kind&gt;)</code> which serves as the input initial guess and the output solution. This argument is <code>intent(inout)</code>.</p>
+<p><code>di</code> (optional): 1-D mask array of type <code>logical(int8)</code> defining the degrees of freedom subject to dirichlet boundary conditions. The actual boundary condition values should be stored in the <code>b</code> load array. This argument is <code>intent(in)</code>.</p>
+<p><code>rtol</code> and <code>atol</code> (optional): scalars of type <code>real(&lt;kind&gt;)</code> specifying the convergence test. For convergence, the following criterion is used <script type="math/tex"> || b - Ax ||^2 <= max(rtol^2 * || b ||^2 , atol^2 ) </script>. Default values are <code>rtol=1.e-5</code> and <code>atol=epsilon(1._&lt;kind&gt;)</code>. These arguments are <code>intent(in)</code>.</p>
+<p><code>maxiter</code> (optional): scalar of type <code>integer</code> defining the maximum allowed number of iterations. If no value is given, a default of <code>N</code> is set, where <code>N = size(b)</code>. This argument is <code>intent(in)</code>.</p>
+<p><code>restart</code> (optional): scalar of type <code>logical</code> indicating whether to restart the iteration with zero initial guess. Default is <code>.true.</code>. This argument is <code>intent(in)</code>.</p>
+<p><code>kdim</code> (optional): scalar of type <code>integer</code> defining the Krylov subspace size before restart. If no value is given, a default of <code>min(30, N)</code> is used. This argument is <code>intent(in)</code>.</p>
+<p><code>precond</code> (optional): scalar of type <code>integer</code> enabling to switch among the default preconditioners available with the following enum (<code>pc_none</code>, <code>pc_jacobi</code>). If no value is given, no preconditioning will be applied. This argument is <code>intent(in)</code>.</p>
+<p><code>M</code> (optional): scalar derived type of <code>class(stdlib_linop_&lt;kind&gt;_type)</code> defining a custom preconditioner linear operator. If given, <code>precond</code> will have no effect, and a pointer is set to this custom preconditioner. This argument is <code>intent(in)</code>.</p>
+<p><code>workspace</code> (optional): scalar derived type of <code>type(stdlib_solver_workspace_&lt;kind&gt;_type)</code> holding the work temporal array for the solver. If the user passes its own <code>workspace</code>, then internally a pointer is set to it, otherwise, memory will be internally allocated and deallocated before exiting the procedure. This argument is <code>intent(inout)</code>.</p>
+<p><code>compact</code> (optional): scalar of type <code>logical</code>. If true, GMRES stores only one preconditioned basis vector per iteration cycle and minimizes memory use. If false, GMRES caches the full preconditioned basis to speed up the cycle-end update. Default is <code>.true.</code>. This argument is <code>intent(in)</code>.</p>
+<h4 id="note_3">Note</h4>
+<p>GMRES is especially useful for general non-symmetric systems where CG and PCG do not apply. Its main cost is the Krylov basis storage and orthogonalization work within each restart cycle. With <code>compact=.true.</code>, the solver reduces workspace requirements significantly. With <code>compact=.false.</code>, it retains the previous cached-basis update strategy.</p>
+<h4 id="example_3">Example</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_solve_gmres</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span>
+<span class="w">    </span><span class="k">use </span><span class="n">stdlib_linalg_iterative_solvers</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">stdlib_solve_gmres</span><span class="p">,</span><span class="w"> </span><span class="n">pc_jacobi</span>
+<span class="w">    </span><span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="mf">5.0_dp</span><span class="p">,</span><span class="w">  </span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w">  </span><span class="mf">2.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                             </span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w">  </span><span class="mf">4.0_dp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                             </span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w">  </span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w">  </span><span class="mf">3.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0_dp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                             </span><span class="mf">2.0_dp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w">  </span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">6.0_dp</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">])</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x0</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">0.2_dp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">0.1_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">0.3_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="p">]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xref</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0_dp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5_dp</span><span class="p">]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rhs</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">rhs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">xref</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! GMRES lets the user tune the restart size and the storage mode.</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x0</span>
+<span class="w">    </span><span class="k">call </span><span class="n">stdlib_solve_gmres</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">restart</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.,</span><span class="w"> </span><span class="n">kdim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">maxiter</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="n">precond</span><span class="o">=</span><span class="n">pc_jacobi</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;compact:&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span>
+
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x0</span>
+<span class="w">    </span><span class="k">call </span><span class="n">stdlib_solve_gmres</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">restart</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.,</span><span class="w"> </span><span class="n">kdim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">maxiter</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="n">precond</span><span class="o">=</span><span class="n">pc_jacobi</span><span class="p">,</span><span class="w"> </span><span class="n">compact</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;cached :&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span>
+<span class="k">end program </span><span class="n">example_solve_gmres</span>
+</code></pre></div>
     </div>
   </div>
       <hr>
@@ -742,13 +835,13 @@
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>a2ef8aa7</small></p>
+<br /><small>9a15c777</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-07-18 13:03 +0000             </p>
+ on 2026-07-18 17:44 +0000             </p>
           </div>
         </div>
         <br>
