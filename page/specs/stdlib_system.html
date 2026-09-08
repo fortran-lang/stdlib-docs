@@ -492,7 +492,7 @@ Additionally, a callback function can be specified to execute upon process compl
 <span class="k">type</span><span class="p">(</span><span class="n">process_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p</span>
 
 <span class="c">! Run a simple command line synchronously</span>
-<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;echo &#39;Hello, world!&#39;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">want_stdout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="s2">"echo 'Hello, world!'"</span><span class="p">,</span><span class="w"> </span><span class="n">want_stdout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
 </code></pre></div>
 
 <h2 id="runasync-execute-an-external-process-asynchronously"><code>runasync</code> - Execute an external process asynchronously</h2>
@@ -525,17 +525,17 @@ Additionally, a callback function can be specified to execute upon process compl
 
 <span class="w">    </span><span class="c">! Run a synchronous process to list directory contents</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_windows</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;dir&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">want_stdout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="k">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="s2">"dir"</span><span class="p">,</span><span class="w"> </span><span class="n">want_stdout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;ls -l&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">want_stdout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="k">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="s2">"ls -l"</span><span class="p">,</span><span class="w"> </span><span class="n">want_stdout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
 <span class="w">    </span><span class="k">end if</span>
 
 <span class="w">    </span><span class="c">! Check if the process is completed (should be true since wait=.true.)</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_completed</span><span class="p">(</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process completed successfully. The current directory: &quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process completed successfully. The current directory: "</span>
 <span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">%</span><span class="n">stdout</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process is still running (unexpected).&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process is still running (unexpected)."</span>
 <span class="w">    </span><span class="k">end if</span>
 
 <span class="k">end program </span><span class="n">run_sync</span>
@@ -563,18 +563,18 @@ After a call to <code>is_running</code>, the <code>type(process_type)</code> str
 <span class="k">    type</span><span class="p">(</span><span class="n">process_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p</span>
 
 <span class="w">    </span><span class="c">! Run an asynchronous process to sleep for 1 second</span>
-<span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runasync</span><span class="p">(</span><span class="s2">&quot;sleep 1&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runasync</span><span class="p">(</span><span class="s2">"sleep 1"</span><span class="p">)</span>
 
 <span class="w">    </span><span class="c">! Check if the process is running</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_running</span><span class="p">(</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process is running.&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process is running."</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process has already completed.&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process has already completed."</span>
 <span class="w">    </span><span class="k">end if</span>
 
 <span class="w">    </span><span class="c">! Wait for the process to complete</span>
 <span class="w">    </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">max_wait_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0</span><span class="p">)</span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process has now completed.&quot;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process has now completed."</span>
 <span class="k">end program </span><span class="n">run_async</span>
 </code></pre></div>
 
@@ -604,17 +604,17 @@ This is useful for determining whether asynchronous processes created with the <
 
 <span class="w">    </span><span class="c">! Run a synchronous process to list directory contents</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_windows</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;dir&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">want_stdout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="k">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="s2">"dir"</span><span class="p">,</span><span class="w"> </span><span class="n">want_stdout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;ls -l&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">want_stdout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="k">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="s2">"ls -l"</span><span class="p">,</span><span class="w"> </span><span class="n">want_stdout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
 <span class="w">    </span><span class="k">end if</span>
 
 <span class="w">    </span><span class="c">! Check if the process is completed (should be true since wait=.true.)</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_completed</span><span class="p">(</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process completed successfully. The current directory: &quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process completed successfully. The current directory: "</span>
 <span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">%</span><span class="n">stdout</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process is still running (unexpected).&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process is still running (unexpected)."</span>
 <span class="w">    </span><span class="k">end if</span>
 
 <span class="k">end program </span><span class="n">run_sync</span>
@@ -646,14 +646,14 @@ Otherwise, the total process duration from creation until completion is returned
 
 <span class="w">    </span><span class="c">! Define arguments for the `echo` command</span>
 <span class="w">    </span><span class="k">allocate</span><span class="p">(</span><span class="n">args</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-<span class="w">    </span><span class="n">args</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;echo&quot;</span>
-<span class="w">    </span><span class="n">args</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Hello, Fortran!&quot;</span>
+<span class="w">    </span><span class="n">args</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"echo"</span>
+<span class="w">    </span><span class="n">args</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Hello, Fortran!"</span>
 
 <span class="w">    </span><span class="c">! Run the command with arguments (synchronous)</span>
 <span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
 <span class="w">    </span><span class="c">! Print the runtime of the process</span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process runtime:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">elapsed</span><span class="p">(</span><span class="n">p</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot;seconds.&quot;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process runtime:"</span><span class="p">,</span><span class="w"> </span><span class="n">elapsed</span><span class="p">(</span><span class="n">p</span><span class="p">),</span><span class="w"> </span><span class="s2">"seconds."</span>
 
 <span class="w">    </span><span class="c">! Clean up</span>
 <span class="w">    </span><span class="k">deallocate</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
@@ -687,18 +687,18 @@ If not provided, the subroutine will wait indefinitely until the process complet
 <span class="k">    type</span><span class="p">(</span><span class="n">process_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p</span>
 
 <span class="w">    </span><span class="c">! Run an asynchronous process to sleep for 1 second</span>
-<span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runasync</span><span class="p">(</span><span class="s2">&quot;sleep 1&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runasync</span><span class="p">(</span><span class="s2">"sleep 1"</span><span class="p">)</span>
 
 <span class="w">    </span><span class="c">! Check if the process is running</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_running</span><span class="p">(</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process is running.&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process is running."</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process has already completed.&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process has already completed."</span>
 <span class="w">    </span><span class="k">end if</span>
 
 <span class="w">    </span><span class="c">! Wait for the process to complete</span>
 <span class="w">    </span><span class="k">call </span><span class="n">wait</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">max_wait_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0</span><span class="p">)</span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process has now completed.&quot;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process has now completed."</span>
 <span class="k">end program </span><span class="n">run_async</span>
 </code></pre></div>
 
@@ -722,9 +722,9 @@ This is an <code>intent(inout)</code> argument, and its internal state is update
 <span class="k">    type</span><span class="p">(</span><span class="n">process_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">process</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_windows</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        </span><span class="n">process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runasync</span><span class="p">(</span><span class="s2">&quot;ping -n 10 127.0.0.1&quot;</span><span class="p">)</span>
+<span class="k">        </span><span class="n">process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runasync</span><span class="p">(</span><span class="s2">"ping -n 10 127.0.0.1"</span><span class="p">)</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        </span><span class="n">process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runasync</span><span class="p">(</span><span class="s2">&quot;ping -c 10 127.0.0.1&quot;</span><span class="p">)</span>
+<span class="k">        </span><span class="n">process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runasync</span><span class="p">(</span><span class="s2">"ping -c 10 127.0.0.1"</span><span class="p">)</span>
 <span class="w">    </span><span class="k">endif</span>
 
 <span class="w">    </span><span class="c">! Verify the process is running</span>
@@ -736,11 +736,11 @@ This is an <code>intent(inout)</code> argument, and its internal state is update
 <span class="w">        </span><span class="c">! Wait a bit before killing the process</span>
 <span class="w">        </span><span class="k">call </span><span class="nb">sleep</span><span class="p">(</span><span class="n">millisec</span><span class="o">=</span><span class="mi">1500</span><span class="p">)</span>
 
-<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process has been running for &quot;</span><span class="p">,</span><span class="n">process</span><span class="p">%</span><span class="n">elapsed</span><span class="p">(),</span><span class="s2">&quot; seconds...&quot;</span>
+<span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process has been running for "</span><span class="p">,</span><span class="n">process</span><span class="p">%</span><span class="n">elapsed</span><span class="p">(),</span><span class="s2">" seconds..."</span>
 
 <span class="w">    </span><span class="k">end do</span>
 
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process &quot;</span><span class="p">,</span><span class="n">process</span><span class="p">%</span><span class="n">pid</span><span class="p">(),</span><span class="s2">&quot; completed in &quot;</span><span class="p">,</span><span class="n">process</span><span class="p">%</span><span class="n">elapsed</span><span class="p">(),</span><span class="s2">&quot; seconds.&quot;</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process "</span><span class="p">,</span><span class="n">process</span><span class="p">%</span><span class="n">pid</span><span class="p">(),</span><span class="s2">" completed in "</span><span class="p">,</span><span class="n">process</span><span class="p">%</span><span class="n">elapsed</span><span class="p">(),</span><span class="s2">" seconds."</span>
 
 <span class="k">end program </span><span class="n">example_process_5</span>
 </code></pre></div>
@@ -765,32 +765,32 @@ This is an <code>intent(inout)</code> argument, and on return is updated with th
 <span class="k">    type</span><span class="p">(</span><span class="n">process_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">process</span>
 <span class="w">    </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">running</span><span class="p">,</span><span class="w"> </span><span class="n">success</span>
 
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Starting a long-running process...&quot;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Starting a long-running process..."</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_windows</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        </span><span class="n">process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runasync</span><span class="p">(</span><span class="s2">&quot;ping -n 10 127.0.0.1&quot;</span><span class="p">)</span>
+<span class="k">        </span><span class="n">process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runasync</span><span class="p">(</span><span class="s2">"ping -n 10 127.0.0.1"</span><span class="p">)</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        </span><span class="n">process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runasync</span><span class="p">(</span><span class="s2">&quot;ping -c 10 127.0.0.1&quot;</span><span class="p">)</span>
+<span class="k">        </span><span class="n">process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runasync</span><span class="p">(</span><span class="s2">"ping -c 10 127.0.0.1"</span><span class="p">)</span>
 <span class="w">    </span><span class="k">endif</span>
 
 <span class="w">    </span><span class="c">! Verify the process is running</span>
 <span class="w">    </span><span class="n">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is_running</span><span class="p">(</span><span class="n">process</span><span class="p">)</span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process running:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">running</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process running:"</span><span class="p">,</span><span class="w"> </span><span class="n">running</span>
 
 <span class="w">    </span><span class="c">! Wait a bit before killing the process</span>
 <span class="w">    </span><span class="k">call </span><span class="nb">sleep</span><span class="p">(</span><span class="n">millisec</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span><span class="w"> </span>
 
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Killing the process...&quot;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Killing the process..."</span>
 <span class="w">    </span><span class="k">call </span><span class="nb">kill</span><span class="p">(</span><span class="n">process</span><span class="p">,</span><span class="w"> </span><span class="n">success</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">success</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process killed successfully.&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process killed successfully."</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Failed to kill the process.&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Failed to kill the process."</span>
 <span class="w">    </span><span class="k">endif</span>
 
 <span class="w">    </span><span class="c">! Verify the process is no longer running</span>
 <span class="w">    </span><span class="n">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is_running</span><span class="p">(</span><span class="n">process</span><span class="p">)</span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process running after kill:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">running</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process running after kill:"</span><span class="p">,</span><span class="w"> </span><span class="n">running</span>
 
 <span class="k">end program </span><span class="n">example_process_kill</span>
 </code></pre></div>
@@ -812,12 +812,12 @@ It ensures that the requested sleep duration is honored on both Windows and Unix
 <span class="w">    </span><span class="k">use </span><span class="n">stdlib_system</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="nb">sleep</span>
 <span class="nb">    </span><span class="k">implicit none</span>
 
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Starting sleep...&quot;</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Starting sleep..."</span>
 
 <span class="w">    </span><span class="c">! Sleep for 500 milliseconds</span>
 <span class="w">    </span><span class="k">call </span><span class="nb">sleep</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
 
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Finished sleeping!&quot;</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Finished sleeping!"</span>
 
 <span class="k">end program </span><span class="n">example_sleep</span><span class="w">    </span>
 </code></pre></div>
@@ -844,17 +844,17 @@ This function is highly efficient and works during the compilation phase, avoidi
 
 <span class="w">    </span><span class="c">! Run a synchronous process to list directory contents</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_windows</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;dir&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">want_stdout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="k">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="s2">"dir"</span><span class="p">,</span><span class="w"> </span><span class="n">want_stdout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;ls -l&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">want_stdout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="k">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="s2">"ls -l"</span><span class="p">,</span><span class="w"> </span><span class="n">want_stdout</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
 <span class="w">    </span><span class="k">end if</span>
 
 <span class="w">    </span><span class="c">! Check if the process is completed (should be true since wait=.true.)</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_completed</span><span class="p">(</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process completed successfully. The current directory: &quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process completed successfully. The current directory: "</span>
 <span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">%</span><span class="n">stdout</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Process is still running (unexpected).&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Process is still running (unexpected)."</span>
 <span class="w">    </span><span class="k">end if</span>
 
 <span class="k">end program </span><span class="n">run_sync</span>
@@ -891,7 +891,7 @@ The supported OS types are <code>integer, parameter</code> variables stored in t
 <span class="w">    </span><span class="k">implicit none</span>
 
 <span class="w">    </span><span class="c">! Runtime OS detection (full inspection)</span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Runtime OS Type: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">OS_NAME</span><span class="p">(</span><span class="n">get_runtime_os</span><span class="p">())</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Runtime OS Type: "</span><span class="p">,</span><span class="w"> </span><span class="n">OS_NAME</span><span class="p">(</span><span class="n">get_runtime_os</span><span class="p">())</span>
 
 <span class="k">end program </span><span class="n">example_get_runtime_os</span>
 </code></pre></div>
@@ -922,7 +922,7 @@ Subsequent calls reuse the cached value, making this function highly efficient.<
 
 <span class="w">    </span><span class="c">! Cached OS detection</span>
 <span class="w">    </span><span class="n">current_os</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OS_TYPE</span><span class="p">()</span><span class="w"> </span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Current OS Type: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">OS_NAME</span><span class="p">(</span><span class="n">current_os</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Current OS Type: "</span><span class="p">,</span><span class="w"> </span><span class="n">OS_NAME</span><span class="p">(</span><span class="n">current_os</span><span class="p">)</span><span class="w"> </span>
 
 <span class="k">end program </span><span class="n">example_os_type</span>
 </code></pre></div>
@@ -953,14 +953,14 @@ An arbitrary list of <code>integer</code>, <code>real</code>, <code>complex</cod
 
 <span class="k">    type</span><span class="p">(</span><span class="n">state_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err0</span><span class="p">,</span><span class="w"> </span><span class="n">err1</span>
 
-<span class="w">    </span><span class="n">err0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FS_ERROR</span><span class="p">(</span><span class="s2">&quot;Could not create directory&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;`temp.dir`&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;- Already exists&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">err0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FS_ERROR</span><span class="p">(</span><span class="s2">"Could not create directory"</span><span class="p">,</span><span class="w"> </span><span class="s2">"`temp.dir`"</span><span class="p">,</span><span class="w"> </span><span class="s2">"- Already exists"</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err0</span><span class="p">%</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">STDLIB_FS_ERROR</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">        </span><span class="c">! Error encountered: Filesystem Error: Could not create directory `temp.dir` - Already exists</span>
 <span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">err0</span><span class="p">%</span><span class="k">print</span><span class="p">()</span><span class="w"> </span>
 <span class="w">    </span><span class="k">end if</span>
 
-<span class="k">    </span><span class="n">err1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FS_ERROR_CODE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Could not create directory&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;`temp.dir`&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;- Already exists&quot;</span><span class="p">)</span>
+<span class="k">    </span><span class="n">err1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FS_ERROR_CODE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"Could not create directory"</span><span class="p">,</span><span class="w"> </span><span class="s2">"`temp.dir`"</span><span class="p">,</span><span class="w"> </span><span class="s2">"- Already exists"</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err1</span><span class="p">%</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">STDLIB_FS_ERROR</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">        </span><span class="c">! Error encountered: Filesystem Error: code - 1, Could not create directory `temp.dir` - Already exists</span>
@@ -998,14 +998,14 @@ An arbitrary list of <code>integer</code>, <code>real</code>, <code>complex</cod
 
 <span class="k">    type</span><span class="p">(</span><span class="n">state_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err0</span><span class="p">,</span><span class="w"> </span><span class="n">err1</span>
 
-<span class="w">    </span><span class="n">err0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FS_ERROR</span><span class="p">(</span><span class="s2">&quot;Could not create directory&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;`temp.dir`&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;- Already exists&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">err0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FS_ERROR</span><span class="p">(</span><span class="s2">"Could not create directory"</span><span class="p">,</span><span class="w"> </span><span class="s2">"`temp.dir`"</span><span class="p">,</span><span class="w"> </span><span class="s2">"- Already exists"</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err0</span><span class="p">%</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">STDLIB_FS_ERROR</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">        </span><span class="c">! Error encountered: Filesystem Error: Could not create directory `temp.dir` - Already exists</span>
 <span class="w">        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">err0</span><span class="p">%</span><span class="k">print</span><span class="p">()</span><span class="w"> </span>
 <span class="w">    </span><span class="k">end if</span>
 
-<span class="k">    </span><span class="n">err1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FS_ERROR_CODE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Could not create directory&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;`temp.dir`&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;- Already exists&quot;</span><span class="p">)</span>
+<span class="k">    </span><span class="n">err1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FS_ERROR_CODE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"Could not create directory"</span><span class="p">,</span><span class="w"> </span><span class="s2">"`temp.dir`"</span><span class="p">,</span><span class="w"> </span><span class="s2">"- Already exists"</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err1</span><span class="p">%</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">STDLIB_FS_ERROR</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="w">        </span><span class="c">! Error encountered: Filesystem Error: code - 1, Could not create directory `temp.dir` - Already exists</span>
@@ -1041,13 +1041,13 @@ It is designed to work across multiple platforms. On Windows, paths with both fo
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_system</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">is_file</span>
 <span class="w">  </span><span class="k">implicit none</span>
 
-<span class="k">  </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;path/to/check&quot;</span>
+<span class="k">  </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"path/to/check"</span>
 
 <span class="w">  </span><span class="c">! Test if path is a regular file</span>
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_file</span><span class="p">(</span><span class="n">path</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;The specified path is a regular file.&quot;</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"The specified path is a regular file."</span>
 <span class="w">  </span><span class="k">else</span>
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;The specified path is not a regular file.&quot;</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"The specified path is not a regular file."</span>
 <span class="w">  </span><span class="k">end if</span>
 <span class="k">end program </span><span class="n">example_is_file</span>
 </code></pre></div>
@@ -1078,10 +1078,10 @@ It is designed to work across multiple platforms. On Windows, paths with both fo
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_system</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">is_directory</span>
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="w">  </span><span class="c">! Test a directory path</span>
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_directory</span><span class="p">(</span><span class="s2">&quot;/path/to/check&quot;</span><span class="p">))</span><span class="w"> </span><span class="k">then </span>
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;The specified path is a directory.&quot;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_directory</span><span class="p">(</span><span class="s2">"/path/to/check"</span><span class="p">))</span><span class="w"> </span><span class="k">then </span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"The specified path is a directory."</span>
 <span class="w">  </span><span class="k">else</span>
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;The specified path is not a directory.&quot;</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"The specified path is not a directory."</span>
 <span class="w">  </span><span class="k">end if</span>
 <span class="k">end program </span><span class="n">example_is_directory</span>
 </code></pre></div>
@@ -1113,19 +1113,19 @@ It is designed to work across multiple platforms. On Windows, paths with both fo
 <span class="w">  </span><span class="k">use </span><span class="n">stdlib_system</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">is_symlink</span><span class="p">,</span><span class="w"> </span><span class="n">is_directory</span>
 <span class="w">  </span><span class="k">implicit none</span>
 
-<span class="k">  </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;path/to/check&quot;</span>
+<span class="k">  </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"path/to/check"</span>
 
 <span class="w">  </span><span class="c">! Test if path is a symbolic link</span>
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_symlink</span><span class="p">(</span><span class="n">path</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;The specified path is a symlink.&quot;</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"The specified path is a symlink."</span>
 <span class="w">    </span><span class="c">! Further check if it is linked to a file or a directory</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_directory</span><span class="p">(</span><span class="n">path</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Further, it is a link to a directory.&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Further, it is a link to a directory."</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Further, it is a link to a file.&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Further, it is a link to a file."</span>
 <span class="w">    </span><span class="k">end if</span>
 <span class="k">  else</span>
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;The specified path is not a symlink.&quot;</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"The specified path is not a symlink."</span>
 <span class="w">  </span><span class="k">end if</span>
 <span class="k">end program </span><span class="n">example_is_symlink</span>
 </code></pre></div>
@@ -1155,20 +1155,20 @@ It is designed to work across multiple platforms. On Windows, paths with both fo
 
 <span class="k">    type</span><span class="p">(</span><span class="n">state_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
 
-<span class="w">    </span><span class="k">call </span><span class="n">make_directory</span><span class="p">(</span><span class="s2">&quot;temp_dir&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">make_directory</span><span class="p">(</span><span class="s2">"temp_dir"</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
 <span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;directory created sucessfully&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"directory created sucessfully"</span>
 <span class="w">    </span><span class="k">end if</span>
 
-<span class="k">    call </span><span class="n">make_directory_all</span><span class="p">(</span><span class="s2">&quot;d1/d2/d3/d4&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="k">    call </span><span class="n">make_directory_all</span><span class="p">(</span><span class="s2">"d1/d2/d3/d4"</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
 <span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nested directories created sucessfully&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"nested directories created sucessfully"</span>
 <span class="w">    </span><span class="k">end if</span>
 
 <span class="k">end program </span><span class="n">example_make_directory</span>
@@ -1199,20 +1199,20 @@ It also creates all the necessary parent directories in the path if they do not 
 
 <span class="k">    type</span><span class="p">(</span><span class="n">state_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
 
-<span class="w">    </span><span class="k">call </span><span class="n">make_directory</span><span class="p">(</span><span class="s2">&quot;temp_dir&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">make_directory</span><span class="p">(</span><span class="s2">"temp_dir"</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
 <span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;directory created sucessfully&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"directory created sucessfully"</span>
 <span class="w">    </span><span class="k">end if</span>
 
-<span class="k">    call </span><span class="n">make_directory_all</span><span class="p">(</span><span class="s2">&quot;d1/d2/d3/d4&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="k">    call </span><span class="n">make_directory_all</span><span class="p">(</span><span class="s2">"d1/d2/d3/d4"</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
 <span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nested directories created sucessfully&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"nested directories created sucessfully"</span>
 <span class="w">    </span><span class="k">end if</span>
 
 <span class="k">end program </span><span class="n">example_make_directory</span>
@@ -1243,12 +1243,12 @@ It is designed to work across multiple platforms. On Windows, paths with both fo
 
 <span class="k">    type</span><span class="p">(</span><span class="n">state_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
 
-<span class="w">    </span><span class="k">call </span><span class="n">remove_directory</span><span class="p">(</span><span class="s2">&quot;directory_to_be_removed&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">remove_directory</span><span class="p">(</span><span class="s2">"directory_to_be_removed"</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
 <span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;directory removed successfully&quot;</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"directory removed successfully"</span>
 <span class="w">    </span><span class="k">end if</span>
 
 <span class="k">end program </span><span class="n">example_remove_directory</span>
@@ -1283,24 +1283,24 @@ It is designed to work across multiple platforms. On Windows, paths with both fo
 <span class="w">    </span><span class="k">call </span><span class="n">get_cwd</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Error getting current working directory: &quot;</span><span class="o">//</span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error getting current working directory: "</span><span class="o">//</span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
 <span class="w">    </span><span class="k">end if</span>
 
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;CWD: &quot;</span><span class="o">//</span><span class="n">path</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"CWD: "</span><span class="o">//</span><span class="n">path</span>
 
-<span class="w">    </span><span class="k">call </span><span class="n">set_cwd</span><span class="p">(</span><span class="s2">&quot;./src&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">set_cwd</span><span class="p">(</span><span class="s2">"./src"</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Error setting current working directory: &quot;</span><span class="o">//</span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error setting current working directory: "</span><span class="o">//</span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
 <span class="w">    </span><span class="k">end if</span>
 
 <span class="k">    call </span><span class="n">get_cwd</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Error getting current working directory after using set_cwd: &quot;</span><span class="o">//</span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error getting current working directory after using set_cwd: "</span><span class="o">//</span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
 <span class="w">    </span><span class="k">end if</span>
 
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;CWD: &quot;</span><span class="o">//</span><span class="n">path</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"CWD: "</span><span class="o">//</span><span class="n">path</span>
 <span class="k">end program </span><span class="n">example_cwd</span>
 </code></pre></div>
 
@@ -1333,24 +1333,24 @@ It is designed to work across multiple platforms. On Windows, paths with both fo
 <span class="w">    </span><span class="k">call </span><span class="n">get_cwd</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Error getting current working directory: &quot;</span><span class="o">//</span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error getting current working directory: "</span><span class="o">//</span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
 <span class="w">    </span><span class="k">end if</span>
 
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;CWD: &quot;</span><span class="o">//</span><span class="n">path</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"CWD: "</span><span class="o">//</span><span class="n">path</span>
 
-<span class="w">    </span><span class="k">call </span><span class="n">set_cwd</span><span class="p">(</span><span class="s2">&quot;./src&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">set_cwd</span><span class="p">(</span><span class="s2">"./src"</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Error setting current working directory: &quot;</span><span class="o">//</span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error setting current working directory: "</span><span class="o">//</span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
 <span class="w">    </span><span class="k">end if</span>
 
 <span class="k">    call </span><span class="n">get_cwd</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Error getting current working directory after using set_cwd: &quot;</span><span class="o">//</span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
+<span class="k">        print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Error getting current working directory after using set_cwd: "</span><span class="o">//</span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span>
 <span class="w">    </span><span class="k">end if</span>
 
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;CWD: &quot;</span><span class="o">//</span><span class="n">path</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"CWD: "</span><span class="o">//</span><span class="n">path</span>
 <span class="k">end program </span><span class="n">example_cwd</span>
 </code></pre></div>
 
@@ -1392,7 +1392,7 @@ Any encountered errors are handled using <code>state_type</code>.</p>
 <span class="k">    type</span><span class="p">(</span><span class="n">state_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
 
 <span class="w">    </span><span class="c">! Path to check</span>
-<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;path/to/check&quot;</span>
+<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"path/to/check"</span>
 <span class="w">    </span><span class="c">! To get the type of the path</span>
 <span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span>
 
@@ -1405,10 +1405,10 @@ Any encountered errors are handled using <code>state_type</code>.</p>
 
 <span class="w">    </span><span class="c">! switching on the type returned by `exists`</span>
 <span class="w">    </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">fs_type_unknown</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Unknown type!&quot;</span>
-<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">fs_type_regular_file</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Regular File!&quot;</span>
-<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">fs_type_directory</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Directory!&quot;</span>
-<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">fs_type_symlink</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Symbolic Link!&quot;</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">fs_type_unknown</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Unknown type!"</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">fs_type_regular_file</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Regular File!"</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">fs_type_directory</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Directory!"</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">fs_type_symlink</span><span class="p">);</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"Symbolic Link!"</span>
 <span class="w">    </span><span class="k">end select</span>
 <span class="k">end program </span><span class="n">example_exists</span>
 </code></pre></div>
@@ -1449,7 +1449,7 @@ It reads as an empty file. The null device's path varies by operating system:
 <span class="w">       </span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span><span class="k">file</span><span class="o">=</span><span class="n">null_device</span><span class="p">())</span>
 <span class="w">    </span><span class="k">endif     </span>
 
-<span class="k">    write</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;Hello, world!&quot;</span><span class="w"> </span>
+<span class="k">    write</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">"Hello, world!"</span><span class="w"> </span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="n">screen_output</span><span class="p">)</span><span class="w"> </span><span class="k">close</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span><span class="w"> </span>
 
@@ -1487,7 +1487,7 @@ The function provides an optional error-handling mechanism via the <code>state_t
 <span class="w">  </span><span class="k">implicit none</span>
 
 <span class="k">  type</span><span class="p">(</span><span class="n">state_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">err</span>
-<span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;example.txt&quot;</span>
+<span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"example.txt"</span>
 
 <span class="w">  </span><span class="c">! Delete a file with error handling</span>
 <span class="w">  </span><span class="k">call </span><span class="n">delete_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
@@ -1495,7 +1495,7 @@ The function provides an optional error-handling mechanism via the <code>state_t
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">%</span><span class="n">error</span><span class="p">())</span><span class="w"> </span><span class="k">then</span>
 <span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">%</span><span class="k">print</span><span class="p">()</span><span class="w"> </span>
 <span class="w">  </span><span class="k">else</span>
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;File &quot;</span><span class="o">//</span><span class="n">filename</span><span class="o">//</span><span class="s2">&quot; deleted successfully.&quot;</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"File "</span><span class="o">//</span><span class="n">filename</span><span class="o">//</span><span class="s2">" deleted successfully."</span>
 <span class="w">  </span><span class="k">end if</span>
 <span class="k">end program </span><span class="n">example_delete_file</span>
 </code></pre></div>
@@ -1539,21 +1539,21 @@ i.e <code>\</code> for windows and <code>/</code> for others</p>
 <span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">parr</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">OS_TYPE</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">OS_WINDOWS</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;C:&#39;</span><span class="o">/</span><span class="s1">&#39;Users&#39;</span><span class="o">/</span><span class="s1">&#39;User1&#39;</span><span class="o">/</span><span class="s1">&#39;Desktop&#39;</span>
-<span class="w">        </span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join_path</span><span class="p">(</span><span class="s1">&#39;C:\Users\User1&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Desktop&#39;</span><span class="p">)</span>
-<span class="w">        </span><span class="n">parr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="s1">&#39;C:&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Users&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;User1&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Desktop&#39;</span><span class="p">]</span>
+<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'C:'</span><span class="o">/</span><span class="s1">'Users'</span><span class="o">/</span><span class="s1">'User1'</span><span class="o">/</span><span class="s1">'Desktop'</span>
+<span class="w">        </span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join_path</span><span class="p">(</span><span class="s1">'C:\Users\User1'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Desktop'</span><span class="p">)</span>
+<span class="w">        </span><span class="n">parr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="s1">'C:'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Users'</span><span class="p">,</span><span class="w"> </span><span class="s1">'User1'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Desktop'</span><span class="p">]</span>
 <span class="w">        </span><span class="n">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join_path</span><span class="p">(</span><span class="n">parr</span><span class="p">)</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="o">/</span><span class="s1">&#39;home&#39;</span><span class="o">/</span><span class="s1">&#39;User1&#39;</span><span class="o">/</span><span class="s1">&#39;Desktop&#39;</span>
-<span class="w">        </span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join_path</span><span class="p">(</span><span class="s1">&#39;/home/User1&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Desktop&#39;</span><span class="p">)</span>
-<span class="w">        </span><span class="n">parr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;home&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;User1&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Desktop&#39;</span><span class="p">]</span>
+<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="o">/</span><span class="s1">'home'</span><span class="o">/</span><span class="s1">'User1'</span><span class="o">/</span><span class="s1">'Desktop'</span>
+<span class="w">        </span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join_path</span><span class="p">(</span><span class="s1">'/home/User1'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Desktop'</span><span class="p">)</span>
+<span class="w">        </span><span class="n">parr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="s1">''</span><span class="p">,</span><span class="w"> </span><span class="s1">'home'</span><span class="p">,</span><span class="w"> </span><span class="s1">'User1'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Desktop'</span><span class="p">]</span>
 <span class="w">        </span><span class="n">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join_path</span><span class="p">(</span><span class="n">parr</span><span class="p">)</span>
 <span class="w">    </span><span class="k">end if</span>
 
-<span class="w">    </span><span class="c">! (p1 == p2 == p3) = &#39;/home/User1/Desktop&#39; OR &#39;C:\Users\User1\Desktop&#39;</span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="c">! /home/User1/Desktop OR &#39;C:\Users\User1\Desktop&#39;</span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;p1 == p2: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="c">! T</span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;p2 == p3: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">p3</span><span class="w"> </span><span class="c">! T</span>
+<span class="w">    </span><span class="c">! (p1 == p2 == p3) = '/home/User1/Desktop' OR 'C:\Users\User1\Desktop'</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="c">! /home/User1/Desktop OR 'C:\Users\User1\Desktop'</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"p1 == p2: "</span><span class="p">,</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="c">! T</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"p2 == p3: "</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">p3</span><span class="w"> </span><span class="c">! T</span>
 <span class="k">end program </span><span class="n">example_path_join</span>
 </code></pre></div>
 
@@ -1587,21 +1587,21 @@ splitting it into most of the times a directory and a file name.</p>
 <span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">tail</span>
 
 <span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">OS_TYPE</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">OS_WINDOWS</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join_path</span><span class="p">(</span><span class="s1">&#39;C:\Users\User1&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Desktop&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! C:\Users\User1\Desktop</span>
+<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join_path</span><span class="p">(</span><span class="s1">'C:\Users\User1'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Desktop'</span><span class="p">)</span><span class="w"> </span><span class="c">! C:\Users\User1\Desktop</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join_path</span><span class="p">(</span><span class="s1">&#39;/home/User1&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Desktop&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! /home/User1/Desktop</span>
+<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join_path</span><span class="p">(</span><span class="s1">'/home/User1'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Desktop'</span><span class="p">)</span><span class="w"> </span><span class="c">! /home/User1/Desktop</span>
 <span class="w">    </span><span class="k">endif </span>
 
 <span class="k">    call </span><span class="n">split_path</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">tail</span><span class="p">)</span>
 <span class="w">    </span><span class="c">! head = /home/User1 OR C:\Users\User1, tail = Desktop</span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot; -&gt; &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">head</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot; + &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">" -&gt; "</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">head</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">" + "</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span>
 <span class="w">    </span><span class="c">! C:\Users\User1\Desktop -&gt; C:\Users\User1 + Desktop</span>
 <span class="w">    </span><span class="c">! OR</span>
 <span class="w">    </span><span class="c">! /home/User1/Desktop -&gt; /home/User1 + Desktop</span>
 
 <span class="w">    </span><span class="k">call </span><span class="n">split_path</span><span class="p">(</span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">tail</span><span class="p">)</span>
 <span class="w">    </span><span class="c">! p1 = /home OR C:\Users, tail = User1</span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">head</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot; -&gt; &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot; + &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">head</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">" -&gt; "</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">" + "</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span>
 <span class="w">    </span><span class="c">! C:\Users\User1 -&gt; C:\Users + User1</span>
 <span class="w">    </span><span class="c">! OR</span>
 <span class="w">    </span><span class="c">! /home/User1 -&gt; /home + User1</span>
@@ -1633,12 +1633,12 @@ splitting it into most of the times a directory and a file name.</p>
 <span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p1</span>
 
 <span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">OS_TYPE</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">OS_WINDOWS</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;C:\Users&#39;</span>
+<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'C:\Users'</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;/home&#39;</span>
+<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'/home'</span>
 <span class="w">    </span><span class="k">endif </span>
 
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;base name of &#39;</span><span class="o">//</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">&#39; -&gt; &#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">base_name</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="w"> </span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'base name of '</span><span class="o">//</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">' -&gt; '</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">base_name</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="w"> </span>
 <span class="w">    </span><span class="c">! base name of C:\Users -&gt; Users</span>
 <span class="w">    </span><span class="c">! OR</span>
 <span class="w">    </span><span class="c">! base name of /home -&gt; home</span>
@@ -1670,12 +1670,12 @@ splitting it into most of the times a directory and a file name.</p>
 <span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">tail</span>
 
 <span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">OS_TYPE</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">OS_WINDOWS</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;C:\Users&#39;</span><span class="w"> </span><span class="c">! C:\Users</span>
+<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'C:\Users'</span><span class="w"> </span><span class="c">! C:\Users</span>
 <span class="w">    </span><span class="k">else</span>
-<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;/home&#39;</span><span class="w"> </span><span class="c">! /home</span>
+<span class="k">        </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'/home'</span><span class="w"> </span><span class="c">! /home</span>
 <span class="w">    </span><span class="k">endif </span>
 
-<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;dir_name of &#39;</span><span class="o">//</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">&#39; -&gt; &#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">dir_name</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="w"> </span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'dir_name of '</span><span class="o">//</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">' -&gt; '</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">dir_name</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="w"> </span>
 <span class="w">    </span><span class="c">! dir_name of C:\Users -&gt; C:\</span>
 <span class="w">    </span><span class="c">! OR</span>
 <span class="w">    </span><span class="c">! dir_name of /home -&gt; /</span>
@@ -1692,13 +1692,13 @@ splitting it into most of the times a directory and a file name.</p>
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>9a15c777</small></p>
+<br /><small>17e3ab12</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-07-18 17:44 +0000             </p>
+ on 2026-09-08 05:53 +0000             </p>
           </div>
         </div>
         <br>

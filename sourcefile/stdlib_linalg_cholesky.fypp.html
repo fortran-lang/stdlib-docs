@@ -172,7 +172,7 @@
 
       <section>
         <h2><span class="anchor" id="src"></span>Source Code</h2>
-        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp">#:include &quot;common.fypp&quot;</span>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp">#:include "common.fypp"</span>
 <a id="ln-2" name="ln-2" href="#ln-2"></a><span class="cp">#:set RC_KINDS_TYPES = REAL_KINDS_TYPES + CMPLX_KINDS_TYPES</span>
 <a id="ln-3" name="ln-3" href="#ln-3"></a><span class="c">! Cholesky factorization of a matrix, based on LAPACK *POTRF functions</span>
 <a id="ln-4" name="ln-4" href="#ln-4"></a><span class="k">submodule</span><span class="w"> </span><span class="p">(</span><span class="n">stdlib_linalg</span><span class="p">)</span><span class="w"> </span><span class="n">stdlib_linalg_cholesky</span>
@@ -184,7 +184,7 @@
 <a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w">     </span><span class="k">implicit none</span>
 <a id="ln-11" name="ln-11" href="#ln-11"></a>
 <a id="ln-12" name="ln-12" href="#ln-12"></a><span class="k">     </span>
-<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="k">     </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;cholesky&#39;</span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="k">     </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'cholesky'</span>
 <a id="ln-14" name="ln-14" href="#ln-14"></a>
 <a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">     </span><span class="k">contains</span>
 <a id="ln-16" name="ln-16" href="#ln-16"></a>
@@ -213,7 +213,7 @@
 <a id="ln-39" name="ln-39" href="#ln-39"></a><span class="w">         </span><span class="c">!&gt; Default: use lower factor</span>
 <a id="ln-40" name="ln-40" href="#ln-40"></a><span class="w">         </span><span class="n">lower_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
 <a id="ln-41" name="ln-41" href="#ln-41"></a><span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">lower</span><span class="p">))</span><span class="w"> </span><span class="n">lower_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lower</span>
-<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="w">         </span><span class="n">triangle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">merge</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span><span class="s1">&#39;U&#39;</span><span class="p">,</span><span class="n">lower_</span><span class="p">)</span>
+<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="w">         </span><span class="n">triangle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">merge</span><span class="p">(</span><span class="s1">'L'</span><span class="p">,</span><span class="s1">'U'</span><span class="p">,</span><span class="n">lower_</span><span class="p">)</span>
 <a id="ln-43" name="ln-43" href="#ln-43"></a><span class="w">         </span>
 <a id="ln-44" name="ln-44" href="#ln-44"></a><span class="w">         </span><span class="c">!&gt; Check if the unused half of the return matrix should be zeroed out (default).</span>
 <a id="ln-45" name="ln-45" href="#ln-45"></a><span class="w">         </span><span class="c">!&gt; Otherwise it is unused and will contain garbage. </span>
@@ -228,7 +228,7 @@
 <a id="ln-54" name="ln-54" href="#ln-54"></a><span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">lda</span><span class="o">&lt;</span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">lda</span><span class="o">&lt;</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <a id="ln-55" name="ln-55" href="#ln-55"></a><span class="k">             </span>
 <a id="ln-56" name="ln-56" href="#ln-56"></a><span class="k">             </span><span class="n">err0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linalg_state_type</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="n">LINALG_VALUE_ERROR</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="w">                                      </span><span class="s1">&#39;invalid matrix size: a(m,n)=&#39;</span><span class="p">,[</span><span class="n">lda</span><span class="p">,</span><span class="n">n</span><span class="p">])</span>
+<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="w">                                      </span><span class="s1">'invalid matrix size: a(m,n)='</span><span class="p">,[</span><span class="n">lda</span><span class="p">,</span><span class="n">n</span><span class="p">])</span>
 <a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">            </span>
 <a id="ln-59" name="ln-59" href="#ln-59"></a><span class="w">         </span><span class="k">else</span>
 <a id="ln-60" name="ln-60" href="#ln-60"></a><span class="w">         </span>
@@ -278,8 +278,8 @@
 <a id="ln-104" name="ln-104" href="#ln-104"></a><span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lda</span><span class="o">&lt;</span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">n</span><span class="o">&lt;</span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">lda</span><span class="o">&lt;</span><span class="n">n</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">ldc</span><span class="o">&lt;</span><span class="n">n</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">nc</span><span class="o">&lt;</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">then </span>
 <a id="ln-105" name="ln-105" href="#ln-105"></a><span class="k">            </span>
 <a id="ln-106" name="ln-106" href="#ln-106"></a><span class="k">            </span><span class="n">err0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linalg_state_type</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="n">LINALG_VALUE_ERROR</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-107" name="ln-107" href="#ln-107"></a><span class="w">                                     </span><span class="s1">&#39;invalid matrix sizes: a=&#39;</span><span class="p">,[</span><span class="n">lda</span><span class="p">,</span><span class="n">n</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-108" name="ln-108" href="#ln-108"></a><span class="w">                                                          </span><span class="s1">&#39; c=&#39;</span><span class="p">,[</span><span class="n">ldc</span><span class="p">,</span><span class="n">nc</span><span class="p">])</span>
+<a id="ln-107" name="ln-107" href="#ln-107"></a><span class="w">                                     </span><span class="s1">'invalid matrix sizes: a='</span><span class="p">,[</span><span class="n">lda</span><span class="p">,</span><span class="n">n</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-108" name="ln-108" href="#ln-108"></a><span class="w">                                                          </span><span class="s1">' c='</span><span class="p">,[</span><span class="n">ldc</span><span class="p">,</span><span class="n">nc</span><span class="p">])</span>
 <a id="ln-109" name="ln-109" href="#ln-109"></a><span class="w">        </span>
 <a id="ln-110" name="ln-110" href="#ln-110"></a><span class="w">         </span><span class="k">else</span>
 <a id="ln-111" name="ln-111" href="#ln-111"></a><span class="w">            </span>
@@ -332,13 +332,13 @@
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>9a15c777</small></p>
+<br /><small>17e3ab12</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-07-18 17:44 +0000             </p>
+ on 2026-09-08 05:53 +0000             </p>
           </div>
         </div>
         <br>

@@ -172,14 +172,14 @@
 
       <section>
         <h2><span class="anchor" id="src"></span>Source Code</h2>
-        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp">#:include &quot;common.fypp&quot;</span>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp">#:include "common.fypp"</span>
 <a id="ln-2" name="ln-2" href="#ln-2"></a><span class="cp">#:set RANKS = range(1, 2+1)</span>
 <a id="ln-3" name="ln-3" href="#ln-3"></a><span class="cp">#:set R_KINDS_TYPES = list(zip(REAL_KINDS, REAL_TYPES, REAL_SUFFIX))</span>
 <a id="ln-4" name="ln-4" href="#ln-4"></a><span class="cp">#:set C_KINDS_TYPES = list(zip(CMPLX_KINDS, CMPLX_TYPES, CMPLX_SUFFIX))</span>
 <a id="ln-5" name="ln-5" href="#ln-5"></a><span class="cp">#:set KINDS_TYPES = R_KINDS_TYPES+C_KINDS_TYPES</span>
 <a id="ln-6" name="ln-6" href="#ln-6"></a><span class="cp">#! define ranks without parentheses</span>
 <a id="ln-7" name="ln-7" href="#ln-7"></a><span class="cp">#:def rksfx2(rank)</span>
-<a id="ln-8" name="ln-8" href="#ln-8"></a><span class="cp">#{if rank &gt; 0}#${&quot;:,&quot; + &quot;:,&quot; * (rank - 1)}$#{endif}#</span>
+<a id="ln-8" name="ln-8" href="#ln-8"></a><span class="cp">#{if rank &gt; 0}#${":," + ":," * (rank - 1)}$#{endif}#</span>
 <a id="ln-9" name="ln-9" href="#ln-9"></a><span class="cp">#:enddef</span>
 <a id="ln-10" name="ln-10" href="#ln-10"></a><span class="k">submodule</span><span class="w"> </span><span class="p">(</span><span class="n">stdlib_sparse_spmv</span><span class="p">)</span><span class="w"> </span><span class="n">stdlib_sparse_spmv_csc</span>
 <a id="ln-11" name="ln-11" href="#ln-11"></a><span class="k">contains</span>
@@ -252,7 +252,7 @@
 <a id="ln-78" name="ln-78" href="#ln-78"></a><span class="w">                    </span><span class="n">vec_y</span><span class="p">(</span><span class="err">${</span><span class="n">rksfx2</span><span class="p">(</span><span class="n">rank</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="err">}$</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vec_y</span><span class="p">(</span><span class="err">${</span><span class="n">rksfx2</span><span class="p">(</span><span class="n">rank</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="err">}$</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">alpha_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">aux</span>
 <a id="ln-79" name="ln-79" href="#ln-79"></a><span class="w">                </span><span class="k">end do</span>
 <a id="ln-80" name="ln-80" href="#ln-80"></a>
-<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="w">            </span><span class="err">#</span><span class="p">:</span><span class="k">if </span><span class="n">t1</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;complex&#39;</span><span class="p">)</span>
+<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="w">            </span><span class="err">#</span><span class="p">:</span><span class="k">if </span><span class="n">t1</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'complex'</span><span class="p">)</span>
 <a id="ln-82" name="ln-82" href="#ln-82"></a><span class="w">            </span><span class="k">else if</span><span class="p">(</span><span class="w"> </span><span class="n">storage</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">sparse_full</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">op_</span><span class="o">==</span><span class="n">sparse_op_hermitian</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <a id="ln-83" name="ln-83" href="#ln-83"></a><span class="k">                do</span><span class="w"> </span><span class="k">concurrent</span><span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">ncols</span><span class="p">)</span>
 <a id="ln-84" name="ln-84" href="#ln-84"></a><span class="w">                    </span><span class="n">aux</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero_$</span><span class="err">{</span><span class="n">k1</span><span class="err">}$</span>
@@ -306,13 +306,13 @@
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>9a15c777</small></p>
+<br /><small>17e3ab12</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-07-18 17:44 +0000             </p>
+ on 2026-09-08 05:53 +0000             </p>
           </div>
         </div>
         <br>
