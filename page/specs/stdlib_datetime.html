@@ -249,6 +249,7 @@
 <li><a href="#class_7">Class</a></li>
 <li><a href="#description_7">Description</a></li>
 <li><a href="#syntax_7">Syntax</a></li>
+<li><a href="#arguments_3">Arguments</a></li>
 <li><a href="#return-value_3">Return value</a></li>
 </ul>
 </li>
@@ -555,11 +556,20 @@
 <h4 id="class_7">Class</h4>
 <p>Pure function.</p>
 <h4 id="description_7">Description</h4>
-<p>Formats a <code>timedelta_type</code> as a human-readable string.</p>
+<p>Formats a <code>timedelta_type</code> as a human-readable string.
+For zero-day durations, compact forms can be enabled by passing <code>compact=.true.</code>:
+- <code>5ms</code> for sub-second values
+- <code>1.500s</code> or <code>42s</code> for sub-minute values
+- <code>MM:SS[.mmm]</code> when hours are zero
+- <code>HH:MM:SS[.mmm]</code> otherwise</p>
+<p>If <code>days /= 0</code>, or <code>compact</code> is not present or <code>.false.</code>, the verbose form is preserved:
+<code>X days, HH:MM:SS[.mmm]</code>.</p>
 <h4 id="syntax_7">Syntax</h4>
-<p><code>str =</code> <a href="../../proc/format_timedelta.html">format_timedelta</a> <code>(td)</code></p>
+<p><code>str =</code> <a href="../../proc/format_timedelta.html">format_timedelta</a> <code>(td [, compact])</code></p>
+<h4 id="arguments_3">Arguments</h4>
+<p><code>compact</code> (optional): <code>logical</code>, <code>intent(in)</code>. Will use the compact form if <code>.true.</code>. The default value is <code>.false.</code>.</p>
 <h4 id="return-value_3">Return value</h4>
-<p><code>character(:), allocatable</code> — e.g. <code>"30 days, 01:30:00"</code>.</p>
+<p><code>character(:), allocatable</code> — e.g. <code>"5ms"</code>, <code>"1.500s"</code>, <code>"05:30"</code>, <code>"01:02:03.456"</code>, or <code>"30 days, 01:30:00"</code>.</p>
 <h2 id="utility-functions">Utility Functions</h2>
 <h3 id="is_leap_year"><code>is_leap_year</code></h3>
 <h4 id="status_9">Status</h4>
@@ -692,7 +702,19 @@
 <span class="w">    </span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datetime_type</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">330</span><span class="p">)</span>
 <span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">'(A,L1)'</span><span class="p">,</span><span class="w"> </span><span class="s1">'12:00Z == 17:30+05:30? '</span><span class="p">,</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">t3</span>
 
-<span class="w">    </span><span class="c">! 9. Unix epoch</span>
+<span class="w">    </span><span class="c">! 9. Compact format_timedelta (sub-second / sub-minute)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">'(A)'</span><span class="p">,</span><span class="w"> </span><span class="s1">'=== Compact Duration Formatting ==='</span>
+<span class="w">    </span><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timedelta</span><span class="p">(</span><span class="n">milliseconds</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">'(A,T40,A)'</span><span class="p">,</span><span class="w"> </span><span class="s1">'timedelta(ms=5):'</span><span class="p">,</span><span class="w"> </span><span class="n">format_timedelta</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span><span class="w"> </span><span class="n">compact</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="w">    </span><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timedelta</span><span class="p">(</span><span class="n">milliseconds</span><span class="o">=</span><span class="mi">1500</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">'(A,T40,A)'</span><span class="p">,</span><span class="w"> </span><span class="s1">'timedelta(ms=1500):'</span><span class="p">,</span><span class="w"> </span><span class="n">format_timedelta</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span><span class="w"> </span><span class="n">compact</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="w">    </span><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">'(A,T40,A)'</span><span class="p">,</span><span class="w"> </span><span class="s1">'timedelta(s=65):'</span><span class="p">,</span><span class="w"> </span><span class="n">format_timedelta</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
+<span class="w">    </span><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">minutes</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">seconds</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">'(A,T40,A)'</span><span class="p">,</span><span class="w"> </span><span class="s1">'timedelta(1h 2m 3s):'</span><span class="p">,</span><span class="w"> </span><span class="n">format_timedelta</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! 10. Unix epoch</span>
 <span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span>
 <span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="s1">'(A,A)'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Unix epoch:         '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">        </span><span class="n">format_datetime</span><span class="p">(</span><span class="n">epoch</span><span class="p">())</span>
@@ -713,13 +735,13 @@
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>7c5535d2</small></p>
+<br /><small>7a6646e7</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-03 10:11 +0000             </p>
+ on 2026-10-03 17:45 +0000             </p>
           </div>
         </div>
         <br>

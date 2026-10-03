@@ -94,7 +94,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">12 statements</a>
+                 title=" 0.0% of total for procedures.">42 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -161,11 +161,14 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public pure function format_timedelta(td) result(str)  
+    <h2>public pure function format_timedelta(td, compact) result(str)  
 </h2>
     
 
-    <p>Format a timedelta_type as a readable string.</p>
+    <p>Format a timedelta_type as a readable string.
+When days == 0 and compact is present and .true., sub-second/sub-minute durations are
+formatted compactly (e.g. "5ms", "1.500s", "05:30[.mmm]"); the "0 days, " prefix is omitted.
+When compact is absent or .false., or when days /= 0, the original verbose format is preserved.</p>
 
 
     <h3>Arguments</h3>
@@ -194,12 +197,27 @@
                 
             </td>
         </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-compact~7"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>compact</strong></td>
+            <td>
+                
+            </td>
+        </tr>
     </tbody>
   </table>
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-str~18"></span>
+          <span class="anchor" id="variable-str~7"></span>
           character(len=:), allocatable
         </small>
       </h3>
@@ -218,26 +236,67 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">pure function </span><span class="n">format_timedelta</span><span class="p">(</span><span class="n">td</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">pure function </span><span class="n">format_timedelta</span><span class="p">(</span><span class="n">td</span><span class="p">,</span><span class="w"> </span><span class="n">compact</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
 <span class="w">        </span><span class="c">!! version: experimental</span>
 <span class="w">        </span><span class="c">!!</span>
 <span class="w">        </span><span class="c">!! Format a timedelta_type as a readable string.</span>
+<span class="w">        </span><span class="c">!! When days == 0 and compact is present and .true., sub-second/sub-minute durations are</span>
+<span class="w">        </span><span class="c">!! formatted compactly (e.g. "5ms", "1.500s", "05:30[.mmm]"); the "0 days, " prefix is omitted.</span>
+<span class="w">        </span><span class="c">!! When compact is absent or .false., or when days /= 0, the original verbose format is preserved.</span>
 <span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">timedelta_type</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">td</span>
+<span class="w">        </span><span class="kt">logical</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">compact</span>
 <span class="w">        </span><span class="kt">character</span><span class="p">(:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">str</span>
-<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">s</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">ms</span>
+<span class="w">        </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">show_compact</span>
 
-<span class="w">        </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">td</span><span class="p">%</span><span class="n">seconds</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3600</span>
-<span class="w">        </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">td</span><span class="p">%</span><span class="n">seconds</span><span class="p">,</span><span class="w"> </span><span class="mi">3600</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">60</span>
-<span class="w">        </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">td</span><span class="p">%</span><span class="n">seconds</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span>
+<span class="w">        </span><span class="n">h</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">td</span><span class="p">%</span><span class="n">seconds</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3600</span>
+<span class="w">        </span><span class="n">m</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">td</span><span class="p">%</span><span class="n">seconds</span><span class="p">,</span><span class="w"> </span><span class="mi">3600</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">60</span>
+<span class="w">        </span><span class="n">s</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">td</span><span class="p">%</span><span class="n">seconds</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span>
+<span class="w">        </span><span class="n">ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">td</span><span class="p">%</span><span class="n">milliseconds</span>
+<span class="w">        </span><span class="n">show_compact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w"> </span><span class="c">! .false. by default</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">compact</span><span class="p">))</span><span class="w"> </span><span class="n">show_compact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compact</span>
 
-<span class="w">        </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_string</span><span class="p">(</span><span class="n">td</span><span class="p">%</span><span class="n">days</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I0)'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">' days, '</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">              </span><span class="n">to_string</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I2.2)'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">':'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">              </span><span class="n">to_string</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I2.2)'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">':'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">              </span><span class="n">to_string</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I2.2)'</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">td</span><span class="p">%</span><span class="n">days</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">show_compact</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! Compact formatting for zero-day durations</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="n">ms</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"0s"</span>
+<span class="w">                </span><span class="k">else</span>
+<span class="k">                    </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_string</span><span class="p">(</span><span class="n">ms</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I0)'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">"ms"</span>
+<span class="w">                </span><span class="k">end if</span>
+<span class="k">                return</span>
+<span class="k">            end if</span>
 
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">td</span><span class="p">%</span><span class="n">milliseconds</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'.'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">to_string</span><span class="p">(</span><span class="n">td</span><span class="p">%</span><span class="n">milliseconds</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I3.3)'</span><span class="p">)</span>
-<span class="w">        </span><span class="k">end if</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="n">ms</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_string</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I0)'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">"s"</span>
+<span class="w">                </span><span class="k">else</span>
+<span class="k">                    </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_string</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I0)'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">"."</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">to_string</span><span class="p">(</span><span class="n">ms</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I3.3)'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">"s"</span>
+<span class="w">                </span><span class="k">end if</span>
+<span class="k">                return</span>
+<span class="k">            end if</span>
+
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_string</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I2.2)'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">":"</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                      </span><span class="n">to_string</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I2.2)'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">":"</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                      </span><span class="n">to_string</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I2.2)'</span><span class="p">)</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="k">                </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_string</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I2.2)'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">":"</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                      </span><span class="n">to_string</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I2.2)'</span><span class="p">)</span>
+<span class="w">            </span><span class="k">end if</span>
+
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">ms</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">"."</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">to_string</span><span class="p">(</span><span class="n">ms</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I3.3)'</span><span class="p">)</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="c">! Original format for durations with days</span>
+<span class="w">            </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_string</span><span class="p">(</span><span class="n">td</span><span class="p">%</span><span class="n">days</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I0)'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">' days, '</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                  </span><span class="n">to_string</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I2.2)'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">':'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                  </span><span class="n">to_string</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I2.2)'</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">':'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                  </span><span class="n">to_string</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I2.2)'</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ms</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">'.'</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">to_string</span><span class="p">(</span><span class="n">ms</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I3.3)'</span><span class="p">)</span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">        end if</span>
 <span class="k">    end function </span><span class="n">format_timedelta</span>
 </pre></div>
 
@@ -256,13 +315,13 @@
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>7c5535d2</small></p>
+<br /><small>7a6646e7</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-03 10:11 +0000             </p>
+ on 2026-10-03 17:45 +0000             </p>
           </div>
         </div>
         <br>
