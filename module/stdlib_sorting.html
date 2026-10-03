@@ -93,7 +93,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.3% of total for modules and submodules.">970 statements</a>
+                 title=" 0.3% of total for modules and submodules.">1101 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -134,7 +134,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/stdlib_sorting.html#variable-int_index~2">int_index</a>
+            <a class="list-group-item" href="../module/stdlib_sorting.html#variable-int_index">int_index</a>
             <a class="list-group-item" href="../module/stdlib_sorting.html#variable-int_index_low">int_index_low</a>
         </div>
       </div>
@@ -158,6 +158,7 @@
             <a class="list-group-item" href="../module/stdlib_sorting.html#interface-sort">sort</a>
             <a class="list-group-item" href="../module/stdlib_sorting.html#interface-sort_adjoint">sort_adjoint</a>
             <a class="list-group-item" href="../module/stdlib_sorting.html#interface-sort_index">sort_index</a>
+            <a class="list-group-item" href="../module/stdlib_sorting.html#interface-unique">unique</a>
         </div>
       </div>
     </div>
@@ -526,16 +527,67 @@
 <span class="w">        </span><span class="n">a_data</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_data</span><span class="p">(</span><span class="w"> </span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">a_data</span><span class="p">))</span><span class="w"> </span><span class="p">)</span>
 <span class="w">    </span><span class="k">end subroutine </span><span class="n">sort_a_data</span>
 </code></pre></div>
+
+<p>Version: experimental</p>
+<p>The generic procedure implementing the <code>UNIQUE</code> algorithm to return the
+ distinct elements of a rank-1 array. The result may either preserve the
+ order of first occurrence or be returned in sorted order.</p>
+<p>Its use has the syntax:
+     call unique(array, output[, sorted_output, tolerance] )</p>
+<p>with the arguments:
+ * array: the rank-1 input array. It is an <code>intent(in)</code> argument of any
+   supported kind of the types <code>integer</code>, <code>real</code>, <code>character</code>, <code>string_type</code>
+   and <code>complex</code>.</p>
+<ul>
+<li>
+<p>sorted_output (optional): a scalar of type default logical. It is an
+   <code>intent(in)</code> argument. If <code>.true.</code>, the returned array contains the
+   unique elements sorted in increasing order. Otherwise, the unique
+   elements are returned in the order of their first appearance in
+   <code>array</code>. <code>SORTED_OUTPUT</code> is <code>.false.</code> by default. This argument is
+   not available for complex arrays for which only the unsorted implementation
+   is provided.</p>
+</li>
+<li>
+<p><code>tolerance</code> (optional): It is an <code>intent(in)</code> argument available only
+    for real arrays. When <code>sorted_output</code> is <code>.true.</code>, two values
+    in sorted order whose absolute difference is less than or equal to
+    <code>tolerance</code> are considered equal. If omitted, <code>tolerance</code> defaults
+    to zero.</p>
+</li>
+</ul>
+<p>The result is an allocatable rank-1 array of the same type as <code>array</code>
+ containing one copy of each distinct element.</p>
+<p><strong>Note:</strong> The unsorted (<code>sorted_output = .false.</code>) implementation is
+ currently unavailable for <code>real(</code>xdp<code>)</code> and <code>complex(</code>xdp<code>)</code> because 
+ hashing is performed on the underlying binary representation, which 
+ is not sufficiently portable for these kinds.</p>
+<h4 id="examples_2">Examples</h4>
+<p>Remove duplicates while preserving the original order:</p>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">]</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(:)</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">unique</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
+<span class="w">    </span><span class="c">! b = [4, 2, 1, 3, 5]</span>
+</code></pre></div>
+
+<p>Return the unique values in sorted order:</p>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">]</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(:)</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">unique</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<span class="w">    </span><span class="c">! b = [1, 2, 3, 4, 5]</span>
+</code></pre></div>
 <br>          <div class="card mb-4">
       <h3 class="card-header card-title bg-light">Uses</h3>
       <div class="card-body">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='stdlib_optval.html'>stdlib_optval</a></li>
-                  <li class="list-inline-item"><a href='stdlib_string_type.html'>stdlib_string_type</a></li>
                   <li class="list-inline-item"><a href='stdlib_kinds.html'>stdlib_kinds</a></li>
                   <li class="list-inline-item"><a href='stdlib_bitsets.html'>stdlib_bitsets</a></li>
+                  <li class="list-inline-item"><a href='stdlib_string_type.html'>stdlib_string_type</a></li>
+                  <li class="list-inline-item"><a href='stdlib_optval.html'>stdlib_optval</a></li>
               </ul>
             </li>
         </ul>
@@ -553,6 +605,7 @@
                   <li class="list-inline-item"><a href='stdlib_sorting_radix_sort.html'>stdlib_sorting_radix_sort</a></li>
                   <li class="list-inline-item"><a href='stdlib_sorting_sort.html'>stdlib_sorting_sort</a></li>
                   <li class="list-inline-item"><a href='stdlib_sorting_sort_adjoint.html'>stdlib_sorting_sort_adjoint</a></li>
+                  <li class="list-inline-item"><a href='stdlib_sorting_unique.html'>stdlib_sorting_unique</a></li>
               </ul>
             </li>
         </ul>
@@ -576,7 +629,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-int_index~2"></span>
+              <span class="anchor" id="variable-int_index"></span>
               integer,
             </td>
               <td>public,</td>
@@ -659,7 +712,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~648"></span>
+              <span class="anchor" id="variable-array~755"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(inout)</td>
@@ -674,7 +727,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2737"></span>
+              <span class="anchor" id="variable-work~669"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(out),</td>
@@ -689,7 +742,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~79"></span>
+              <span class="anchor" id="variable-reverse~89"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -728,7 +781,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~649"></span>
+              <span class="anchor" id="variable-array~756"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(inout)</td>
@@ -743,7 +796,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2738"></span>
+              <span class="anchor" id="variable-work~670"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(out),</td>
@@ -758,7 +811,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~80"></span>
+              <span class="anchor" id="variable-reverse~90"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -797,7 +850,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~647"></span>
+              <span class="anchor" id="variable-array~754"></span>
               character(len=*),
             </td>
 <td>intent(inout)</td>
@@ -812,7 +865,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2736"></span>
+              <span class="anchor" id="variable-work~668"></span>
               character(len=len),
             </td>
 <td>intent(out),</td>
@@ -827,7 +880,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~78"></span>
+              <span class="anchor" id="variable-reverse~88"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -866,7 +919,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~645"></span>
+              <span class="anchor" id="variable-array~752"></span>
               real(kind=dp),
             </td>
 <td>intent(inout)</td>
@@ -881,7 +934,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2734"></span>
+              <span class="anchor" id="variable-work~666"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -896,7 +949,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~76"></span>
+              <span class="anchor" id="variable-reverse~86"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -935,7 +988,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~641"></span>
+              <span class="anchor" id="variable-array~748"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout)</td>
@@ -950,7 +1003,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2730"></span>
+              <span class="anchor" id="variable-work~662"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -965,7 +1018,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~72"></span>
+              <span class="anchor" id="variable-reverse~82"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1004,7 +1057,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~642"></span>
+              <span class="anchor" id="variable-array~749"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout)</td>
@@ -1019,7 +1072,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2731"></span>
+              <span class="anchor" id="variable-work~663"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -1034,7 +1087,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~73"></span>
+              <span class="anchor" id="variable-reverse~83"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1073,7 +1126,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~643"></span>
+              <span class="anchor" id="variable-array~750"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -1088,7 +1141,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2732"></span>
+              <span class="anchor" id="variable-work~664"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -1103,7 +1156,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~74"></span>
+              <span class="anchor" id="variable-reverse~84"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1142,7 +1195,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~640"></span>
+              <span class="anchor" id="variable-array~747"></span>
               integer(kind=int8),
             </td>
 <td>intent(inout)</td>
@@ -1157,7 +1210,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2729"></span>
+              <span class="anchor" id="variable-work~661"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -1172,7 +1225,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~71"></span>
+              <span class="anchor" id="variable-reverse~81"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1211,7 +1264,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~644"></span>
+              <span class="anchor" id="variable-array~751"></span>
               real(kind=sp),
             </td>
 <td>intent(inout)</td>
@@ -1226,7 +1279,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2733"></span>
+              <span class="anchor" id="variable-work~665"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -1241,7 +1294,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~75"></span>
+              <span class="anchor" id="variable-reverse~85"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1280,7 +1333,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~646"></span>
+              <span class="anchor" id="variable-array~753"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1295,7 +1348,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2735"></span>
+              <span class="anchor" id="variable-work~667"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1310,7 +1363,7 @@ using a hybrid sort based on the <code>"Rust" sort</code> algorithm found in <co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~77"></span>
+              <span class="anchor" id="variable-reverse~87"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1364,7 +1417,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~655"></span>
+              <span class="anchor" id="variable-array~762"></span>
               real(kind=dp),
             </td>
 <td>intent(inout),</td>
@@ -1379,7 +1432,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2743"></span>
+              <span class="anchor" id="variable-work~675"></span>
               real(kind=dp),
             </td>
 <td>intent(inout),</td>
@@ -1394,7 +1447,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~86"></span>
+              <span class="anchor" id="variable-reverse~96"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1432,7 +1485,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~651"></span>
+              <span class="anchor" id="variable-array~758"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout),</td>
@@ -1447,7 +1500,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2739"></span>
+              <span class="anchor" id="variable-work~671"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout),</td>
@@ -1462,7 +1515,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~82"></span>
+              <span class="anchor" id="variable-reverse~92"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1500,7 +1553,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~652"></span>
+              <span class="anchor" id="variable-array~759"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout),</td>
@@ -1515,7 +1568,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2740"></span>
+              <span class="anchor" id="variable-work~672"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout),</td>
@@ -1530,7 +1583,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~83"></span>
+              <span class="anchor" id="variable-reverse~93"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1568,7 +1621,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~653"></span>
+              <span class="anchor" id="variable-array~760"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout),</td>
@@ -1583,7 +1636,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2741"></span>
+              <span class="anchor" id="variable-work~673"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout),</td>
@@ -1598,7 +1651,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~84"></span>
+              <span class="anchor" id="variable-reverse~94"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1636,7 +1689,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~650"></span>
+              <span class="anchor" id="variable-array~757"></span>
               integer(kind=int8),
             </td>
 <td>intent(inout),</td>
@@ -1651,7 +1704,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~81"></span>
+              <span class="anchor" id="variable-reverse~91"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1689,7 +1742,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~654"></span>
+              <span class="anchor" id="variable-array~761"></span>
               real(kind=sp),
             </td>
 <td>intent(inout),</td>
@@ -1704,7 +1757,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2742"></span>
+              <span class="anchor" id="variable-work~674"></span>
               real(kind=sp),
             </td>
 <td>intent(inout),</td>
@@ -1719,7 +1772,7 @@ It is always O(N) in sorting random data, but need a O(N) buffer.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~85"></span>
+              <span class="anchor" id="variable-reverse~95"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1776,7 +1829,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~664"></span>
+              <span class="anchor" id="variable-array~771"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(inout)</td>
@@ -1791,7 +1844,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~95"></span>
+              <span class="anchor" id="variable-reverse~105"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1833,7 +1886,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~665"></span>
+              <span class="anchor" id="variable-array~772"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(inout)</td>
@@ -1848,7 +1901,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~96"></span>
+              <span class="anchor" id="variable-reverse~106"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1890,7 +1943,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~663"></span>
+              <span class="anchor" id="variable-array~770"></span>
               character(len=*),
             </td>
 <td>intent(inout)</td>
@@ -1905,7 +1958,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~94"></span>
+              <span class="anchor" id="variable-reverse~104"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1947,7 +2000,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~661"></span>
+              <span class="anchor" id="variable-array~768"></span>
               real(kind=dp),
             </td>
 <td>intent(inout)</td>
@@ -1962,7 +2015,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~92"></span>
+              <span class="anchor" id="variable-reverse~102"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2004,7 +2057,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~657"></span>
+              <span class="anchor" id="variable-array~764"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout)</td>
@@ -2019,7 +2072,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~88"></span>
+              <span class="anchor" id="variable-reverse~98"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2061,7 +2114,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~658"></span>
+              <span class="anchor" id="variable-array~765"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout)</td>
@@ -2076,7 +2129,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~89"></span>
+              <span class="anchor" id="variable-reverse~99"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2118,7 +2171,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~659"></span>
+              <span class="anchor" id="variable-array~766"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -2133,7 +2186,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~90"></span>
+              <span class="anchor" id="variable-reverse~100"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2175,7 +2228,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~656"></span>
+              <span class="anchor" id="variable-array~763"></span>
               integer(kind=int8),
             </td>
 <td>intent(inout)</td>
@@ -2190,7 +2243,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~87"></span>
+              <span class="anchor" id="variable-reverse~97"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2232,7 +2285,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~660"></span>
+              <span class="anchor" id="variable-array~767"></span>
               real(kind=sp),
             </td>
 <td>intent(inout)</td>
@@ -2247,7 +2300,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~91"></span>
+              <span class="anchor" id="variable-reverse~101"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2289,7 +2342,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~662"></span>
+              <span class="anchor" id="variable-array~769"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2304,7 +2357,7 @@ behavior is small for random data compared to other sorting algorithms.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~93"></span>
+              <span class="anchor" id="variable-reverse~103"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2367,7 +2420,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~724"></span>
+              <span class="anchor" id="variable-array~831"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(inout)</td>
@@ -2397,7 +2450,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2802"></span>
+              <span class="anchor" id="variable-work~734"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(out),</td>
@@ -2412,7 +2465,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~767"></span>
+              <span class="anchor" id="variable-iwork~179"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -2427,7 +2480,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~155"></span>
+              <span class="anchor" id="variable-reverse~165"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2469,7 +2522,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~684"></span>
+              <span class="anchor" id="variable-array~791"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(inout)</td>
@@ -2499,7 +2552,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2762"></span>
+              <span class="anchor" id="variable-work~694"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(out),</td>
@@ -2514,7 +2567,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~727"></span>
+              <span class="anchor" id="variable-iwork~139"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -2529,7 +2582,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~115"></span>
+              <span class="anchor" id="variable-reverse~125"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2571,7 +2624,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~694"></span>
+              <span class="anchor" id="variable-array~801"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(inout)</td>
@@ -2601,7 +2654,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2772"></span>
+              <span class="anchor" id="variable-work~704"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(out),</td>
@@ -2616,7 +2669,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~737"></span>
+              <span class="anchor" id="variable-iwork~149"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -2631,7 +2684,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~125"></span>
+              <span class="anchor" id="variable-reverse~135"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2673,7 +2726,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~704"></span>
+              <span class="anchor" id="variable-array~811"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(inout)</td>
@@ -2703,7 +2756,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2782"></span>
+              <span class="anchor" id="variable-work~714"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(out),</td>
@@ -2718,7 +2771,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~747"></span>
+              <span class="anchor" id="variable-iwork~159"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -2733,7 +2786,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~135"></span>
+              <span class="anchor" id="variable-reverse~145"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2775,7 +2828,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~674"></span>
+              <span class="anchor" id="variable-array~781"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(inout)</td>
@@ -2805,7 +2858,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2752"></span>
+              <span class="anchor" id="variable-work~684"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(out),</td>
@@ -2820,7 +2873,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~717"></span>
+              <span class="anchor" id="variable-iwork~129"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -2835,7 +2888,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~105"></span>
+              <span class="anchor" id="variable-reverse~115"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2877,7 +2930,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~714"></span>
+              <span class="anchor" id="variable-array~821"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(inout)</td>
@@ -2907,7 +2960,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2792"></span>
+              <span class="anchor" id="variable-work~724"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(out),</td>
@@ -2922,7 +2975,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~757"></span>
+              <span class="anchor" id="variable-iwork~169"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -2937,7 +2990,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~145"></span>
+              <span class="anchor" id="variable-reverse~155"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2979,7 +3032,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~725"></span>
+              <span class="anchor" id="variable-array~832"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(inout)</td>
@@ -3009,7 +3062,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2803"></span>
+              <span class="anchor" id="variable-work~735"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(out),</td>
@@ -3024,7 +3077,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~768"></span>
+              <span class="anchor" id="variable-iwork~180"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -3039,7 +3092,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~156"></span>
+              <span class="anchor" id="variable-reverse~166"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3081,7 +3134,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~685"></span>
+              <span class="anchor" id="variable-array~792"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(inout)</td>
@@ -3111,7 +3164,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2763"></span>
+              <span class="anchor" id="variable-work~695"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(out),</td>
@@ -3126,7 +3179,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~728"></span>
+              <span class="anchor" id="variable-iwork~140"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -3141,7 +3194,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~116"></span>
+              <span class="anchor" id="variable-reverse~126"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3183,7 +3236,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~695"></span>
+              <span class="anchor" id="variable-array~802"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(inout)</td>
@@ -3213,7 +3266,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2773"></span>
+              <span class="anchor" id="variable-work~705"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(out),</td>
@@ -3228,7 +3281,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~738"></span>
+              <span class="anchor" id="variable-iwork~150"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -3243,7 +3296,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~126"></span>
+              <span class="anchor" id="variable-reverse~136"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3285,7 +3338,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~705"></span>
+              <span class="anchor" id="variable-array~812"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(inout)</td>
@@ -3315,7 +3368,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2783"></span>
+              <span class="anchor" id="variable-work~715"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(out),</td>
@@ -3330,7 +3383,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~748"></span>
+              <span class="anchor" id="variable-iwork~160"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -3345,7 +3398,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~136"></span>
+              <span class="anchor" id="variable-reverse~146"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3387,7 +3440,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~675"></span>
+              <span class="anchor" id="variable-array~782"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(inout)</td>
@@ -3417,7 +3470,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2753"></span>
+              <span class="anchor" id="variable-work~685"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(out),</td>
@@ -3432,7 +3485,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~718"></span>
+              <span class="anchor" id="variable-iwork~130"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -3447,7 +3500,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~106"></span>
+              <span class="anchor" id="variable-reverse~116"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3489,7 +3542,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~715"></span>
+              <span class="anchor" id="variable-array~822"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(inout)</td>
@@ -3519,7 +3572,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2793"></span>
+              <span class="anchor" id="variable-work~725"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(out),</td>
@@ -3534,7 +3587,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~758"></span>
+              <span class="anchor" id="variable-iwork~170"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -3549,7 +3602,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~146"></span>
+              <span class="anchor" id="variable-reverse~156"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3591,7 +3644,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~723"></span>
+              <span class="anchor" id="variable-array~830"></span>
               character(len=*),
             </td>
 <td>intent(inout)</td>
@@ -3621,7 +3674,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2801"></span>
+              <span class="anchor" id="variable-work~733"></span>
               character(len=len),
             </td>
 <td>intent(out),</td>
@@ -3636,7 +3689,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~766"></span>
+              <span class="anchor" id="variable-iwork~178"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -3651,7 +3704,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~154"></span>
+              <span class="anchor" id="variable-reverse~164"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3693,7 +3746,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~683"></span>
+              <span class="anchor" id="variable-array~790"></span>
               character(len=*),
             </td>
 <td>intent(inout)</td>
@@ -3723,7 +3776,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2761"></span>
+              <span class="anchor" id="variable-work~693"></span>
               character(len=len),
             </td>
 <td>intent(out),</td>
@@ -3738,7 +3791,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~726"></span>
+              <span class="anchor" id="variable-iwork~138"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -3753,7 +3806,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~114"></span>
+              <span class="anchor" id="variable-reverse~124"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3795,7 +3848,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~693"></span>
+              <span class="anchor" id="variable-array~800"></span>
               character(len=*),
             </td>
 <td>intent(inout)</td>
@@ -3825,7 +3878,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2771"></span>
+              <span class="anchor" id="variable-work~703"></span>
               character(len=len),
             </td>
 <td>intent(out),</td>
@@ -3840,7 +3893,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~736"></span>
+              <span class="anchor" id="variable-iwork~148"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -3855,7 +3908,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~124"></span>
+              <span class="anchor" id="variable-reverse~134"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3897,7 +3950,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~703"></span>
+              <span class="anchor" id="variable-array~810"></span>
               character(len=*),
             </td>
 <td>intent(inout)</td>
@@ -3927,7 +3980,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2781"></span>
+              <span class="anchor" id="variable-work~713"></span>
               character(len=len),
             </td>
 <td>intent(out),</td>
@@ -3942,7 +3995,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~746"></span>
+              <span class="anchor" id="variable-iwork~158"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -3957,7 +4010,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~134"></span>
+              <span class="anchor" id="variable-reverse~144"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3999,7 +4052,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~673"></span>
+              <span class="anchor" id="variable-array~780"></span>
               character(len=*),
             </td>
 <td>intent(inout)</td>
@@ -4029,7 +4082,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2751"></span>
+              <span class="anchor" id="variable-work~683"></span>
               character(len=len),
             </td>
 <td>intent(out),</td>
@@ -4044,7 +4097,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~716"></span>
+              <span class="anchor" id="variable-iwork~128"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -4059,7 +4112,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~104"></span>
+              <span class="anchor" id="variable-reverse~114"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -4101,7 +4154,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~713"></span>
+              <span class="anchor" id="variable-array~820"></span>
               character(len=*),
             </td>
 <td>intent(inout)</td>
@@ -4131,7 +4184,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2791"></span>
+              <span class="anchor" id="variable-work~723"></span>
               character(len=len),
             </td>
 <td>intent(out),</td>
@@ -4146,7 +4199,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~756"></span>
+              <span class="anchor" id="variable-iwork~168"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -4161,7 +4214,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~144"></span>
+              <span class="anchor" id="variable-reverse~154"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -4203,7 +4256,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~721"></span>
+              <span class="anchor" id="variable-array~828"></span>
               real(kind=dp),
             </td>
 <td>intent(inout)</td>
@@ -4233,7 +4286,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2799"></span>
+              <span class="anchor" id="variable-work~731"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -4248,7 +4301,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~764"></span>
+              <span class="anchor" id="variable-iwork~176"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -4263,7 +4316,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~152"></span>
+              <span class="anchor" id="variable-reverse~162"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -4305,7 +4358,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~681"></span>
+              <span class="anchor" id="variable-array~788"></span>
               real(kind=dp),
             </td>
 <td>intent(inout)</td>
@@ -4335,7 +4388,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2759"></span>
+              <span class="anchor" id="variable-work~691"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -4350,7 +4403,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~724"></span>
+              <span class="anchor" id="variable-iwork~136"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -4365,7 +4418,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~112"></span>
+              <span class="anchor" id="variable-reverse~122"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -4407,7 +4460,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~691"></span>
+              <span class="anchor" id="variable-array~798"></span>
               real(kind=dp),
             </td>
 <td>intent(inout)</td>
@@ -4437,7 +4490,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2769"></span>
+              <span class="anchor" id="variable-work~701"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -4452,7 +4505,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~734"></span>
+              <span class="anchor" id="variable-iwork~146"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -4467,7 +4520,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~122"></span>
+              <span class="anchor" id="variable-reverse~132"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -4509,7 +4562,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~701"></span>
+              <span class="anchor" id="variable-array~808"></span>
               real(kind=dp),
             </td>
 <td>intent(inout)</td>
@@ -4539,7 +4592,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2779"></span>
+              <span class="anchor" id="variable-work~711"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -4554,7 +4607,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~744"></span>
+              <span class="anchor" id="variable-iwork~156"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -4569,7 +4622,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~132"></span>
+              <span class="anchor" id="variable-reverse~142"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -4611,7 +4664,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~671"></span>
+              <span class="anchor" id="variable-array~778"></span>
               real(kind=dp),
             </td>
 <td>intent(inout)</td>
@@ -4641,7 +4694,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2749"></span>
+              <span class="anchor" id="variable-work~681"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -4656,7 +4709,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~714"></span>
+              <span class="anchor" id="variable-iwork~126"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -4671,7 +4724,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~102"></span>
+              <span class="anchor" id="variable-reverse~112"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -4713,7 +4766,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~711"></span>
+              <span class="anchor" id="variable-array~818"></span>
               real(kind=dp),
             </td>
 <td>intent(inout)</td>
@@ -4743,7 +4796,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2789"></span>
+              <span class="anchor" id="variable-work~721"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -4758,7 +4811,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~754"></span>
+              <span class="anchor" id="variable-iwork~166"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -4773,7 +4826,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~142"></span>
+              <span class="anchor" id="variable-reverse~152"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -4815,7 +4868,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~717"></span>
+              <span class="anchor" id="variable-array~824"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout)</td>
@@ -4845,7 +4898,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2795"></span>
+              <span class="anchor" id="variable-work~727"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -4860,7 +4913,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~760"></span>
+              <span class="anchor" id="variable-iwork~172"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -4875,7 +4928,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~148"></span>
+              <span class="anchor" id="variable-reverse~158"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -4917,7 +4970,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~677"></span>
+              <span class="anchor" id="variable-array~784"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout)</td>
@@ -4947,7 +5000,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2755"></span>
+              <span class="anchor" id="variable-work~687"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -4962,7 +5015,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~720"></span>
+              <span class="anchor" id="variable-iwork~132"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -4977,7 +5030,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~108"></span>
+              <span class="anchor" id="variable-reverse~118"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -5019,7 +5072,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~687"></span>
+              <span class="anchor" id="variable-array~794"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout)</td>
@@ -5049,7 +5102,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2765"></span>
+              <span class="anchor" id="variable-work~697"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -5064,7 +5117,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~730"></span>
+              <span class="anchor" id="variable-iwork~142"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -5079,7 +5132,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~118"></span>
+              <span class="anchor" id="variable-reverse~128"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -5121,7 +5174,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~697"></span>
+              <span class="anchor" id="variable-array~804"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout)</td>
@@ -5151,7 +5204,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2775"></span>
+              <span class="anchor" id="variable-work~707"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -5166,7 +5219,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~740"></span>
+              <span class="anchor" id="variable-iwork~152"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -5181,7 +5234,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~128"></span>
+              <span class="anchor" id="variable-reverse~138"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -5223,7 +5276,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~667"></span>
+              <span class="anchor" id="variable-array~774"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout)</td>
@@ -5253,7 +5306,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2745"></span>
+              <span class="anchor" id="variable-work~677"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -5268,7 +5321,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~710"></span>
+              <span class="anchor" id="variable-iwork~122"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -5283,7 +5336,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~98"></span>
+              <span class="anchor" id="variable-reverse~108"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -5325,7 +5378,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~707"></span>
+              <span class="anchor" id="variable-array~814"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout)</td>
@@ -5355,7 +5408,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2785"></span>
+              <span class="anchor" id="variable-work~717"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -5370,7 +5423,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~750"></span>
+              <span class="anchor" id="variable-iwork~162"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -5385,7 +5438,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~138"></span>
+              <span class="anchor" id="variable-reverse~148"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -5427,7 +5480,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~718"></span>
+              <span class="anchor" id="variable-array~825"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout)</td>
@@ -5457,7 +5510,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2796"></span>
+              <span class="anchor" id="variable-work~728"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -5472,7 +5525,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~761"></span>
+              <span class="anchor" id="variable-iwork~173"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -5487,7 +5540,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~149"></span>
+              <span class="anchor" id="variable-reverse~159"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -5529,7 +5582,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~678"></span>
+              <span class="anchor" id="variable-array~785"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout)</td>
@@ -5559,7 +5612,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2756"></span>
+              <span class="anchor" id="variable-work~688"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -5574,7 +5627,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~721"></span>
+              <span class="anchor" id="variable-iwork~133"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -5589,7 +5642,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~109"></span>
+              <span class="anchor" id="variable-reverse~119"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -5631,7 +5684,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~688"></span>
+              <span class="anchor" id="variable-array~795"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout)</td>
@@ -5661,7 +5714,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2766"></span>
+              <span class="anchor" id="variable-work~698"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -5676,7 +5729,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~731"></span>
+              <span class="anchor" id="variable-iwork~143"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -5691,7 +5744,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~119"></span>
+              <span class="anchor" id="variable-reverse~129"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -5733,7 +5786,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~698"></span>
+              <span class="anchor" id="variable-array~805"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout)</td>
@@ -5763,7 +5816,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2776"></span>
+              <span class="anchor" id="variable-work~708"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -5778,7 +5831,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~741"></span>
+              <span class="anchor" id="variable-iwork~153"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -5793,7 +5846,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~129"></span>
+              <span class="anchor" id="variable-reverse~139"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -5835,7 +5888,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~668"></span>
+              <span class="anchor" id="variable-array~775"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout)</td>
@@ -5865,7 +5918,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2746"></span>
+              <span class="anchor" id="variable-work~678"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -5880,7 +5933,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~711"></span>
+              <span class="anchor" id="variable-iwork~123"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -5895,7 +5948,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~99"></span>
+              <span class="anchor" id="variable-reverse~109"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -5937,7 +5990,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~708"></span>
+              <span class="anchor" id="variable-array~815"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout)</td>
@@ -5967,7 +6020,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2786"></span>
+              <span class="anchor" id="variable-work~718"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -5982,7 +6035,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~751"></span>
+              <span class="anchor" id="variable-iwork~163"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -5997,7 +6050,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~139"></span>
+              <span class="anchor" id="variable-reverse~149"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -6039,7 +6092,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~719"></span>
+              <span class="anchor" id="variable-array~826"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -6069,7 +6122,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2797"></span>
+              <span class="anchor" id="variable-work~729"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -6084,7 +6137,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~762"></span>
+              <span class="anchor" id="variable-iwork~174"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -6099,7 +6152,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~150"></span>
+              <span class="anchor" id="variable-reverse~160"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -6141,7 +6194,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~679"></span>
+              <span class="anchor" id="variable-array~786"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -6171,7 +6224,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2757"></span>
+              <span class="anchor" id="variable-work~689"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -6186,7 +6239,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~722"></span>
+              <span class="anchor" id="variable-iwork~134"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -6201,7 +6254,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~110"></span>
+              <span class="anchor" id="variable-reverse~120"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -6243,7 +6296,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~689"></span>
+              <span class="anchor" id="variable-array~796"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -6273,7 +6326,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2767"></span>
+              <span class="anchor" id="variable-work~699"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -6288,7 +6341,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~732"></span>
+              <span class="anchor" id="variable-iwork~144"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -6303,7 +6356,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~120"></span>
+              <span class="anchor" id="variable-reverse~130"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -6345,7 +6398,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~699"></span>
+              <span class="anchor" id="variable-array~806"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -6375,7 +6428,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2777"></span>
+              <span class="anchor" id="variable-work~709"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -6390,7 +6443,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~742"></span>
+              <span class="anchor" id="variable-iwork~154"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -6405,7 +6458,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~130"></span>
+              <span class="anchor" id="variable-reverse~140"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -6447,7 +6500,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~669"></span>
+              <span class="anchor" id="variable-array~776"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -6477,7 +6530,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2747"></span>
+              <span class="anchor" id="variable-work~679"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -6492,7 +6545,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~712"></span>
+              <span class="anchor" id="variable-iwork~124"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -6507,7 +6560,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~100"></span>
+              <span class="anchor" id="variable-reverse~110"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -6549,7 +6602,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~709"></span>
+              <span class="anchor" id="variable-array~816"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -6579,7 +6632,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2787"></span>
+              <span class="anchor" id="variable-work~719"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -6594,7 +6647,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~752"></span>
+              <span class="anchor" id="variable-iwork~164"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -6609,7 +6662,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~140"></span>
+              <span class="anchor" id="variable-reverse~150"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -6651,7 +6704,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~716"></span>
+              <span class="anchor" id="variable-array~823"></span>
               integer(kind=int8),
             </td>
 <td>intent(inout)</td>
@@ -6681,7 +6734,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2794"></span>
+              <span class="anchor" id="variable-work~726"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -6696,7 +6749,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~759"></span>
+              <span class="anchor" id="variable-iwork~171"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -6711,7 +6764,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~147"></span>
+              <span class="anchor" id="variable-reverse~157"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -6753,7 +6806,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~676"></span>
+              <span class="anchor" id="variable-array~783"></span>
               integer(kind=int8),
             </td>
 <td>intent(inout)</td>
@@ -6783,7 +6836,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2754"></span>
+              <span class="anchor" id="variable-work~686"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -6798,7 +6851,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~719"></span>
+              <span class="anchor" id="variable-iwork~131"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -6813,7 +6866,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~107"></span>
+              <span class="anchor" id="variable-reverse~117"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -6855,7 +6908,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~686"></span>
+              <span class="anchor" id="variable-array~793"></span>
               integer(kind=int8),
             </td>
 <td>intent(inout)</td>
@@ -6885,7 +6938,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2764"></span>
+              <span class="anchor" id="variable-work~696"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -6900,7 +6953,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~729"></span>
+              <span class="anchor" id="variable-iwork~141"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -6915,7 +6968,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~117"></span>
+              <span class="anchor" id="variable-reverse~127"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -6957,7 +7010,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~696"></span>
+              <span class="anchor" id="variable-array~803"></span>
               integer(kind=int8),
             </td>
 <td>intent(inout)</td>
@@ -6987,7 +7040,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2774"></span>
+              <span class="anchor" id="variable-work~706"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -7002,7 +7055,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~739"></span>
+              <span class="anchor" id="variable-iwork~151"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -7017,7 +7070,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~127"></span>
+              <span class="anchor" id="variable-reverse~137"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -7059,7 +7112,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~666"></span>
+              <span class="anchor" id="variable-array~773"></span>
               integer(kind=int8),
             </td>
 <td>intent(inout)</td>
@@ -7089,7 +7142,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2744"></span>
+              <span class="anchor" id="variable-work~676"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -7104,7 +7157,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~709"></span>
+              <span class="anchor" id="variable-iwork~121"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -7119,7 +7172,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~97"></span>
+              <span class="anchor" id="variable-reverse~107"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -7161,7 +7214,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~706"></span>
+              <span class="anchor" id="variable-array~813"></span>
               integer(kind=int8),
             </td>
 <td>intent(inout)</td>
@@ -7191,7 +7244,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2784"></span>
+              <span class="anchor" id="variable-work~716"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -7206,7 +7259,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~749"></span>
+              <span class="anchor" id="variable-iwork~161"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -7221,7 +7274,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~137"></span>
+              <span class="anchor" id="variable-reverse~147"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -7263,7 +7316,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~720"></span>
+              <span class="anchor" id="variable-array~827"></span>
               real(kind=sp),
             </td>
 <td>intent(inout)</td>
@@ -7293,7 +7346,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2798"></span>
+              <span class="anchor" id="variable-work~730"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -7308,7 +7361,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~763"></span>
+              <span class="anchor" id="variable-iwork~175"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -7323,7 +7376,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~151"></span>
+              <span class="anchor" id="variable-reverse~161"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -7365,7 +7418,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~680"></span>
+              <span class="anchor" id="variable-array~787"></span>
               real(kind=sp),
             </td>
 <td>intent(inout)</td>
@@ -7395,7 +7448,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2758"></span>
+              <span class="anchor" id="variable-work~690"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -7410,7 +7463,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~723"></span>
+              <span class="anchor" id="variable-iwork~135"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -7425,7 +7478,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~111"></span>
+              <span class="anchor" id="variable-reverse~121"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -7467,7 +7520,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~690"></span>
+              <span class="anchor" id="variable-array~797"></span>
               real(kind=sp),
             </td>
 <td>intent(inout)</td>
@@ -7497,7 +7550,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2768"></span>
+              <span class="anchor" id="variable-work~700"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -7512,7 +7565,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~733"></span>
+              <span class="anchor" id="variable-iwork~145"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -7527,7 +7580,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~121"></span>
+              <span class="anchor" id="variable-reverse~131"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -7569,7 +7622,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~700"></span>
+              <span class="anchor" id="variable-array~807"></span>
               real(kind=sp),
             </td>
 <td>intent(inout)</td>
@@ -7599,7 +7652,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2778"></span>
+              <span class="anchor" id="variable-work~710"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -7614,7 +7667,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~743"></span>
+              <span class="anchor" id="variable-iwork~155"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -7629,7 +7682,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~131"></span>
+              <span class="anchor" id="variable-reverse~141"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -7671,7 +7724,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~670"></span>
+              <span class="anchor" id="variable-array~777"></span>
               real(kind=sp),
             </td>
 <td>intent(inout)</td>
@@ -7701,7 +7754,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2748"></span>
+              <span class="anchor" id="variable-work~680"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -7716,7 +7769,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~713"></span>
+              <span class="anchor" id="variable-iwork~125"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -7731,7 +7784,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~101"></span>
+              <span class="anchor" id="variable-reverse~111"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -7773,7 +7826,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~710"></span>
+              <span class="anchor" id="variable-array~817"></span>
               real(kind=sp),
             </td>
 <td>intent(inout)</td>
@@ -7803,7 +7856,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2788"></span>
+              <span class="anchor" id="variable-work~720"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -7818,7 +7871,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~753"></span>
+              <span class="anchor" id="variable-iwork~165"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -7833,7 +7886,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~141"></span>
+              <span class="anchor" id="variable-reverse~151"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -7875,7 +7928,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~722"></span>
+              <span class="anchor" id="variable-array~829"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -7905,7 +7958,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2800"></span>
+              <span class="anchor" id="variable-work~732"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(out),</td>
@@ -7920,7 +7973,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~765"></span>
+              <span class="anchor" id="variable-iwork~177"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -7935,7 +7988,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~153"></span>
+              <span class="anchor" id="variable-reverse~163"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -7977,7 +8030,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~682"></span>
+              <span class="anchor" id="variable-array~789"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -8007,7 +8060,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2760"></span>
+              <span class="anchor" id="variable-work~692"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(out),</td>
@@ -8022,7 +8075,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~725"></span>
+              <span class="anchor" id="variable-iwork~137"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -8037,7 +8090,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~113"></span>
+              <span class="anchor" id="variable-reverse~123"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -8079,7 +8132,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~692"></span>
+              <span class="anchor" id="variable-array~799"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -8109,7 +8162,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2770"></span>
+              <span class="anchor" id="variable-work~702"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(out),</td>
@@ -8124,7 +8177,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~735"></span>
+              <span class="anchor" id="variable-iwork~147"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -8139,7 +8192,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~123"></span>
+              <span class="anchor" id="variable-reverse~133"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -8181,7 +8234,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~702"></span>
+              <span class="anchor" id="variable-array~809"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -8211,7 +8264,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2780"></span>
+              <span class="anchor" id="variable-work~712"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(out),</td>
@@ -8226,7 +8279,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~745"></span>
+              <span class="anchor" id="variable-iwork~157"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -8241,7 +8294,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~133"></span>
+              <span class="anchor" id="variable-reverse~143"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -8283,7 +8336,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~672"></span>
+              <span class="anchor" id="variable-array~779"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -8313,7 +8366,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2750"></span>
+              <span class="anchor" id="variable-work~682"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(out),</td>
@@ -8328,7 +8381,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~715"></span>
+              <span class="anchor" id="variable-iwork~127"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -8343,7 +8396,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~103"></span>
+              <span class="anchor" id="variable-reverse~113"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -8385,7 +8438,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~712"></span>
+              <span class="anchor" id="variable-array~819"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -8415,7 +8468,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2790"></span>
+              <span class="anchor" id="variable-work~722"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(out),</td>
@@ -8430,7 +8483,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~755"></span>
+              <span class="anchor" id="variable-iwork~167"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -8445,7 +8498,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~143"></span>
+              <span class="anchor" id="variable-reverse~153"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -8508,7 +8561,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~726"></span>
+              <span class="anchor" id="variable-array~861"></span>
               integer(kind=int8),
             </td>
 <td>intent(inout)</td>
@@ -8523,7 +8576,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~134"></span>
+              <span class="anchor" id="variable-index~78"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out)</td>
@@ -8538,7 +8591,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2804"></span>
+              <span class="anchor" id="variable-work~736"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -8553,7 +8606,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~769"></span>
+              <span class="anchor" id="variable-iwork~181"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out),</td>
@@ -8568,7 +8621,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~157"></span>
+              <span class="anchor" id="variable-reverse~167"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -8610,7 +8663,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~727"></span>
+              <span class="anchor" id="variable-array~862"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout)</td>
@@ -8625,7 +8678,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~135"></span>
+              <span class="anchor" id="variable-index~79"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out)</td>
@@ -8640,7 +8693,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2805"></span>
+              <span class="anchor" id="variable-work~737"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -8655,7 +8708,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~770"></span>
+              <span class="anchor" id="variable-iwork~182"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out),</td>
@@ -8670,7 +8723,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~158"></span>
+              <span class="anchor" id="variable-reverse~168"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -8712,7 +8765,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~728"></span>
+              <span class="anchor" id="variable-array~863"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout)</td>
@@ -8727,7 +8780,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~136"></span>
+              <span class="anchor" id="variable-index~80"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out)</td>
@@ -8742,7 +8795,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2806"></span>
+              <span class="anchor" id="variable-work~738"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -8757,7 +8810,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~771"></span>
+              <span class="anchor" id="variable-iwork~183"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out),</td>
@@ -8772,7 +8825,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~159"></span>
+              <span class="anchor" id="variable-reverse~169"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -8814,7 +8867,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~729"></span>
+              <span class="anchor" id="variable-array~864"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -8829,7 +8882,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~137"></span>
+              <span class="anchor" id="variable-index~81"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out)</td>
@@ -8844,7 +8897,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2807"></span>
+              <span class="anchor" id="variable-work~739"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -8859,7 +8912,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~772"></span>
+              <span class="anchor" id="variable-iwork~184"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out),</td>
@@ -8874,7 +8927,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~160"></span>
+              <span class="anchor" id="variable-reverse~170"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -8916,7 +8969,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~730"></span>
+              <span class="anchor" id="variable-array~865"></span>
               real(kind=sp),
             </td>
 <td>intent(inout)</td>
@@ -8931,7 +8984,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~138"></span>
+              <span class="anchor" id="variable-index~82"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out)</td>
@@ -8946,7 +8999,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2808"></span>
+              <span class="anchor" id="variable-work~740"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -8961,7 +9014,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~773"></span>
+              <span class="anchor" id="variable-iwork~185"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out),</td>
@@ -8976,7 +9029,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~161"></span>
+              <span class="anchor" id="variable-reverse~171"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -9018,7 +9071,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~731"></span>
+              <span class="anchor" id="variable-array~866"></span>
               real(kind=dp),
             </td>
 <td>intent(inout)</td>
@@ -9033,7 +9086,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~139"></span>
+              <span class="anchor" id="variable-index~83"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out)</td>
@@ -9048,7 +9101,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2809"></span>
+              <span class="anchor" id="variable-work~741"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -9063,7 +9116,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~774"></span>
+              <span class="anchor" id="variable-iwork~186"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out),</td>
@@ -9078,7 +9131,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~162"></span>
+              <span class="anchor" id="variable-reverse~172"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -9120,7 +9173,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~732"></span>
+              <span class="anchor" id="variable-array~867"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -9135,7 +9188,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~140"></span>
+              <span class="anchor" id="variable-index~84"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out)</td>
@@ -9150,7 +9203,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2810"></span>
+              <span class="anchor" id="variable-work~742"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(out),</td>
@@ -9165,7 +9218,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~775"></span>
+              <span class="anchor" id="variable-iwork~187"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out),</td>
@@ -9180,7 +9233,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~163"></span>
+              <span class="anchor" id="variable-reverse~173"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -9222,7 +9275,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~733"></span>
+              <span class="anchor" id="variable-array~868"></span>
               character(len=*),
             </td>
 <td>intent(inout)</td>
@@ -9237,7 +9290,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~141"></span>
+              <span class="anchor" id="variable-index~85"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out)</td>
@@ -9252,7 +9305,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2811"></span>
+              <span class="anchor" id="variable-work~743"></span>
               character(len=len),
             </td>
 <td>intent(out),</td>
@@ -9267,7 +9320,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~776"></span>
+              <span class="anchor" id="variable-iwork~188"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out),</td>
@@ -9282,7 +9335,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~164"></span>
+              <span class="anchor" id="variable-reverse~174"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -9324,7 +9377,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~734"></span>
+              <span class="anchor" id="variable-array~869"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(inout)</td>
@@ -9339,7 +9392,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~142"></span>
+              <span class="anchor" id="variable-index~86"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out)</td>
@@ -9354,7 +9407,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2812"></span>
+              <span class="anchor" id="variable-work~744"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(out),</td>
@@ -9369,7 +9422,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~777"></span>
+              <span class="anchor" id="variable-iwork~189"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out),</td>
@@ -9384,7 +9437,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~165"></span>
+              <span class="anchor" id="variable-reverse~175"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -9426,7 +9479,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~735"></span>
+              <span class="anchor" id="variable-array~870"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(inout)</td>
@@ -9441,7 +9494,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~143"></span>
+              <span class="anchor" id="variable-index~87"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out)</td>
@@ -9456,7 +9509,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2813"></span>
+              <span class="anchor" id="variable-work~745"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(out),</td>
@@ -9471,7 +9524,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~778"></span>
+              <span class="anchor" id="variable-iwork~190"></span>
               integer(kind=int_index),
             </td>
 <td>intent(out),</td>
@@ -9486,7 +9539,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~166"></span>
+              <span class="anchor" id="variable-reverse~176"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -9528,7 +9581,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~736"></span>
+              <span class="anchor" id="variable-array~871"></span>
               integer(kind=int8),
             </td>
 <td>intent(inout)</td>
@@ -9543,7 +9596,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~144"></span>
+              <span class="anchor" id="variable-index~88"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out)</td>
@@ -9558,7 +9611,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2814"></span>
+              <span class="anchor" id="variable-work~746"></span>
               integer(kind=int8),
             </td>
 <td>intent(out),</td>
@@ -9573,7 +9626,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~779"></span>
+              <span class="anchor" id="variable-iwork~191"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out),</td>
@@ -9588,7 +9641,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~167"></span>
+              <span class="anchor" id="variable-reverse~177"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -9630,7 +9683,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~737"></span>
+              <span class="anchor" id="variable-array~872"></span>
               integer(kind=int16),
             </td>
 <td>intent(inout)</td>
@@ -9645,7 +9698,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~145"></span>
+              <span class="anchor" id="variable-index~89"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out)</td>
@@ -9660,7 +9713,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2815"></span>
+              <span class="anchor" id="variable-work~747"></span>
               integer(kind=int16),
             </td>
 <td>intent(out),</td>
@@ -9675,7 +9728,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~780"></span>
+              <span class="anchor" id="variable-iwork~192"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out),</td>
@@ -9690,7 +9743,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~168"></span>
+              <span class="anchor" id="variable-reverse~178"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -9732,7 +9785,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~738"></span>
+              <span class="anchor" id="variable-array~873"></span>
               integer(kind=int32),
             </td>
 <td>intent(inout)</td>
@@ -9747,7 +9800,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~146"></span>
+              <span class="anchor" id="variable-index~90"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out)</td>
@@ -9762,7 +9815,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2816"></span>
+              <span class="anchor" id="variable-work~748"></span>
               integer(kind=int32),
             </td>
 <td>intent(out),</td>
@@ -9777,7 +9830,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~781"></span>
+              <span class="anchor" id="variable-iwork~193"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out),</td>
@@ -9792,7 +9845,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~169"></span>
+              <span class="anchor" id="variable-reverse~179"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -9834,7 +9887,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~739"></span>
+              <span class="anchor" id="variable-array~874"></span>
               integer(kind=int64),
             </td>
 <td>intent(inout)</td>
@@ -9849,7 +9902,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~147"></span>
+              <span class="anchor" id="variable-index~91"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out)</td>
@@ -9864,7 +9917,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2817"></span>
+              <span class="anchor" id="variable-work~749"></span>
               integer(kind=int64),
             </td>
 <td>intent(out),</td>
@@ -9879,7 +9932,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~782"></span>
+              <span class="anchor" id="variable-iwork~194"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out),</td>
@@ -9894,7 +9947,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~170"></span>
+              <span class="anchor" id="variable-reverse~180"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -9936,7 +9989,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~740"></span>
+              <span class="anchor" id="variable-array~875"></span>
               real(kind=sp),
             </td>
 <td>intent(inout)</td>
@@ -9951,7 +10004,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~148"></span>
+              <span class="anchor" id="variable-index~92"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out)</td>
@@ -9966,7 +10019,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2818"></span>
+              <span class="anchor" id="variable-work~750"></span>
               real(kind=sp),
             </td>
 <td>intent(out),</td>
@@ -9981,7 +10034,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~783"></span>
+              <span class="anchor" id="variable-iwork~195"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out),</td>
@@ -9996,7 +10049,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~171"></span>
+              <span class="anchor" id="variable-reverse~181"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -10038,7 +10091,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~741"></span>
+              <span class="anchor" id="variable-array~876"></span>
               real(kind=dp),
             </td>
 <td>intent(inout)</td>
@@ -10053,7 +10106,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~149"></span>
+              <span class="anchor" id="variable-index~93"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out)</td>
@@ -10068,7 +10121,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2819"></span>
+              <span class="anchor" id="variable-work~751"></span>
               real(kind=dp),
             </td>
 <td>intent(out),</td>
@@ -10083,7 +10136,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~784"></span>
+              <span class="anchor" id="variable-iwork~196"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out),</td>
@@ -10098,7 +10151,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~172"></span>
+              <span class="anchor" id="variable-reverse~182"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -10140,7 +10193,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~742"></span>
+              <span class="anchor" id="variable-array~877"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -10155,7 +10208,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~150"></span>
+              <span class="anchor" id="variable-index~94"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out)</td>
@@ -10170,7 +10223,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2820"></span>
+              <span class="anchor" id="variable-work~752"></span>
               type(<a href='../type/string_type.html'>string_type</a>),
             </td>
 <td>intent(out),</td>
@@ -10185,7 +10238,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~785"></span>
+              <span class="anchor" id="variable-iwork~197"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out),</td>
@@ -10200,7 +10253,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~173"></span>
+              <span class="anchor" id="variable-reverse~183"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -10242,7 +10295,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~743"></span>
+              <span class="anchor" id="variable-array~878"></span>
               character(len=*),
             </td>
 <td>intent(inout)</td>
@@ -10257,7 +10310,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~151"></span>
+              <span class="anchor" id="variable-index~95"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out)</td>
@@ -10272,7 +10325,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2821"></span>
+              <span class="anchor" id="variable-work~753"></span>
               character(len=len),
             </td>
 <td>intent(out),</td>
@@ -10287,7 +10340,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~786"></span>
+              <span class="anchor" id="variable-iwork~198"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out),</td>
@@ -10302,7 +10355,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~174"></span>
+              <span class="anchor" id="variable-reverse~184"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -10344,7 +10397,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~744"></span>
+              <span class="anchor" id="variable-array~879"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(inout)</td>
@@ -10359,7 +10412,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~152"></span>
+              <span class="anchor" id="variable-index~96"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out)</td>
@@ -10374,7 +10427,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2822"></span>
+              <span class="anchor" id="variable-work~754"></span>
               type(<a href='../type/bitset_64.html'>bitset_64</a>),
             </td>
 <td>intent(out),</td>
@@ -10389,7 +10442,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~787"></span>
+              <span class="anchor" id="variable-iwork~199"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out),</td>
@@ -10404,7 +10457,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~175"></span>
+              <span class="anchor" id="variable-reverse~185"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -10446,7 +10499,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~745"></span>
+              <span class="anchor" id="variable-array~880"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(inout)</td>
@@ -10461,7 +10514,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~153"></span>
+              <span class="anchor" id="variable-index~97"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out)</td>
@@ -10476,7 +10529,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~2823"></span>
+              <span class="anchor" id="variable-work~755"></span>
               type(<a href='../type/bitset_large.html'>bitset_large</a>),
             </td>
 <td>intent(out),</td>
@@ -10491,7 +10544,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~788"></span>
+              <span class="anchor" id="variable-iwork~200"></span>
               integer(kind=int_index_low),
             </td>
 <td>intent(out),</td>
@@ -10506,7 +10559,7 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reverse~176"></span>
+              <span class="anchor" id="variable-reverse~186"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -10515,6 +10568,724 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
             </td>
             <td>::</td>
             <td><strong>reverse</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-unique"></span>
+      <h3>public        interface <a href='../interface/unique.html'>unique</a> 
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>The generic subroutine interface implementing the <code>UNIQUE</code> algorithm to
+compute the distinct elements of a rank-1 array.</p>
+<p>The output array either preserves the order of first occurrence or
+contains the distinct elements in sorted order, depending on the
+value of the <code>SORTED_OUTPUT</code> argument. <code>SORTED_OUTPUT</code> is <code>.false.</code>
+by default. The <code>SORTED_OUTPUT</code> argument is not available for complex
+overloads. </p>
+<p>For real arrays, an optional <code>TOLERANCE</code> argument may be supplied
+when <code>SORTED_OUTPUT</code> is <code>.true.</code>. Two values whose absolute
+difference is less than or equal to <code>TOLERANCE</code> are considered
+equal.</p>
+<p>For complex arrays, only the unsorted implementation is available.
+The distinct elements are returned in the order of their first
+occurrence.</p>
+      </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private module subroutine cdp_unique(array, output)  
+
+    </h3>
+  <p><code>call cdp_unique(array, output[, sorted_output])</code> stores the
+distinct elements of the input array of type <code>complex(dp)</code> in <code>output</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~842"></span>
+              complex(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>array</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output~41"></span>
+              complex(kind=dp),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>output</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module subroutine char_unique(array, output, sorted_output)  
+
+    </h3>
+  <p><code>call char_unique(array, output[, sorted_output])</code> stores the
+distinct elements of the input array of type <code>character(len=*)</code> in <code>output</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~839"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>array</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output~38"></span>
+              character(len=len),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>output</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sorted_output~15"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sorted_output</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module subroutine csp_unique(array, output)  
+
+    </h3>
+  <p><code>call csp_unique(array, output[, sorted_output])</code> stores the
+distinct elements of the input array of type <code>complex(sp)</code> in <code>output</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~841"></span>
+              complex(kind=sp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>array</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output~40"></span>
+              complex(kind=sp),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>output</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module subroutine dp_unique(array, output, sorted_output, tolerance)  
+
+    </h3>
+  <p><code>call dp_unique(array, output[, sorted_output, tolerance])</code>
+stores the distinct elements of the input array of type <code>real(dp)</code> in
+<code>output</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~838"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>array</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output~37"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>output</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sorted_output~14"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sorted_output</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tolerance~7"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tolerance</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module subroutine int16_unique(array, output, sorted_output)  
+
+    </h3>
+  <p><code>call int16_unique(array, output[, sorted_output])</code> stores the
+distinct elements of the input array of type <code>integer(int16)</code> in <code>output</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~834"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>array</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output~33"></span>
+              integer(kind=int16),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>output</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sorted_output~10"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sorted_output</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module subroutine int32_unique(array, output, sorted_output)  
+
+    </h3>
+  <p><code>call int32_unique(array, output[, sorted_output])</code> stores the
+distinct elements of the input array of type <code>integer(int32)</code> in <code>output</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~835"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>array</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output~34"></span>
+              integer(kind=int32),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>output</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sorted_output~11"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sorted_output</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module subroutine int64_unique(array, output, sorted_output)  
+
+    </h3>
+  <p><code>call int64_unique(array, output[, sorted_output])</code> stores the
+distinct elements of the input array of type <code>integer(int64)</code> in <code>output</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~836"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>array</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output~35"></span>
+              integer(kind=int64),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>output</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sorted_output~12"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sorted_output</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module subroutine int8_unique(array, output, sorted_output)  
+
+    </h3>
+  <p><code>call int8_unique(array, output[, sorted_output])</code> stores the
+distinct elements of the input array of type <code>integer(int8)</code> in <code>output</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~833"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>array</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output~32"></span>
+              integer(kind=int8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>output</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sorted_output~9"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sorted_output</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module subroutine sp_unique(array, output, sorted_output, tolerance)  
+
+    </h3>
+  <p><code>call sp_unique(array, output[, sorted_output, tolerance])</code>
+stores the distinct elements of the input array of type <code>real(sp)</code> in
+<code>output</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~837"></span>
+              real(kind=sp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>array</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output~36"></span>
+              real(kind=sp),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>output</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sorted_output~13"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sorted_output</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tolerance~6"></span>
+              real(kind=sp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tolerance</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module subroutine string_type_unique(array, output, sorted_output)  
+
+    </h3>
+  <p><code>call string_type_unique(array, output[, sorted_output])</code> stores the
+distinct elements of the input array of type <code>type(string_type)</code> in <code>output</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~840"></span>
+              type(<a href='../type/string_type.html'>string_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>array</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output~39"></span>
+              type(<a href='../type/string_type.html'>string_type</a>),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>output</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sorted_output~16"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sorted_output</strong></td>
             <td>
                 
             </td>
@@ -10548,13 +11319,13 @@ order that would sort the input <code>ARRAY</code> in the desired direction.</p>
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>7a6646e7</small></p>
+<br /><small>54469bb4</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-10-03 17:45 +0000             </p>
+ on 2026-10-03 18:52 +0000             </p>
           </div>
         </div>
         <br>
