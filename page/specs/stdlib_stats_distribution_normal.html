@@ -152,6 +152,7 @@
               <a class="nav-link" href="stdlib_specialfunctions_gamma.html">specialfunctions_gamma</a>
               <a class="nav-link" href="stdlib_specialmatrices.html">specialmatrices</a>
               <a class="nav-link" href="stdlib_stats.html">stats</a>
+              <a class="nav-link" href="stdlib_stats_descriptive.html">stats_descriptive</a>
               <a class="nav-link" href="stdlib_stats_distribution_beta.html">stats_distribution_beta</a>
               <a class="nav-link" href="stdlib_stats_distribution_exponential.html">stats_distribution_exponential</a>
               <a class="nav-link active disabled" href="stdlib_stats_distribution_normal.html">stats_distribution_normal</a>
@@ -236,8 +237,8 @@ The location <code>loc</code> specifies the mean or expectation (<script type="m
 <p>The result is a scalar or rank-1 array, with a size of <code>array_size</code>, and the same type as <code>scale</code> and <code>loc</code> (or same type and kind as <code>mold</code> when using the <code>array_size [, mold]</code> form; defaults to <code>real(dp)</code> when <code>mold</code> is omitted). If <code>scale</code> is non-positive, the result is <code>NaN</code>.</p>
 <h3 id="example">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_normal_rvs</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="nb">random_seed</span>
-<span class="nb">  </span><span class="k">use </span><span class="n">stdlib_stats_distribution_normal</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">norm</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">rvs_normal</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_stats</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="nb">random_seed</span>
+<span class="nb">  </span><span class="k">use </span><span class="n">stdlib_stats</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">norm</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">rvs_normal</span>
 
 <span class="w">  </span><span class="k">implicit none</span>
 <span class="k">  </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w">  </span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span>
@@ -307,8 +308,8 @@ The location <code>loc</code> specifies the mean or expectation (<script type="m
 <p>The result is a scalar or an array, with a shape conformable to the arguments, and the same type as the input arguments. If <code>scale</code> is non-positive, the result is <code>NaN</code>.</p>
 <h3 id="example_1">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_normal_pdf</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="nb">random_seed</span>
-<span class="nb">  </span><span class="k">use </span><span class="n">stdlib_stats_distribution_normal</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">norm_pdf</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">pdf_normal</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_stats</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="nb">random_seed</span>
+<span class="nb">  </span><span class="k">use </span><span class="n">stdlib_stats</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">norm_pdf</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">pdf_normal</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                              </span><span class="n">norm</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">rvs_normal</span>
 
 <span class="w">  </span><span class="k">implicit none</span>
@@ -394,8 +395,8 @@ The location <code>loc</code> specifies the mean or expectation (<script type="m
 <p>The result is a scalar or an array, with a shape conformable to the arguments, and the same type as the input arguments. If <code>scale</code> is non-positive, the result is <code>NaN</code>.</p>
 <h3 id="example_2">Example</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">program </span><span class="n">example_normal_cdf</span>
-<span class="w">  </span><span class="k">use </span><span class="n">stdlib_random</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="nb">random_seed</span>
-<span class="nb">  </span><span class="k">use </span><span class="n">stdlib_stats_distribution_normal</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">norm_cdf</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">cdf_normal</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_stats</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="nb">random_seed</span>
+<span class="nb">  </span><span class="k">use </span><span class="n">stdlib_stats</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">norm_cdf</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">cdf_normal</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                              </span><span class="n">norm</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">rvs_normal</span>
 
 <span class="w">  </span><span class="k">implicit none</span>
@@ -476,13 +477,13 @@ The location <code>loc</code> specifies the mean or expectation (<script type="m
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>65fd1fbe</small></p>
+<br /><small>adbe1e79</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-01 11:22 +0000             </p>
+ on 2026-11-01 14:23 +0000             </p>
           </div>
         </div>
         <br>

@@ -10,7 +10,7 @@
     <meta name="author" content="fortran-lang/stdlib contributors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>stdlib_stats.fypp &ndash; Fortran-lang/stdlib</title>
+    <title>stdlib_stats_descriptive.fypp &ndash; Fortran-lang/stdlib</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -81,7 +81,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>stdlib_stats.fypp
+    <h1>stdlib_stats_descriptive.fypp
       <small>Source File</small>
       
     </h1>
@@ -98,14 +98,14 @@
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/stdlib_stats.fypp"> Source File</a>
+              <a href="../src/stdlib_stats_descriptive.fypp"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-            <li class="breadcrumb-item active" aria-current="page">stdlib_stats.fypp</li>
+            <li class="breadcrumb-item active" aria-current="page">stdlib_stats_descriptive.fypp</li>
           </ol>
         </nav>
       </div>
@@ -136,7 +136,7 @@
       </a>
       <div id="mods-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/stdlib_stats.html">stdlib_stats</a>
+            <a class="list-group-item" href="../module/stdlib_stats_descriptive.html">stdlib_stats_descriptive</a>
         </div>
       </div>
     </div>
@@ -158,7 +158,7 @@
     <div class="card card-primary">
       <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
       <div class="list-group">
-        <a class="list-group-item" href="../sourcefile/stdlib_stats.fypp.html#src">stdlib_stats.fypp</a>
+        <a class="list-group-item" href="../sourcefile/stdlib_stats_descriptive.fypp.html#src">stdlib_stats_descriptive.fypp</a>
       </div>
     </div>
 
@@ -177,10 +177,10 @@
 <a id="ln-3" name="ln-3" href="#ln-3"></a><span class="cp">#:set REDRANKS = range(2, MAXRANK + 1)</span>
 <a id="ln-4" name="ln-4" href="#ln-4"></a><span class="cp">#:set RC_KINDS_TYPES = REAL_KINDS_TYPES + CMPLX_KINDS_TYPES</span>
 <a id="ln-5" name="ln-5" href="#ln-5"></a><span class="cp">#:set IR_KINDS_TYPES_OUTPUT = list(zip(INT_KINDS,INT_TYPES, ['dp']*len(INT_KINDS))) + list(zip(REAL_KINDS, REAL_TYPES, REAL_KINDS))</span>
-<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="k">module </span><span class="n">stdlib_stats</span>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="k">module </span><span class="n">stdlib_stats_descriptive</span>
 <a id="ln-7" name="ln-7" href="#ln-7"></a><span class="w">  </span><span class="c">!! Provides support for various statistical methods. This includes currently</span>
 <a id="ln-8" name="ln-8" href="#ln-8"></a><span class="w">  </span><span class="c">!! descriptive statistics</span>
-<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="w">  </span><span class="c">!! ([Specification](../page/specs/stdlib_stats.html))</span>
+<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="w">  </span><span class="c">!! ([Specification](../page/specs/stdlib_stats_descriptive.html))</span>
 <a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w">  </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="n">xdp</span><span class="p">,</span><span class="w"> </span><span class="n">qp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-11" name="ln-11" href="#ln-11"></a><span class="w">      </span><span class="n">int8</span><span class="p">,</span><span class="w"> </span><span class="n">int16</span><span class="p">,</span><span class="w"> </span><span class="n">int32</span><span class="p">,</span><span class="w"> </span><span class="n">int64</span>
 <a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">  </span><span class="k">use </span><span class="n">stdlib_linalg_state</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">linalg_state_type</span>
@@ -195,7 +195,7 @@
 <a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">    </span><span class="c">!! version: experimental</span>
 <a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">    </span><span class="c">!!</span>
 <a id="ln-23" name="ln-23" href="#ln-23"></a><span class="w">    </span><span class="c">!! Pearson correlation of array elements</span>
-<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats.html#corr-pearson-correlation-of-array-elements))</span>
+<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats_descriptive.html#corr-pearson-correlation-of-array-elements))</span>
 <a id="ln-25" name="ln-25" href="#ln-25"></a><span class="w">    </span><span class="err">#</span><span class="p">:</span><span class="n">for</span><span class="w"> </span><span class="n">k1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">RC_KINDS_TYPES</span>
 <a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">      </span><span class="err">#</span><span class="p">:</span><span class="n">set</span><span class="w"> </span><span class="n">RName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rname</span><span class="p">(</span><span class="s2">"corr"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">k1</span><span class="p">)</span>
 <a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">      </span><span class="k">module function</span><span class="w"> </span><span class="err">${</span><span class="n">RName</span><span class="err">}$</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
@@ -287,7 +287,7 @@
 <a id="ln-113" name="ln-113" href="#ln-113"></a><span class="w">    </span><span class="c">!! version: experimental</span>
 <a id="ln-114" name="ln-114" href="#ln-114"></a><span class="w">    </span><span class="c">!!</span>
 <a id="ln-115" name="ln-115" href="#ln-115"></a><span class="w">    </span><span class="c">!! Covariance of array elements</span>
-<a id="ln-116" name="ln-116" href="#ln-116"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats.html#cov-covariance-of-array-elements))</span>
+<a id="ln-116" name="ln-116" href="#ln-116"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats_descriptive.html#cov-covariance-of-array-elements))</span>
 <a id="ln-117" name="ln-117" href="#ln-117"></a><span class="w">    </span><span class="err">#</span><span class="p">:</span><span class="n">for</span><span class="w"> </span><span class="n">k1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">RC_KINDS_TYPES</span>
 <a id="ln-118" name="ln-118" href="#ln-118"></a><span class="w">      </span><span class="err">#</span><span class="p">:</span><span class="n">set</span><span class="w"> </span><span class="n">RName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rname</span><span class="p">(</span><span class="s2">"cov"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">k1</span><span class="p">)</span>
 <a id="ln-119" name="ln-119" href="#ln-119"></a><span class="w">      </span><span class="k">module function</span><span class="w"> </span><span class="err">${</span><span class="n">RName</span><span class="err">}$</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="p">,</span><span class="w"> </span><span class="n">corrected</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
@@ -386,7 +386,7 @@
 <a id="ln-212" name="ln-212" href="#ln-212"></a><span class="w">    </span><span class="c">!! version: experimental</span>
 <a id="ln-213" name="ln-213" href="#ln-213"></a><span class="w">    </span><span class="c">!!</span>
 <a id="ln-214" name="ln-214" href="#ln-214"></a><span class="w">    </span><span class="c">!! Mean of array elements</span>
-<a id="ln-215" name="ln-215" href="#ln-215"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats.html#mean-mean-of-array-elements))</span>
+<a id="ln-215" name="ln-215" href="#ln-215"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats_descriptive.html#mean-mean-of-array-elements))</span>
 <a id="ln-216" name="ln-216" href="#ln-216"></a><span class="w">    </span><span class="err">#</span><span class="p">:</span><span class="n">for</span><span class="w"> </span><span class="n">k1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">RC_KINDS_TYPES</span>
 <a id="ln-217" name="ln-217" href="#ln-217"></a><span class="w">      </span><span class="err">#</span><span class="p">:</span><span class="n">for</span><span class="w"> </span><span class="n">rank</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">RANKS</span>
 <a id="ln-218" name="ln-218" href="#ln-218"></a><span class="w">        </span><span class="err">#</span><span class="p">:</span><span class="n">set</span><span class="w"> </span><span class="n">RName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rname</span><span class="p">(</span><span class="s2">"mean_all"</span><span class="p">,</span><span class="n">rank</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">k1</span><span class="p">)</span>
@@ -486,7 +486,7 @@
 <a id="ln-312" name="ln-312" href="#ln-312"></a><span class="w">    </span><span class="c">!! version: experimental</span>
 <a id="ln-313" name="ln-313" href="#ln-313"></a><span class="w">    </span><span class="c">!!</span>
 <a id="ln-314" name="ln-314" href="#ln-314"></a><span class="w">    </span><span class="c">!! Median of array elements</span>
-<a id="ln-315" name="ln-315" href="#ln-315"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats.html#median-median-of-array-elements))</span>
+<a id="ln-315" name="ln-315" href="#ln-315"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats_descriptive.html#median-median-of-array-elements))</span>
 <a id="ln-316" name="ln-316" href="#ln-316"></a><span class="w">    </span><span class="err">#</span><span class="p">:</span><span class="n">for</span><span class="w"> </span><span class="n">k1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">o1</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">IR_KINDS_TYPES_OUTPUT</span>
 <a id="ln-317" name="ln-317" href="#ln-317"></a><span class="w">      </span><span class="err">#</span><span class="p">:</span><span class="n">for</span><span class="w"> </span><span class="n">rank</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">RANKS</span>
 <a id="ln-318" name="ln-318" href="#ln-318"></a><span class="w">        </span><span class="err">#</span><span class="p">:</span><span class="n">set</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rname</span><span class="p">(</span><span class="s2">"median_all"</span><span class="p">,</span><span class="n">rank</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">k1</span><span class="p">,</span><span class="w"> </span><span class="n">o1</span><span class="p">)</span>
@@ -540,7 +540,7 @@
 <a id="ln-366" name="ln-366" href="#ln-366"></a><span class="w">    </span><span class="c">!! version: experimental</span>
 <a id="ln-367" name="ln-367" href="#ln-367"></a><span class="w">    </span><span class="c">!!</span>
 <a id="ln-368" name="ln-368" href="#ln-368"></a><span class="w">    </span><span class="c">!! Variance of array elements</span>
-<a id="ln-369" name="ln-369" href="#ln-369"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats.html#var-variance-of-array-elements))</span>
+<a id="ln-369" name="ln-369" href="#ln-369"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats_descriptive.html#var-variance-of-array-elements))</span>
 <a id="ln-370" name="ln-370" href="#ln-370"></a>
 <a id="ln-371" name="ln-371" href="#ln-371"></a><span class="w">    </span><span class="err">#</span><span class="p">:</span><span class="n">for</span><span class="w"> </span><span class="n">k1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">RC_KINDS_TYPES</span>
 <a id="ln-372" name="ln-372" href="#ln-372"></a><span class="w">      </span><span class="err">#</span><span class="p">:</span><span class="n">for</span><span class="w"> </span><span class="n">rank</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">RANKS</span>
@@ -649,7 +649,7 @@
 <a id="ln-475" name="ln-475" href="#ln-475"></a><span class="w">    </span><span class="c">!! version: experimental</span>
 <a id="ln-476" name="ln-476" href="#ln-476"></a><span class="w">    </span><span class="c">!!</span>
 <a id="ln-477" name="ln-477" href="#ln-477"></a><span class="w">    </span><span class="c">!! Central moment of array elements</span>
-<a id="ln-478" name="ln-478" href="#ln-478"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats.html#moment-central-moments-of-array-elements))</span>
+<a id="ln-478" name="ln-478" href="#ln-478"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats_descriptive.html#moment-central-moments-of-array-elements))</span>
 <a id="ln-479" name="ln-479" href="#ln-479"></a><span class="w">    </span><span class="err">#</span><span class="p">:</span><span class="n">for</span><span class="w"> </span><span class="n">k1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">RC_KINDS_TYPES</span>
 <a id="ln-480" name="ln-480" href="#ln-480"></a><span class="w">      </span><span class="err">#</span><span class="p">:</span><span class="n">for</span><span class="w"> </span><span class="n">rank</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">RANKS</span>
 <a id="ln-481" name="ln-481" href="#ln-481"></a><span class="w">        </span><span class="err">#</span><span class="p">:</span><span class="n">set</span><span class="w"> </span><span class="n">RName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rname</span><span class="p">(</span><span class="s2">"moment_all"</span><span class="p">,</span><span class="n">rank</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">k1</span><span class="p">)</span>
@@ -820,7 +820,7 @@
 <a id="ln-646" name="ln-646" href="#ln-646"></a><span class="w">    </span><span class="c">!! version: experimental</span>
 <a id="ln-647" name="ln-647" href="#ln-647"></a><span class="w">    </span><span class="c">!!</span>
 <a id="ln-648" name="ln-648" href="#ln-648"></a><span class="w">    </span><span class="c">!! Principal Component Analysis (PCA)</span>
-<a id="ln-649" name="ln-649" href="#ln-649"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats.html#pca))</span>
+<a id="ln-649" name="ln-649" href="#ln-649"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats_descriptive.html#pca))</span>
 <a id="ln-650" name="ln-650" href="#ln-650"></a><span class="w">    </span><span class="err">#</span><span class="p">:</span><span class="n">for</span><span class="w"> </span><span class="n">k1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">ri</span><span class="p">,</span><span class="w"> </span><span class="n">cpp</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">REAL_KINDS_TYPES</span>
 <a id="ln-651" name="ln-651" href="#ln-651"></a><span class="w">      </span><span class="k">module subroutine </span><span class="n">pca_$</span><span class="err">{</span><span class="n">k1</span><span class="err">}$</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">components</span><span class="p">,</span><span class="w"> </span><span class="n">singular_values</span><span class="p">,</span><span class="w"> </span><span class="n">x_mean</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-652" name="ln-652" href="#ln-652"></a><span class="w">                                  </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">overwrite_x</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">)</span>
@@ -840,7 +840,7 @@
 <a id="ln-666" name="ln-666" href="#ln-666"></a><span class="w">    </span><span class="c">!! version: experimental</span>
 <a id="ln-667" name="ln-667" href="#ln-667"></a><span class="w">    </span><span class="c">!!</span>
 <a id="ln-668" name="ln-668" href="#ln-668"></a><span class="w">    </span><span class="c">!! Projects data into the reduced dimensional space</span>
-<a id="ln-669" name="ln-669" href="#ln-669"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats.html#pca_transform))</span>
+<a id="ln-669" name="ln-669" href="#ln-669"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats_descriptive.html#pca_transform))</span>
 <a id="ln-670" name="ln-670" href="#ln-670"></a><span class="w">    </span><span class="err">#</span><span class="p">:</span><span class="n">for</span><span class="w"> </span><span class="n">k1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">ri</span><span class="p">,</span><span class="w"> </span><span class="n">cpp</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">REAL_KINDS_TYPES</span>
 <a id="ln-671" name="ln-671" href="#ln-671"></a><span class="w">      </span><span class="k">module subroutine </span><span class="n">pca_transform_$</span><span class="err">{</span><span class="n">k1</span><span class="err">}$</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">components</span><span class="p">,</span><span class="w"> </span><span class="n">x_transformed</span><span class="p">,</span><span class="w"> </span><span class="n">x_mean</span><span class="p">)</span>
 <a id="ln-672" name="ln-672" href="#ln-672"></a><span class="w">        </span><span class="err">${</span><span class="n">t1</span><span class="err">}$</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:,:)</span>
@@ -856,7 +856,7 @@
 <a id="ln-682" name="ln-682" href="#ln-682"></a><span class="w">    </span><span class="c">!! version: experimental</span>
 <a id="ln-683" name="ln-683" href="#ln-683"></a><span class="w">    </span><span class="c">!!</span>
 <a id="ln-684" name="ln-684" href="#ln-684"></a><span class="w">    </span><span class="c">!! Reconstructs original data from the reduced space</span>
-<a id="ln-685" name="ln-685" href="#ln-685"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats.html#pca_inverse_transform))</span>
+<a id="ln-685" name="ln-685" href="#ln-685"></a><span class="w">    </span><span class="c">!! ([Specification](../page/specs/stdlib_stats_descriptive.html#pca_inverse_transform))</span>
 <a id="ln-686" name="ln-686" href="#ln-686"></a><span class="w">    </span><span class="err">#</span><span class="p">:</span><span class="n">for</span><span class="w"> </span><span class="n">k1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">ri</span><span class="p">,</span><span class="w"> </span><span class="n">cpp</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">REAL_KINDS_TYPES</span>
 <a id="ln-687" name="ln-687" href="#ln-687"></a><span class="w">      </span><span class="k">module subroutine </span><span class="n">pca_inverse_transform_$</span><span class="err">{</span><span class="n">k1</span><span class="err">}$</span><span class="p">(</span><span class="n">x_reduced</span><span class="p">,</span><span class="w"> </span><span class="n">components</span><span class="p">,</span><span class="w"> </span><span class="n">x_reconstructed</span><span class="p">,</span><span class="w"> </span><span class="n">x_mean</span><span class="p">)</span>
 <a id="ln-688" name="ln-688" href="#ln-688"></a><span class="w">        </span><span class="err">${</span><span class="n">t1</span><span class="err">}$</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x_reduced</span><span class="p">(:,:)</span>
@@ -868,7 +868,7 @@
 <a id="ln-694" name="ln-694" href="#ln-694"></a><span class="w">  </span><span class="k">end interface </span><span class="n">pca_inverse_transform</span>
 <a id="ln-695" name="ln-695" href="#ln-695"></a>
 <a id="ln-696" name="ln-696" href="#ln-696"></a>
-<a id="ln-697" name="ln-697" href="#ln-697"></a><span class="k">end module </span><span class="n">stdlib_stats</span>
+<a id="ln-697" name="ln-697" href="#ln-697"></a><span class="k">end module </span><span class="n">stdlib_stats_descriptive</span>
 </pre></div>
 
       </section>
@@ -884,13 +884,13 @@
             <p>
               Fortran-lang/stdlib
  was developed by fortran-lang/stdlib contributors<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
-<br /><small>65fd1fbe</small></p>
+<br /><small>adbe1e79</small></p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2026-11-01 11:22 +0000             </p>
+ on 2026-11-01 14:23 +0000             </p>
           </div>
         </div>
         <br>
