@@ -1,0 +1,455 @@
+# `stdlib_io`
+
+```{contents}
+:local:
+:depth: 2
+```
+
+## `loadtxt` - load a 2D array from a text file
+
+### Status
+
+Experimental
+
+### Description
+Loads a rank-2 `array` from a text file.
+
+### Syntax
+
+`call ` {f:subr}`loadtxt` `(filename, array [, skiprows] [, max_rows] [, fmt] [, delimiter])`
+
+### Arguments
+
+`filename`: Shall be  a character expression containing the file name from which to load the rank-2 `array`.
+
+`array`: Shall be an allocatable rank-2 array of type `real`, `complex` or `integer`.
+
+`skiprows` (optional): Skip the first `skiprows` lines. If skipping more rows than present, a 0-sized array will be returned. The default is 0.
+
+`max_rows` (optional): Read `max_rows` lines of content after `skiprows` lines. A negative value results in reading all lines. A value of zero results in no lines to be read. The default value is -1.
+
+`fmt` (optional): Fortran format specifier for the text read.  Defaults to the write format for the data type.  Setting fmt='*' will specify list directed read.   
+
+`delimiter` (optional): Shall be a character expression of length 1 that contains the delimiter used to separate the columns. The default is `' '`.
+
+### Return value
+
+Returns an allocated rank-2 `array` with the content of `filename`.
+
+### Example
+
+```{literalinclude} ../../example/io/example_loadtxt.f90
+:language: fortran
+```
+
+
+## `open` - open a file
+
+### Status
+
+Experimental
+
+### Description
+
+Returns the unit number of a file opened to read, to write, or to read and write. The file might be a text file or a binary file.
+Text files are opened using a sequential access, while binary files are opened using a streamed access.
+
+### Syntax
+
+`u = ` {f:func}`open` `(filename [, mode] [, iostat])`
+
+### Arguments
+
+`filename`: Shall be a character expression containing the name of the file to open.
+
+`mode` (optional): Shall be a character expression containing characters describing the way in which the file will be used. The available modes are:
+
+
+| Character | Meaning |
+| --------- | ------- |
+| `'r'` | open for reading (default) |
+| `'w'` | open for writing, truncating the file first |
+| `'x'` | open for exclusive creation, failing if the file already exists |
+| `'a'` | open for writing, appending to the end of the file if it exists |
+| `'+'` | open for updating (reading and writing) |
+| `'b'` | binary mode |
+| `'t'` | text mode (default) |
+
+
+The default `mode` is `'rt'` (i.e. open for reading a text file). The `mode` may include one of the four different methods for opening a file (i.e., `'r'`, `'w'`, `'x'`, and `'a'`). These four methods can be associated with the character `'+'` to open the file for updating. In addition, it can be specified if the file should be handled as a binary file (`'b'`) or a text file (`'t'`).
+
+`iostat` (optional): Shall be a scalar of type `integer` that receives the error status of `open`, if provided. If no error exists, `iostat` is zero.
+
+`u`: Shall be a scalar of type `integer` that specifies the unit number associated with the file `filename`.
+
+
+### Return value
+
+The result is a scalar of type `integer`.
+
+### Example
+
+```{literalinclude} ../../example/io/example_open.f90
+:language: fortran
+```
+
+
+## `savetxt` - save a 2D array into a text file
+
+### Status
+
+Experimental
+
+### Description
+Saves a rank-2 `array` into a text file.
+
+If the text file already exists:
+ - When called with a character expression `filename` as the first argument it will overwrite the file.
+ - When called with an integer number `unit` to an open file as the first argument, it will save data to the file with no further manipulation.
+
+### Syntax
+
+`call ` {f:iface}`savetxt` `(filename, array [,  delimiter] [, fmt] [, header] [, footer] [, comments])`
+
+`call ` {f:iface}`savetxt` `(unit, array [,  delimiter] [, fmt] [, header] [, footer] [, comments])`
+
+### Arguments
+
+`filename` or `unit`: Shall be either a character expression containing the name of the file or an integer containing the unit of an already open file, that will contain the 2D `array`. 
+
+`array`: Shall be a rank-2 array of type `real`, `complex` or `integer`.
+
+`delimiter` (optional): Shall be a character expression of any length that contains the delimiter used to separate the columns. The default is a single space `' '`.
+
+`fmt` (optional): Fortran format specifier for the text save. Defaults to the write format for the data type as defined in the [formatting constants]{formatting-constants}.
+
+`header` (optional): Shall be a character expression that will be written at the beginning of the file.
+
+`footer` (optional): Shall be a character expression that will be written at the end of the file.
+
+`comments` (optional): Shall  be a character expression of any length that will be prepended to the ``header`` and ``footer`` strings to mark them as comments. Default: `#`.
+
+
+### Output
+
+Provides a text file called `filename` that contains the rank-2 `array` with optional `header` and `footer` lines.
+
+
+### Example
+
+```{literalinclude} ../../example/io/example_savetxt.f90
+:language: fortran
+```
+
+
+## `load_npy`
+
+### Status
+
+Experimental
+
+### Description
+
+Loads an `array` from a npy formatted binary file.
+
+### Syntax
+
+`call ` {f:subr}`load_npy` `(filename, array[, iostat][, iomsg])`
+
+### Arguments
+
+`filename`: Shall be  a character expression containing the file name from which to load the `array`.
+            This argument is `intent(in)`.
+
+`array`: Shall be an allocatable array of any rank of type `real`, `complex` or `integer`.
+         This argument is `intent(out)`.
+
+`iostat`: Default integer, contains status of loading to file, zero in case of success.
+          It is an optional argument, in case not present the program will halt for non-zero status.
+          This argument is `intent(out)`.
+
+`iomsg`: Deferred length character value, contains error message in case `iostat` is non-zero.
+         It is an optional argument, error message will be dropped if not present.
+         This argument is `intent(out)`.
+
+### Return value
+
+Returns an allocated `array` with the content of `filename` in case of success.
+
+### Example
+
+```{literalinclude} ../../example/io/example_loadnpy.f90
+:language: fortran
+```
+
+
+## `save_npy`
+
+### Status
+
+Experimental
+
+### Description
+
+Saves an `array` into a npy formatted binary file.
+
+### Syntax
+
+`call ` {f:subr}`save_npy` `(filename, array[, iostat][, iomsg])`
+
+### Arguments
+
+`filename`: Shall be  a character expression containing the name of the file that will contain the `array`.
+            This argument is `intent(in)`.
+
+`array`: Shall be an array of any rank of type `real`, `complex` or `integer`.
+         This argument is `intent(in)`.
+
+`iostat`: Default integer, contains status of saving to file, zero in case of success.
+          It is an optional argument, in case not present the program will halt for non-zero status.
+          This argument is `intent(out)`.
+
+`iomsg`: Deferred length character value, contains error message in case `iostat` is non-zero.
+         It is an optional argument, error message will be dropped if not present.
+         This argument is `intent(out)`.
+
+### Output
+
+Provides a npy file called `filename` that contains the rank-2 `array`.
+
+### Example
+
+```{literalinclude} ../../example/io/example_savenpy.f90
+:language: fortran
+```
+
+## `get_line`
+
+### Status
+
+Experimental
+
+### Description
+
+Read a whole line from a formatted unit into a string variable
+
+### Syntax
+
+`call ` {f:iface}`get_line` ` (unit, line[, iostat][, iomsg])`
+
+`call ` {f:iface}`get_line` ` (line[, iostat][, iomsg])`
+
+### Arguments
+
+`unit`: Formatted input unit.
+        This argument is `intent(in)`.
+        If `unit` is not specified standard input is used.
+
+`line`: Deferred length character or `string_type` variable.
+        This argument is `intent(out)`.
+
+`iostat`: Default integer, contains status of reading from unit, zero in case of success.
+          It is an optional argument, in case not present the program will halt for non-zero status.
+          This argument is `intent(out)`.
+
+`iomsg`: Deferred length character value, contains error message in case `iostat` is non-zero.
+         It is an optional argument, error message will be dropped if not present.
+         This argument is `intent(out)`.
+
+### Example
+
+```{literalinclude} ../../example/io/example_get_line.f90
+:language: fortran
+```
+
+## Formatting constants {formatting-constants}
+
+### Status
+
+Experimental
+
+### Description
+
+Formatting constants for printing out integer, floating point, and complex numbers at their full precision.
+Provides formats for all kinds as defined in the `stdlib_kinds` module.
+
+### Example
+
+```{literalinclude} ../../example/io/example_fmt_constants.f90
+:language: fortran
+```
+
+## `get_file` - Read a whole ASCII file into a `character` or a `string` variable
+
+### Status
+
+Experimental
+
+### Description
+
+This subroutine interface reads the entirety of a specified ASCII file and returns its content as a string or an allocatable `character` variable. 
+The function provides an optional error-handling mechanism via the `state_type` class. If the `err` argument is not provided, exceptions will trigger an `error stop`. The function also supports an optional flag to delete the file after reading.
+
+### Syntax
+
+`call ` {f:subr}`get_file` ` (filename, file [, err] [, delete=.false.])`
+
+### Class
+Function
+
+### Arguments
+
+`filename`: Shall be a character input containing the path to the ASCII file to read. It is an `intent(in)` argument.
+
+`file`: Shall be a `type(string_type)` or an allocatable `character` variable containing the full content of the specified file. It is an `intent(out)` argument.
+ 
+`err` (optional): Shall be a `type(state_type)` variable. It is an `intent(out)` argument used for error handling.
+
+`delete` (optional): Shall be a `logical` flag. If `.true.`, the file is deleted after reading. Default is `.false.`. It is an `intent(in)` argument.
+
+### Return values
+
+Output variable `file` will contain the full content of the specified file.
+
+Raises `STDLIB_IO_ERROR` if the file is not found, cannot be opened, read, or deleted. 
+Exceptions trigger an `error stop` unless the optional `err` argument is provided.
+
+### Example
+
+```{literalinclude} ../../example/io/example_get_file.f90
+:language: fortran
+```
+
+## Matrix Market Format I/O
+
+### Status
+
+Experimental
+
+### Description
+
+The Matrix Market I/O module provides support for reading and writing matrices in the Matrix Market format, a simple ASCII format for sparse and dense matrices developed at NIST. The format supports real, complex, and integer matrices with various symmetry properties.
+
+### `load_mm` - load a matrix from Matrix Market file
+
+Loads a 2D matrix from a Matrix Market format file. Symmetric matrices are expanded to full storage.
+
+#### Syntax
+
+- To load a matrix of `array` format:
+
+`call ` {f:iface}`load_mm` `(filename, matrix [, iostat, iomsg])`
+
+- To load a matrix of `coordinate` format:
+
+`call ` {f:iface}`load_mm` `(filename, index, data [, iostat, iomsg])`
+
+#### Arguments
+
+**`Array` format**
+
+`call ` {f:iface}`load_mm` `(filename, matrix [, iostat, iomsg])`
+
+- `filename`: Shall be a character expression containing the Matrix Market file name to read from.
+
+- `matrix`: Shall be an allocatable rank-2 array of type `real`, `complex`, or `integer` that will contain the loaded matrix.
+
+- `iostat` (optional): Shall be a scalar of type `integer` that receives the error status. Zero indicates success.
+
+- `iomsg` (optional): Shall be an allocatable character string that receives the error message if iostat is non-zero.
+
+**`Coordinate` format**
+
+`call ` {f:iface}`load_mm` `(filename, index, data [, iostat, iomsg])`
+
+- `filename`: Shall be a character expression containing the Matrix Market file name to read from.
+
+- `index`: Shall be an allocatable rank-2 array of type `integer` that will contain the indices of the loaded matrix.
+
+- `data`: Shall be an allocatable rank-1 array of type `real`, `complex`, or `integer` that will contain the values of the loaded matrix.
+
+- `iostat` (optional): Shall be a scalar of type `integer` that receives the error status. Zero indicates success.
+
+- `iomsg` (optional): Shall be an allocatable character string that receives the error message if iostat is non-zero.
+
+### `save_mm` - save a matrix to Matrix Market file
+
+Saves a 2D matrix to Matrix Market format file.
+
+#### Syntax
+
+- To save a matrix of `array` format:
+
+`call ` {f:iface}`save_mm` `(filename, matrix [, comment, format, symmetry, iostat, iomsg])`
+
+- To save a matrix of `coordinate` format:
+
+`call ` {f:iface}`save_mm` `(filename, index, data [, comment, format, symmetry, iostat, iomsg])`
+
+#### Arguments
+
+**`Array` format**
+
+`call ` {f:iface}`save_mm` `(filename, matrix [, comment, format, symmetry, iostat, iomsg])`
+
+- `filename`: Shall be a character expression containing the Matrix Market file name to write to.
+
+- `matrix`: Shall be a rank-2 array of type `real`, `complex`, or `integer` to save.
+
+- `comment` (optional): Shall be a character expression containing additional comments for the file header.
+
+- `format` (optional): Shall be a character expression specifying how entries are written.
+
+- `symmetry` (optional): Shall be a character expression defining the symmetry of the matrix. Allowed values: `auto`, `general`, `symmetric`, `skew-symmetric`, `hermitian`.
+    - `auto`: Detects the symmetry automatically, falls back to `general` if no symmetry is found.
+    - `general`: all entries are stored
+    - `symmetric` / `hermitian`: only the lower triangle (including diagonal) is stored
+    - `skew-symmetric`: only the strictly lower triangle (excluding diagonal) is stored
+
+  Default: `general`
+
+- `iostat` (optional): Shall be a scalar of type `integer` that receives the error status. Zero indicates success.
+
+- `iomsg` (optional): Shall be an allocatable character string that receives the error message if iostat is non-zero.
+
+**`Coordinate` format**
+
+`call ` {f:iface}`save_mm` `(filename, index, data [, comment, format, symmetry, iostat, iomsg])`
+
+- `filename`: Shall be a character expression containing the Matrix Market file name to write to.
+
+- `index`: Shall be a rank-2 `integer` array of shape `(2, n)` specifying the indices of the entries. 
+    - index(1,:) shall contain row indices
+    - index(2,:) shall contain column indices
+
+- `data`: Shall be a rank-1 array of type `real`, `complex`, or `integer` to save. 
+    - If `size(data) == n`, the values for each index are written.
+    - If `size(data) == 1`, a `pattern` matrix is written (no explicit values)
+
+- `comment` (optional): Shall be a character expression containing additional comments for the file header.
+
+- `format` (optional): Shall be a character expression specifying how entries are written.
+
+- `symmetry` (optional): Shall be a character expression defining the symmetry of the matrix. Allowed values: `general`, `symmetric`, `skew-symmetric`, `hermitian`. 
+    - `general`: all entries are stored
+    - `symmetric` / `hermitian`: only the lower triangle (including diagonal) is stored
+    - `skew-symmetric`: only the strictly lower triangle (excluding diagonal) is stored
+
+- `iostat` (optional): Shall be a scalar of type `integer` that receives the error status. Zero indicates success.
+
+- `iomsg` (optional): Shall be an allocatable character string that receives the error message if iostat is non-zero.
+
+### Matrix Market Format Details
+
+The Matrix Market format supports:
+
+- **Object types**: Currently only `matrix` is supported
+- **Formats**: `coordinate` (sparse) and `array` (dense)  
+- **Data types**: `real`, `complex`, `integer`, `pattern`
+- **Symmetry**: `general`, `symmetric`, `skew-symmetric`, `hermitian`, `auto` (Currently only supported for `array` format)
+
+### Example
+
+```{literalinclude} ../../example/io/example_matrix_market.f90
+:language: fortran
+```

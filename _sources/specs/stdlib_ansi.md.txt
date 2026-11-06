@@ -1,0 +1,274 @@
+# `stdlib_ansi`
+
+```{contents}
+:local:
+:depth: 2
+```
+
+## Introduction
+
+Support terminal escape sequences to produce styled and colored terminal output.
+
+
+## Derived types provided
+
+
+### ``ansi_code`` type
+
+The ``ansi_code`` type represent an ANSI escape sequence with a style, foreground
+color and background color attribute. By default the instances of this type are
+empty and represent no escape sequence.
+
+#### Status
+
+Experimental
+
+#### Example
+
+```{literalinclude} ../../example/ansi/example_ansi_color.f90
+:language: fortran
+```
+
+
+## Constants provided
+
+### ``style_reset``
+
+Style enumerator representing a reset escape code.
+
+
+### ``style_bold``
+
+Style enumerator representing a bold escape code.
+
+
+### ``style_dim``
+
+Style enumerator representing a dim escape code.
+
+
+### ``style_italic``
+
+Style enumerator representing an italic escape code.
+
+
+### ``style_underline``
+
+Style enumerator representing an underline escape code.
+
+
+### ``style_blink``
+
+Style enumerator representing a blink escape code.
+
+
+### ``style_blink_fast``
+
+Style enumerator representing a (fast) blink escape code.
+
+
+### ``style_reverse``
+
+Style enumerator representing a reverse escape code.
+
+
+### ``style_hidden``
+
+Style enumerator representing a hidden escape code.
+
+
+### ``style_strikethrough``
+
+Style enumerator representing a strike-through escape code.
+
+
+### ``fg_color_black``
+
+Foreground color enumerator representing a foreground black color escape code.
+
+
+### ``fg_color_red``
+
+Foreground color enumerator representing a foreground red color escape code.
+
+
+### ``fg_color_green``
+
+Foreground color enumerator representing a foreground green color escape code.
+
+
+### ``fg_color_yellow``
+
+Foreground color enumerator representing a foreground yellow color escape code.
+
+
+### ``fg_color_blue``
+
+Foreground color enumerator representing a foreground blue color escape code.
+
+
+### ``fg_color_magenta``
+
+Foreground color enumerator representing a foreground magenta color escape code.
+
+
+### ``fg_color_cyan``
+
+Foreground color enumerator representing a foreground cyan color escape code.
+
+
+### ``fg_color_white``
+
+Foreground color enumerator representing a foreground white color escape code.
+
+
+### ``fg_color_default``
+
+Foreground color enumerator representing a foreground default color escape code.
+
+
+### ``bg_color_black``
+
+Background color enumerator representing a background black color escape code.
+
+
+### ``bg_color_red``
+
+Background color enumerator representing a background red color escape code.
+
+
+### ``bg_color_green``
+
+Background color enumerator representing a background green color escape code.
+
+
+### ``bg_color_yellow``
+
+Background color enumerator representing a background yellow color escape code.
+
+
+### ``bg_color_blue``
+
+Background color enumerator representing a background blue color escape code.
+
+
+### ``bg_color_magenta``
+
+Background color enumerator representing a background magenta color escape code.
+
+
+### ``bg_color_cyan``
+
+Background color enumerator representing a background cyan color escape code.
+
+
+### ``bg_color_white``
+
+Background color enumerator representing a background white color escape code.
+
+
+### ``bg_color_default``
+
+Background color enumerator representing a background default color escape code.
+
+
+## Procedures and methods provided
+
+### ``to_string``
+
+Generic interface to turn a style, foreground or background enumerator into an actual escape code string for printout.
+
+#### Syntax
+
+`string =` {f:func}`to_string` `(code)`
+
+#### Class
+
+Pure function.
+
+#### Argument
+
+``code``: Style, foreground or background code of ``ansi_code`` type,
+          this argument is ``intent(in)``.
+
+#### Result value
+
+The result is a default character string.
+
+#### Status
+
+Experimental
+
+#### Example
+
+```{literalinclude} ../../example/ansi/example_ansi_to_string.f90
+:language: fortran
+```
+
+
+### ``operator(+)``
+
+Add two escape sequences, attributes in the right value override the left value ones.
+
+#### Syntax
+
+`code = lval + rval`
+
+#### Class
+
+Pure function.
+
+#### Argument
+
+``lval``: Style, foreground or background code of ``ansi_code`` type,
+          this argument is ``intent(in)``.
+``rval``: Style, foreground or background code of ``ansi_code`` type,
+          this argument is ``intent(in)``.
+
+#### Result value
+
+The result is a style, foreground or background code of ``ansi_code`` type.
+
+#### Status
+
+Experimental
+
+#### Example
+
+```{literalinclude} ../../example/ansi/example_ansi_combine.f90
+:language: fortran
+```
+
+
+### ``operator(//)``
+
+Concatenate an escape code with a string and turn it into an actual escape sequence
+
+#### Syntax
+
+`str = lval // rval`
+
+#### Class
+
+Pure function.
+
+#### Argument
+
+``lval``: Style, foreground or background code of ``ansi_code`` type or a character string,
+          this argument is ``intent(in)``.
+``rval``: Style, foreground or background code of ``ansi_code`` type or a character string,
+          this argument is ``intent(in)``.
+
+#### Result value
+
+The result is a character string with the escape sequence prepended or appended.
+
+#### Status
+
+Experimental
+
+#### Example
+
+```{literalinclude} ../../example/ansi/example_ansi_concat.f90
+:language: fortran
+```
