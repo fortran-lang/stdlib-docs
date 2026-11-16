@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=0bab9f81"></script>
+    <script src="../_static/documentation_options.js?v=ffb86be3"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/stdlib_linalg';</script>
@@ -5161,6 +5161,304 @@ Supported data types include <cite>real</cite> and <cite>complex</cite>.</p>
 Avoid extreme weight ratios (e.g., max(w)/min(w) &gt; 1e6) as this may cause loss
 of precision in the SVD-based solver.</p>
 </div>
+</dd></dl>
+
+</section>
+<section id="f-interface-stdlib-linalg-generalized-lstsq">
+<h3>generalized_lstsq (interface)<a class="headerlink" href="#f-interface-stdlib-linalg-generalized-lstsq" title="Link to this heading">#</a></h3>
+<dl class="f interface">
+<dt class="sig sig-object f">
+<code class="docutils literal notranslate"><span class="pre">generalized_lstsq</span> <span class="pre">(interface)</span></code></dt>
+<dd><div class="docutils container">
+<p>Computes the generalized least-squares solution to ( min_x (Ax-b)^T W^{-1} (Ax-b) )
+([Specification](../page/specs/stdlib_linalg.html#generalized-lstsq))</p>
+<p>### Summary
+Function interface for computing generalized least-squares via GGGLM.</p>
+<p>### Description</p>
+<p>This interface provides methods for computing generalized least-squares
+with a symmetric (real) or Hermitian (complex) positive definite covariance matrix.
+Supported data types include <cite>real</cite> and <cite>complex</cite>.</p>
+<p>&#64;note The solution is based on LAPACK’s <cite>*GGGLM</cite> routine.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Procedures<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#f-function-stdlib-linalg-generalized-lstsq-stdlib-linalg-s-generalized-lstsq" title="stdlib_linalg_s_generalized_lstsq"><code class="docutils literal notranslate"><span class="pre">stdlib_linalg_s_generalized_lstsq</span></code></a></p></li>
+<li><p><a class="reference internal" href="#f-function-stdlib-linalg-generalized-lstsq-stdlib-linalg-d-generalized-lstsq" title="stdlib_linalg_d_generalized_lstsq"><code class="docutils literal notranslate"><span class="pre">stdlib_linalg_d_generalized_lstsq</span></code></a></p></li>
+<li><p><a class="reference internal" href="#f-function-stdlib-linalg-generalized-lstsq-stdlib-linalg-c-generalized-lstsq" title="stdlib_linalg_c_generalized_lstsq"><code class="docutils literal notranslate"><span class="pre">stdlib_linalg_c_generalized_lstsq</span></code></a></p></li>
+<li><p><a class="reference internal" href="#f-function-stdlib-linalg-generalized-lstsq-stdlib-linalg-z-generalized-lstsq" title="stdlib_linalg_z_generalized_lstsq"><code class="docutils literal notranslate"><span class="pre">stdlib_linalg_z_generalized_lstsq</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="f function">
+<dt class="sig sig-object f" id="f-function-stdlib-linalg-generalized-lstsq-stdlib-linalg-s-generalized-lstsq">
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">function</span> <span class="pre">stdlib_linalg_s_generalized_lstsq(w,</span> <span class="pre">a,</span> <span class="pre">b,</span> <span class="pre">prefactored_w,</span> <span class="pre">overwrite_a,</span> <span class="pre">overwrite_w,</span> <span class="pre">err)</span> <span class="pre">-&gt;</span> <span class="pre">x</span></code><a class="headerlink" href="#f-function-stdlib-linalg-generalized-lstsq-stdlib-linalg-s-generalized-lstsq" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>w</strong><span class="classifier">real(kind=sp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Covariance matrix W(m,m) (symmetric/Hermitian positive definite) or its matrix square root</p>
+</dd>
+<dt><strong>a</strong><span class="classifier">real(kind=sp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Input matrix a(m,n)</p>
+</dd>
+<dt><strong>b</strong><span class="classifier">real(kind=sp), intent(in), dimension(:)</span></dt><dd><p>Right hand side vector b(m)</p>
+</dd>
+<dt><strong>prefactored_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Is W already a matrix square root (e.g., Cholesky factor)? Default: .false.</p>
+</dd>
+<dt><strong>overwrite_a</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can A data be overwritten and destroyed?</p>
+</dd>
+<dt><strong>overwrite_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can W data be overwritten and destroyed? Default: .false.</p>
+</dd>
+<dt><strong>err</strong><span class="classifier">type(linalg_state_type), intent(out), optional</span></dt><dd><p>[optional] state return flag. On error if not requested, the code will trigger an error stop</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x</strong><span class="classifier">real(kind=sp), allocatable, dimension(:)</span></dt><dd><p>Result array x(n)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="f function">
+<dt class="sig sig-object f" id="f-function-stdlib-linalg-generalized-lstsq-stdlib-linalg-d-generalized-lstsq">
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">function</span> <span class="pre">stdlib_linalg_d_generalized_lstsq(w,</span> <span class="pre">a,</span> <span class="pre">b,</span> <span class="pre">prefactored_w,</span> <span class="pre">overwrite_a,</span> <span class="pre">overwrite_w,</span> <span class="pre">err)</span> <span class="pre">-&gt;</span> <span class="pre">x</span></code><a class="headerlink" href="#f-function-stdlib-linalg-generalized-lstsq-stdlib-linalg-d-generalized-lstsq" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>w</strong><span class="classifier">real(kind=dp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Covariance matrix W(m,m) (symmetric/Hermitian positive definite) or its matrix square root</p>
+</dd>
+<dt><strong>a</strong><span class="classifier">real(kind=dp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Input matrix a(m,n)</p>
+</dd>
+<dt><strong>b</strong><span class="classifier">real(kind=dp), intent(in), dimension(:)</span></dt><dd><p>Right hand side vector b(m)</p>
+</dd>
+<dt><strong>prefactored_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Is W already a matrix square root (e.g., Cholesky factor)? Default: .false.</p>
+</dd>
+<dt><strong>overwrite_a</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can A data be overwritten and destroyed?</p>
+</dd>
+<dt><strong>overwrite_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can W data be overwritten and destroyed? Default: .false.</p>
+</dd>
+<dt><strong>err</strong><span class="classifier">type(linalg_state_type), intent(out), optional</span></dt><dd><p>[optional] state return flag. On error if not requested, the code will trigger an error stop</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x</strong><span class="classifier">real(kind=dp), allocatable, dimension(:)</span></dt><dd><p>Result array x(n)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="f function">
+<dt class="sig sig-object f" id="f-function-stdlib-linalg-generalized-lstsq-stdlib-linalg-c-generalized-lstsq">
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">function</span> <span class="pre">stdlib_linalg_c_generalized_lstsq(w,</span> <span class="pre">a,</span> <span class="pre">b,</span> <span class="pre">prefactored_w,</span> <span class="pre">overwrite_a,</span> <span class="pre">overwrite_w,</span> <span class="pre">err)</span> <span class="pre">-&gt;</span> <span class="pre">x</span></code><a class="headerlink" href="#f-function-stdlib-linalg-generalized-lstsq-stdlib-linalg-c-generalized-lstsq" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>w</strong><span class="classifier">complex(kind=sp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Covariance matrix W(m,m) (symmetric/Hermitian positive definite) or its matrix square root</p>
+</dd>
+<dt><strong>a</strong><span class="classifier">complex(kind=sp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Input matrix a(m,n)</p>
+</dd>
+<dt><strong>b</strong><span class="classifier">complex(kind=sp), intent(in), dimension(:)</span></dt><dd><p>Right hand side vector b(m)</p>
+</dd>
+<dt><strong>prefactored_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Is W already a matrix square root (e.g., Cholesky factor)? Default: .false.</p>
+</dd>
+<dt><strong>overwrite_a</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can A data be overwritten and destroyed?</p>
+</dd>
+<dt><strong>overwrite_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can W data be overwritten and destroyed? Default: .false.</p>
+</dd>
+<dt><strong>err</strong><span class="classifier">type(linalg_state_type), intent(out), optional</span></dt><dd><p>[optional] state return flag. On error if not requested, the code will trigger an error stop</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x</strong><span class="classifier">complex(kind=sp), allocatable, dimension(:)</span></dt><dd><p>Result array x(n)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="f function">
+<dt class="sig sig-object f" id="f-function-stdlib-linalg-generalized-lstsq-stdlib-linalg-z-generalized-lstsq">
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">function</span> <span class="pre">stdlib_linalg_z_generalized_lstsq(w,</span> <span class="pre">a,</span> <span class="pre">b,</span> <span class="pre">prefactored_w,</span> <span class="pre">overwrite_a,</span> <span class="pre">overwrite_w,</span> <span class="pre">err)</span> <span class="pre">-&gt;</span> <span class="pre">x</span></code><a class="headerlink" href="#f-function-stdlib-linalg-generalized-lstsq-stdlib-linalg-z-generalized-lstsq" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>w</strong><span class="classifier">complex(kind=dp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Covariance matrix W(m,m) (symmetric/Hermitian positive definite) or its matrix square root</p>
+</dd>
+<dt><strong>a</strong><span class="classifier">complex(kind=dp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Input matrix a(m,n)</p>
+</dd>
+<dt><strong>b</strong><span class="classifier">complex(kind=dp), intent(in), dimension(:)</span></dt><dd><p>Right hand side vector b(m)</p>
+</dd>
+<dt><strong>prefactored_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Is W already a matrix square root (e.g., Cholesky factor)? Default: .false.</p>
+</dd>
+<dt><strong>overwrite_a</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can A data be overwritten and destroyed?</p>
+</dd>
+<dt><strong>overwrite_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can W data be overwritten and destroyed? Default: .false.</p>
+</dd>
+<dt><strong>err</strong><span class="classifier">type(linalg_state_type), intent(out), optional</span></dt><dd><p>[optional] state return flag. On error if not requested, the code will trigger an error stop</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x</strong><span class="classifier">complex(kind=dp), allocatable, dimension(:)</span></dt><dd><p>Result array x(n)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="f-interface-stdlib-linalg-solve-generalized-lstsq">
+<h3>solve_generalized_lstsq (interface)<a class="headerlink" href="#f-interface-stdlib-linalg-solve-generalized-lstsq" title="Link to this heading">#</a></h3>
+<dl class="f interface">
+<dt class="sig sig-object f">
+<code class="docutils literal notranslate"><span class="pre">solve_generalized_lstsq</span> <span class="pre">(interface)</span></code></dt>
+<dd><div class="docutils container">
+<p>Computes the generalized least-squares solution to ( min_x (Ax-b)^T W^{-1} (Ax-b) )
+([Specification](../page/specs/stdlib_linalg.html#solve-generalized-lstsq))</p>
+<p>### Summary
+Subroutine interface for computing generalized least-squares via GGGLM.</p>
+<p>### Description</p>
+<p>This interface provides methods for computing generalized least-squares
+with a symmetric (real) or Hermitian (complex) positive definite covariance matrix.
+Supported data types include <cite>real</cite> and <cite>complex</cite>.</p>
+<p>&#64;note The solution is based on LAPACK’s <cite>*GGGLM</cite> routine.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Procedures<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#f-subroutine-stdlib-linalg-solve-generalized-lstsq-stdlib-linalg-s-solve-generalized-lstsq" title="stdlib_linalg_s_solve_generalized_lstsq"><code class="docutils literal notranslate"><span class="pre">stdlib_linalg_s_solve_generalized_lstsq</span></code></a></p></li>
+<li><p><a class="reference internal" href="#f-subroutine-stdlib-linalg-solve-generalized-lstsq-stdlib-linalg-d-solve-generalized-lstsq" title="stdlib_linalg_d_solve_generalized_lstsq"><code class="docutils literal notranslate"><span class="pre">stdlib_linalg_d_solve_generalized_lstsq</span></code></a></p></li>
+<li><p><a class="reference internal" href="#f-subroutine-stdlib-linalg-solve-generalized-lstsq-stdlib-linalg-c-solve-generalized-lstsq" title="stdlib_linalg_c_solve_generalized_lstsq"><code class="docutils literal notranslate"><span class="pre">stdlib_linalg_c_solve_generalized_lstsq</span></code></a></p></li>
+<li><p><a class="reference internal" href="#f-subroutine-stdlib-linalg-solve-generalized-lstsq-stdlib-linalg-z-solve-generalized-lstsq" title="stdlib_linalg_z_solve_generalized_lstsq"><code class="docutils literal notranslate"><span class="pre">stdlib_linalg_z_solve_generalized_lstsq</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="f subroutine">
+<dt class="sig sig-object f" id="f-subroutine-stdlib-linalg-solve-generalized-lstsq-stdlib-linalg-s-solve-generalized-lstsq">
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">subroutine</span> <span class="pre">stdlib_linalg_s_solve_generalized_lstsq(w,</span> <span class="pre">a,</span> <span class="pre">b,</span> <span class="pre">x,</span> <span class="pre">prefactored_w,</span> <span class="pre">overwrite_a,</span> <span class="pre">overwrite_w,</span> <span class="pre">err)</span></code><a class="headerlink" href="#f-subroutine-stdlib-linalg-solve-generalized-lstsq-stdlib-linalg-s-solve-generalized-lstsq" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>w</strong><span class="classifier">real(kind=sp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Covariance matrix W(m,m) (symmetric/Hermitian positive definite) or its matrix square root</p>
+</dd>
+<dt><strong>a</strong><span class="classifier">real(kind=sp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Input matrix a(m,n)</p>
+</dd>
+<dt><strong>b</strong><span class="classifier">real(kind=sp), intent(in), dimension(:)</span></dt><dd><p>Right hand side vector b(m)</p>
+</dd>
+<dt><strong>x</strong><span class="classifier">real(kind=sp), intent(out), dimension(:)</span></dt><dd><p>Solution vector x(n)</p>
+</dd>
+<dt><strong>prefactored_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Is W already a matrix square root (e.g., Cholesky factor)? Default: .false.</p>
+</dd>
+<dt><strong>overwrite_a</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can A data be overwritten and destroyed?</p>
+</dd>
+<dt><strong>overwrite_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can W data be overwritten and destroyed? Default: .false.</p>
+</dd>
+<dt><strong>err</strong><span class="classifier">type(linalg_state_type), intent(out), optional</span></dt><dd><p>[optional] state return flag. On error if not requested, the code will stop</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="f subroutine">
+<dt class="sig sig-object f" id="f-subroutine-stdlib-linalg-solve-generalized-lstsq-stdlib-linalg-d-solve-generalized-lstsq">
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">subroutine</span> <span class="pre">stdlib_linalg_d_solve_generalized_lstsq(w,</span> <span class="pre">a,</span> <span class="pre">b,</span> <span class="pre">x,</span> <span class="pre">prefactored_w,</span> <span class="pre">overwrite_a,</span> <span class="pre">overwrite_w,</span> <span class="pre">err)</span></code><a class="headerlink" href="#f-subroutine-stdlib-linalg-solve-generalized-lstsq-stdlib-linalg-d-solve-generalized-lstsq" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>w</strong><span class="classifier">real(kind=dp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Covariance matrix W(m,m) (symmetric/Hermitian positive definite) or its matrix square root</p>
+</dd>
+<dt><strong>a</strong><span class="classifier">real(kind=dp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Input matrix a(m,n)</p>
+</dd>
+<dt><strong>b</strong><span class="classifier">real(kind=dp), intent(in), dimension(:)</span></dt><dd><p>Right hand side vector b(m)</p>
+</dd>
+<dt><strong>x</strong><span class="classifier">real(kind=dp), intent(out), dimension(:)</span></dt><dd><p>Solution vector x(n)</p>
+</dd>
+<dt><strong>prefactored_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Is W already a matrix square root (e.g., Cholesky factor)? Default: .false.</p>
+</dd>
+<dt><strong>overwrite_a</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can A data be overwritten and destroyed?</p>
+</dd>
+<dt><strong>overwrite_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can W data be overwritten and destroyed? Default: .false.</p>
+</dd>
+<dt><strong>err</strong><span class="classifier">type(linalg_state_type), intent(out), optional</span></dt><dd><p>[optional] state return flag. On error if not requested, the code will stop</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="f subroutine">
+<dt class="sig sig-object f" id="f-subroutine-stdlib-linalg-solve-generalized-lstsq-stdlib-linalg-c-solve-generalized-lstsq">
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">subroutine</span> <span class="pre">stdlib_linalg_c_solve_generalized_lstsq(w,</span> <span class="pre">a,</span> <span class="pre">b,</span> <span class="pre">x,</span> <span class="pre">prefactored_w,</span> <span class="pre">overwrite_a,</span> <span class="pre">overwrite_w,</span> <span class="pre">err)</span></code><a class="headerlink" href="#f-subroutine-stdlib-linalg-solve-generalized-lstsq-stdlib-linalg-c-solve-generalized-lstsq" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>w</strong><span class="classifier">complex(kind=sp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Covariance matrix W(m,m) (symmetric/Hermitian positive definite) or its matrix square root</p>
+</dd>
+<dt><strong>a</strong><span class="classifier">complex(kind=sp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Input matrix a(m,n)</p>
+</dd>
+<dt><strong>b</strong><span class="classifier">complex(kind=sp), intent(in), dimension(:)</span></dt><dd><p>Right hand side vector b(m)</p>
+</dd>
+<dt><strong>x</strong><span class="classifier">complex(kind=sp), intent(out), dimension(:)</span></dt><dd><p>Solution vector x(n)</p>
+</dd>
+<dt><strong>prefactored_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Is W already a matrix square root (e.g., Cholesky factor)? Default: .false.</p>
+</dd>
+<dt><strong>overwrite_a</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can A data be overwritten and destroyed?</p>
+</dd>
+<dt><strong>overwrite_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can W data be overwritten and destroyed? Default: .false.</p>
+</dd>
+<dt><strong>err</strong><span class="classifier">type(linalg_state_type), intent(out), optional</span></dt><dd><p>[optional] state return flag. On error if not requested, the code will stop</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="f subroutine">
+<dt class="sig sig-object f" id="f-subroutine-stdlib-linalg-solve-generalized-lstsq-stdlib-linalg-z-solve-generalized-lstsq">
+<code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">subroutine</span> <span class="pre">stdlib_linalg_z_solve_generalized_lstsq(w,</span> <span class="pre">a,</span> <span class="pre">b,</span> <span class="pre">x,</span> <span class="pre">prefactored_w,</span> <span class="pre">overwrite_a,</span> <span class="pre">overwrite_w,</span> <span class="pre">err)</span></code><a class="headerlink" href="#f-subroutine-stdlib-linalg-solve-generalized-lstsq-stdlib-linalg-z-solve-generalized-lstsq" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>w</strong><span class="classifier">complex(kind=dp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Covariance matrix W(m,m) (symmetric/Hermitian positive definite) or its matrix square root</p>
+</dd>
+<dt><strong>a</strong><span class="classifier">complex(kind=dp), target, (:, :), intent(inout), dimension(:,:)</span></dt><dd><p>Input matrix a(m,n)</p>
+</dd>
+<dt><strong>b</strong><span class="classifier">complex(kind=dp), intent(in), dimension(:)</span></dt><dd><p>Right hand side vector b(m)</p>
+</dd>
+<dt><strong>x</strong><span class="classifier">complex(kind=dp), intent(out), dimension(:)</span></dt><dd><p>Solution vector x(n)</p>
+</dd>
+<dt><strong>prefactored_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Is W already a matrix square root (e.g., Cholesky factor)? Default: .false.</p>
+</dd>
+<dt><strong>overwrite_a</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can A data be overwritten and destroyed?</p>
+</dd>
+<dt><strong>overwrite_w</strong><span class="classifier">logical(kind=lk), intent(in), optional</span></dt><dd><p>[optional] Can W data be overwritten and destroyed? Default: .false.</p>
+</dd>
+<dt><strong>err</strong><span class="classifier">type(linalg_state_type), intent(out), optional</span></dt><dd><p>[optional] state return flag. On error if not requested, the code will stop</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -15627,6 +15925,8 @@ negative, the function returns an error state.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f-interface-stdlib-linalg-constrained-lstsq-space">constrained_lstsq_space (interface)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f-interface-stdlib-linalg-weighted-lstsq">weighted_lstsq (interface)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f-interface-stdlib-linalg-solve-weighted-lstsq">solve_weighted_lstsq (interface)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f-interface-stdlib-linalg-generalized-lstsq">generalized_lstsq (interface)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f-interface-stdlib-linalg-solve-generalized-lstsq">solve_generalized_lstsq (interface)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f-interface-stdlib-linalg-qr">qr (interface)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f-interface-stdlib-linalg-qr-space">qr_space (interface)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f-interface-stdlib-linalg-schur">schur (interface)</a></li>
